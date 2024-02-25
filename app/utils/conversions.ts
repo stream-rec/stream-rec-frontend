@@ -1,4 +1,4 @@
-export function convertToBytes(size: string, value: number) {
+export const convertToBytes = (size: string, value: number) => {
   switch (size) {
     case "B":
       return value;
@@ -13,7 +13,7 @@ export function convertToBytes(size: string, value: number) {
   }
 }
 
-export function convertToSeconds(duration: string, value: number) {
+export const convertToSeconds = (duration: string, value: number) => {
   switch (duration) {
     case "mm":
       return value * 60;
