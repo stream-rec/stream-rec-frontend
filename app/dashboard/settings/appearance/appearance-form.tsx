@@ -12,6 +12,7 @@ import {RadioGroup, RadioGroupItem} from "@/components/new-york/ui/radio-group"
 import {toast} from "@/components/new-york/ui/use-toast"
 import {useConfig} from "@/app/hooks/use-config.ts";
 import {useTheme} from "next-themes";
+import React from "react";
 
 const appearanceFormSchema = z.object({
   theme: z.enum(["light", "dark"], {
