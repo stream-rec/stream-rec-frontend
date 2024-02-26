@@ -1,7 +1,7 @@
 "use client"
 
 import {ColumnDef} from "@tanstack/react-table"
-import {dataStatues, UploadData} from "@/app/lib/definitions";
+import {dataStatues, StreamData} from "@/app/lib/definitions";
 import {format} from 'date-fns';
 import {MoreHorizontal} from "lucide-react"
 
@@ -18,7 +18,7 @@ import {
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import {Badge} from "@/components/new-york/ui/badge";
 
-export const columns: ColumnDef<UploadData>[] = [
+export const recordColumns: ColumnDef<StreamData>[] = [
   {
     accessorKey: "id",
     header: ({column}) => (
@@ -29,9 +29,26 @@ export const columns: ColumnDef<UploadData>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "streamer",
+    accessorKey: "streamerName",
     header: ({column}) => (
         <DataTableColumnHeader column={column} title="Streamer"/>
+    ),
+    cell: ({row}) => <div className="w-[80px]">{row.getValue("streamerName")}</div>,
+    filterFn: (rows, id, filterValue) => {
+      if (filterValue === undefined) {
+        return rows;
+      }
+      const rowValue = rows.getValue(id)
+      if (rowValue === undefined || rowValue === null) {
+        return false;
+      }
+      return filterValue.includes(rowValue.toString())
+    }
+  },
+  {
+    accessorKey: "title",
+    header: ({column}) => (
+        <DataTableColumnHeader column={column} title="Title"/>
     ),
     filterFn: (rows, id, filterValue) => {
       if (filterValue === undefined) {
@@ -45,30 +62,25 @@ export const columns: ColumnDef<UploadData>[] = [
     }
   },
   {
-    accessorKey: "streamTitle",
-    header: ({column}) => (
-        <DataTableColumnHeader column={column} title="Stream title"/>
-    ),
-    cell: ({row}) => {
-      return (
-          <div className="flex space-x-2">
-            <span className="max-w-[500px] truncate font-medium">
-            {row.getValue("streamTitle")}
-          </span>
-          </div>
-      )
-    },
-  },
-  {
-    accessorKey: "filePath",
+    accessorKey: "outputFilePath",
     header: ({column}) => (
         <DataTableColumnHeader column={column} title="File Path"/>
     ),
     enableSorting: false,
     enableHiding: false,
   },
+
   {
-    accessorKey: "streamStartTime",
+    accessorKey: "danmuFilePath",
+    header: ({column}) => (
+        <DataTableColumnHeader column={column} title="Danmu file path"/>
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+
+  {
+    accessorKey: "dateStart",
     header: ({column}) => (
         <DataTableColumnHeader column={column} title="Stream Start Time"/>
     ),
@@ -77,10 +89,22 @@ export const columns: ColumnDef<UploadData>[] = [
       return format(date, 'MM/dd/yyyy hh:mm:ss');
     }
   },
+
+  {
+    accessorKey: "dateEnd",
+    header: ({column}) => (
+        <DataTableColumnHeader column={column} title="Stream End Time"/>
+    ),
+    cell: (cell) => {
+      const date = new Date(cell.getValue() as number);
+      return format(date, 'MM/dd/yyyy hh:mm:ss');
+    }
+  },
+
   {
     accessorKey: "status",
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title="Status"/>
+        <DataTableColumnHeader column={column} title="Upload status"/>
     ),
     cell: (cell) => {
       const statusBool = cell.getValue()
@@ -119,7 +143,7 @@ export const columns: ColumnDef<UploadData>[] = [
   {
     id: "actions",
     cell: ({row}) => {
-      const uploadData = row.original
+      const data = row.original
 
       return (
           <DropdownMenu>
@@ -132,9 +156,8 @@ export const columns: ColumnDef<UploadData>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem>
-                View stream details
+                View streamer details
               </DropdownMenuItem>
-              <DropdownMenuItem>View streamer details</DropdownMenuItem>
               <DropdownMenuSeparator/>
               <DropdownMenuItem>Re-upload</DropdownMenuItem>
               <DropdownMenuSeparator/>

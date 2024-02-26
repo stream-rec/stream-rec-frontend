@@ -1,7 +1,6 @@
 "use client"
 
 import {Cross2Icon} from "@radix-ui/react-icons"
-import {Table} from "@tanstack/react-table"
 
 import {Button} from "@/components/new-york/ui/button"
 import {Input} from "@/components/new-york/ui/input"
@@ -9,12 +8,10 @@ import {DataTableFacetedFilter} from "@/app/components/table/data-table-faceted-
 import {DataTableViewOptions} from "@/app/components/table/data-table-view-options";
 import {dataStatues} from "@/app/lib/definitions";
 import {UserIcon} from "lucide-react";
+import {DataTableToolbarProps} from "@/app/components/table/toolbar";
 
-interface DataTableToolbarProps<TData> {
-  table: Table<TData>
-}
 
-export function DataTableToolbar<TData>({
+export function UploadTableToolbar<TData>({
                                           table,
                                         }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
