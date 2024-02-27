@@ -110,7 +110,11 @@ export const uploadsTableColumns: ColumnDef<UploadData>[] = [
     ),
     cell: (cell) => {
       const date = new Date(cell.getValue() as number);
-      return format(date, 'MM/dd/yyyy hh:mm:ss');
+      const now = new Date();
+      if (date.getFullYear() == now.getFullYear())
+        return format(date, 'MM/dd hh:mm:ss');
+      else
+        return format(date, 'MM/dd/yyyy hh:mm:ss');
     }
   },
   {
