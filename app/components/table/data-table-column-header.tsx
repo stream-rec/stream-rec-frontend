@@ -26,6 +26,15 @@ export function DataTableColumnHeader<TData, TValue>({
     return <div className={cn(className)}>{title}</div>
   }
 
+  /// Sort the column in the specified direction.
+  function sort(asc: boolean) {
+    // If the column is not sorted, sort it in the specified direction.
+    if (!column.getIsSorted())
+      column.toggleSorting(asc)
+    else
+      column.clearSorting() // clear sorting
+  }
+
   return (
       <div className={cn("flex items-center space-x-2", className)}>
         <DropdownMenu>
@@ -46,11 +55,11 @@ export function DataTableColumnHeader<TData, TValue>({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
-            <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
+            <DropdownMenuItem onClick={() => sort(false)}>
               <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70"/>
               Asc
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
+            <DropdownMenuItem onClick={() => sort(true)}>
               <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70"/>
               Desc
             </DropdownMenuItem>
