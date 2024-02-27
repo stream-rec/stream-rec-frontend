@@ -10,9 +10,9 @@ import {Button, buttonVariants} from "@/components/new-york/ui/button"
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/new-york/ui/form"
 import {RadioGroup, RadioGroupItem} from "@/components/new-york/ui/radio-group"
 import {toast} from "@/components/new-york/ui/use-toast"
-import {useConfig} from "@/app/hooks/use-config.ts";
 import {useTheme} from "next-themes";
 import React from "react";
+import {useConfig} from "@/app/hooks/use-config";
 
 const appearanceFormSchema = z.object({
   theme: z.enum(["light", "dark"], {
