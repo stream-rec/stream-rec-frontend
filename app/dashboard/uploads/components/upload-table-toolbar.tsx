@@ -9,11 +9,12 @@ import {DataTableViewOptions} from "@/app/components/table/data-table-view-optio
 import {dataStatues} from "@/app/lib/definitions";
 import {UserIcon} from "lucide-react";
 import {DataTableToolbarProps} from "@/app/components/table/toolbar";
+import {recordColumnProps} from "@/app/dashboard/records/components/records-table-columns";
 
 
 export function UploadTableToolbar<TData>({
-                                          table,
-                                        }: DataTableToolbarProps<TData>) {
+                                            table,
+                                          }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
   const getTableStreamerFacets = () => {
@@ -60,7 +61,7 @@ export function UploadTableToolbar<TData>({
               </Button>
           )}
         </div>
-        <DataTableViewOptions table={table}/>
+        <DataTableViewOptions table={table} idFn={(id) => recordColumnProps.find((props) => props.accessorKey == id)?.uiName ?? id}/>
       </div>
   )
 }

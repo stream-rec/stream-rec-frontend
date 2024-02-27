@@ -1,7 +1,6 @@
 "use client"
 
 import {Cross2Icon} from "@radix-ui/react-icons"
-import {Table} from "@tanstack/react-table"
 
 import {Button} from "@/components/new-york/ui/button"
 import {Input} from "@/components/new-york/ui/input"
@@ -9,14 +8,13 @@ import {DataTableFacetedFilter} from "@/app/components/table/data-table-faceted-
 import {DataTableViewOptions} from "@/app/components/table/data-table-view-options";
 import {dataStatues} from "@/app/lib/definitions";
 import {UserIcon} from "lucide-react";
+import {recordColumnProps} from "@/app/dashboard/records/components/records-table-columns";
+import {DataTableToolbarProps} from "@/app/components/table/toolbar";
 
-interface DataTableToolbarProps<TData> {
-  table: Table<TData>
-}
 
 export function RecordsDataTableToolbar<TData>({
-                                          table,
-                                        }: DataTableToolbarProps<TData>) {
+                                                 table,
+                                               }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
   const getTableStreamerFacets = () => {
@@ -63,7 +61,8 @@ export function RecordsDataTableToolbar<TData>({
               </Button>
           )}
         </div>
-        <DataTableViewOptions table={table}/>
+        <DataTableViewOptions table={table} idFn={(id) => recordColumnProps.find((column) => column.accessorKey === id)?.uiName ?? id
+        }/>
       </div>
   )
 }

@@ -18,20 +18,56 @@ import {
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import {Badge} from "@/components/new-york/ui/badge";
 
-export const uploadsTableColumns: ColumnDef<UploadData>[] = [
+export const uploadsTableColumnProps = [
   {
     accessorKey: "id",
+    uiName: "Id",
+  },
+  {
+    accessorKey: "streamer",
+    uiName: "Streamer",
+  },
+  {
+    accessorKey: "streamTitle",
+    uiName: "Stream title",
+  },
+  {
+    accessorKey: "filePath",
+    uiName: "File Path",
+  },
+  {
+    accessorKey: "streamStartTime",
+    uiName: "Stream Start Time",
+  },
+  {
+    accessorKey: "status",
+    uiName: "Status",
+  },
+]
+
+
+function uiNameByIndex(index: number) {
+  return uploadsTableColumnProps[index].uiName
+}
+
+function accessorKeyByIndex(index: number) {
+  return uploadsTableColumnProps[index].accessorKey
+}
+
+export const uploadsTableColumns: ColumnDef<UploadData>[] = [
+  {
+    accessorKey: accessorKeyByIndex(0),
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title="id"/>
+        <DataTableColumnHeader column={column} title={uiNameByIndex(0)}/>
     ),
-    cell: ({row}) => <div className="w-[80px]">{row.getValue("id")}</div>,
+    cell: ({row}) => <div className="w-[80px]">{row.getValue(accessorKeyByIndex(0))}</div>,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "streamer",
+    accessorKey: accessorKeyByIndex(1),
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title="Streamer"/>
+        <DataTableColumnHeader column={column} title={uiNameByIndex(1)}/>
     ),
     filterFn: (rows, id, filterValue) => {
       if (filterValue === undefined) {
@@ -45,9 +81,9 @@ export const uploadsTableColumns: ColumnDef<UploadData>[] = [
     }
   },
   {
-    accessorKey: "streamTitle",
+    accessorKey: accessorKeyByIndex(2),
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title="Stream title"/>
+        <DataTableColumnHeader column={column} title={uiNameByIndex(2)}/>
     ),
     cell: ({row}) => {
       return (
@@ -60,17 +96,17 @@ export const uploadsTableColumns: ColumnDef<UploadData>[] = [
     },
   },
   {
-    accessorKey: "filePath",
+    accessorKey: accessorKeyByIndex(3),
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title="File Path"/>
+        <DataTableColumnHeader column={column} title={uiNameByIndex(3)}/>
     ),
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "streamStartTime",
+    accessorKey: accessorKeyByIndex(4),
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title="Stream Start Time"/>
+        <DataTableColumnHeader column={column} title={uiNameByIndex(4)}/>
     ),
     cell: (cell) => {
       const date = new Date(cell.getValue() as number);
@@ -78,9 +114,9 @@ export const uploadsTableColumns: ColumnDef<UploadData>[] = [
     }
   },
   {
-    accessorKey: "status",
+    accessorKey: accessorKeyByIndex(5),
     header: ({column}) => (
-        <DataTableColumnHeader column={column} title="Status"/>
+        <DataTableColumnHeader column={column} title={uiNameByIndex(5)}/>
     ),
     cell: (cell) => {
       const statusBool = cell.getValue()
