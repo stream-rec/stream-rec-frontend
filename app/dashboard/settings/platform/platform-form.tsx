@@ -6,8 +6,8 @@ import {z} from "zod";
 import {toast} from "@/components/new-york/ui/use-toast";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui/tabs";
 import {Button} from "@/components/new-york/ui/button";
-import {DouyinTabContent} from "@/app/dashboard/settings/platform/huya/douyin-tab";
-import {HuyaTabContent} from "@/app/dashboard/settings/platform/huya/huya-tab";
+import {DouyinTabContent} from "@/app/dashboard/settings/platform/tabs/douyin-tab";
+import {HuyaTabContent} from "@/app/dashboard/settings/platform/tabs/huya-tab";
 
 
 const platformFormSchema = z.object({
