@@ -37,7 +37,7 @@ export const HuyaTabContent: React.FC<HuyaConfigProps> = ({control}) => {
                   <FormItem>
                     <FormLabel>Max record bitrate</FormLabel>
                     <FormControl>
-                      <Input placeholder="10000" type={"number"} value={field.value}
+                      <Input placeholder="10000" type={"number"} step={100} value={field.value}
                              onChange={event => {
                                if (event.target.value === "") {
                                  field.onChange(null);
