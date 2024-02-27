@@ -36,8 +36,8 @@ export const uploadsTableColumnProps = [
     uiName: "File Path",
   },
   {
-    accessorKey: "streamStartTime",
-    uiName: "Stream Start Time",
+    accessorKey: "time",
+    uiName: "Time",
   },
   {
     accessorKey: "status",
@@ -171,9 +171,8 @@ export const uploadsTableColumns: ColumnDef<UploadData>[] = [
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>
-                View stream details
-              </DropdownMenuItem>
+              <DropdownMenuItem>View upload details</DropdownMenuItem>
+              <DropdownMenuItem>View stream details</DropdownMenuItem>
               <DropdownMenuItem>View streamer details</DropdownMenuItem>
               <DropdownMenuSeparator/>
               <DropdownMenuItem>Re-upload</DropdownMenuItem>

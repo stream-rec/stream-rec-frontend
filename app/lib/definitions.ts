@@ -5,7 +5,7 @@ export type UploadData = {
   id: number;
   streamTitle: string;
   streamer: string;
-  streamStartTime: number;
+  time: number;
   filePath: string;
   status: boolean;
   streamDataId: string;
