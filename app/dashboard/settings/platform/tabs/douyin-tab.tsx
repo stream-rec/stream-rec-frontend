@@ -10,7 +10,7 @@ const douyinQualityOptions = [
   ["hd", "High Definition"],
   ["sd", "Standard Definition"],
   ["ld", "Low Definition"],
-  ["md", "Medium Definition"],
+  ["md", "Smooth Definition"],
   ["ao", "Audio"],
 ] as const
 
@@ -42,7 +42,7 @@ export const DouyinTabContent: React.FC<DouyinTabContentProps> = ({control}) => 
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    The quality of the Douyin video stream.
+                    The quality of the Douyin video stream. Ordered from highest to lowest quality.
                   </FormDescription>
                   <FormMessage/>
                 </FormItem>
