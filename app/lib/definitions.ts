@@ -19,6 +19,14 @@ export type DownloadConfig = {
   danmu: boolean | undefined,
 }
 
+export type SummaryStats = {
+  totalRecords: number;
+  previousTotalRecords: number;
+  totalUploads: number;
+  previousTotalUploads: number;
+  stats: Stats[];
+}
+
 
 export type Stats = {
   date: number;

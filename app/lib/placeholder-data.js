@@ -1,57 +1,43 @@
-export const placeholderWeekStats = [
+const placeholderWeekStats = [
     {
-        date: Date.now(), // current date as a Unix timestamp
+        date: 1708967989000, // current date as a Unix timestamp
         streams: 30, // placeholder number of streams
         uploads: 28, // placeholder number of uploads
     },
     {
-        date: Date.now() + 86400000, // next day
+        date: 1708967989000 + 86400000, // next day
         streams: 26,
         uploads: 26,
     },
     {
-        date: Date.now() + 2 * 86400000, // day after next
+        date: 1708967989000 + 2 * 86400000, // day after next
         streams: 20,
         uploads: 20,
     },
     {
-        date: Date.now() + 3 * 86400000, // 3 days from now
+        date: 1708967989000 + 3 * 86400000, // 3 days from now
         streams: 25,
         uploads: 25,
     },
     {
-        date: Date.now() + 4 * 86400000, // 4 days from now
+        date: 1708967989000 + 4 * 86400000, // 4 days from now
         streams: 35,
         uploads: 35,
     },
     {
-        date: Date.now() + 5 * 86400000, // 5 days from now
+        date: 1708967989000 + 5 * 86400000, // 5 days from now
         streams: 35,
         uploads: 35,
     },
     {
-        date: Date.now() + 6 * 86400000, // 6 days from now
+        date: 1708967989000 + 6 * 86400000, // 6 days from now
         streams: 40,
         uploads: 40,
     },
 ];
 
-export const placeholderMonthStats = [
-    {
-        date: 1696118400000,
-        streams: 100,
-        uploads: 50,
-    },
-    {
-        date: 1698796800000,
-        streams: 150,
-        uploads: 70,
-    },
-    {
-        date: 1701388800000,
-        streams: 200,
-        uploads: 100,
-    },
+
+const placeholderMonthStats = [
     {
         date: 1704067200000,
         streams: 250,
@@ -64,6 +50,21 @@ export const placeholderMonthStats = [
     },
 ];
 
+export const placeholderWeeklyStats = {
+    totalRecords: 230,
+    previousTotalRecords: 225,
+    totalUploads: 200,
+    previousTotalUploads: 180,
+    stats: placeholderWeekStats
+}
+
+export const placeholderYearlyStats = {
+    totalRecords: 1230,
+    previousTotalRecords: 1000,
+    totalUploads: 1225,
+    previousTotalUploads: 1022,
+    stats: placeholderMonthStats
+}
 
 export const placeholderStreamers = [
     {
@@ -96,7 +97,7 @@ export const placeholderStreamers = [
     {
         id: 4,
         name: '企鹅 (无畏契约)',
-            url: 'https://live.douyin.com/386003334438',
+        url: 'https://live.douyin.com/386003334438',
         avatar: 'https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_b9ca5ea4fe012b6d39dafa46f0219c18.jpeg?from=3067671334',
         isLive: false,
         isActivated: false,
