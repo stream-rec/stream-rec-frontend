@@ -8,7 +8,8 @@ const nextConfig = {
                 permanent: true,
             },
         ]
-    }
+    },
+    darkMode: 'class',
 };
 
 export default nextConfig;
