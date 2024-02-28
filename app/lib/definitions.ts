@@ -1,6 +1,31 @@
 import {CheckIcon} from "@radix-ui/react-icons";
 import {XIcon} from "lucide-react";
 
+export type Streamer = {
+  id: number;
+  name: string;
+  url: string;
+  avatar: string;
+  isLive: boolean;
+  isActivated: boolean;
+  lastStream?: number;
+  description?: string;
+}
+
+
+// TODO : WIP
+export type DownloadConfig = {
+  cookies: string | undefined,
+  danmu: boolean | undefined,
+}
+
+
+export type Stats = {
+  date: number;
+  streams: number;
+  uploads: number;
+}
+
 export type UploadData = {
   id: number;
   streamTitle: string;

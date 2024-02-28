@@ -1,3 +1,138 @@
+export const placeholderWeekStats = [
+    {
+        date: Date.now(), // current date as a Unix timestamp
+        streams: 30, // placeholder number of streams
+        uploads: 28, // placeholder number of uploads
+    },
+    {
+        date: Date.now() + 86400000, // next day
+        streams: 26,
+        uploads: 26,
+    },
+    {
+        date: Date.now() + 2 * 86400000, // day after next
+        streams: 20,
+        uploads: 20,
+    },
+    {
+        date: Date.now() + 3 * 86400000, // 3 days from now
+        streams: 25,
+        uploads: 25,
+    },
+    {
+        date: Date.now() + 4 * 86400000, // 4 days from now
+        streams: 35,
+        uploads: 35,
+    },
+    {
+        date: Date.now() + 5 * 86400000, // 5 days from now
+        streams: 35,
+        uploads: 35,
+    },
+    {
+        date: Date.now() + 6 * 86400000, // 6 days from now
+        streams: 40,
+        uploads: 40,
+    },
+];
+
+export const placeholderMonthStats = [
+    {
+        date: 1696118400000,
+        streams: 100,
+        uploads: 50,
+    },
+    {
+        date: 1698796800000,
+        streams: 150,
+        uploads: 70,
+    },
+    {
+        date: 1701388800000,
+        streams: 200,
+        uploads: 100,
+    },
+    {
+        date: 1704067200000,
+        streams: 250,
+        uploads: 120,
+    },
+    {
+        date: 1706745600000,
+        streams: 300,
+        uploads: 150,
+    },
+];
+
+
+export const placeholderStreamers = [
+    {
+        id: 1,
+        name: '微竞-浪D',
+        url: 'https://www.huya.com/196645',
+        description: '韩服职业局，混子的春天，咕咕咕',
+        avatar: 'https://huyaimg.msstatic.com/avatar/1087/50/0627739a105375f942be5fbfcb4e64_180_135.jpg?1658190347&474756',
+        isLive: true,
+        isActivated: true,
+    },
+    {
+        id: 2,
+        name: '雪乃荔荔枝',
+        description: 'VCTCN 启点赛 blg vs te',
+        url: 'https://www.huya.com/273493',
+        avatar: 'https://huyaimg.msstatic.com/avatar/1048/dd/cf30c1876ab2a4d893a1d0f0de4a67_180_135.jpg?1649317782&474756',
+        isLive: true,
+        isActivated: true,
+    },
+    {
+        id: 3,
+        name: '杰米GEmini',
+        url: 'https://www.huya.com/geminiii',
+        avatar: 'https://huyaimg.msstatic.com/avatar/1026/a3/14396c23a133a57c728f5550ecf0f8_180_135.jpg?1683526023&474756',
+        isLive: false,
+        isActivated: true,
+        lastStream: new Date().getTime() - 1000 * 60 * 60 * 24 * 2,
+    },
+    {
+        id: 4,
+        name: '企鹅 (无畏契约)',
+            url: 'https://live.douyin.com/386003334438',
+        avatar: 'https://p6.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_b9ca5ea4fe012b6d39dafa46f0219c18.jpeg?from=3067671334',
+        isLive: false,
+        isActivated: false,
+        lastStream: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+    },
+    {
+        id: 5,
+        name: '简单咩一下',
+        description: '暴龙今天温柔，儿豁',
+        url: 'https://live.douyin.com/217536353956',
+        avatar: 'https://p26.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_681b15b9fbce96708d2b3a206735d7b6.jpeg?from=3067671334',
+        isLive: true,
+        isActivated: true,
+    },
+    {
+        id: 6,
+        name: '小羊仔（无畏契约）',
+        description: '春节不休息陪大家过年！',
+        url: 'https://live.douyin.com/66407121168',
+        avatar: 'https://p26.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_91c6d02d076a3943c80db5664c9541bb.jpeg?from=3067671334',
+        isLive: true,
+        isActivated: false,
+        lastStream: new Date().getTime() - 1000 * 60 * 60 * 24 * 10,
+    },
+    {
+        id: 7,
+        name: 'DANK1NG',
+        description: '●´З｀●',
+        url: 'https://www.huya.com/dank1ng',
+        avatar: 'https://huyaimg.msstatic.com/avatar/1009/21/d479da7839241ade1e136d7324df4f_180_135.jpg?1671605310&474756',
+        isLive: true,
+        isActivated: true,
+    },
+];
+
+
 export const placeholderData = [
     {
         id: 1,
