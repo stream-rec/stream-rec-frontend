@@ -75,6 +75,7 @@ export const placeholderStreamers = [
         avatar: 'https://huyaimg.msstatic.com/avatar/1087/50/0627739a105375f942be5fbfcb4e64_180_135.jpg?1658190347&474756',
         isLive: true,
         isActivated: true,
+        platform: 'huya',
     },
     {
         id: 2,
@@ -84,6 +85,7 @@ export const placeholderStreamers = [
         avatar: 'https://huyaimg.msstatic.com/avatar/1048/dd/cf30c1876ab2a4d893a1d0f0de4a67_180_135.jpg?1649317782&474756',
         isLive: true,
         isActivated: true,
+        platform: 'huya',
     },
     {
         id: 3,
@@ -93,6 +95,7 @@ export const placeholderStreamers = [
         isLive: false,
         isActivated: true,
         lastStream: new Date().getTime() - 1000 * 60 * 60 * 24 * 2,
+        platform: 'huya',
     },
     {
         id: 4,
@@ -102,6 +105,7 @@ export const placeholderStreamers = [
         isLive: false,
         isActivated: false,
         lastStream: new Date().getTime() - 1000 * 60 * 60 * 24 * 7,
+        platform: 'douyin',
     },
     {
         id: 5,
@@ -111,6 +115,7 @@ export const placeholderStreamers = [
         avatar: 'https://p26.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_681b15b9fbce96708d2b3a206735d7b6.jpeg?from=3067671334',
         isLive: true,
         isActivated: true,
+        platform: 'douyin',
     },
     {
         id: 6,
@@ -118,9 +123,10 @@ export const placeholderStreamers = [
         description: '春节不休息陪大家过年！',
         url: 'https://live.douyin.com/66407121168',
         avatar: 'https://p26.douyinpic.com/aweme/100x100/aweme-avatar/tos-cn-avt-0015_91c6d02d076a3943c80db5664c9541bb.jpeg?from=3067671334',
-        isLive: true,
+        isLive: false,
         isActivated: false,
         lastStream: new Date().getTime() - 1000 * 60 * 60 * 24 * 10,
+        platform: 'douyin',
     },
     {
         id: 7,
@@ -130,6 +136,7 @@ export const placeholderStreamers = [
         avatar: 'https://huyaimg.msstatic.com/avatar/1009/21/d479da7839241ade1e136d7324df4f_180_135.jpg?1671605310&474756',
         isLive: true,
         isActivated: true,
+        platform: 'huya',
     },
 ];
 

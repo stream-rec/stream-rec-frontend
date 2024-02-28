@@ -10,6 +10,7 @@ export type Streamer = {
   isActivated: boolean;
   lastStream?: number;
   description?: string;
+  platform: string;
 }
 
 
