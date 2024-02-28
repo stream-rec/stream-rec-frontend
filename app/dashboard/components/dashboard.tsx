@@ -20,6 +20,39 @@ interface MailProps {
   children?: React.ReactNode
 }
 
+const dashboardLinks = [
+  {
+    title: "Dashboard",
+    label: "",
+    href: "/dashboard",
+    icon: LucideLayoutDashboard,
+  },
+  {
+    title: "Streamers",
+    label: "",
+    href: "/dashboard/streamers",
+    icon: LucideUsers,
+  },
+  {
+    title: "Records",
+    label: "",
+    href: "/dashboard/records",
+    icon: FileVideo2,
+  },
+
+  {
+    title: "Uploads",
+    label: "",
+    href: "/dashboard/uploads",
+    icon: UploadCloud,
+  },
+  {
+    title: "Settings",
+    label: "",
+    href: "/dashboard/settings",
+    icon: Settings,
+  },
+]
 
 export function DashboardLayout(
     {
@@ -76,39 +109,7 @@ export function DashboardLayout(
               <Nav
 
                   isCollapsed={isCollapsed}
-                  links={[
-                    {
-                      title: "Dashboard",
-                      label: "",
-                      href: "/dashboard",
-                      icon: LucideLayoutDashboard,
-                    },
-                    {
-                      title: "Streamers",
-                      label: "",
-                      href: "/dashboard/streamers",
-                      icon: LucideUsers,
-                    },
-                    {
-                      title: "Records",
-                      label: "",
-                      href: "/dashboard/records",
-                      icon: FileVideo2,
-                    },
-
-                    {
-                      title: "Uploads",
-                      label: "",
-                      href: "/dashboard/uploads",
-                      icon: UploadCloud,
-                    },
-                    {
-                      title: "Settings",
-                      label: "",
-                      href: "/dashboard/settings",
-                      icon: Settings,
-                    },
-                  ]}
+                  links={dashboardLinks}
               />
             </ResizablePanel>
             <ResizableHandle withHandle/>
