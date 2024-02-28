@@ -1,8 +1,10 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/new-york/ui/card";
 import React from "react";
-import {Avatar, AvatarImage} from "@/components/new-york/ui/avatar";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/new-york/ui/avatar";
 import {format} from "date-fns";
+import {cn} from "@/lib/utils";
 import {clsx} from "clsx";
+import {Badge} from "@/components/new-york/ui/badge";
 
 type StreamerCardProps = {
   streamer: string;
@@ -12,6 +14,7 @@ type StreamerCardProps = {
   isLive: boolean;
   isActivated: boolean;
   lastStream?: number;
+  platform?: string;
 }
 export default function StreamerCard({
                                        streamer,
@@ -20,7 +23,8 @@ export default function StreamerCard({
                                        streamerAvatar,
                                        isLive,
                                        isActivated,
-                                       lastStream
+                                       lastStream,
+                                       platform,
                                      }: StreamerCardProps) {
 
   const getLastStreamInfo = () => {
@@ -55,16 +59,24 @@ export default function StreamerCard({
             <div className={"space-y-4 md:flex md:flex-row md:space-x-2.5 md:space-y-0.5"}>
               <Avatar>
                 <AvatarImage src={streamerAvatar} alt={streamer}></AvatarImage>
+                <AvatarFallback>{streamer}</AvatarFallback>
               </Avatar>
 
               <div className={"flex flex-col mt-0.5 space-y-1 justify-center"}>
-                <CardTitle className={description ? "" : "md:self-center"}>{streamer}</CardTitle>
-                {description && <p className="text-[0.75rem] text-muted-foreground">{description}</p>}
+                <div className={"flex flex-row items-center space-x-2.5 gap-x-1"}>
+                  <CardTitle className={clsx(cn("2xl:text-sm"), {"md:self-center": description})}>{streamer}</CardTitle>
+                </div>
+                {description && <p className="text-[0.75rem] md:text-sm  text-muted-foreground">{description}</p>}
               </div>
             </div>
           </CardHeader>
           <CardContent>
-            <p className={"text-[0.70rem] text-muted-foreground"}>{getLastStreamInfo()} </p>
+            <div className="flex space-x-4 text-sm text-muted-foreground">
+              <div className="flex items-center">
+                <Badge variant={"secondary"}>{platform}</Badge>
+              </div>
+              <p className={"text-[0.7rem] md:text-sm text-muted-foreground"}>{getLastStreamInfo()} </p>
+            </div>
           </CardContent>
         </Card>
       </>
