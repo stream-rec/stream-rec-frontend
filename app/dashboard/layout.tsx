@@ -1,5 +1,6 @@
 import {cookies} from "next/headers";
 import {DashboardLayout} from "@/app/dashboard/components/dashboard";
+import Image from "next/image";
 
 export default function Layout({children}: { children: React.ReactNode }) {
 
@@ -11,7 +12,7 @@ export default function Layout({children}: { children: React.ReactNode }) {
     {
       label: "stream-rec",
       email: "stream-rec",
-      icon: "",
+      icon: <Image src={"/stream-rec.png"} width={40} height={40} alt={"Stream rec icon"}/>,
     },
   ]
   return (

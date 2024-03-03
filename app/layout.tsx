@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type {Metadata} from "next";
+import {Inter} from "next/font/google";
 import "./globals.css";
 import React from "react";
 import {Toaster} from "@/components/new-york/ui/toaster";
 import {ThemeProvider} from "@/components/theme/theme-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
   title: "Stream-rec",
@@ -13,12 +13,22 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
+                                     children,
+                                   }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+      <html lang="en">
+      <head>
+        <link rel="icon" href="/stream-rec.png" sizes="any"/>
+        <link
+            rel="icon"
+            href="/stream-rec.png?<generated>"
+            type="image/<generated>"
+            sizes="<generated>"
+        />
+        <title>Stream-rec</title>
+      </head>
       <body className={inter.className}>
       <ThemeProvider
           attribute="class"
@@ -28,8 +38,8 @@ export default function RootLayout({
       >
         {children}
       </ThemeProvider>
-      <Toaster />
+      <Toaster/>
       </body>
-    </html>
+      </html>
   );
 }
