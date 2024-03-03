@@ -67,29 +67,28 @@ export default function StreamerCard({
               <Separator orientation={"vertical"} className={"h-4"}/>
               <Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><Trash2Icon className={"w-4 h-4"}/></Button>
             </div>
-            <CardHeader className={"-mt-7"}>
-              <div className={"space-y-4 md:flex md:flex-row md:space-x-2.5 md:space-y-0.5"}>
+            <CardHeader className={"pt-0 pb-3 lg:pb-6"}>
+              <div className={"space-y-4 md:flex md:flex-row md:space-x-2.5 items-center md:space-y-0"}>
                 <Avatar>
                   <AvatarImage src={streamerAvatar ?? ""} alt={streamer}></AvatarImage>
                   <AvatarFallback>{streamer}</AvatarFallback>
                 </Avatar>
 
-                <div className={"flex flex-col mt-0.5 space-y-1 justify-center"}>
+                <div className={"flex flex-col mt-0 space-y-1"}>
                   <div className={"flex flex-row items-center space-x-2.5 gap-x-1"}>
                     <CardTitle className={clsx(cn("2xl:text-sm"), {"md:self-center": description})}>{streamer}</CardTitle>
                   </div>
-                  {description && <p className="text-[0.75rem] md:text-sm  text-muted-foreground">{description}</p>}
+                  {description && <p className="text-[0.75rem] md:text-sm text-muted-foreground line-clamp-1">{description}</p>}
                 </div>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="flex flex-row items-center gap-1.5 mr-2">
+            <CardContent className={"pt-0"}>
+              <div className="flex flex-row items-center gap-x-1.5 mr-2">
                 <Badge variant={"default"}>{platform}</Badge>
                 <Badge variant={"secondary"}>{getLastStreamInfo()}</Badge>
               </div>
             </CardContent>
           </Card>
-
         </div>
       </>
   )

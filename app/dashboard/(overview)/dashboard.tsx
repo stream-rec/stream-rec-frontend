@@ -4,9 +4,9 @@ import {TooltipProvider} from "@/components/new-york/ui/tooltip";
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from "@/components/new-york/ui/resizable";
 import {cn} from "@/lib/utils";
 import {FileVideo2, LucideLayoutDashboard, LucideUsers, Settings, UploadCloud} from "lucide-react";
-import {AccountSwitcher} from "@/app/dashboard/components/account-switcher";
+import {AccountSwitcher} from "@/app/dashboard/(overview)/components/account-switcher";
 import {Separator} from "@/components/new-york/ui/separator";
-import {Nav} from "@/app/dashboard/components/nav";
+import {Nav} from "@/app/dashboard/(overview)/components/nav";
 
 interface MailProps {
   accounts: {

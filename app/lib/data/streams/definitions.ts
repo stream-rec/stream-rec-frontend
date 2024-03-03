@@ -15,7 +15,7 @@ export type StreamData = {
   status: boolean;
 }
 
-export const videoFormats = ["mp4", "avi", "mov", "wmv3", "flv"] as const;
+export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv"] as const;
 
 
 export const baseDownloadConfig = z.object({

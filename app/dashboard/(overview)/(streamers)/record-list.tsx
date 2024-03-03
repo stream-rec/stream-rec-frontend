@@ -1,5 +1,5 @@
 'use client';
-import StreamerCard from "@/app/dashboard/components/cards/streamer";
+import StreamerCard from "@/app/dashboard/(overview)/(streamers)/streamer";
 import React from "react";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/new-york/ui/collapsible";
 import {Button} from "@/components/new-york/ui/button";
@@ -34,21 +34,24 @@ export function RecordList({streamers, title}: RecordListProps) {
         </div>
 
         <CollapsibleContent className="space-y-4">
-          {
-            streamers.map(streamer => (
-                <StreamerCard
-                    key={streamer.name}
-                    streamer={streamer.name}
-                    isActivated={streamer.isActivated}
-                    streamerId={streamer.id}
-                    isLive={streamer.isLive}
-                    streamerAvatar={streamer.avatar}
-                    lastStream={streamer.lastStream}
-                    description={streamer.description}
-                    platform={streamer.platform!!}
-                />
-            ))
-          }
+          <div className={"grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 xl:gap-4"}>
+              {
+                streamers.map(streamer => (
+                    <StreamerCard
+                        key={streamer.name}
+                        streamer={streamer.name}
+                        isActivated={streamer.isActivated}
+                        streamerId={streamer.id}
+                        isLive={streamer.isLive}
+                        streamerAvatar={streamer.avatar}
+                        lastStream={streamer.lastStream}
+                        description={streamer.description}
+                        platform={streamer.platform!!}
+                    />
+                ))
+              }
+          </div>
+
         </CollapsibleContent>
 
       </Collapsible>

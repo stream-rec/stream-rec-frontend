@@ -1,6 +1,6 @@
 import React from "react";
 import {placeholderStreamers} from "@/app/lib/data/placeholder-data";
-import StreamerCard from "@/app/dashboard/components/cards/streamer";
+import StreamerCard from "@/app/dashboard/(overview)/(streamers)/streamer";
 import {Button} from "@/components/new-york/ui/button";
 import {PlusCircledIcon} from "@radix-ui/react-icons";
 import Link from "next/link";

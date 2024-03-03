@@ -1,9 +1,9 @@
-import {CardsStats} from "@/app/dashboard/components/cards/stats";
+import {CardsStats} from "@/app/dashboard/(overview)/(stats)/stats";
 import {placeholderStreamers, placeholderWeeklyStats, placeholderYearlyStats,} from "@/app/lib/data/placeholder-data";
 import React from "react";
-import {RecordList} from "@/app/dashboard/components/record-list";
+import {RecordList} from "@/app/dashboard/(overview)/(streamers)/record-list";
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
 
   const disabledStreamers = placeholderStreamers.filter(streamer => !streamer.isActivated);
   const activeStreamers = placeholderStreamers.filter(streamer => streamer.isActivated);
@@ -24,12 +24,12 @@ export default function DashboardPage() {
             </div>
           </div>
           <div className="flex-grow space-y-6">
-            <div className="grid gap-4 md:grids-col-2 lg:grid-cols-10 lg:gap-6 xl:grid-cols-11">
-              <div className="space-y-4 lg:col-span-6 xl:col-span-5 xl:space-y-4">
+            <div className="grid gap-4 md:grids-col-2 lg:grid-cols-2 lg:gap-6 xl:grid-cols-2 xl:gap-x-16">
+              <div className="space-y-4 lg:col-span-1">
                 <CardsStats data={placeholderYearlyStats} firstCardTitle={"Total streams"}
                             secondCardTitle={"Total uploads"}/>
               </div>
-              <div className="space-y-4 lg:col-span-6 xl:col-span-5 xl:space-y-4">
+              <div className="space-y-4 lg:col-span-1">
                 <CardsStats data={placeholderWeeklyStats} firstCardTitle={"Weekly streams"}
                             secondCardTitle={"Weekly uploads"}/>
               </div>
@@ -40,14 +40,14 @@ export default function DashboardPage() {
             <h2 className="text-xl font-bold tracking-tight">Streamers</h2>
 
             <div
-                className="grid gap-4 grid-cols-1 md:grids-col-3 md:gap-2 md:space-x-0 lg:grid-cols-7 lg:gap-6 xl:grid-cols-12 xl:gap-12">
-              <div className="space-y-4 col-span-1 lg:col-span-2 xl:col-span-3 xl:space-y-4">
+                className="grid gap-4 grid-cols-1 md:grids-col-3 lg:grid-cols-3 lg:space-x-8">
+              <div className="space-y-4 col-span-1">
                 <RecordList streamers={recordingStreamers} title="Recording"/>
               </div>
-              <div className="space-y-4 col-span-1 lg:col-span-2 xl:col-span-3 xl:space-y-4">
+              <div className="space-y-4 col-span-1 ">
                 <RecordList streamers={inactiveStreamers} title="Inactive"/>
               </div>
-              <div className="space-y-4 col-span-1 lg:col-span-2 xl:col-span-3 xl:space-y-4">
+              <div className="space-y-4 col-span-1">
                 <RecordList streamers={disabledStreamers} title="Disabled"/>
               </div>
             </div>

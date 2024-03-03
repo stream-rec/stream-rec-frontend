@@ -1,5 +1,5 @@
 import {cookies} from "next/headers";
-import {DashboardLayout} from "@/app/dashboard/components/dashboard";
+import {DashboardLayout} from "@/app/dashboard/(overview)/dashboard";
 import Image from "next/image";
 
 export default function Layout({children}: { children: React.ReactNode }) {
