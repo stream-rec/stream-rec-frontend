@@ -6,10 +6,10 @@ import {Button} from "@/components/new-york/ui/button"
 import {Input} from "@/components/new-york/ui/input"
 import {DataTableFacetedFilter} from "@/app/components/table/data-table-faceted-filter";
 import {DataTableViewOptions} from "@/app/components/table/data-table-view-options";
-import {dataStatues} from "@/app/lib/definitions";
 import {UserIcon} from "lucide-react";
 import {recordColumnProps} from "@/app/dashboard/records/components/records-table-columns";
 import {DataTableToolbarProps} from "@/app/components/table/toolbar";
+import {dataStatues} from "@/app/lib/data/uploads/definitions";
 
 
 export function RecordsDataTableToolbar<TData>({

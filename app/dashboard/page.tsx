@@ -1,5 +1,5 @@
 import {CardsStats} from "@/app/dashboard/components/cards/stats";
-import {placeholderStreamers, placeholderWeeklyStats, placeholderYearlyStats,} from "@/app/lib/placeholder-data";
+import {placeholderStreamers, placeholderWeeklyStats, placeholderYearlyStats,} from "@/app/lib/data/placeholder-data";
 import React from "react";
 import {RecordList} from "@/app/dashboard/components/record-list";
 

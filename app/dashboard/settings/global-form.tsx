@@ -10,6 +10,10 @@ import {Switch} from "@/components/new-york/ui/switch";
 import {useState} from "react";
 import {toast} from "@/components/new-york/ui/use-toast";
 import {convertToBytes, convertToSeconds} from "@/app/utils/conversions";
+import {OutputFolderFormField} from "@/app/dashboard/settings/components/form/output-folder-formfield";
+import {OutputFilenameFormfield} from "@/app/dashboard/settings/components/form/output-filename-formfield";
+import {OutputFileFormatFormfield} from "@/app/dashboard/settings/components/form/output-file-format-formfield";
+import {DanmuFlagFormfield} from "@/app/dashboard/settings/components/form/danmu-flag-formfield";
 
 
 const globalFormSchema = z.object({
@@ -115,28 +119,7 @@ export function GlobalForm() {
               )}
           />
 
-          <FormField
-              control={form.control}
-              name="danmu"
-              render={({field}) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                    <div className="space-y-0.5">
-                      <FormLabel>Global danmu flag</FormLabel>
-                      <FormDescription>
-                        Enable danmu (Bullet screen comments) recording for the download. Danmu will be saved in a separate file with the same name as
-                        the video file.
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          arial-label="Enable danmu recording"
-                      />
-                    </FormControl>
-                  </FormItem>
-              )}
-          />
+         <DanmuFlagFormfield control={form.control}/>
 
           <FormField
               control={form.control}
@@ -161,84 +144,10 @@ export function GlobalForm() {
                   </FormItem>
               )}
           />
-          <FormField
-              control={form.control}
-              name="outputFolder"
-              render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Output folder format</FormLabel>
-                    <FormControl>
-                      <Input placeholder="{streamer}/%yyyy-%MM-%dd" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      This is the folder where the downloaded files will be saved. You can use placeholders like:
-                      <br/>
-                      <code>{`{title}`}</code> - The title of the streaming.
-                      <br/>
-                      <code>{`{streamer}`}</code> - The streamer name of the streaming.
-                      <br/>
-                      <code>{`%yyyy`}</code> - The year of the streaming.
-                      <br/>
-                      <code>{`%MM`}</code> - The month of the streaming.
-                      <br/>
-                      <code>{`%dd`}</code> - The day of the streaming.
-                      <br/>
-                      <code>{`%HH`}</code> - The hour of the streaming.
-                      <br/>
-                      <code>{`%mm`}</code> - The minute of the streaming.
-                      <br/>
-                      <code>{`%ss`}</code> - The second of the streaming.
-                    </FormDescription>
-                    <FormMessage/>
-                  </FormItem>
-              )}
-          />
-          <FormField
-              control={form.control}
-              name="outputFileName"
-              render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Output file format</FormLabel>
-                    <FormControl>
-                      <Input placeholder="%HH_%mm_%ss-{title}" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      This is the file name of the downloaded file. Same placeholders as output folder are available.
-                      <br/>
-                      <strong>Please do not include file extension, it will be automatically added based on the below selected format.</strong>
-                    </FormDescription>
-                    <FormMessage/>
-                  </FormItem>
-              )}
-          />
 
-          <FormField
-              control={form.control}
-              name="outputFileFormat"
-              render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Output video extension</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a output video extension"/>
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="avi">avi</SelectItem>
-                        <SelectItem value="flv">flv</SelectItem>
-                        <SelectItem value="mov">mov</SelectItem>
-                        <SelectItem value="mp4">mp4</SelectItem>
-                        <SelectItem value="wmv3">wmv</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>
-                      The file extension of the downloaded file.
-                    </FormDescription>
-                    <FormMessage/>
-                  </FormItem>
-              )}
-          />
+          <OutputFolderFormField control={form.control}/>
+          <OutputFilenameFormfield control={form.control}/>
+          <OutputFileFormatFormfield control={form.control}/>
 
           <FormField
               control={form.control}
@@ -415,7 +324,7 @@ export function GlobalForm() {
                     <FormControl>
                       <Input type="number"
                              min="1"
-                             onChange={(e) => field.onChange(Number(e.target.value))}
+                             onChange={(e) => field.onChange(parseInt(e.target.value))}
                              value={field.value}
                              placeholder="3"/>
                     </FormControl>

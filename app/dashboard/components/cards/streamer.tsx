@@ -6,17 +6,19 @@ import {cn} from "@/lib/utils";
 import {clsx} from "clsx";
 import {Badge} from "@/components/new-york/ui/badge";
 import {Button} from "@/components/new-york/ui/button";
-import {SettingsIcon} from "lucide-react";
+import {DeleteIcon, SettingsIcon, Trash2Icon} from "lucide-react";
+import {Separator} from "@/components/new-york/ui/separator";
+import Link from "next/link";
 
 type StreamerCardProps = {
   streamer: string;
-  description?: string;
-  streamerId: number;
-  streamerAvatar: string;
-  isLive: boolean;
+  description?: string | null;
+  streamerId?: number;
+  streamerAvatar?: string | null;
+  isLive?: boolean | null;
   isActivated: boolean;
-  lastStream?: number;
-  platform?: string;
+  lastStream?: number | null;
+  platform: string;
 }
 export default function StreamerCard({
                                        streamer,
@@ -58,10 +60,17 @@ export default function StreamerCard({
       <>
         <div className={"relative"}>
           <Card className={"mx-auto"}>
-            <CardHeader className={"space-y-2"}>
+            <div className={"flex flex-row items-center mr-2 justify-end space-x-0.5 md:space-x-1"}>
+              <Link href={`/dashboard/streamers/${streamerId}/edit`}>
+                <Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><SettingsIcon className={"w-4 h-4"}/></Button>
+              </Link>
+              <Separator orientation={"vertical"} className={"h-4"}/>
+              <Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><Trash2Icon className={"w-4 h-4"}/></Button>
+            </div>
+            <CardHeader className={"-mt-7"}>
               <div className={"space-y-4 md:flex md:flex-row md:space-x-2.5 md:space-y-0.5"}>
                 <Avatar>
-                  <AvatarImage src={streamerAvatar} alt={streamer}></AvatarImage>
+                  <AvatarImage src={streamerAvatar ?? ""} alt={streamer}></AvatarImage>
                   <AvatarFallback>{streamer}</AvatarFallback>
                 </Avatar>
 
@@ -80,7 +89,7 @@ export default function StreamerCard({
               </div>
             </CardContent>
           </Card>
-          <Button variant={"ghost"} className={"absolute top-0 end-1 rounded-full p-2"}><SettingsIcon className={"w-4 h-4"}/></Button>
+
         </div>
       </>
   )

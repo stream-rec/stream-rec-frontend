@@ -3,27 +3,31 @@ import {Control} from "react-hook-form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
 import {Textarea} from "@/components/new-york/ui/textarea";
 import React from "react";
+import {DouyinGlobalConfig, DouyinQuality} from "@/app/lib/data/platform/douyin/definitions";
+import {Input} from "@/components/new-york/ui/input";
 
 const douyinQualityOptions = [
-  ["origin", "Origin"],
-  ["uhd", "Ultra High Definition"],
-  ["hd", "High Definition"],
-  ["sd", "Standard Definition"],
-  ["ld", "Low Definition"],
-  ["md", "Smooth Definition"],
-  ["ao", "Audio"],
+  [DouyinQuality.origin, "Origin"],
+  [DouyinQuality.uhd, "Ultra High Definition"],
+  [DouyinQuality.hd, "High Definition"],
+  [DouyinQuality.sd, "Standard Definition"],
+  [DouyinQuality.ld, "Low Definition"],
+  [DouyinQuality.md, "Smooth Definition"],
+  [DouyinQuality.ao, "Audio"],
 ] as const
 
 interface DouyinTabContentProps {
-  control: Control<any>;
+  control: Control<DouyinGlobalConfig, any, any>;
+  showCookies?: boolean
+  showPartedDownloadRetry?: boolean
 }
 
-export const DouyinTabContent: React.FC<DouyinTabContentProps> = ({control}) => {
+export const DouyinTabContent: React.FC<DouyinTabContentProps> = ({control, showCookies, showPartedDownloadRetry}) => {
   return (
       <div className="mt-6 space-y-6">
         <FormField
             control={control}
-            name="douyinQuality"
+            name="quality"
             render={({field}) => (
                 <FormItem>
                   <FormLabel>Record quality</FormLabel>
@@ -48,24 +52,55 @@ export const DouyinTabContent: React.FC<DouyinTabContentProps> = ({control}) => 
                 </FormItem>
             )}
         />
-        <FormField
-            control={control}
-            name="douyinCookies"
-            render={({field}) => (
-                <FormItem>
-                  <FormLabel>Douyin Cookies</FormLabel>
-                  <FormControl>
-                    <Textarea placeholder="Cookies" {...field}></Textarea>
-                  </FormControl>
-                  <FormDescription>
-                    The cookies used to authenticate the Douyin account.
-                    <br/>
-                    <strong>__ac_nonce= and __ac_signature must be included</strong>
-                  </FormDescription>
-                  <FormMessage/>
-                </FormItem>
-            )}
-        />
+        {
+            showPartedDownloadRetry && (
+                <FormField
+                    control={control}
+                    name="partedDownloadRetry"
+                    render={({field}) => (
+                        <FormItem>
+                          <FormLabel>Part download delay</FormLabel>
+                          <FormControl>
+                            <Input placeholder="10" type={"number"} step={1} value={field.value}
+                                   onChange={event => {
+                                     if (event.target.value === "") {
+                                       field.onChange(null);
+                                     } else {
+                                       field.onChange(parseInt(event.target.value));
+                                     }
+                                   }}/>
+
+                          </FormControl>
+                          <FormDescription>
+                            The delay between each part download retry. Optional. Default is 3 seconds.
+                          </FormDescription>
+                          <FormMessage/>
+                        </FormItem>
+                    )}
+                />)
+        }
+
+        {
+            showCookies && (
+                <FormField
+                    control={control}
+                    name="cookies"
+                    render={({field}) => (
+                        <FormItem>
+                          <FormLabel>Douyin Cookies</FormLabel>
+                          <FormControl>
+                            <Textarea placeholder="Cookies" {...field}></Textarea>
+                          </FormControl>
+                          <FormDescription>
+                            The cookies used to authenticate the Douyin account.
+                            <br/>
+                            <strong>__ac_nonce= and __ac_signature must be included</strong>
+                          </FormDescription>
+                          <FormMessage/>
+                        </FormItem>
+                    )}
+                />)
+        }
       </div>
   );
 };

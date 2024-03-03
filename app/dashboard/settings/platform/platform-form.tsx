@@ -2,35 +2,45 @@
 import {Form} from "@/components/new-york/ui/form";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {z} from "zod";
 import {toast} from "@/components/new-york/ui/use-toast";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui/tabs";
 import {Button} from "@/components/new-york/ui/button";
 import {DouyinTabContent} from "@/app/dashboard/settings/platform/tabs/douyin-tab";
 import {HuyaTabContent} from "@/app/dashboard/settings/platform/tabs/huya-tab";
+import {useState} from "react";
+import {PlatformGlobalConfig} from "@/app/lib/data/platform/definitions";
+import {huyaGlobalConfig} from "@/app/lib/data/platform/huya/definitions";
+import {douyinGlobalConfig} from "@/app/lib/data/platform/douyin/definitions";
 
+export type PlatformFormValues = {
+  defaultValues?: PlatformGlobalConfig
+}
 
-const platformFormSchema = z.object({
-  huyaPrimaryCdn: z.string().optional(),
-  huyaMaxBitrate: z.number().min(1000).optional().nullable(),
-  huyaCookies: z.string().optional(),
+function useGlobalConfigResolver(initial: "huya" | "douyin") {
+  const [platform, setPlatform] = useState(initial)
 
-  douyinCookies: z.string().regex(/__ac_nonce=.*; __ac_signature=.*;/).optional().nullable(),
-  douyinQuality: z.string().optional(),
-})
+  function handlePlatformChange(platform: "huya" | "douyin") {
+    setPlatform(platform)
+  }
 
-type PlatformFormValues = z.infer<typeof platformFormSchema>
+  return {
+    platform,
+    handlePlatformChange,
+    resolver: platform == "huya" ? huyaGlobalConfig : douyinGlobalConfig
+  }
+}
 
-const defaultValues: Partial<PlatformFormValues> = {}
+export default function PlatformForm(defaultValues: PlatformFormValues) {
 
-export default function PlatformForm() {
-  const form = useForm<PlatformFormValues>({
-    resolver: zodResolver(platformFormSchema),
-    defaultValues,
+  const {platform, handlePlatformChange, resolver} = useGlobalConfigResolver("huya")
+
+  const form = useForm<PlatformGlobalConfig>({
+    resolver: zodResolver(resolver),
+    defaultValues: defaultValues.defaultValues ?? {},
     mode: "onChange",
   })
 
-  function onSubmit(data: PlatformFormValues) {
+  function onSubmit(data: PlatformGlobalConfig) {
     toast({
       title: "You submitted the following values:",
       description: (
@@ -44,7 +54,12 @@ export default function PlatformForm() {
   return (
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8  min-h-svh">
-          <Tabs defaultValue="huya">
+          <Tabs defaultValue="huya" onValueChange={
+            (value) => {
+              handlePlatformChange(value as "huya" | "douyin")
+              form.reset()
+            }
+          }>
             <TabsList className="ml-auto">
               <TabsTrigger value="huya" className="text-zinc-600 dark:text-zinc-200">Huya</TabsTrigger>
               <TabsTrigger value="douyin" className="text-zinc-600 dark:text-zinc-200">Douyin</TabsTrigger>
@@ -52,13 +67,12 @@ export default function PlatformForm() {
 
             <div>
               <TabsContent value="huya">
-                <HuyaTabContent control={form.control}/>
+                <HuyaTabContent control={form.control} showCookies showMaxBitrate showPartedDownloadRetry/>
               </TabsContent>
               <TabsContent value="douyin">
-                <DouyinTabContent control={form.control}/>
+                <DouyinTabContent control={form.control} showCookies showPartedDownloadRetry/>
               </TabsContent>
             </div>
-
           </Tabs>
 
           <Button type="submit">Update</Button>

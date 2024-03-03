@@ -1,7 +1,6 @@
 "use client"
 
 import {ColumnDef} from "@tanstack/react-table"
-import {dataStatues, StreamData} from "@/app/lib/definitions";
 import {format} from 'date-fns';
 import {MoreHorizontal} from "lucide-react"
 
@@ -18,6 +17,9 @@ import {
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import {Badge} from "@/components/new-york/ui/badge";
 import {DataTableToolbarColumnProps} from "@/app/components/table/toolbar";
+import {dataStatues} from "@/app/lib/data/uploads/definitions";
+import {StreamData} from "@/app/lib/data/streams/definitions";
+import Link from "next/link";
 
 
 export const recordColumnProps: DataTableToolbarColumnProps[] = [
@@ -212,7 +214,9 @@ export const recordColumns: ColumnDef<StreamData>[] = [
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem>
-                View streamer details
+                <Link href={"/dashboard/streamers/" + data.streamerId + "/edit"}>
+                  View streamer details
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator/>
               <DropdownMenuItem>Re-upload</DropdownMenuItem>

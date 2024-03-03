@@ -1,5 +1,5 @@
 import {uploadsTableColumns} from "@/app/dashboard/uploads/components/uploads-table-columns";
-import {placeholderData} from "@/app/lib/placeholder-data";
+import {placeholderData} from "@/app/lib/data/placeholder-data";
 import {DataTable} from "@/app/components/table/data-table";
 import {UploadTableToolbar} from "@/app/dashboard/uploads/components/upload-table-toolbar";
 

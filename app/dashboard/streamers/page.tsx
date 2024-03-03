@@ -1,23 +1,26 @@
 import React from "react";
-import {placeholderStreamers} from "@/app/lib/placeholder-data";
+import {placeholderStreamers} from "@/app/lib/data/placeholder-data";
 import StreamerCard from "@/app/dashboard/components/cards/streamer";
 import {Button} from "@/components/new-york/ui/button";
 import {PlusCircledIcon} from "@radix-ui/react-icons";
+import Link from "next/link";
 
 export default function Page() {
   return <div className="flex-1 flex-col space-y-8 p-8 md:flex">
 
-    <div className="flex items-center justify-between space-y-2">
+    <div className="flex flex-col md:flex-row space-x-0 items-center justify-between space-y-2">
       <div>
         <h2 className="text-2xl font-bold tracking-tight">Streamers</h2>
         <p className="text-muted-foreground">
           List of streamers and their status.
         </p>
       </div>
-      <Button>
-        <PlusCircledIcon className="mr-2 h-4 w-4" />
-        Add streamer
-      </Button>
+      <Link href={"/dashboard/streamers/new"}>
+        <Button>
+          <PlusCircledIcon className="mr-2 h-4 w-4"/>
+          Add streamer
+        </Button>
+      </Link>
     </div>
 
     <div className={"grid gap-3 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7"}>

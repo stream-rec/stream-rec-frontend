@@ -1,7 +1,6 @@
 "use client"
 
 import {ColumnDef} from "@tanstack/react-table"
-import {dataStatues, UploadData} from "@/app/lib/definitions";
 import {format} from 'date-fns';
 import {MoreHorizontal} from "lucide-react"
 
@@ -17,6 +16,8 @@ import {
 } from "@/components/new-york/ui/dropdown-menu"
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import {Badge} from "@/components/new-york/ui/badge";
+import {dataStatues, UploadData} from "@/app/lib/data/uploads/definitions";
+import Link from "next/link";
 
 export const uploadsTableColumnProps = [
   {
@@ -173,7 +174,8 @@ export const uploadsTableColumns: ColumnDef<UploadData>[] = [
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem>View upload details</DropdownMenuItem>
               <DropdownMenuItem>View stream details</DropdownMenuItem>
-              <DropdownMenuItem>View streamer details</DropdownMenuItem>
+              <DropdownMenuItem><Link href={"/dashboard/streamers/" + uploadData.streamDataId + "/edit"}> View streamer
+                details</Link></DropdownMenuItem>
               <DropdownMenuSeparator/>
               <DropdownMenuItem>Re-upload</DropdownMenuItem>
               <DropdownMenuSeparator/>

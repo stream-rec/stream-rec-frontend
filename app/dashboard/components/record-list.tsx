@@ -1,14 +1,14 @@
 'use client';
-import {Streamer} from "@/app/lib/definitions";
 import StreamerCard from "@/app/dashboard/components/cards/streamer";
 import React from "react";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/new-york/ui/collapsible";
 import {Button} from "@/components/new-york/ui/button";
 import {CaretSortIcon} from "@radix-ui/react-icons";
+import {StreamerSchema} from "@/app/lib/data/streams/definitions";
 
 type RecordListProps = {
   title: string,
-  streamers: Streamer[]
+  streamers: StreamerSchema[]
 }
 
 export function RecordList({streamers, title}: RecordListProps) {
@@ -45,7 +45,7 @@ export function RecordList({streamers, title}: RecordListProps) {
                     streamerAvatar={streamer.avatar}
                     lastStream={streamer.lastStream}
                     description={streamer.description}
-                    platform={streamer.platform}
+                    platform={streamer.platform!!}
                 />
             ))
           }

@@ -7,8 +7,8 @@ import {Card, CardContent, CardHeader, CardTitle,} from "@/components/new-york/u
 import {useConfig} from "@/app/hooks/use-config";
 import {themes} from "@/components/theme/themes";
 import React from "react";
-import {SummaryStats} from "@/app/lib/definitions";
 import {differenceInDays, isSameWeek, isSameYear} from "date-fns";
+import {SummaryStats} from "@/app/lib/data/stats/definitions";
 
 
 type CardDataProps = {
