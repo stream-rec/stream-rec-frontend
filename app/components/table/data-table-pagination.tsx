@@ -15,18 +15,18 @@ export function DataTablePagination<TData>({
                                              showSelectedCount = false,
                                            }: DataTablePaginationProps<TData>) {
   return (
-      <div className="flex items-center justify-between px-2">
+      <div className="flex flex-col md:flex-row items-center justify-between px-2">
         <div>
           <div className={clsx
           (
               "flex-1 text-sm text-muted-foreground",
-              showSelectedCount ? "lg:flex" : "lg:hidden"
+              showSelectedCount ? "md:flex" : "hidden"
           )}>
             {table.getFilteredSelectedRowModel().rows.length} of{" "}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
         </div>
-        <div className="flex items-center space-x-6 lg:space-x-8">
+        <div className="flex md:flex-row md:items-center md:space-x-6 lg:space-x-8">
           <div className="flex items-center space-x-2">
             <p className="text-sm font-medium">Rows per page</p>
             <Select
@@ -51,7 +51,7 @@ export function DataTablePagination<TData>({
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-col md:flex-row items-center space-x-2">
             <Button
                 variant="outline"
                 className="hidden h-8 w-8 p-0 lg:flex"
