@@ -42,7 +42,7 @@ export function ActionsCallbackTab(
       </AlertDescription>
     </Alert>
 
-    <div>
+    <div className={"space-y-6"}>
       <div className={"space-y-6"}>
         <div className={"flex flex-col md:flex-row space-y-2 md:space-x-0 items-center justify-between space-x-2"}>
           <div>
