@@ -1,9 +1,9 @@
-import React from "react";
-import {placeholderStreamers} from "@/app/lib/data/placeholder-data";
-import StreamerCard from "@/app/dashboard/(overview)/(streamers)/streamer";
+import React, {Suspense} from "react";
 import {Button} from "@/components/new-york/ui/button";
 import {PlusCircledIcon} from "@radix-ui/react-icons";
 import Link from "next/link";
+import {StreamerList} from "@/app/dashboard/streamers/components/streamer-list";
+import StreamerListSkeleton from "@/app/dashboard/streamers/components/streamer-skeleton";
 
 export default function Page() {
   return <div className="flex-1 flex-col space-y-8 p-8 md:flex">
@@ -23,18 +23,8 @@ export default function Page() {
       </Link>
     </div>
 
-    <div className={"grid gap-3 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7"}>
-      {
-        placeholderStreamers.map(streamer => {
-          return <div key={streamer.id} className={"col-span-2 md:col-span-2 lg:col-span-2 xl:col-span-1"}>
-            <StreamerCard key={streamer.url} streamer={streamer.name} streamerId={streamer.id} streamerAvatar={streamer.avatar}
-                          isLive={streamer.isLive}
-                          isActivated={streamer.isActivated} platform={streamer.platform} lastStream={streamer.lastStream}
-                          description={streamer.description}
-            />
-          </div>
-        })
-      }
-    </div>
+    <Suspense fallback={<StreamerListSkeleton/>}>
+      <StreamerList/>
+    </Suspense>
   </div>
 }
