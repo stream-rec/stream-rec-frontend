@@ -2,7 +2,6 @@
 import {Form} from "@/components/new-york/ui/form";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {toast} from "@/components/new-york/ui/use-toast";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui/tabs";
 import {Button} from "@/components/new-york/ui/button";
 import {DouyinTabContent} from "@/app/dashboard/settings/platform/tabs/douyin-tab";
@@ -11,6 +10,7 @@ import {useState} from "react";
 import {PlatformGlobalConfig} from "@/app/lib/data/platform/definitions";
 import {huyaGlobalConfig} from "@/app/lib/data/platform/huya/definitions";
 import {douyinGlobalConfig} from "@/app/lib/data/platform/douyin/definitions";
+import {toastData} from "@/app/utils/toast";
 
 export type PlatformFormValues = {
   defaultValues?: PlatformGlobalConfig
@@ -41,14 +41,7 @@ export default function PlatformForm(defaultValues: PlatformFormValues) {
   })
 
   function onSubmit(data: PlatformGlobalConfig) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-            </pre>
-      ),
-    })
+    toastData("You submitted the following values:", data);
   }
 
   return (

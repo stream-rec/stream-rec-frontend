@@ -8,12 +8,12 @@ import {Button} from "@/components/new-york/ui/button";
 import {Input} from "@/components/new-york/ui/input";
 import {Switch} from "@/components/new-york/ui/switch";
 import {useState} from "react";
-import {toast} from "@/components/new-york/ui/use-toast";
 import {convertToBytes, convertToSeconds} from "@/app/utils/conversions";
 import {OutputFolderFormField} from "@/app/dashboard/settings/components/form/output-folder-formfield";
 import {OutputFilenameFormfield} from "@/app/dashboard/settings/components/form/output-filename-formfield";
 import {OutputFileFormatFormfield} from "@/app/dashboard/settings/components/form/output-file-format-formfield";
 import {DanmuFlagFormfield} from "@/app/dashboard/settings/components/form/danmu-flag-formfield";
+import {toastData} from "@/app/utils/toast";
 
 
 const globalFormSchema = z.object({
@@ -82,14 +82,7 @@ export function GlobalForm() {
     if (data.maxPartDuration !== undefined) {
       data.maxPartDuration = convertToSeconds(data.maxPartDuration, maxDurationInputValue).toString()
     }
-    toast({
-      title: "You submitted the following values:",
-      description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+    toastData("You submitted the following values:", data, "code")
   }
 
   return (
@@ -119,7 +112,7 @@ export function GlobalForm() {
               )}
           />
 
-         <DanmuFlagFormfield control={form.control}/>
+          <DanmuFlagFormfield control={form.control}/>
 
           <FormField
               control={form.control}

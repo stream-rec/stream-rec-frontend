@@ -9,8 +9,9 @@ const defaultStreamerValues: StreamerSchema = {
 }
 
 export default function Page() {
-
-  return <div>
-    <StreamerConfig defaultValues={defaultStreamerValues}/>
-  </div>
+  return (
+      <>
+        <StreamerConfig defaultValues={defaultStreamerValues}/>
+      </>
+  )
 }

@@ -2,7 +2,7 @@ import type {Metadata} from "next";
 import {Inter} from "next/font/google";
 import "./globals.css";
 import React from "react";
-import {Toaster} from "@/components/new-york/ui/toaster";
+import {Toaster} from "@/components/new-york/ui/sonner";
 import {ThemeProvider} from "@/components/theme/theme-provider";
 
 const inter = Inter({subsets: ["latin"]});
@@ -36,9 +36,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
       >
-        {children}
+        <main>{children}</main>
       </ThemeProvider>
-      <Toaster/>
+      <Toaster richColors closeButton duration={5000}/>
       </body>
       </html>
   );

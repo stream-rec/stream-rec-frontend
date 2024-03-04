@@ -12,8 +12,7 @@ import {Separator} from "@/components/new-york/ui/separator";
 import Link from "next/link";
 import {StreamerDeleteDialog} from "@/app/dashboard/streamers/components/actions/streamer-delete-dialog";
 import {deleteStreamer} from "@/app/lib/data/streams/api";
-import {useRouter} from "next/navigation";
-import {toast} from "@/components/new-york/ui/use-toast";
+import {toast} from "sonner";
 
 type StreamerCardProps = {
   streamer: string;
@@ -37,9 +36,6 @@ export default function StreamerCard({
                                        platform,
                                        onStreamerDelete
                                      }: StreamerCardProps) {
-
-  const router = useRouter()
-
 
   const getLastStreamInfo = () => {
     if (isLive) {
@@ -77,25 +73,14 @@ export default function StreamerCard({
               </Link>
               <Separator orientation={"vertical"} className={"h-4"}/>
               <StreamerDeleteDialog onConfirm={
-                async () => {
-                  console.log("deleting streamer")
-                  try {
-                    await deleteStreamer(streamerId!!)
-                    toast({
-                      title: "Streamer deleted",
-                      description: `Streamer ${streamer} has been deleted`,
-                      variant: "default"
-                    })
+                async () => toast.promise(deleteStreamer(streamerId!!), {
+                  loading: `Deleting ${streamer}...`,
+                  success: () => {
                     onStreamerDelete?.()
-                  } catch (e) {
-                    console.error(e)
-                    toast({
-                      title: "Error",
-                      description: `An error occurred while deleting streamer ${streamer}, error: ${(e as Error).message}`,
-                      variant: "destructive"
-                    })
-                  }
-                }
+                    return "Streamer deleted"
+                  },
+                  error: (error) => `An error occurred while deleting streamer : ${error}`
+                })
               }/>
             </div>
             <CardHeader className={"pt-0 pb-3 lg:pb-6"}>

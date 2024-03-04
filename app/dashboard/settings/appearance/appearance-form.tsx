@@ -9,10 +9,10 @@ import {cn} from "@/lib/utils"
 import {Button, buttonVariants} from "@/components/new-york/ui/button"
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/new-york/ui/form"
 import {RadioGroup, RadioGroupItem} from "@/components/new-york/ui/radio-group"
-import {toast} from "@/components/new-york/ui/use-toast"
 import {useTheme} from "next-themes";
 import React from "react";
 import {useConfig} from "@/app/hooks/use-config";
+import {toastData} from "@/app/utils/toast";
 
 const appearanceFormSchema = z.object({
   theme: z.enum(["light", "dark"], {
@@ -34,7 +34,7 @@ const defaultValues: Partial<AppearanceFormValues> = {
 
 export function AppearanceForm() {
   const [config, setConfig] = useConfig()
-  const {setTheme, theme,  themes} = useTheme()
+  const {setTheme, theme, themes} = useTheme()
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
     defaultValues,
@@ -44,14 +44,7 @@ export function AppearanceForm() {
     if (data.theme !== theme) {
       setTheme(data.theme)
     }
-    toast({
-      title: "You submitted the following values:",
-      description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+    toastData("You submitted the following values:", data, "code")
   }
 
   return (

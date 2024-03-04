@@ -11,7 +11,6 @@ import {HuyaTabContent} from "@/app/dashboard/settings/platform/tabs/huya-tab";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui/tabs";
 import {clsx} from "clsx";
 import {BaseDownloadTab} from "@/app/dashboard/settings/platform/tabs/base-download-tab";
-import {useToast} from "@/components/new-york/ui/use-toast"
 import {DouyinTabContent} from "@/app/dashboard/settings/platform/tabs/douyin-tab";
 import {ActionsCallbackTab} from "@/app/dashboard/streamers/components/actions/actions-callback-tab";
 import {RocketIcon} from "@radix-ui/react-icons";
@@ -20,8 +19,8 @@ import {baseDownloadConfig, DownloadConfig, streamerSchema, StreamerSchema} from
 import {huyaDownloadConfig, HuyaGlobalConfig} from "@/app/lib/data/platform/huya/definitions";
 import {douyinDownloadConfig} from "@/app/lib/data/platform/douyin/definitions";
 import {combinedRegex} from "@/app/lib/data/platform/definitions";
-import {CommandActionSchema, RcloneActionSchema} from "@/app/lib/data/actions/definitions";
 import {createStreamer, updateStreamer} from "@/app/lib/data/streams/api";
+import {toastData} from "@/app/utils/toast";
 
 
 type StreamerConfigProps = {
@@ -29,8 +28,6 @@ type StreamerConfigProps = {
 }
 
 export function StreamerConfig({defaultValues}: StreamerConfigProps) {
-
-  const {toast} = useToast()
 
   const form = useForm<StreamerSchema>({
     resolver: async (data, context, options) => {
@@ -98,18 +95,6 @@ export function StreamerConfig({defaultValues}: StreamerConfigProps) {
     name: "onStreamingFinished"
   })
 
-  function toastData(data: CommandActionSchema | RcloneActionSchema) {
-    toast(
-        {
-          title: "You updated the following values:",
-          description: (
-              <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                                        <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-                                    </pre>
-          ),
-        }
-    )
-  }
 
   function getPlatformDownloadConfigSchema(platform: string) {
     if (platform === "huya") {
@@ -139,14 +124,7 @@ export function StreamerConfig({defaultValues}: StreamerConfigProps) {
 
       if (!parse.success) {
         console.log("parse error");
-        toast({
-          title: "Error",
-          description: (
-              <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(parse.error, null, 2)}</code>
-                </pre>
-          ),
-        })
+        toastData("Error", JSON.stringify(parse.error, null, 2), "error")
         status = false;
         return;
       }
@@ -172,29 +150,12 @@ export function StreamerConfig({defaultValues}: StreamerConfigProps) {
     try {
       // upper case platform
       data.platform = platform.toUpperCase();
-
       let submitted = data.id ? await updateStreamer(data) : await createStreamer(data);
-      toast({
-        title: "You submitted the following values:",
-        description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(submitted, null, 2)}</code>
-        </pre>
-        ),
-      })
+      toastData("You submitted the following values:", submitted, "code")
     } catch (e) {
       console.error(e)
-      toast(
-          {
-            title: "Error",
-            variant: "destructive",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-amber-950 p-4">
-            <code className="text-white">{JSON.stringify((e as Error).message, null, 2)}</code>
-            </pre>
-            ),
-          }
-      )
+      if (e instanceof Error)
+        toastData("Error", (e as Error).message, "error")
     }
   }
 
@@ -337,12 +298,12 @@ export function StreamerConfig({defaultValues}: StreamerConfigProps) {
                                         endedList={streamEndedFields} updateItem={
                       (index, data) => {
                         partedUpdate(index, data)
-                        toastData(data);
+                        toastData("You updated the following values:", data, "code")
                       }
                     } updateItemEnded={
                       (index, data) => {
                         streamEndedUpdate(index, data)
-                        toastData(data);
+                        toastData("You updated the following values:", data, "code")
                       }
                     }/>
                   </TabsContent>
