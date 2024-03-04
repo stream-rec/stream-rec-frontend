@@ -21,6 +21,7 @@ import {huyaDownloadConfig, HuyaGlobalConfig} from "@/app/lib/data/platform/huya
 import {douyinDownloadConfig} from "@/app/lib/data/platform/douyin/definitions";
 import {combinedRegex} from "@/app/lib/data/platform/definitions";
 import {CommandActionSchema, RcloneActionSchema} from "@/app/lib/data/actions/definitions";
+import {createStreamer} from "@/app/lib/data/streams/api";
 
 
 type StreamerConfigProps = {
@@ -63,7 +64,12 @@ export function StreamerConfig({defaultValues = defaultStreamerValues}: Streamer
     name: "onPartedDownload",
   })
 
-  const {fields: streamEndedFields, append: streamEndedAppend, remove: streamEndedRemove, update: streamEndedUpdate} = useFieldArray({
+  const {
+    fields: streamEndedFields,
+    append: streamEndedAppend,
+    remove: streamEndedRemove,
+    update: streamEndedUpdate
+  } = useFieldArray({
     control: baseDownloadForm.control,
     name: "onStreamingFinished"
   })
@@ -139,14 +145,30 @@ export function StreamerConfig({defaultValues = defaultStreamerValues}: Streamer
       return;
     }
 
-    toast({
-      title: "You submitted the following values:",
-      description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+    try {
+      let submitted = await createStreamer(data)
+      toast({
+        title: "You submitted the following values:",
+        description: (
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(submitted, null, 2)}</code>
         </pre>
-      ),
-    })
+        ),
+      })
+    } catch (e) {
+      console.error(e)
+      toast(
+          {
+            title: "Error",
+            variant: "destructive",
+            description: (
+                <pre className="mt-2 w-[340px] rounded-md bg-amber-950 p-4">
+            <code className="text-white">{JSON.stringify(e, null, 2)}</code>
+            </pre>
+            ),
+          }
+      )
+    }
   }
 
   const [platform, setPlatform] = React.useState(defaultValues.platform || "invalid")
@@ -252,9 +274,11 @@ export function StreamerConfig({defaultValues = defaultStreamerValues}: Streamer
 
               <Tabs defaultValue="platform">
                 <TabsList className="grid w-full h-auto grid-cols-1 ml-auto md:grid-cols-3">
-                  <TabsTrigger value="platform" className="text-zinc-600 dark:text-zinc-200">Platform specific</TabsTrigger>
+                  <TabsTrigger value="platform" className="text-zinc-600 dark:text-zinc-200">Platform
+                    specific</TabsTrigger>
                   <TabsTrigger value="default" className="text-zinc-600 dark:text-zinc-200">Default config</TabsTrigger>
-                  <TabsTrigger value="actions" className="text-zinc-600 dark:text-zinc-200">Actions callbacks</TabsTrigger>
+                  <TabsTrigger value="actions" className="text-zinc-600 dark:text-zinc-200">Actions
+                    callbacks</TabsTrigger>
                 </TabsList>
 
                 <div>
@@ -276,8 +300,10 @@ export function StreamerConfig({defaultValues = defaultStreamerValues}: Streamer
                     </Form>
                   </TabsContent>
                   <TabsContent value="actions">
-                    <ActionsCallbackTab addItem={partedAppend} addItemEnded={streamEndedAppend} deleteItem={partedRemove}
-                                        deleteItemEnded={streamEndedRemove} list={partedFields} endedList={streamEndedFields} updateItem={
+                    <ActionsCallbackTab addItem={partedAppend} addItemEnded={streamEndedAppend}
+                                        deleteItem={partedRemove}
+                                        deleteItemEnded={streamEndedRemove} list={partedFields}
+                                        endedList={streamEndedFields} updateItem={
                       (index, data) => {
                         partedUpdate(index, data)
                         toastData(data);
