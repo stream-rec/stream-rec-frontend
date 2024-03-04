@@ -6,9 +6,11 @@ import {cn} from "@/lib/utils";
 import {clsx} from "clsx";
 import {Badge} from "@/components/new-york/ui/badge";
 import {Button} from "@/components/new-york/ui/button";
-import {DeleteIcon, SettingsIcon, Trash2Icon} from "lucide-react";
+import {SettingsIcon} from "lucide-react";
 import {Separator} from "@/components/new-york/ui/separator";
 import Link from "next/link";
+import {StreamerDeleteDialog} from "@/app/dashboard/streamers/components/actions/streamer-delete-dialog";
+import {deleteStreamer} from "@/app/lib/data/streams/api";
 
 type StreamerCardProps = {
   streamer: string;
@@ -62,10 +64,16 @@ export default function StreamerCard({
           <Card className={"mx-auto"}>
             <div className={"flex flex-row items-center mr-2 justify-end space-x-0.5 md:space-x-1"}>
               <Link href={`/dashboard/streamers/${streamerId}/edit`}>
-                <Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><SettingsIcon className={"w-4 h-4"}/></Button>
+                <Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><SettingsIcon
+                    className={"w-4 h-4"}/></Button>
               </Link>
               <Separator orientation={"vertical"} className={"h-4"}/>
-              <Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><Trash2Icon className={"w-4 h-4"}/></Button>
+              <StreamerDeleteDialog onConfirm={
+                async () => {
+                  console.log("deleting streamer")
+                  await deleteStreamer(streamerId!!)
+                }
+              }/>
             </div>
             <CardHeader className={"pt-0 pb-3 lg:pb-6"}>
               <div className={"space-y-4 md:flex md:flex-row md:space-x-2.5 items-center md:space-y-0"}>
@@ -76,9 +84,11 @@ export default function StreamerCard({
 
                 <div className={"flex flex-col mt-0 space-y-1"}>
                   <div className={"flex flex-row items-center space-x-2.5 gap-x-1"}>
-                    <CardTitle className={clsx(cn("2xl:text-sm"), {"md:self-center": description})}>{streamer}</CardTitle>
+                    <CardTitle
+                        className={clsx(cn("2xl:text-sm"), {"md:self-center": description})}>{streamer}</CardTitle>
                   </div>
-                  {description && <p className="text-[0.75rem] md:text-sm text-muted-foreground line-clamp-1">{description}</p>}
+                  {description &&
+                      <p className="text-[0.75rem] md:text-sm text-muted-foreground line-clamp-1">{description}</p>}
                 </div>
               </div>
             </CardHeader>
