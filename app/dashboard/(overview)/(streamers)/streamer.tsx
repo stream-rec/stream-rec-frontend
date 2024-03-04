@@ -1,3 +1,4 @@
+'use client'
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/new-york/ui/card";
 import React from "react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/new-york/ui/avatar";

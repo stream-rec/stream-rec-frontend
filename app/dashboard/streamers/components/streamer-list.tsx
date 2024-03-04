@@ -16,7 +16,7 @@ export async function StreamerList() {
                 <StreamerCard key={streamer.url} streamer={streamer.name} streamerId={streamer.id}
                               streamerAvatar={streamer.avatar}
                               isLive={streamer.isLive}
-                              isActivated={streamer.isActivated} platform={streamer.platform ?? "unknown"}
+                              isActivated={streamer.isActivated} platform={streamer.platform?.toLowerCase() ?? "unknown"}
                               lastStream={streamer.lastStream}
                               description={streamer.description}
                 />
