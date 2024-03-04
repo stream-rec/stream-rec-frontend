@@ -1,15 +1,20 @@
+import {z} from "zod";
 
-export type SummaryStats = {
-  totalRecords: number;
-  previousTotalRecords: number;
-  totalUploads: number;
-  previousTotalUploads: number;
-  stats: Stats[];
-}
+export const statsSchema = z.object({
+  timeStamp: z.number(),
+  streams: z.number(),
+  uploads: z.number(),
+  failedUploads: z.number()
+})
 
+export const summarySchema = z.object({
+  totalRecords: z.number(),
+  previousRecords: z.number(),
+  totalUploads: z.number(),
+  previousUploads: z.number(),
+  stats: z.array(statsSchema).optional(),
+})
 
-export type Stats = {
-  date: number;
-  streams: number;
-  uploads: number;
-}
+export type SummaryStats = z.infer<typeof summarySchema>
+
+export type Stats = z.infer<typeof statsSchema>

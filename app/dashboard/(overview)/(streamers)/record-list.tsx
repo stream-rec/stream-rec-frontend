@@ -15,7 +15,6 @@ export function RecordList({streamers, title}: RecordListProps) {
 
   const [isOpen, setIsOpen] = React.useState(true)
 
-
   return (
       <Collapsible open={isOpen} onOpenChange={setIsOpen} className={"space-y-2"}>
         <div className="flex items-center space-x-4 justify-between">
@@ -35,25 +34,24 @@ export function RecordList({streamers, title}: RecordListProps) {
 
         <CollapsibleContent className="space-y-4">
           <div className={"grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 xl:gap-4"}>
-              {
-                streamers.map(streamer => (
-                    <StreamerCard
-                        key={streamer.name}
-                        streamer={streamer.name}
-                        isActivated={streamer.isActivated}
-                        streamerId={streamer.id}
-                        isLive={streamer.isLive}
-                        streamerAvatar={streamer.avatar}
-                        lastStream={streamer.lastStream}
-                        description={streamer.description}
-                        platform={streamer.platform!!}
-                    />
-                ))
-              }
+            {
+              streamers.map(streamer => (
+                  <StreamerCard
+                      key={streamer.name}
+                      streamer={streamer.name}
+                      isActivated={streamer.isActivated}
+                      streamerId={streamer.id}
+                      isLive={streamer.isLive}
+                      streamerAvatar={streamer.avatar}
+                      lastStream={streamer.lastStream}
+                      description={streamer.description}
+                      platform={streamer.platform!!.toLowerCase()}
+                  />
+              ))
+            }
           </div>
 
         </CollapsibleContent>
-
       </Collapsible>
   )
 

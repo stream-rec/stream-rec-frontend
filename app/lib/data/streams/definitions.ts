@@ -1,22 +1,10 @@
 import {z} from "zod";
 import {combinedRegex} from "@/app/lib/data/platform/definitions";
 import {commandActionSchema, rcloneActionSchema} from "@/app/lib/data/actions/definitions";
-
-
-export type StreamData = {
-  id: number;
-  title: string;
-  dateStart: number;
-  dateEnd: number;
-  outputFilePath: string;
-  danmuFilePath: string | undefined | null;
-  streamerId: number;
-  streamerName: string;
-  status: boolean;
-}
+import {huyaDownloadConfig} from "@/app/lib/data/platform/huya/definitions";
+import {douyinDownloadConfig} from "@/app/lib/data/platform/douyin/definitions";
 
 export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv"] as const;
-
 
 export const baseDownloadConfig = z.object({
   type: z.string().nullish(),
@@ -31,6 +19,18 @@ export const baseDownloadConfig = z.object({
   onStreamingFinished: rcloneActionSchema.or(commandActionSchema).array().nullish(),
 })
 export type DownloadConfig = z.infer<typeof baseDownloadConfig>
+
+export type StreamData = {
+  id: number;
+  title: string;
+  dateStart: number;
+  dateEnd: number;
+  outputFilePath: string;
+  danmuFilePath: string | undefined | null;
+  streamerId: number;
+  streamerName: string;
+  status: boolean;
+}
 
 
 export const streamerSchema = z.object({

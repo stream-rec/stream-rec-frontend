@@ -7,7 +7,7 @@ import {Card, CardContent, CardHeader, CardTitle,} from "@/components/new-york/u
 import {useConfig} from "@/app/hooks/use-config";
 import {themes} from "@/components/theme/themes";
 import React from "react";
-import {differenceInDays, isSameWeek, isSameYear} from "date-fns";
+import {differenceInDays, isSameYear} from "date-fns";
 import {SummaryStats} from "@/app/lib/data/stats/definitions";
 
 
@@ -58,6 +58,9 @@ export function CardsStats(
     if (total) {
       return total
     }
+    if (data.stats === undefined) {
+      return 0
+    }
     // get the last value from the data
     const last = data.stats[data.stats.length - 1]
     if (last === undefined) {
@@ -71,8 +74,18 @@ export function CardsStats(
 
 
   const getPercentageString = () => {
-    let previousTimeStamps = data.stats[0].date ?? 0
-    let currentTimeStamps = data.stats[data.stats.length - 1].date ?? previousTimeStamps ?? 0
+    if (data.stats === undefined || data.stats.length === 0) {
+      return ""
+    }
+
+    let previousTimeStamps = data.stats[0].timeStamp ?? 0
+    let currentTimeStamps;
+    if (data.stats.length > 1) {
+      currentTimeStamps = data.stats[1].timeStamp ?? 0
+    } else {
+      currentTimeStamps = data.stats[0].timeStamp ?? 0
+    }
+
     let previousDate = new Date(previousTimeStamps)
     let currentDate = new Date(currentTimeStamps)
 
@@ -89,8 +102,8 @@ export function CardsStats(
   }
 
 
-  const firstCardPercentageInfo = () => getPercentageInfo(getTotalOrLast(data.totalRecords, "records"), getTotalOrLast(data.previousTotalRecords, "records"), getPercentageString());
-  const secondCardPercentageInfo = () => getPercentageInfo(getTotalOrLast(data.totalUploads, "uploads"), getTotalOrLast(data.previousTotalUploads, "uploads"), getPercentageString());
+  const firstCardPercentageInfo = () => getPercentageInfo(getTotalOrLast(data.totalRecords, "records"), getTotalOrLast(data.previousRecords, "records"), getPercentageString());
+  const secondCardPercentageInfo = () => getPercentageInfo(getTotalOrLast(data.totalUploads, "uploads"), getTotalOrLast(data.previousUploads, "uploads"), getPercentageString());
 
 
   const format = (date: number) => {
