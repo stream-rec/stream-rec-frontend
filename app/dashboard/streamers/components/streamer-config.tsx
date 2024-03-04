@@ -21,6 +21,7 @@ import {douyinDownloadConfig} from "@/app/lib/data/platform/douyin/definitions";
 import {combinedRegex} from "@/app/lib/data/platform/definitions";
 import {createStreamer, updateStreamer} from "@/app/lib/data/streams/api";
 import {toastData} from "@/app/utils/toast";
+import {useRouter} from "next/navigation";
 
 
 type StreamerConfigProps = {
@@ -28,6 +29,8 @@ type StreamerConfigProps = {
 }
 
 export function StreamerConfig({defaultValues}: StreamerConfigProps) {
+
+  const router = useRouter();
 
   const form = useForm<StreamerSchema>({
     resolver: async (data, context, options) => {
@@ -152,6 +155,9 @@ export function StreamerConfig({defaultValues}: StreamerConfigProps) {
       data.platform = platform.toUpperCase();
       let submitted = data.id ? await updateStreamer(data) : await createStreamer(data);
       toastData("You submitted the following values:", submitted, "code")
+      if (submitted.id) {
+        router.push(`/dashboard/streamers/`)
+      }
     } catch (e) {
       console.error(e)
       if (e instanceof Error)
