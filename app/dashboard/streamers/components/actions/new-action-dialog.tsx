@@ -203,7 +203,7 @@ export function NewActionDialog({openIcon, defaultValues = defaultAction, onSave
                   type === "rclone" && (
                       <FormField
                           control={form.control}
-                          name="remote"
+                          name="remotePath"
                           render={({field}) => (
                               <FormItem>
                                 <FormLabel>Remote path</FormLabel>

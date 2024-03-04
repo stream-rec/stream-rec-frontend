@@ -1,6 +1,5 @@
 import {NewActionDialog} from "@/app/dashboard/streamers/components/actions/new-action-dialog";
 import React from "react";
-import {toast} from "@/components/new-york/ui/use-toast";
 import {ActionCard} from "@/app/dashboard/streamers/components/actions/action-card";
 import {ActionSchema} from "@/app/lib/data/actions/definitions";
 import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/alert";
@@ -51,14 +50,14 @@ export function ActionsCallbackTab(
           </div>
           <NewActionDialog onSave={
             (data) => {
-              toast({
-                title: "You submitted the following values:",
-                description: (
-                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-              </pre>
-                ),
-              })
+              // toast({
+              //   title: "You submitted the following values:",
+              //   description: (
+              //       <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              //   <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+              // </pre>
+              //   ),
+              // })
               addItem(data);
             }
           }/>
@@ -88,14 +87,14 @@ export function ActionsCallbackTab(
           </div>
           <NewActionDialog onSave={
             (data) => {
-              toast({
-                title: "You submitted the following values:",
-                description: (
-                    <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-              </pre>
-                ),
-              })
+              // toast({
+              //   title: "You submitted the following values:",
+              //   description: (
+              //       <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              //   <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+              // </pre>
+              //   ),
+              // })
               addItemEnded(data);
             }
           }/>

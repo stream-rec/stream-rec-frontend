@@ -1,8 +1,6 @@
 import {z} from "zod";
 import {combinedRegex} from "@/app/lib/data/platform/definitions";
-import {commandActionSchema, rcloneActionSchema} from "@/app/lib/data/actions/definitions";
-import {huyaDownloadConfig} from "@/app/lib/data/platform/huya/definitions";
-import {douyinDownloadConfig} from "@/app/lib/data/platform/douyin/definitions";
+import {baseActionSchema, commandActionSchema, rcloneActionSchema} from "@/app/lib/data/actions/definitions";
 
 export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv"] as const;
 
@@ -13,7 +11,7 @@ export const baseDownloadConfig = z.object({
   maxBitrate: z.number().min(1000).nullish(),
   outputFolder: z.string().nullish(),
   outputFileName: z.string().nullish(),
-  videoFormat: z.enum(videoFormats).nullish(),
+  outputFileExtension: z.enum(videoFormats).nullish(),
   partedDownloadRetry: z.number().min(0).nullish(),
   onPartedDownload: rcloneActionSchema.or(commandActionSchema).array().nullish(),
   onStreamingFinished: rcloneActionSchema.or(commandActionSchema).array().nullish(),

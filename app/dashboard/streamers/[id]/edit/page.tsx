@@ -1,28 +1,13 @@
 import {StreamerConfig} from "@/app/dashboard/streamers/components/streamer-config";
-import {StreamerSchema} from "@/app/lib/data/streams/definitions";
+import {fetchStreamer} from "@/app/lib/data/streams/api";
 
 export default async function Page({params}: { params: { id: string } }) {
 
   const {id} = params
 
-  const streamer = async () => {
-    return {
-      id: 1,
-      name: "test",
-      url: "https://www.huya.com/123",
-      avatar: "https://www.huya.com/123.jpg",
-      description: "test",
-      platform: "huya",
-      isActivated: true
-    } as StreamerSchema
-  }
+  const streamer = await fetchStreamer(id)
 
   return (
-      <div>
-
-        <StreamerConfig defaultValues={await streamer()}>
-
-        </StreamerConfig>
-      </div>
+      <StreamerConfig defaultValues={streamer}/>
   )
 }

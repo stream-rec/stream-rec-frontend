@@ -7,7 +7,6 @@ export enum ActionType {
 
 
 export const baseActionSchema = z.object({
-  id: z.string().nullish(),
   enabled: z.boolean(),
   type: z.nativeEnum(ActionType),
 })
@@ -32,7 +31,7 @@ export const rcloneActionSchema = baseActionSchema.extend({
       }
   ),
   rcloneOperation: z.string().min(3),
-  remote: z.string().min(1),
+  remotePath: z.string().min(1),
   args: z.string().array().nullish(),
 })
 

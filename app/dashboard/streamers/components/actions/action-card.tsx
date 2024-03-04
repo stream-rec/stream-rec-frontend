@@ -44,11 +44,10 @@ export function ActionCard({data, onCheckedChange, onEdit, onDelete}: ActionCard
                 {data.type === ActionType.Command ? (data as CommandActionSchema).program : data.type === ActionType.Rclone ? (data as RcloneActionSchema).rcloneOperation : ""}
               </p>
               <p className="text-sm text-slate-500">
-                {data.type === ActionType.Rclone ? (data as RcloneActionSchema).remote : ""}
+                {data.type === ActionType.Rclone ? (data as RcloneActionSchema).remotePath : ""}
               </p>
-              <p className="text-sm text-slate-500">
-                {data.type === ActionType.Rclone ? (data as RcloneActionSchema).args?.join(" ") : ""}
-                {data.type === ActionType.Command ? (data as CommandActionSchema).args?.join(" ") : ""}
+              <p className="text-sm text-slate-500 max-w-35 break-words">
+                {(data as ActionSchema).args?.join(" ")}
               </p>
 
               <div className="flex flex-row items-center text-sm space-x-2">

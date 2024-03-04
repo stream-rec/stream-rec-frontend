@@ -2,8 +2,9 @@ import React, {Suspense} from "react";
 import {Button} from "@/components/new-york/ui/button";
 import {PlusCircledIcon} from "@radix-ui/react-icons";
 import Link from "next/link";
-import {StreamerList} from "@/app/dashboard/streamers/components/streamer-list";
+
 import StreamerListSkeleton from "@/app/dashboard/streamers/components/streamer-skeleton";
+import StreamerList from "@/app/dashboard/streamers/components/streamer-list";
 
 export default function Page() {
   return <div className="flex-1 flex-col space-y-8 p-8 md:flex">

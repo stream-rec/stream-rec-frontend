@@ -3,7 +3,9 @@ import {baseDownloadConfig} from "@/app/lib/data/streams/definitions";
 
 export const huyaCDNs = ["AL", "TX", "HW", "WS", "HS", "AL13", "HW16", "HY"] as const;
 
-const huyaRegex = "(?:https?://)?(?:(?:www|m)\\.)?huya\\.com/([a-zA-Z0-9]+)"
+export const huyaRegex = "(?:https?://)?(?:(?:www|m)\\.)?huya\\.com/([a-zA-Z0-9]+)"
+export const huyaAvatarRegex = new RegExp("avatar\"\\s*:\\s*\"([^\"]+)")
+export const huyaBaseUrl = "https://www.huya.com/"
 
 export const huyaGlobalConfig = z.object({
   primaryCdn: z.enum(huyaCDNs).nullish(),

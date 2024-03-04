@@ -4,7 +4,7 @@ import {useFieldArray, useForm, UseFormReturn} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Input} from "@/components/new-york/ui/input";
-import React from "react";
+import React, {useEffect} from "react";
 import {Switch} from "@/components/new-york/ui/switch";
 import {Button} from "@/components/new-york/ui/button";
 import {HuyaTabContent} from "@/app/dashboard/settings/platform/tabs/huya-tab";
@@ -21,25 +21,26 @@ import {huyaDownloadConfig, HuyaGlobalConfig} from "@/app/lib/data/platform/huya
 import {douyinDownloadConfig} from "@/app/lib/data/platform/douyin/definitions";
 import {combinedRegex} from "@/app/lib/data/platform/definitions";
 import {CommandActionSchema, RcloneActionSchema} from "@/app/lib/data/actions/definitions";
-import {createStreamer} from "@/app/lib/data/streams/api";
+import {createStreamer, updateStreamer} from "@/app/lib/data/streams/api";
 
 
 type StreamerConfigProps = {
   defaultValues?: StreamerSchema
 }
 
-const defaultStreamerValues: StreamerSchema = {
-  name: "",
-  url: "",
-  isActivated: true
-}
-
-export function StreamerConfig({defaultValues = defaultStreamerValues}: StreamerConfigProps) {
+export function StreamerConfig({defaultValues}: StreamerConfigProps) {
 
   const {toast} = useToast()
 
   const form = useForm<StreamerSchema>({
-    resolver: zodResolver(streamerSchema),
+    resolver: async (data, context, options) => {
+      console.log("formData", data)
+      console.log(
+          "validation result",
+          await zodResolver(streamerSchema)(data, context, options)
+      )
+      return zodResolver(streamerSchema)(data, context, options)
+    },
     defaultValues: defaultValues,
     mode: "onChange"
   });
@@ -59,10 +60,33 @@ export function StreamerConfig({defaultValues = defaultStreamerValues}: Streamer
     mode: "onChange"
   })
 
-  const {fields: partedFields, append: partedAppend, remove: partedRemove, update: partedUpdate} = useFieldArray({
+  const {
+    fields: partedFields,
+    append: partedAppend,
+    remove: partedRemove,
+    update: partedUpdate
+  } = useFieldArray({
     control: baseDownloadForm.control,
     name: "onPartedDownload",
   })
+
+  useEffect(() => {
+    console.log("retrieving defaultValues", defaultValues)
+    if (defaultValues && defaultValues.downloadConfig?.onPartedDownload) {
+      partedRemove()
+      defaultValues.downloadConfig?.onPartedDownload.forEach(item => {
+        console.log("appending parted action", item)
+        partedAppend(item);
+      });
+    }
+    if (defaultValues && defaultValues.downloadConfig?.onStreamingFinished) {
+      streamEndedRemove()
+      defaultValues.downloadConfig?.onStreamingFinished.forEach(item => {
+        console.log("appending end action", item)
+        streamEndedAppend(item);
+      });
+    }
+  }, []);
 
   const {
     fields: streamEndedFields,
@@ -146,7 +170,10 @@ export function StreamerConfig({defaultValues = defaultStreamerValues}: Streamer
     }
 
     try {
-      let submitted = await createStreamer(data)
+      // upper case platform
+      data.platform = platform.toUpperCase();
+
+      let submitted = data.id ? await updateStreamer(data) : await createStreamer(data);
       toast({
         title: "You submitted the following values:",
         description: (
@@ -163,7 +190,7 @@ export function StreamerConfig({defaultValues = defaultStreamerValues}: Streamer
             variant: "destructive",
             description: (
                 <pre className="mt-2 w-[340px] rounded-md bg-amber-950 p-4">
-            <code className="text-white">{JSON.stringify(e, null, 2)}</code>
+            <code className="text-white">{JSON.stringify((e as Error).message, null, 2)}</code>
             </pre>
             ),
           }
@@ -171,7 +198,7 @@ export function StreamerConfig({defaultValues = defaultStreamerValues}: Streamer
     }
   }
 
-  const [platform, setPlatform] = React.useState(defaultValues.platform || "invalid")
+  const [platform, setPlatform] = React.useState(defaultValues?.platform?.toLowerCase() || "invalid")
 
 
   const trySetPlatform = (e: string) => {
@@ -218,8 +245,12 @@ export function StreamerConfig({defaultValues = defaultStreamerValues}: Streamer
                       <FormControl>
                         <Input value={field.value} onChange={
                           (e) => {
-                            trySetPlatform(e.target.value)
-                            field.onChange(e)
+                            let value = e.target.value;
+                            if (value !== platform) {
+                              console.log("setting platform", value)
+                              trySetPlatform(value)
+                              field.onChange(e)
+                            }
                           }
                         }/>
                       </FormControl>

@@ -12,6 +12,8 @@ import {Separator} from "@/components/new-york/ui/separator";
 import Link from "next/link";
 import {StreamerDeleteDialog} from "@/app/dashboard/streamers/components/actions/streamer-delete-dialog";
 import {deleteStreamer} from "@/app/lib/data/streams/api";
+import {useRouter} from "next/navigation";
+import {toast} from "@/components/new-york/ui/use-toast";
 
 type StreamerCardProps = {
   streamer: string;
@@ -22,6 +24,7 @@ type StreamerCardProps = {
   isActivated: boolean;
   lastStream?: number | null;
   platform: string;
+  onStreamerDelete?: () => void;
 }
 export default function StreamerCard({
                                        streamer,
@@ -32,7 +35,11 @@ export default function StreamerCard({
                                        isActivated,
                                        lastStream,
                                        platform,
+                                       onStreamerDelete
                                      }: StreamerCardProps) {
+
+  const router = useRouter()
+
 
   const getLastStreamInfo = () => {
     if (isLive) {
@@ -72,7 +79,22 @@ export default function StreamerCard({
               <StreamerDeleteDialog onConfirm={
                 async () => {
                   console.log("deleting streamer")
-                  await deleteStreamer(streamerId!!)
+                  try {
+                    await deleteStreamer(streamerId!!)
+                    toast({
+                      title: "Streamer deleted",
+                      description: `Streamer ${streamer} has been deleted`,
+                      variant: "default"
+                    })
+                    onStreamerDelete?.()
+                  } catch (e) {
+                    console.error(e)
+                    toast({
+                      title: "Error",
+                      description: `An error occurred while deleting streamer ${streamer}, error: ${(e as Error).message}`,
+                      variant: "destructive"
+                    })
+                  }
                 }
               }/>
             </div>

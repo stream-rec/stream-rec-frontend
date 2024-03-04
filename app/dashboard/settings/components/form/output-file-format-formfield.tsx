@@ -10,7 +10,7 @@ type OutputFileFormatFormfieldProps = {
 export function OutputFileFormatFormfield({control}: OutputFileFormatFormfieldProps) {
   return <FormField
       control={control}
-      name="videoFormat"
+      name="outputFileExtension"
       render={({field}) => (
           <FormItem>
             <FormLabel>Output video extension</FormLabel>

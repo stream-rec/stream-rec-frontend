@@ -5,6 +5,7 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/
 import {Button} from "@/components/new-york/ui/button";
 import {CaretSortIcon} from "@radix-ui/react-icons";
 import {StreamerSchema} from "@/app/lib/data/streams/definitions";
+import {useRouter} from "next/navigation";
 
 type RecordListProps = {
   title: string,
@@ -14,6 +15,8 @@ type RecordListProps = {
 export function RecordList({streamers, title}: RecordListProps) {
 
   const [isOpen, setIsOpen] = React.useState(true)
+
+  const router = useRouter()
 
   return (
       <Collapsible open={isOpen} onOpenChange={setIsOpen} className={"space-y-2"}>
@@ -46,6 +49,10 @@ export function RecordList({streamers, title}: RecordListProps) {
                       lastStream={streamer.lastStream}
                       description={streamer.description}
                       platform={streamer.platform!!.toLowerCase()}
+                      onStreamerDelete={() => {
+                        router.refresh()
+                        }
+                      }
                   />
               ))
             }
