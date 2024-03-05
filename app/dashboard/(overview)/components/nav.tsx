@@ -25,15 +25,17 @@ export function Nav({links, isCollapsed}: NavProps) {
 
   const pathname = usePathname();
 
-  function computeVariant(link: string) {
-    if (pathname.startsWith("/dashboard/settings") && link === "/dashboard/settings") {
-      return "default"
+  const isCurrentLink = (link: string) => {
+    if (pathname.startsWith("/dashboard/settings") && link === "/dashboard/settings" || pathname.startsWith("/dashboard/streamers") && link === "/dashboard/streamers") {
+      return true
     }
-    if (pathname.startsWith("/dashboard/streamers") && link === "/dashboard/streamers") {
-      return "default"
-    }
-    return pathname === link ? "default" : "ghost"
-  }
+    return pathname === link
+  };
+
+  const computeVariant = (link: string) => {
+    if (isCurrentLink(link)) return "default"
+    return "ghost"
+  };
 
   return (
       <div
@@ -54,7 +56,7 @@ export function Nav({links, isCollapsed}: NavProps) {
                                   "h-9 w-9",
                               ),
                               {
-                                "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white": pathname === link.href,
+                                "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white": isCurrentLink(link.href)
                               }
                           )}
                       >
@@ -81,7 +83,7 @@ export function Nav({links, isCollapsed}: NavProps) {
                               "justify-start"
                           ),
                           {
-                            "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white": pathname === link.href,
+                            "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white": isCurrentLink(link.href),
                           }
                       )}
                   >
@@ -93,7 +95,7 @@ export function Nav({links, isCollapsed}: NavProps) {
                                 cn(
                                     "ml-auto",
                                 ),
-                                {"text-background dark:text-white": pathname === link.href}
+                                {"text-background dark:text-white": isCurrentLink(link.href)}
                             )}
                         >
                   {link.label}
