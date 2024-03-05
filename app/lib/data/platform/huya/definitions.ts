@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {baseDownloadConfig} from "@/app/lib/data/streams/definitions";
+import {baseDownloadConfig} from "@/app/lib/data/streamer/definitions";
 
 export const huyaCDNs = ["AL", "TX", "HW", "WS", "HS", "AL13", "HW16", "HY"] as const;
 

@@ -4,7 +4,7 @@ import React from "react";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/new-york/ui/collapsible";
 import {Button} from "@/components/new-york/ui/button";
 import {CaretSortIcon} from "@radix-ui/react-icons";
-import {StreamerSchema} from "@/app/lib/data/streams/definitions";
+import {StreamerSchema} from "@/app/lib/data/streamer/definitions";
 import {useRouter} from "next/navigation";
 
 type RecordListProps = {

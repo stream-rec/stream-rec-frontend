@@ -1,7 +1,7 @@
 import {Control} from "react-hook-form";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
-import {videoFormats} from "@/app/lib/data/streams/definitions";
+import {videoFormats} from "@/app/lib/data/streamer/definitions";
 
 type OutputFileFormatFormfieldProps = {
   control: Control<any>;

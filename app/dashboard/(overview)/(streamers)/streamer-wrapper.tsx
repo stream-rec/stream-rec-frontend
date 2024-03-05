@@ -1,6 +1,6 @@
 import {RecordList} from "@/app/dashboard/(overview)/(streamers)/record-list";
 import React from "react";
-import {fetchStreamers} from "@/app/lib/data/streams/api";
+import {fetchStreamers} from "@/app/lib/data/streamer/api";
 
 export default async function StreamerWrapper() {
 

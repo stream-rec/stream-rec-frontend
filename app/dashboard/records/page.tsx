@@ -1,7 +1,4 @@
-import {placeholderStreamData} from "@/app/lib/data/placeholder-data";
-import {recordColumns} from "@/app/dashboard/records/components/records-table-columns";
-import {RecordsDataTableToolbar} from "@/app/dashboard/records/components/records-data-table-toolbar";
-import {DataTable} from "@/app/components/table/data-table";
+import RecordTableWrapper from "@/app/dashboard/records/record-colum-wrapper";
 
 export default function RecordsPage() {
   return (<>
@@ -14,7 +11,7 @@ export default function RecordsPage() {
               </p>
             </div>
           </div>
-          <DataTable columns={recordColumns} data={placeholderStreamData} toolbar={RecordsDataTableToolbar}/>
+          <RecordTableWrapper/>
         </div>
       </>
   )

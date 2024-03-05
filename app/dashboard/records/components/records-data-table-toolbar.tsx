@@ -43,13 +43,6 @@ export function RecordsDataTableToolbar<TData>({
                   options={getTableStreamerFacets() ?? []}
               />
           )}
-          {table.getColumn("status") && (
-              <DataTableFacetedFilter
-                  column={table.getColumn("status")}
-                  title="Status"
-                  options={dataStatues}
-              />
-          )}
           {isFiltered && (
               <Button
                   variant="ghost"

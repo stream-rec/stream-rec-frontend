@@ -2,24 +2,10 @@
 
 import {ColumnDef} from "@tanstack/react-table"
 import {format} from 'date-fns';
-import {MoreHorizontal} from "lucide-react"
-
-import {Button} from "@/components/new-york/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/new-york/ui/dropdown-menu"
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
-import {Badge} from "@/components/new-york/ui/badge";
 import {DataTableToolbarColumnProps} from "@/app/components/table/toolbar";
-import {dataStatues} from "@/app/lib/data/uploads/definitions";
-import {StreamData} from "@/app/lib/data/streams/definitions";
-import Link from "next/link";
+import {StreamData} from "@/app/lib/data/streamer/definitions";
+import {RecordTableActionColumn} from "@/app/dashboard/records/components/records-action-colum";
 
 
 export const recordColumnProps: DataTableToolbarColumnProps[] = [
@@ -50,10 +36,6 @@ export const recordColumnProps: DataTableToolbarColumnProps[] = [
   {
     accessorKey: "dateEnd",
     uiName: "Stream End Time",
-  },
-  {
-    accessorKey: "status",
-    uiName: "Upload status",
   },
 ]
 
@@ -158,76 +140,11 @@ export const recordColumns: ColumnDef<StreamData>[] = [
         return format(date, 'MM/dd/yyyy hh:mm:ss');
     }
   },
-
-  {
-    accessorKey: accessorKeyByIndex(7),
-    header: ({column}) => (
-        <DataTableColumnHeader column={column} title={uiNameByIndex(7)}/>
-    ),
-    cell: (cell) => {
-      const statusBool = cell.getValue()
-      let status;
-      if (statusBool) {
-        status = dataStatues[0]
-      } else {
-        status = dataStatues[1]
-      }
-
-      const variant = statusBool ? "default" : "secondary"
-      return (
-          <div className="flex items-center">
-            <Badge variant={variant} className="">
-              {status.label}
-            </Badge>
-          </div>
-      )
-    },
-    enableHiding: false,
-    enableSorting: false,
-    filterFn: (rows, id, filterValue) => {
-      if (filterValue === undefined) {
-        return rows;
-      }
-      const rowValue = rows.getValue(id)
-      let rowValueString;
-      if (rowValue === true) {
-        rowValueString = "success"
-      } else {
-        rowValueString = "failed"
-      }
-      return filterValue.includes(rowValueString);
-    }
-  },
   {
     id: "actions",
     cell: ({row}) => {
       const data = row.original
-
-      return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4"/>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>
-                <Link href={"/dashboard/streamers/" + data.streamerId + "/edit"}>
-                  View streamer details
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator/>
-              <DropdownMenuItem>Re-upload</DropdownMenuItem>
-              <DropdownMenuSeparator/>
-              <DropdownMenuItem>
-                Delete
-                <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-      )
+      return <RecordTableActionColumn data={data}/>
     },
   },
 ]

@@ -1,5 +1,5 @@
 import {StreamerConfig} from "@/app/dashboard/streamers/components/streamer-config";
-import {StreamerSchema} from "@/app/lib/data/streams/definitions";
+import {StreamerSchema} from "@/app/lib/data/streamer/definitions";
 
 
 const defaultStreamerValues: StreamerSchema = {

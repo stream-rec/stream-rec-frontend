@@ -1,5 +1,5 @@
 import {StreamerConfig} from "@/app/dashboard/streamers/components/streamer-config";
-import {fetchStreamer} from "@/app/lib/data/streams/api";
+import {fetchStreamer} from "@/app/lib/data/streamer/api";
 
 export default async function Page({params}: { params: { id: string } }) {
 
