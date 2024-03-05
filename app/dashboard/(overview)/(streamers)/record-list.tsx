@@ -47,7 +47,7 @@ export function RecordList({streamers, title}: RecordListProps) {
                       isLive={streamer.isLive}
                       streamerAvatar={streamer.avatar}
                       lastStream={streamer.lastStream}
-                      description={streamer.description}
+                      description={streamer.streamTitle}
                       platform={streamer.platform!!.toLowerCase()}
                       onStreamerDelete={() => {
                         router.refresh()

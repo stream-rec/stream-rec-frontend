@@ -16,8 +16,8 @@ import {ActionsCallbackTab} from "@/app/dashboard/streamers/components/actions/a
 import {RocketIcon} from "@radix-ui/react-icons";
 import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/alert";
 import {baseDownloadConfig, DownloadConfig, streamerSchema, StreamerSchema} from "@/app/lib/data/streams/definitions";
-import {huyaDownloadConfig, HuyaGlobalConfig} from "@/app/lib/data/platform/huya/definitions";
-import {douyinDownloadConfig} from "@/app/lib/data/platform/douyin/definitions";
+import {HuyaDownloadConfig, huyaDownloadConfig, HuyaGlobalConfig} from "@/app/lib/data/platform/huya/definitions";
+import {douyinDownloadConfig, DouyinGlobalConfig} from "@/app/lib/data/platform/douyin/definitions";
 import {combinedRegex} from "@/app/lib/data/platform/definitions";
 import {createStreamer, updateStreamer} from "@/app/lib/data/streams/api";
 import {toastData} from "@/app/utils/toast";
@@ -26,9 +26,10 @@ import {useRouter} from "next/navigation";
 
 type StreamerConfigProps = {
   defaultValues?: StreamerSchema
+  onSubmit?: (data: StreamerSchema) => void
 }
 
-export function StreamerConfig({defaultValues}: StreamerConfigProps) {
+export function StreamerConfig({defaultValues, onSubmit}: StreamerConfigProps) {
 
   const router = useRouter();
 
@@ -47,16 +48,19 @@ export function StreamerConfig({defaultValues}: StreamerConfigProps) {
 
   const huyaForm = useForm<HuyaGlobalConfig>({
     resolver: zodResolver(huyaDownloadConfig),
+    defaultValues: defaultValues?.downloadConfig as HuyaDownloadConfig,
     mode: "onChange"
   })
 
   const douyinForm = useForm<DownloadConfig>({
     resolver: zodResolver(douyinDownloadConfig),
+    defaultValues: defaultValues?.downloadConfig as DouyinGlobalConfig,
     mode: "onChange"
   })
 
   const baseDownloadForm = useForm<DownloadConfig>({
     resolver: zodResolver(baseDownloadConfig),
+    defaultValues: defaultValues?.downloadConfig as DownloadConfig,
     mode: "onChange"
   })
 
@@ -115,18 +119,19 @@ export function StreamerConfig({defaultValues}: StreamerConfigProps) {
       "type": platform,
     };
 
-    downloadConfig = {...downloadConfig, ...baseDownloadForm.getValues()};
+    const baseFormValues = await baseDownloadForm.handleSubmit((baseData) => {
+      downloadConfig = {...downloadConfig, ...baseData};
+    })();
 
     let status: boolean = false;
 
     await platformForm.handleSubmit((platformData) => {
       console.log("platformData", platformData)
-      let all = {...downloadConfig, ...platformData};
+      let all = {...platformData, ...downloadConfig};
       console.log("all", all)
       let parse = getPlatformDownloadConfigSchema(platform).safeParse(all);
 
       if (!parse.success) {
-        console.log("parse error");
         toastData("Error", JSON.stringify(parse.error, null, 2), "error")
         status = false;
         return;
@@ -137,7 +142,7 @@ export function StreamerConfig({defaultValues}: StreamerConfigProps) {
     return status;
   }
 
-  async function onSubmit(data: StreamerSchema) {
+  async function onSubmitData(data: StreamerSchema) {
     let status = false;
     if (platform === "huya") {
       status = await handlePlatformConfig(data, huyaForm, baseDownloadForm, platform);
@@ -153,10 +158,13 @@ export function StreamerConfig({defaultValues}: StreamerConfigProps) {
     try {
       // upper case platform
       data.platform = platform.toUpperCase();
+      let isCreated = !data.id;
       let submitted = data.id ? await updateStreamer(data) : await createStreamer(data);
       toastData("You submitted the following values:", submitted, "code")
-      if (submitted.id) {
-        router.push(`/dashboard/streamers/`)
+      onSubmit?.(submitted)
+      router.refresh()
+      if (isCreated) {
+        router.push(`/dashboard/streamers`)
       }
     } catch (e) {
       console.error(e)
@@ -165,7 +173,7 @@ export function StreamerConfig({defaultValues}: StreamerConfigProps) {
     }
   }
 
-  const [platform, setPlatform] = React.useState(defaultValues?.platform?.toLowerCase() || "invalid")
+  const [platform, setPlatform] = React.useState(defaultValues?.platform || "invalid")
 
 
   const trySetPlatform = (e: string) => {
@@ -185,7 +193,7 @@ export function StreamerConfig({defaultValues}: StreamerConfigProps) {
   return (
       <div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmitData)} className="space-y-4">
             <FormField
                 control={form.control}
                 name="name"

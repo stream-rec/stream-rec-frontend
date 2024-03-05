@@ -52,7 +52,7 @@ export const HuyaTabContent: React.FC<HuyaConfigProps> = ({control, showMaxBitra
           {
               showMaxBitrate && (<FormField
                   control={control}
-                  name="maxBitrate"
+                  name="maxBitRate"
                   render={({field}) => (
                       <FormItem>
                         <FormLabel>Max record bitrate</FormLabel>

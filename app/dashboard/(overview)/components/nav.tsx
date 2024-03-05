@@ -29,6 +29,9 @@ export function Nav({links, isCollapsed}: NavProps) {
     if (pathname.startsWith("/dashboard/settings") && link === "/dashboard/settings") {
       return "default"
     }
+    if (pathname.startsWith("/dashboard/streamers") && link === "/dashboard/streamers") {
+      return "default"
+    }
     return pathname === link ? "default" : "ghost"
   }
 

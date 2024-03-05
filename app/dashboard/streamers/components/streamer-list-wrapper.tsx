@@ -22,7 +22,7 @@ export async function StreamerListWrapper({streamers}: StreamersListWrapperProps
                             isLive={streamer.isLive}
                             isActivated={streamer.isActivated} platform={streamer.platform?.toLowerCase() ?? "unknown"}
                             lastStream={streamer.lastStream}
-                            description={streamer.description}
+                            description={streamer.streamTitle}
                             onStreamerDelete={() => {
                               router.refresh()
                             }}

@@ -50,7 +50,7 @@ export function BaseDownloadTab({control, showDanmu = true, showCookies = true, 
               showMaxBitrate && (
                   <FormField
                       control={control}
-                      name="maxBitrate"
+                      name="maxBitRate"
                       render={({field}) => (
                           <FormItem>
                             <FormLabel>Max record bitrate</FormLabel>

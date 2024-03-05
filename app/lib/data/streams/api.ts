@@ -1,5 +1,5 @@
 import {fetchApi} from "@/app/lib/data/api";
-import {StreamerSchema} from "@/app/lib/data/streams/definitions";
+import {streamerSchema, StreamerSchema} from "@/app/lib/data/streams/definitions";
 import {fetchAvatar, getHuyaId} from "@/app/lib/data/platform/huya/apis";
 
 export const fetchStreamers = async (filter: string) => {
@@ -19,8 +19,10 @@ export const fetchStreamer = async (id: string) => {
   if (!response.ok) {
     throw new Error("Error fetching streamer, status: " + response.status + " " + response.statusText)
   }
-  let json = await response.json()
-  return json as StreamerSchema
+  let json = await response.json() as StreamerSchema
+  // Lowercase platform
+  json.platform = json.platform?.toLowerCase()
+  return json
 }
 
 export const createStreamer = async (streamer: StreamerSchema) => {

@@ -10,7 +10,7 @@ export const huyaBaseUrl = "https://www.huya.com/"
 export const huyaGlobalConfig = z.object({
   primaryCdn: z.enum(huyaCDNs).nullish(),
   cookies: z.string().nullish(),
-  maxBitrate: z.number().min(1000).nullish(),
+  maxBitRate: z.number().min(1000).nullish(),
   partedDownloadRetry: z.number().min(0).nullish(),
 })
 export const huyaDownloadConfig = baseDownloadConfig.merge(huyaGlobalConfig)
