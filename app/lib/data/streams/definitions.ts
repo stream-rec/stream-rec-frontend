@@ -27,7 +27,6 @@ export type StreamData = {
   danmuFilePath: string | undefined | null;
   streamerId: number;
   streamerName: string;
-  status: boolean;
 }
 
 

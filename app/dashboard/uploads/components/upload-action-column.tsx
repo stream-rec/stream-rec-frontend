@@ -34,12 +34,18 @@ export function UploadActionColumn({data}: UploadActionColumnProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem>View upload details</DropdownMenuItem>
-          <DropdownMenuItem><Link href={"/dashboard/records/" + data.streamDataId}> View stream details</Link></DropdownMenuItem>
+          <DropdownMenuItem><Link href={"/dashboard/uploads/" + data.streamDataId}>View uploads details</Link></DropdownMenuItem>
+          <DropdownMenuItem><Link href={"/dashboard/records/" + data.streamDataId}>View stream details</Link></DropdownMenuItem>
           <DropdownMenuItem><Link href={"/dashboard/streamers/" + data.streamerId + "/edit"}> View streamer
             details</Link></DropdownMenuItem>
-          <DropdownMenuSeparator/>
-          <DropdownMenuItem>Re-upload</DropdownMenuItem>
+
+          {/* TODO - add re-upload functionality
+          {!data.status && <div>
+              <DropdownMenuSeparator/>
+              <DropdownMenuItem>Re-upload</DropdownMenuItem>
+          </div>
+          }
+*/}
           <DropdownMenuSeparator/>
           <DropdownMenuItem onClick={
             async () => {

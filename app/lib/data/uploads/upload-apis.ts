@@ -1,5 +1,5 @@
 import {fetchApi} from "@/app/lib/data/api";
-import {UploadData} from "@/app/lib/data/uploads/definitions";
+import {UploadData, UploadResult} from "@/app/lib/data/uploads/definitions";
 
 
 export const fetchUploads = async () => {
@@ -25,8 +25,20 @@ export const fetchUpload = async (id: string) => {
   }
   let json = await response.json() as UploadData
   json.streamStartTime = json.streamStartTime * 1000
+  console.log(json)
   return json
 }
+
+export const fetchUploadResults = async (id: string) => {
+  const response = await fetchApi(`/uploads/${id}/results`, {
+    cache: 'no-cache'
+  })
+  if (!response.ok) {
+    throw new Error("Error fetching upload results, status: " + response.status + " " + response.statusText)
+  }
+  return await response.json() as UploadResult[]
+}
+
 
 export const deleteUpload = async (id: string) => {
   const response = await fetchApi('/uploads/' + id, {

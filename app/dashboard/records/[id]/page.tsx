@@ -1,15 +1,22 @@
 import {fetchStream} from "@/app/lib/data/streams/stream-apis";
-import {StreamCard} from "@/app/dashboard/records/components/stream-card";
+import {RecordsDetails} from "@/app/dashboard/records/components/records-details";
+import {fetchUploadResults} from "@/app/lib/data/uploads/upload-apis";
 
 export default async function Page({params}: { params: { id: string } }) {
 
   const {id} = params
 
-  const stream = await fetchStream(id)
+  const streamData = fetchStream(id)
+
+  const uploadResults = fetchUploadResults(id)
+
+  const [stream, uploads] = await Promise.all([streamData, uploadResults])
+
+  const hasSuccessfulUpload = uploads.filter((result) => result.isSuccess).length > 0
 
   return (
       <>
-        <StreamCard data={stream} />
+        <RecordsDetails data={stream} isUploaded={hasSuccessfulUpload}/>
       </>
   )
 }

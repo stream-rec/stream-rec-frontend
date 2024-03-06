@@ -26,7 +26,10 @@ export function Nav({links, isCollapsed}: NavProps) {
   const pathname = usePathname();
 
   const isCurrentLink = (link: string) => {
-    if (pathname.startsWith("/dashboard/settings") && link === "/dashboard/settings" || pathname.startsWith("/dashboard/streamers") && link === "/dashboard/streamers") {
+    if (pathname.startsWith("/dashboard/settings") && link === "/dashboard/settings" ||
+        pathname.startsWith("/dashboard/streamers") && link === "/dashboard/streamers" ||
+        pathname.startsWith("/dashboard/records") && link === "/dashboard/records" ||
+        pathname.startsWith("/dashboard/uploads") && link === "/dashboard/uploads") {
       return true
     }
     return pathname === link
