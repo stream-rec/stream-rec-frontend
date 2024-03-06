@@ -8,7 +8,8 @@ export type UploadData = {
   streamStartTime: number;
   filePath: string;
   status: boolean;
-  streamDataId: string;
+  streamDataId: number;
+  streamerId: string;
 }
 
 export const dataStatues = [

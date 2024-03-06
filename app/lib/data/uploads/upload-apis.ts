@@ -10,7 +10,6 @@ export const fetchUploads = async () => {
     throw new Error("Error fetching uploads, status: " + response.status + " " + response.statusText)
   }
   let json = await response.json() as UploadData[]
-  console.log(json)
   return json.map(upload => {
     upload.streamStartTime = upload.streamStartTime * 1000
     return upload
