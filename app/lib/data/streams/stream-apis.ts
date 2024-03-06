@@ -17,6 +17,19 @@ export const fetchStreams = async () => {
   })
 }
 
+export const fetchStream = async (id: string) => {
+  const response = await fetchApi('/streams/' + id, {
+    cache: 'no-cache'
+  })
+  if (!response.ok) {
+    throw new Error("Error fetching stream, status: " + response.status + " " + response.statusText)
+  }
+  let json = await response.json() as StreamData
+  // Convert seconds to milliseconds
+  json.dateStart = json.dateStart * 1000
+  json.dateEnd = json.dateEnd * 1000
+  return json
+}
 export const deleteStream = async (id: string) => {
   const response = await fetchApi('/streams/' + id, {
     cache: 'no-cache',

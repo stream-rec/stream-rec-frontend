@@ -35,7 +35,7 @@ export function UploadActionColumn({data}: UploadActionColumnProps) {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuItem>View upload details</DropdownMenuItem>
-          <DropdownMenuItem>View stream details</DropdownMenuItem>
+          <DropdownMenuItem><Link href={"/dashboard/records/" + data.streamDataId}> View stream details</Link></DropdownMenuItem>
           <DropdownMenuItem><Link href={"/dashboard/streamers/" + data.streamerId + "/edit"}> View streamer
             details</Link></DropdownMenuItem>
           <DropdownMenuSeparator/>
