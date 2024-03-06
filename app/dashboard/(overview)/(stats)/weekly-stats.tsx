@@ -1,17 +1,17 @@
 import {CardsStats} from "@/app/dashboard/(overview)/(stats)/stats";
 import React from "react";
 import {fetchStats} from "@/app/lib/data/stats/api";
-import {endOfWeek, endOfYear, startOfWeek, startOfYear} from "date-fns";
+import {endOfWeek, startOfWeek} from "date-fns";
 
 export const WeeklyStatsCard = async () => {
-  const getStartOfYear = () => startOfWeek(new Date().getTime()).getTime();
+  const getStartOfWeek = () => startOfWeek(new Date().getTime()).getTime();
 
-  const getEndOfYear = () => endOfWeek(new Date().getTime()).getTime();
+  const getEndOfWeek = () => endOfWeek(new Date().getTime()).getTime();
 
-  const yearTotalStats = fetchStats({dateStart: getStartOfYear(), dateEnd: getEndOfYear()})
+  const yearTotalStats = await fetchStats({dateStart: Math.floor(getStartOfWeek() / 1000), dateEnd: Math.floor(getEndOfWeek() / 1000)})
 
   return (
-      <CardsStats data={await yearTotalStats} firstCardTitle={"Weekly streams"}
+      <CardsStats data={yearTotalStats} firstCardTitle={"Weekly streams"}
                   secondCardTitle={"Weekly uploads"}/>
   )
 };

@@ -8,7 +8,9 @@ export const TotalStatsCard = async () => {
 
   const getEndOfYear = () => endOfYear(new Date().getTime()).getTime();
 
-  const yearTotalStats = await fetchStats({dateStart: getStartOfYear(), dateEnd: getEndOfYear()})
+  const yearTotalStats = await fetchStats({
+    dateStart: Math.floor(getStartOfYear() / 1000), dateEnd: Math.floor(getEndOfYear() / 1000)
+  })
 
   return (
       <CardsStats data={yearTotalStats} firstCardTitle={"Total streams"}

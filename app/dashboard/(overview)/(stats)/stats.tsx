@@ -40,7 +40,8 @@ export function CardsStats(
 
   function getPercentageChange(current: number, previous: number) {
     if (previous === 0) {
-      return 0
+      // if previous is 0, then the percentage change is 100%
+      return 100
     }
     return ((current - previous) / previous) * 100
   }
@@ -49,7 +50,7 @@ export function CardsStats(
     const current = currentData || 0;
     const previous = previousData || 0;
     const percentage = getPercentageChange(current, previous);
-    console.log("calculating percentage change", current, previous, previousString)
+    console.log("percentage change", current, previous, percentage)
     const sign = percentage > 0 ? "+" : "";
     return `${sign}${percentage.toFixed(2)}%${previousString}`;
   }
@@ -66,7 +67,7 @@ export function CardsStats(
     if (last === undefined) {
       return 0
     }
-    if (key === 'streams') {
+    if (key === 'records') {
       return last.streams
     }
     return last.uploads
@@ -102,8 +103,8 @@ export function CardsStats(
   }
 
 
-  const firstCardPercentageInfo = () => getPercentageInfo(getTotalOrLast(data.totalRecords, "records"), getTotalOrLast(data.previousRecords, "records"), getPercentageString());
-  const secondCardPercentageInfo = () => getPercentageInfo(getTotalOrLast(data.totalUploads, "uploads"), getTotalOrLast(data.previousUploads, "uploads"), getPercentageString());
+  const firstCardPercentageInfo = () => getPercentageInfo(getTotalOrLast(data.totalRecords, "records"), data.previousRecords, getPercentageString());
+  const secondCardPercentageInfo = () => getPercentageInfo(getTotalOrLast(data.totalUploads, "uploads"), data.previousUploads, getPercentageString());
 
 
   const format = (date: number) => {
@@ -132,7 +133,7 @@ export function CardsStats(
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                     data={data.stats}
-                    dataKey="date"
+                    dataKey="timeStamp"
                     margin={{
                       top: 5,
                       right: 10,
@@ -149,7 +150,7 @@ export function CardsStats(
                                 <div className="grid grid-cols-2 gap-2">
                                   <div className="flex flex-col">
                             <span className="text-[0.70rem] uppercase text-muted-foreground">
-                              {format(payload[0].payload.date)}
+                              {format(payload[0].payload.timeStamp)}
                             </span>
                                     <span className="font-bold text-muted-foreground">
                               {payload[0].value}
@@ -163,7 +164,7 @@ export function CardsStats(
                         return null
                       }}
                   />
-                  <XAxis dataKey="date" hide/>
+                  <XAxis dataKey="timeStamp" hide/>
                   <Line
                       type="monotone"
                       strokeWidth={2}
@@ -192,7 +193,7 @@ export function CardsStats(
             <CardTitle className="text-sm font-normal">{secondCardTitle}</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{getTotalOrLast(data.totalRecords, "uploads")}</div>
+            <div className="text-2xl font-bold">{getTotalOrLast(data.totalUploads, "uploads")}</div>
             <p className="text-xs text-muted-foreground">
               {secondCardPercentageInfo()}
             </p>
@@ -208,7 +209,7 @@ export function CardsStats(
                                 <div className="grid grid-cols-2 gap-2">
                                   <div className="flex flex-col">
                             <span className="text-[0.70rem] uppercase text-muted-foreground">
-                              {format(payload[0].payload.date)}
+                              {format(payload[0].payload.timeStamp)}
                             </span>
                                     <span className="font-bold text-muted-foreground">
                               {payload[0].value}
