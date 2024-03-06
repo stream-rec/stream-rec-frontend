@@ -11,7 +11,7 @@ import {SettingsIcon} from "lucide-react";
 import {Separator} from "@/components/new-york/ui/separator";
 import Link from "next/link";
 import {StreamerDeleteDialog} from "@/app/dashboard/streamers/components/actions/streamer-delete-dialog";
-import {deleteStreamer} from "@/app/lib/data/streamer/api";
+import {deleteStreamer} from "@/app/lib/data/streams/streamer-apis";
 import {toast} from "sonner";
 
 type StreamerCardProps = {

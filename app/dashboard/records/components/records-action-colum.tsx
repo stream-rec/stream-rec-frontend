@@ -13,9 +13,9 @@ import {Button} from "@/components/new-york/ui/button";
 import {MoreHorizontal} from "lucide-react";
 import Link from "next/link";
 import {toast} from "sonner";
-import {deleteStream} from "@/app/lib/data/streams/apis";
+import {deleteStream} from "@/app/lib/data/streams/stream-apis";
 import {useRouter} from "next/navigation";
-import {StreamData} from "@/app/lib/data/streamer/definitions";
+import {StreamData} from "@/app/lib/data/streams/definitions";
 
 
 type RecordTableActionColumnProps = {

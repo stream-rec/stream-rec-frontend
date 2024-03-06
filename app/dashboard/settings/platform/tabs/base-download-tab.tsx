@@ -7,7 +7,7 @@ import {OutputFolderFormField} from "@/app/dashboard/settings/components/form/ou
 import {OutputFilenameFormfield} from "@/app/dashboard/settings/components/form/output-filename-formfield";
 import {OutputFileFormatFormfield} from "@/app/dashboard/settings/components/form/output-file-format-formfield";
 import {DanmuFlagFormfield} from "@/app/dashboard/settings/components/form/danmu-flag-formfield";
-import {DownloadConfig} from "@/app/lib/data/streamer/definitions";
+import {DownloadConfig} from "@/app/lib/data/streams/definitions";
 
 type BaseDownloadTabProps = {
   control: Control<DownloadConfig, any, any>;

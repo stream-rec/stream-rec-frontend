@@ -2,7 +2,7 @@
 import StreamerCard from "@/app/dashboard/(overview)/(streamers)/streamer";
 import React from "react";
 import {useRouter} from "next/navigation";
-import {StreamerSchema} from "@/app/lib/data/streamer/definitions";
+import {StreamerSchema} from "@/app/lib/data/streams/definitions";
 
 type StreamersListWrapperProps = {
   streamers: StreamerSchema[]

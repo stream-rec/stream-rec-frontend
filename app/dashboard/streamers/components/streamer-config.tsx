@@ -15,11 +15,11 @@ import {DouyinTabContent} from "@/app/dashboard/settings/platform/tabs/douyin-ta
 import {ActionsCallbackTab} from "@/app/dashboard/streamers/components/actions/actions-callback-tab";
 import {RocketIcon} from "@radix-ui/react-icons";
 import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/alert";
-import {baseDownloadConfig, DownloadConfig, streamerSchema, StreamerSchema} from "@/app/lib/data/streamer/definitions";
+import {baseDownloadConfig, DownloadConfig, streamerSchema, StreamerSchema} from "@/app/lib/data/streams/definitions";
 import {HuyaDownloadConfig, huyaDownloadConfig, HuyaGlobalConfig} from "@/app/lib/data/platform/huya/definitions";
 import {douyinDownloadConfig, DouyinGlobalConfig} from "@/app/lib/data/platform/douyin/definitions";
 import {combinedRegex} from "@/app/lib/data/platform/definitions";
-import {createStreamer, updateStreamer} from "@/app/lib/data/streamer/api";
+import {createStreamer, updateStreamer} from "@/app/lib/data/streams/streamer-apis";
 import {toastData} from "@/app/utils/toast";
 import {useRouter} from "next/navigation";
 

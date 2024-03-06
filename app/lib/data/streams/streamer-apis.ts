@@ -1,5 +1,5 @@
 import {fetchApi} from "@/app/lib/data/api";
-import {StreamerSchema} from "@/app/lib/data/streamer/definitions";
+import {StreamerSchema} from "@/app/lib/data/streams/definitions";
 import {fetchAvatar, getHuyaId} from "@/app/lib/data/platform/huya/apis";
 
 export const fetchStreamers = async (filter: string) => {

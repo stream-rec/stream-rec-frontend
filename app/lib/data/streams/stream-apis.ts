@@ -1,5 +1,5 @@
 import {fetchApi} from "@/app/lib/data/api";
-import {StreamData} from "@/app/lib/data/streamer/definitions";
+import {StreamData} from "@/app/lib/data/streams/definitions";
 
 export const fetchStreams = async () => {
   const response = await fetchApi('/streams', {

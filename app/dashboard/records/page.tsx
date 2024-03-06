@@ -1,4 +1,4 @@
-import RecordTableWrapper from "@/app/dashboard/records/record-colum-wrapper";
+import RecordTableWrapper from "@/app/dashboard/records/components/records-colum-wrapper";
 
 export default function RecordsPage() {
   return (<>

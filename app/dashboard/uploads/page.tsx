@@ -1,7 +1,4 @@
-import {uploadsTableColumns} from "@/app/dashboard/uploads/components/uploads-table-columns";
-import {placeholderData} from "@/app/lib/data/placeholder-data";
-import {DataTable} from "@/app/components/table/data-table";
-import {UploadTableToolbar} from "@/app/dashboard/uploads/components/upload-table-toolbar";
+import UploadsTableWrapper from "@/app/dashboard/uploads/components/upload-table-wrapper";
 
 export default function UploadsPage() {
   return (<>
@@ -14,7 +11,7 @@ export default function UploadsPage() {
               </p>
             </div>
           </div>
-          <DataTable columns={uploadsTableColumns} data={placeholderData} toolbar={UploadTableToolbar}/>
+          <UploadsTableWrapper/>
         </div>
       </>
   )

@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {baseDownloadConfig} from "@/app/lib/data/streamer/definitions";
+import {baseDownloadConfig} from "@/app/lib/data/streams/definitions";
 
 const douyinRegex = "(?:https?://)?(?:www\\.)?(?:live\\.)?douyin\\.com/([a-zA-Z0-9]+)"
 

@@ -2,22 +2,11 @@
 
 import {ColumnDef} from "@tanstack/react-table"
 import {format} from 'date-fns';
-import {MoreHorizontal} from "lucide-react"
 
-import {Button} from "@/components/new-york/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/new-york/ui/dropdown-menu"
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import {Badge} from "@/components/new-york/ui/badge";
 import {dataStatues, UploadData} from "@/app/lib/data/uploads/definitions";
-import Link from "next/link";
+import {UploadActionColumn} from "@/app/dashboard/uploads/components/upload-action-column";
 
 export const uploadsTableColumnProps = [
   {
@@ -37,8 +26,8 @@ export const uploadsTableColumnProps = [
     uiName: "File Path",
   },
   {
-    accessorKey: "time",
-    uiName: "Time",
+    accessorKey: "streamStartTime",
+    uiName: "Stream Time",
   },
   {
     accessorKey: "status",
@@ -116,7 +105,7 @@ export const uploadsTableColumns: ColumnDef<UploadData>[] = [
         return format(date, 'MM/dd hh:mm:ss');
       else
         return format(date, 'MM/dd/yyyy hh:mm:ss');
-    }
+    },
   },
   {
     accessorKey: accessorKeyByIndex(5),
@@ -161,31 +150,7 @@ export const uploadsTableColumns: ColumnDef<UploadData>[] = [
     id: "actions",
     cell: ({row}) => {
       const uploadData = row.original
-
-      return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4"/>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>View upload details</DropdownMenuItem>
-              <DropdownMenuItem>View stream details</DropdownMenuItem>
-              <DropdownMenuItem><Link href={"/dashboard/streamers/" + uploadData.streamDataId + "/edit"}> View streamer
-                details</Link></DropdownMenuItem>
-              <DropdownMenuSeparator/>
-              <DropdownMenuItem>Re-upload</DropdownMenuItem>
-              <DropdownMenuSeparator/>
-              <DropdownMenuItem>
-                Delete
-                <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-      )
+      return <UploadActionColumn data={uploadData}/>
     },
   },
 ]

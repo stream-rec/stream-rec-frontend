@@ -4,7 +4,7 @@ import {ColumnDef} from "@tanstack/react-table"
 import {format} from 'date-fns';
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import {DataTableToolbarColumnProps} from "@/app/components/table/toolbar";
-import {StreamData} from "@/app/lib/data/streamer/definitions";
+import {StreamData} from "@/app/lib/data/streams/definitions";
 import {RecordTableActionColumn} from "@/app/dashboard/records/components/records-action-colum";
 
 
