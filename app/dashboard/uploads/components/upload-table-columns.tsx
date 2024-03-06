@@ -1,7 +1,7 @@
 "use client"
 
 import {ColumnDef} from "@tanstack/react-table"
-import {format} from 'date-fns';
+import {format, startOfDay} from 'date-fns';
 
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import {Badge} from "@/components/new-york/ui/badge";
@@ -106,6 +106,18 @@ export const uploadsTableColumns: ColumnDef<UploadData>[] = [
       else
         return format(date, 'MM/dd/yyyy hh:mm:ss');
     },
+    filterFn: (rows, id, filterValue) => {
+      const rowValue = rows.getValue(id);
+      const date = startOfDay(new Date(rowValue as number));
+      const filterFromDate = filterValue && new Date(filterValue[0]);
+      const filterToDate = filterValue && filterValue[1] && new Date(filterValue[1]);
+
+      return !filterValue || !rowValue
+          ? true
+          : filterToDate
+              ? date >= filterFromDate && date <= filterToDate
+              : date >= filterFromDate;
+    }
   },
   {
     accessorKey: accessorKeyByIndex(5),

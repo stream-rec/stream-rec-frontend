@@ -10,6 +10,7 @@ import {UserIcon} from "lucide-react";
 import {recordColumnProps} from "@/app/dashboard/records/components/records-table-columns";
 import {DataTableToolbarProps} from "@/app/components/table/toolbar";
 import {dataStatues} from "@/app/lib/data/uploads/definitions";
+import {DataTableDatePickerFilter} from "@/app/components/table/data-table-datepicker-filter";
 
 
 export function RecordsDataTableToolbar<TData>({
@@ -41,6 +42,14 @@ export function RecordsDataTableToolbar<TData>({
                   column={table.getColumn("streamerName")}
                   title="Streamer"
                   options={getTableStreamerFacets() ?? []}
+              />
+          )}
+
+          {table.getColumn("dateStart") && (
+              <DataTableDatePickerFilter
+                  column={table.getColumn("dateStart")}
+                  title="Range date"
+                  options={[]}
               />
           )}
           {isFiltered && (

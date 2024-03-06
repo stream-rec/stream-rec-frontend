@@ -1,7 +1,7 @@
 "use client"
 
 import {ColumnDef} from "@tanstack/react-table"
-import {format} from 'date-fns';
+import {format, startOfDay} from 'date-fns';
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import {DataTableToolbarColumnProps} from "@/app/components/table/toolbar";
 import {StreamData} from "@/app/lib/data/streams/definitions";
@@ -122,6 +122,18 @@ export const recordColumns: ColumnDef<StreamData>[] = [
         return format(date, 'MM/dd hh:mm:ss');
       else
         return format(date, 'MM/dd/yyyy hh:mm:ss');
+    },
+    filterFn: (rows, id, filterValue) => {
+      const rowValue = rows.getValue(id);
+      const date = startOfDay(new Date(rowValue as number));
+      const filterFromDate = filterValue && new Date(filterValue[0]);
+      const filterToDate = filterValue && filterValue[1] && new Date(filterValue[1]);
+
+      return !filterValue || !rowValue
+          ? true
+          : filterToDate
+              ? date >= filterFromDate && date <= filterToDate
+              : date >= filterFromDate;
     }
   },
 
