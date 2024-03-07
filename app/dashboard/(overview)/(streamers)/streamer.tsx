@@ -41,7 +41,7 @@ export function StreamerCard({
   const router = useRouter()
 
   const getLastStreamInfo = () => {
-    if (!isActivated && isLive) {
+    if (isActivated && isLive) {
       return "Streaming"
     }
 
