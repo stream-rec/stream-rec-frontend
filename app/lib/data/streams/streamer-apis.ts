@@ -1,3 +1,4 @@
+'use server'
 import {fetchApi} from "@/app/lib/data/api";
 import {StreamerSchema} from "@/app/lib/data/streams/definitions";
 import {fetchAvatar, getHuyaId} from "@/app/lib/data/platform/huya/apis";

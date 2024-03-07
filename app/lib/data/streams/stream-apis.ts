@@ -1,3 +1,4 @@
+'use server'
 import {fetchApi} from "@/app/lib/data/api";
 import {StreamData} from "@/app/lib/data/streams/definitions";
 

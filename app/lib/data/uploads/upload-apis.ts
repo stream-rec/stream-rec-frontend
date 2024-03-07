@@ -1,6 +1,6 @@
+'use server'
 import {fetchApi} from "@/app/lib/data/api";
 import {UploadData, UploadResult} from "@/app/lib/data/uploads/definitions";
-
 
 export const fetchUploads = async () => {
   const response = await fetchApi(`/uploads`, {
