@@ -1,4 +1,3 @@
-'use client'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,13 +13,13 @@ import Link from "next/link";
 import {UploadData} from "@/app/lib/data/uploads/definitions";
 import {toast} from "sonner";
 import {useRouter} from "next/navigation";
-import {deleteUpload} from "@/app/lib/data/uploads/upload-apis";
 
 type UploadActionColumnProps = {
   data: UploadData
+  deleteUpload: (id: string) => Promise<void>
 }
 
-export function UploadActionColumn({data}: UploadActionColumnProps) {
+export function UploadActionColumn({data, deleteUpload}: UploadActionColumnProps) {
 
   const router = useRouter()
 
@@ -49,7 +48,7 @@ export function UploadActionColumn({data}: UploadActionColumnProps) {
           <DropdownMenuSeparator/>
           <DropdownMenuItem onClick={
             async () => {
-              toast.promise(deleteUpload(data.id.toString()), {
+              toast.promise(deleteUpload(data.id.toString(),), {
                 loading: "Deleting upload...",
                 success: () => {
                   router.refresh()

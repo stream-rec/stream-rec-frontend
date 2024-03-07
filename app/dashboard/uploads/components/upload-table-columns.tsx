@@ -7,6 +7,7 @@ import {DataTableColumnHeader} from "@/app/components/table/data-table-column-he
 import {Badge} from "@/components/new-york/ui/badge";
 import {dataStatues, UploadData} from "@/app/lib/data/uploads/definitions";
 import {UploadActionColumn} from "@/app/dashboard/uploads/components/upload-action-column";
+import {deleteUpload} from "@/app/lib/data/uploads/upload-apis";
 
 export const uploadsTableColumnProps = [
   {
@@ -162,7 +163,7 @@ export const uploadsTableColumns: ColumnDef<UploadData>[] = [
     id: "actions",
     cell: ({row}) => {
       const uploadData = row.original
-      return <UploadActionColumn data={uploadData}/>
+      return <UploadActionColumn data={uploadData} deleteUpload={deleteUpload}/>
     },
   },
 ]
