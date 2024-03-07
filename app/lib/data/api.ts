@@ -1,6 +1,6 @@
 import {revalidateTag} from "next/cache";
 
-export const API_URL = 'http://localhost:12555/api';
+export const API_URL = process.env.API_URL || "http://localhost:12555/api";
 
 
 const jsonHeaders = {
