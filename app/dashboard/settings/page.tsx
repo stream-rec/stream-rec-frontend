@@ -1,5 +1,5 @@
 import {Separator} from "@/components/new-york/ui/separator";
-import {GlobalForm} from "@/app/dashboard/settings/global-form";
+import GlobalFormWrapper from "@/app/dashboard/settings/global-form-wrapper";
 
 export default function Settings() {
   return (
@@ -11,7 +11,7 @@ export default function Settings() {
           </p>
         </div>
         <Separator/>
-        <GlobalForm/>
+        <GlobalFormWrapper/>
       </div>
   )
 }

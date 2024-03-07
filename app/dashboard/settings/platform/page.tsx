@@ -1,5 +1,5 @@
 import {Separator} from "@/components/new-york/ui/separator";
-import PlatformForm from "@/app/dashboard/settings/platform/platform-form";
+import PlatformFormWrapper from "@/app/dashboard/settings/platform/platform-form-wrapper";
 
 
 export default function SettingsPlatformPage() {
@@ -12,7 +12,7 @@ export default function SettingsPlatformPage() {
           </p>
         </div>
         <Separator/>
-        <PlatformForm/>
+        <PlatformFormWrapper/>
       </div>
   )
 }

@@ -89,7 +89,7 @@ export const DouyinTabContent: React.FC<DouyinTabContentProps> = ({control, show
                         <FormItem>
                           <FormLabel>Douyin Cookies</FormLabel>
                           <FormControl>
-                            <Textarea placeholder="Cookies" {...field}></Textarea>
+                            <Textarea className={"h-[200px]"} placeholder="Cookies" {...field}></Textarea>
                           </FormControl>
                           <FormDescription>
                             The cookies used to authenticate the Douyin account.

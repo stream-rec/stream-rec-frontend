@@ -25,3 +25,15 @@ export const convertToSeconds = (duration: string, value: number) => {
       return value;
   }
 }
+
+export type FileSize = {
+  size: number
+  unit: string
+}
+
+export const formatBytes = (bytes: number): FileSize => {
+  if (bytes < 1024) return {size: bytes, unit: "B"};
+  else if (bytes < 1048576) return {size: parseFloat((bytes / 1024).toFixed(2)), unit: "KB"};
+  else if (bytes < 1073741824) return {size: parseFloat((bytes / 1048576).toFixed(2)), unit: "MB"};
+  else return {size: parseFloat((bytes / 1073741824).toFixed(2)), unit: "GB"};
+};

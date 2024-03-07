@@ -1,6 +1,9 @@
 import {Separator} from "@/components/new-york/ui/separator";
 import {SidebarNav} from "@/app/dashboard/settings/components/sidebar-nav";
 import React from "react";
+import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/alert";
+import {RocketIcon} from "@radix-ui/react-icons";
+import {AlertTriangle, AlertTriangleIcon, MessageSquareWarningIcon} from "lucide-react";
 
 const sidebarNavItems = [
   {
@@ -32,6 +35,13 @@ export default function SettingsLayout({children}: SettingsLayoutProps) {
               Manage your global, platforms and appearance settings.
             </p>
           </div>
+          <Alert variant={"destructive"} className={"max-w-lg"}>
+            <AlertTriangleIcon className="h-4 w-4"/>
+            <AlertTitle>Heads up!</AlertTitle>
+            <AlertDescription>
+              Please note that changing these settings requires a manual reboot
+            </AlertDescription>
+          </Alert>
           <Separator className="my-6"/>
           <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
             <aside className="lg:w-1/8">

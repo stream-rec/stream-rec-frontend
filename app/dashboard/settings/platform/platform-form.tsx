@@ -6,14 +6,16 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui
 import {Button} from "@/components/new-york/ui/button";
 import {DouyinTabContent} from "@/app/dashboard/settings/platform/tabs/douyin-tab";
 import {HuyaTabContent} from "@/app/dashboard/settings/platform/tabs/huya-tab";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {PlatformGlobalConfig} from "@/app/lib/data/platform/definitions";
 import {huyaGlobalConfig} from "@/app/lib/data/platform/huya/definitions";
 import {douyinGlobalConfig} from "@/app/lib/data/platform/douyin/definitions";
-import {toastData} from "@/app/utils/toast";
+import {GlobalConfig} from "@/app/lib/data/config/definitions";
+import {updateConfig} from "@/app/lib/data/config/apis";
+import {toast} from "sonner";
 
 export type PlatformFormValues = {
-  defaultValues?: PlatformGlobalConfig
+  defaultValues?: GlobalConfig
 }
 
 function useGlobalConfigResolver(initial: "huya" | "douyin") {
@@ -30,27 +32,44 @@ function useGlobalConfigResolver(initial: "huya" | "douyin") {
   }
 }
 
-export default function PlatformForm(defaultValues: PlatformFormValues) {
+export default function PlatformForm({defaultValues}: PlatformFormValues) {
 
   const {platform, handlePlatformChange, resolver} = useGlobalConfigResolver("huya")
 
+  const [defaultPlatformConfig, setDefaultPlatformConfig] = useState<GlobalConfig | undefined>(defaultValues)
+
   const form = useForm<PlatformGlobalConfig>({
     resolver: zodResolver(resolver),
-    defaultValues: defaultValues.defaultValues ?? {},
+    defaultValues: defaultPlatformConfig?.huyaConfig,
     mode: "onChange",
   })
 
-  function onSubmit(data: PlatformGlobalConfig) {
-    toastData("You submitted the following values:", data);
+  useEffect(() => {
+    form.reset(platform == "huya" ? defaultPlatformConfig?.huyaConfig : defaultPlatformConfig?.douyinConfig)
+  }, [setDefaultPlatformConfig])
+
+  async function onSubmit(data: PlatformGlobalConfig) {
+    const config = {
+      ...defaultValues,
+      huyaConfig: platform == "huya" ? data : defaultPlatformConfig?.huyaConfig,
+      douyinConfig: platform == "douyin" ? data : defaultPlatformConfig?.douyinConfig
+    } as GlobalConfig
+    setDefaultPlatformConfig(config)
+    toast.promise(updateConfig(config), {
+      loading: "Updating config...",
+      success: () => "Config updated",
+      error: (error) => toast.error(error.message)
+    })
   }
+
 
   return (
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8  min-h-svh">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <Tabs defaultValue="huya" onValueChange={
             (value) => {
               handlePlatformChange(value as "huya" | "douyin")
-              form.reset()
+              form.reset(value == "huya" ? defaultPlatformConfig?.huyaConfig : defaultPlatformConfig?.douyinConfig)
             }
           }>
             <TabsList className="ml-auto">

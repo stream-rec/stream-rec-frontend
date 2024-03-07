@@ -1,7 +1,6 @@
 "use client";
 import {zodResolver} from "@hookform/resolvers/zod"
-import {useForm} from "react-hook-form"
-import {z} from "zod"
+import {useForm, useFormState} from "react-hook-form"
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
 import {Button} from "@/components/new-york/ui/button";
@@ -13,76 +12,47 @@ import {OutputFolderFormField} from "@/app/dashboard/settings/components/form/ou
 import {OutputFilenameFormfield} from "@/app/dashboard/settings/components/form/output-filename-formfield";
 import {OutputFileFormatFormfield} from "@/app/dashboard/settings/components/form/output-file-format-formfield";
 import {DanmuFlagFormfield} from "@/app/dashboard/settings/components/form/danmu-flag-formfield";
+import {GlobalConfig, globalConfigSchema} from "@/app/lib/data/config/definitions";
 import {toastData} from "@/app/utils/toast";
 
 
-const globalFormSchema = z.object({
-  engine: z
-      .string({
-        required_error: "Please select a download engine.",
-      }),
-  danmu: z.boolean().default(true),
-  deleteFiles: z.boolean().default(true),
-  outputFolder: z
-      .string({
-        required_error: "Please enter a valid output folder.",
-      }).optional(),
-  outputFileName: z
-      .string({
-        required_error: "Please enter a valid output file name.",
-      }).optional(),
-  outputFileFormat: z
-      .string({
-        required_error: "Please select a output video extension.",
-      }).optional(),
-  minPartSize: z.string().max(2).optional(),
-  maxPartSize: z.string().max(2).optional(),
-  maxPartDuration: z.string().optional(),
-  maxConcurrentDownloads: z.number().min(1).optional(),
-  maxConcurrentUploads: z.number().min(1).optional(),
-  maxDownloadRetries: z.number().min(1).optional(),
-  downloadRetryDelay: z.number().min(0).optional(),
-})
-
-type GlobalFormValues = z.infer<typeof globalFormSchema>
-
-
-// This can come from your database or API.
-const defaultValues: Partial<GlobalFormValues> = {
-  engine: "ffmpeg",
-  danmu: true,
-  deleteFiles: true,
-  outputFileFormat: "flv",
-  minPartSize: "MB",
-  maxPartSize: "GB",
-  maxPartDuration: "hh",
+type GlobalFormProps = {
+  appConfig: GlobalConfig,
+  update: (config: GlobalConfig) => Promise<void>,
 }
 
 
-export function GlobalForm() {
+export function GlobalForm({appConfig, update}: GlobalFormProps) {
+  const [minPartSizeFormat, setMinPartSizeFormat] = useState("B")
+  const [maxPartSizeFormat, setMaxPartSizeFormat] = useState("B")
 
-  const [inputValue, setInputValue] = useState(10);
-  const [maxInputValue, setMaxInputValue] = useState(2.5);
-  const [maxDurationInputValue, setMaxDurationInputValue] = useState(0);
+  const [maxPartDurationFormat, setMaxPartDurationFormat] = useState("ss")
 
-  const form = useForm<GlobalFormValues>({
-    resolver: zodResolver(globalFormSchema),
-    defaultValues,
+  const form = useForm<GlobalConfig>({
+    resolver: zodResolver(globalConfigSchema),
+    defaultValues: appConfig,
     mode: "onChange",
   })
 
-  function onSubmit(data: GlobalFormValues) {
+  const {isSubmitting} = useFormState({control: form.control})
 
+  async function onSubmit(data: GlobalConfig) {
     if (data.minPartSize !== undefined) {
-      data.minPartSize = convertToBytes(data.minPartSize, inputValue).toString()
+      data.minPartSize = convertToBytes(minPartSizeFormat, data.minPartSize)
     }
     if (data.maxPartSize !== undefined) {
-      data.maxPartSize = convertToBytes(data.maxPartSize, maxInputValue).toString()
+      data.maxPartSize = convertToBytes(maxPartSizeFormat, data.maxPartSize)
     }
     if (data.maxPartDuration !== undefined) {
-      data.maxPartDuration = convertToSeconds(data.maxPartDuration, maxDurationInputValue).toString()
+      data.maxPartDuration = convertToSeconds(maxPartDurationFormat, data.maxPartDuration)
     }
-    toastData("You submitted the following values:", data, "code")
+    try {
+      await update(data)
+      toastData("You submitted the following values:", data, "code")
+    } catch (e) {
+      console.error(e)
+      toastData("An error occurred while submitting the form", (e as Error).message, "error")
+    }
   }
 
   return (
@@ -116,7 +86,7 @@ export function GlobalForm() {
 
           <FormField
               control={form.control}
-              name="deleteFiles"
+              name="deleteFilesAfterUpload"
               render={({field}) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                     <div className="space-y-0.5">
@@ -150,30 +120,26 @@ export function GlobalForm() {
                     <FormLabel>Minimum parted download size</FormLabel>
                     <Select
                         onValueChange={(newValue) => {
-                          // newValue is the new selected value
-                          // You can use it to update the value of the input field
-                          field.onChange(newValue);
+                          minPartSizeFormat && setMinPartSizeFormat(newValue);
                         }}
-                        defaultValue={field.value}
+                        value={minPartSizeFormat}
                     >
                       <div className="flex items-center space-x-2">
-                        <Input
-                            type="number"
-                            min="0"
-                            step="0.1"
-                            placeholder=""
-                            {...field}
-                            value={inputValue}
-                            onChange={(e) => {
-                              const newValue = e.target.value;
-                              setInputValue(Number(newValue));
-                            }}
-                        />
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a size format"/>
-                          </SelectTrigger>
+                          <Input
+                              type="number"
+                              placeholder=""
+                              {...field}
+                              value={field.value}
+                              onChange={(e) => {
+                                const newValue = e.target.value;
+                                field.onChange(Number(newValue));
+                              }}
+                          />
                         </FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a size format"/>
+                        </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="B">B</SelectItem>
                           <SelectItem value="KB">KB</SelectItem>
@@ -198,29 +164,27 @@ export function GlobalForm() {
                     <FormLabel>Maximum parted download size</FormLabel>
                     <Select
                         onValueChange={(newValue) => {
-                          field.onChange(newValue);
+                          maxPartSizeFormat && setMaxPartSizeFormat(newValue);
                         }}
-                        defaultValue={field.value}
+                        value={maxPartSizeFormat}
                     >
                       <div className="flex items-center space-x-2">
-                        <Input
-                            type="number"
-                            min="0"
-                            step="0.1"
-                            placeholder=""
-                            {...field}
-                            value={maxInputValue}
-                            onChange={(e) => {
-                              const newValue = e.target.value;
-                              // to number
-                              setMaxInputValue(Number(newValue));
-                            }}
-                        />
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a size format"/>
-                          </SelectTrigger>
+                          <Input
+                              type="number"
+                              placeholder=""
+                              {...field}
+                              value={field.value}
+                              onChange={(e) => {
+                                const newValue = e.target.value;
+                                field.onChange(Number(newValue));
+                              }}
+                          />
                         </FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a size format"/>
+                        </SelectTrigger>
+
                         <SelectContent>
                           <SelectItem value="B">B</SelectItem>
                           <SelectItem value="KB">KB</SelectItem>
@@ -247,30 +211,30 @@ export function GlobalForm() {
                     <FormLabel>Maximum parted download duration</FormLabel>
                     <Select
                         onValueChange={(newValue) => {
-                          field.onChange(newValue);
+                          maxPartDurationFormat && setMaxPartDurationFormat(newValue);
                         }}
-                        defaultValue={field.value}
+                        value={maxPartDurationFormat}
                     >
                       <div className="flex items-center space-x-2">
-                        <Input
-                            type="number"
-                            min="0"
-                            step="0.1"
-                            placeholder=""
-                            {...field}
-                            value={maxDurationInputValue}
-                            onChange={(e) => {
-                              const newValue = e.target.value;
-                              // to number
-                              setMaxDurationInputValue(Number(newValue));
-                            }}
-                        />
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a duration format"/>
-                          </SelectTrigger>
+                          <Input
+                              type="number"
+                              step={.1}
+                              placeholder=""
+                              {...field}
+                              value={field.value}
+                              onChange={(e) => {
+                                const newValue = e.target.value;
+                                field.onChange(Number(newValue));
+                              }}
+                          />
                         </FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a duration format"/>
+                        </SelectTrigger>
+
                         <SelectContent>
+                          <SelectItem value="ss">seconds</SelectItem>
                           <SelectItem value="mm">minutes</SelectItem>
                           <SelectItem value="hh">hours</SelectItem>
                           <SelectItem value="dd">days</SelectItem>
@@ -296,7 +260,6 @@ export function GlobalForm() {
                     <FormLabel>Maximum concurrent downloads</FormLabel>
                     <FormControl>
                       <Input type="number"
-                             min="1"
                              placeholder="5"
                              onChange={(e) => field.onChange(Number(e.target.value))}
                              value={field.value}/>
@@ -316,7 +279,6 @@ export function GlobalForm() {
                     <FormLabel>Maximum concurrent uploads</FormLabel>
                     <FormControl>
                       <Input type="number"
-                             min="1"
                              onChange={(e) => field.onChange(parseInt(e.target.value))}
                              value={field.value}
                              placeholder="3"/>
@@ -337,7 +299,6 @@ export function GlobalForm() {
                     <FormLabel>Maximum retry counts</FormLabel>
                     <FormControl>
                       <Input type="number"
-                             min="1"
                              onChange={(e) => field.onChange(Number(e.target.value))}
                              value={field.value}
                              placeholder="3"/>
@@ -351,27 +312,7 @@ export function GlobalForm() {
               )}
           />
 
-          <FormField
-              control={form.control}
-              name="downloadRetryDelay"
-              render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Delay between each download retry</FormLabel>
-                    <FormControl>
-                      <Input type="number"
-                             min="0"
-                             onChange={(e) => field.onChange(Number(e.target.value))}
-                             value={field.value}
-                             placeholder="10"/>
-                    </FormControl>
-                    <FormDescription>
-                      The delay between each download retry in seconds.
-                    </FormDescription>
-                    <FormMessage/>
-                  </FormItem>
-              )}
-          />
-          <Button type="submit">Update settings</Button>
+          <Button type="submit" aria-disabled={isSubmitting}>Update settings</Button>
         </form>
       </Form>
   )

@@ -1,3 +1,5 @@
+import {revalidateTag} from "next/cache";
+
 export const API_URL = 'http://localhost:12555/api';
 
 
@@ -18,4 +20,9 @@ export const fetchApi = async (url: string, options?: RequestInit) => {
     }
   }
   return fetch(API_URL + url, options)
+}
+
+
+export const revalidateCacheTag = async (tag: string) => {
+  revalidateTag(tag)
 }
