@@ -2,10 +2,14 @@
 import {fetchApi} from "@/app/lib/data/api";
 import {StreamerSchema} from "@/app/lib/data/streams/definitions";
 import {fetchAvatar, getHuyaId} from "@/app/lib/data/platform/huya/apis";
+import {revalidateTag} from "next/cache";
 
 export const fetchStreamers = async (filter: string) => {
   const response = await fetchApi('/streamers?filter=' + filter, {
-    cache: 'no-cache'
+    next: {
+      tags: ['streamers'],
+      revalidate: 60
+    }
   })
   if (!response.ok) {
     throw new Error("Error fetching streamers, status: " + response.status + " " + response.statusText)
@@ -46,7 +50,9 @@ export const createStreamer = async (streamer: StreamerSchema) => {
   if (!response.ok) {
     throw new Error("Error posting streamer, status: " + response.status + " " + response.statusText)
   }
-  return await response.json() as StreamerSchema
+  let json = await response.json() as StreamerSchema
+  revalidateTag('streamers')
+  return json
 }
 
 export const updateStreamer = async (streamer: StreamerSchema) => {
@@ -57,14 +63,17 @@ export const updateStreamer = async (streamer: StreamerSchema) => {
   if (!response.ok) {
     throw new Error("Error updating streamer, status: " + response.status + " " + response.statusText)
   }
-  return await response.json() as StreamerSchema
+  let json = await response.json() as StreamerSchema
+  revalidateTag('streamers')
+  return json
 }
 
-export const deleteStreamer = async (id: number) => {
+export const deleteStreamer = async (id: string | number) => {
   const response = await fetchApi('/streamers/' + id, {
     method: 'DELETE',
   })
   if (!response.ok) {
     throw new Error("Error deleting streamer, status: " + response.status + " " + response.statusText)
   }
+  revalidateTag('streamers')
 }

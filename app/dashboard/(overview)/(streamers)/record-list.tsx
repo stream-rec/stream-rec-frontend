@@ -1,22 +1,20 @@
 'use client';
-import StreamerCard from "@/app/dashboard/(overview)/(streamers)/streamer";
 import React from "react";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/new-york/ui/collapsible";
 import {Button} from "@/components/new-york/ui/button";
 import {CaretSortIcon} from "@radix-ui/react-icons";
 import {StreamerSchema} from "@/app/lib/data/streams/definitions";
-import {useRouter} from "next/navigation";
+import {StreamerCard} from "@/app/dashboard/(overview)/(streamers)/streamer";
 
 type RecordListProps = {
   title: string,
   streamers: StreamerSchema[]
+  deleteStreamerAction: (id: string) => Promise<void>
 }
 
-export function RecordList({streamers, title}: RecordListProps) {
+export function RecordList({streamers, title, deleteStreamerAction}: RecordListProps) {
 
   const [isOpen, setIsOpen] = React.useState(true)
-
-  const router = useRouter()
 
   return (
       <Collapsible open={isOpen} onOpenChange={setIsOpen} className={"space-y-2"}>
@@ -43,16 +41,13 @@ export function RecordList({streamers, title}: RecordListProps) {
                       key={streamer.name}
                       streamer={streamer.name}
                       isActivated={streamer.isActivated}
-                      streamerId={streamer.id}
+                      streamerId={streamer.id!!}
                       isLive={streamer.isLive}
                       streamerAvatar={streamer.avatar}
                       lastStream={streamer.lastStream}
                       description={streamer.streamTitle}
                       platform={streamer.platform!!.toLowerCase()}
-                      onStreamerDelete={() => {
-                        router.refresh()
-                        }
-                      }
+                      deleteStreamer={deleteStreamerAction}
                   />
               ))
             }

@@ -11,34 +11,37 @@ import {SettingsIcon} from "lucide-react";
 import {Separator} from "@/components/new-york/ui/separator";
 import Link from "next/link";
 import {StreamerDeleteDialog} from "@/app/dashboard/streamers/components/actions/streamer-delete-dialog";
-import {deleteStreamer} from "@/app/lib/data/streams/streamer-apis";
 import {toast} from "sonner";
+import {useRouter} from "next/navigation";
 
 type StreamerCardProps = {
   streamer: string;
   description?: string | null;
-  streamerId?: number;
+  streamerId: number;
   streamerAvatar?: string | null;
   isLive?: boolean | null;
   isActivated: boolean;
   lastStream?: number | null;
   platform: string;
-  onStreamerDelete?: () => void;
+  deleteStreamer: (id: string) => Promise<void>;
 }
-export default function StreamerCard({
-                                       streamer,
-                                       description,
-                                       streamerId,
-                                       streamerAvatar,
-                                       isLive,
-                                       isActivated,
-                                       lastStream,
-                                       platform,
-                                       onStreamerDelete
-                                     }: StreamerCardProps) {
+
+export function StreamerCard({
+                               streamer,
+                               description,
+                               streamerId,
+                               streamerAvatar,
+                               isLive,
+                               isActivated,
+                               lastStream,
+                               platform,
+                               deleteStreamer,
+                             }: StreamerCardProps) {
+
+  const router = useRouter()
 
   const getLastStreamInfo = () => {
-    if (isLive) {
+    if (!isActivated && isLive) {
       return "Streaming"
     }
 
@@ -73,10 +76,10 @@ export default function StreamerCard({
               </Link>
               <Separator orientation={"vertical"} className={"h-4"}/>
               <StreamerDeleteDialog onConfirm={
-                async () => toast.promise(deleteStreamer(streamerId!!), {
+                async () => toast.promise(deleteStreamer(streamerId.toString()), {
                   loading: `Deleting ${streamer}...`,
                   success: () => {
-                    onStreamerDelete?.()
+                    router.refresh()
                     return "Streamer deleted"
                   },
                   error: (error) => `An error occurred while deleting streamer : ${error}`

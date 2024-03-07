@@ -19,14 +19,13 @@ import {baseDownloadConfig, DownloadConfig, streamerSchema, StreamerSchema} from
 import {HuyaDownloadConfig, huyaDownloadConfig, HuyaGlobalConfig} from "@/app/lib/data/platform/huya/definitions";
 import {douyinDownloadConfig, DouyinGlobalConfig} from "@/app/lib/data/platform/douyin/definitions";
 import {combinedRegex} from "@/app/lib/data/platform/definitions";
-import {createStreamer, updateStreamer} from "@/app/lib/data/streams/streamer-apis";
 import {toastData} from "@/app/utils/toast";
 import {useRouter} from "next/navigation";
 
 
 type StreamerConfigProps = {
   defaultValues?: StreamerSchema
-  onSubmit?: (data: StreamerSchema) => void
+  onSubmit: (data: StreamerSchema) => Promise<StreamerSchema>
 }
 
 export function StreamerConfig({defaultValues, onSubmit}: StreamerConfigProps) {
@@ -159,10 +158,8 @@ export function StreamerConfig({defaultValues, onSubmit}: StreamerConfigProps) {
       // upper case platform
       data.platform = platform.toUpperCase();
       let isCreated = !data.id;
-      let submitted = data.id ? await updateStreamer(data) : await createStreamer(data);
-      toastData("You submitted the following values:", submitted, "code")
-      onSubmit?.(submitted)
-      router.refresh()
+      await onSubmit(data);
+      toastData("You submitted the following values:", data, "code")
       if (isCreated) {
         router.push(`/dashboard/streamers`)
       }

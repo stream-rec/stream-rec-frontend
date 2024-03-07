@@ -1,6 +1,6 @@
 import {RecordList} from "@/app/dashboard/(overview)/(streamers)/record-list";
 import React from "react";
-import {fetchStreamers} from "@/app/lib/data/streams/streamer-apis";
+import {deleteStreamer, fetchStreamers} from "@/app/lib/data/streams/streamer-apis";
 
 export default async function StreamerWrapper() {
 
@@ -12,13 +12,13 @@ export default async function StreamerWrapper() {
   return (
       <>
         <div className="space-y-4 col-span-1">
-          <RecordList streamers={recordingStreamers} title="Recording"/>
+          <RecordList streamers={recordingStreamers} title="Recording" deleteStreamerAction={deleteStreamer}/>
         </div>
         <div className="space-y-4 col-span-1 ">
-          <RecordList streamers={inactiveStreamers} title="Inactive"/>
+          <RecordList streamers={inactiveStreamers} title="Inactive" deleteStreamerAction={deleteStreamer}/>
         </div>
         <div className="space-y-4 col-span-1">
-          <RecordList streamers={disabledStreamers} title="Disabled"/>
+          <RecordList streamers={disabledStreamers} title="Disabled" deleteStreamerAction={deleteStreamer}/>
         </div>
       </>
   )

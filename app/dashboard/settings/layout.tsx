@@ -2,8 +2,7 @@ import {Separator} from "@/components/new-york/ui/separator";
 import {SidebarNav} from "@/app/dashboard/settings/components/sidebar-nav";
 import React from "react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/alert";
-import {RocketIcon} from "@radix-ui/react-icons";
-import {AlertTriangle, AlertTriangleIcon, MessageSquareWarningIcon} from "lucide-react";
+import {AlertTriangleIcon} from "lucide-react";
 
 const sidebarNavItems = [
   {
