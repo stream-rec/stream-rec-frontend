@@ -4,7 +4,7 @@ import {deleteStreamer, fetchStreamers} from "@/app/lib/data/streams/streamer-ap
 
 export default async function StreamerWrapper() {
 
-  const totalStreamers = await fetchStreamers('all'), disabledStreamers = totalStreamers.filter(streamer => !streamer.isActivated),
+  const totalStreamers = await fetchStreamers('non-template'), disabledStreamers = totalStreamers.filter(streamer => !streamer.isActivated),
       activeStreamers = totalStreamers.filter(streamer => streamer.isActivated),
       recordingStreamers = activeStreamers.filter(streamer => streamer.isLive),
       inactiveStreamers = activeStreamers.filter(streamer => !streamer.isLive);

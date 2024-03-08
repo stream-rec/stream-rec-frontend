@@ -1,6 +1,6 @@
 import {z} from "zod";
 import {combinedRegex} from "@/app/lib/data/platform/definitions";
-import {baseActionSchema, commandActionSchema, rcloneActionSchema} from "@/app/lib/data/actions/definitions";
+import {commandActionSchema, rcloneActionSchema} from "@/app/lib/data/actions/definitions";
 
 export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv"] as const;
 
@@ -43,6 +43,8 @@ export const streamerSchema = z.object({
   isLive: z.boolean().nullish(),
   lastStream: z.number().nullish(),
   isActivated: z.boolean(),
+  isTemplate: z.boolean(),
+  templateId: z.number().optional(),
   downloadConfig: baseDownloadConfig.nullish(),
 });
 

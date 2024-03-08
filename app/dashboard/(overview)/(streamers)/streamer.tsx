@@ -23,6 +23,7 @@ type StreamerCardProps = {
   isActivated: boolean;
   lastStream?: number | null;
   platform: string;
+  isTemplate?: boolean;
   deleteStreamer: (id: string) => Promise<void>;
 }
 
@@ -35,6 +36,7 @@ export function StreamerCard({
                                isActivated,
                                lastStream,
                                platform,
+                               isTemplate,
                                deleteStreamer,
                              }: StreamerCardProps) {
 
@@ -105,8 +107,17 @@ export function StreamerCard({
             </CardHeader>
             <CardContent className={"pt-0"}>
               <div className="flex flex-row items-center gap-x-1.5 mr-2">
-                <Badge variant={"default"}>{platform}</Badge>
-                <Badge variant={"secondary"}>{getLastStreamInfo()}</Badge>
+                {!isTemplate && (
+                    <>
+                      <Badge variant={"default"}>{platform}</Badge>
+                      <Badge variant={"secondary"}>{getLastStreamInfo()}</Badge>
+                    </>
+                )}
+                {
+                    isTemplate && (
+                        <Badge variant={"default"}>Template</Badge>
+                    )
+                }
               </div>
             </CardContent>
           </Card>

@@ -3,10 +3,14 @@ import {deleteStreamer, fetchStreamers} from "@/app/lib/data/streams/streamer-ap
 import StreamerListWrapper from "@/app/dashboard/streamers/components/streamer-list-wrapper";
 
 export default async function StreamerList() {
-  const streamers = await fetchStreamers("all");
+  const streamerData = fetchStreamers("non-template");
+  const templateStreamersData = fetchStreamers("template");
+
+  const [streamers, templateStreamers] = await Promise.all([streamerData, templateStreamersData])
+
   return (
       <>
-        <StreamerListWrapper streamers={streamers} deleteStreamer={deleteStreamer}/>
+        <StreamerListWrapper streamers={streamers} templateStreamers={templateStreamers} deleteStreamer={deleteStreamer}/>
       </>
   )
 }

@@ -12,7 +12,7 @@ export default async function DashboardPage() {
             <div>
               <h2 className="text-2xl font-bold tracking-tight">Dashboard</h2>
               <p className="text-muted-foreground">
-                Summary of streams and other data.
+                Summary of stats, and other data.
               </p>
             </div>
           </div>

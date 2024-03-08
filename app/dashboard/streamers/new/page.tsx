@@ -1,18 +1,23 @@
-import {StreamerConfig} from "@/app/dashboard/streamers/components/streamer-config";
+import {StreamerForm} from "@/app/dashboard/streamers/components/streamer-form";
 import {StreamerSchema} from "@/app/lib/data/streams/definitions";
-import {createStreamer} from "@/app/lib/data/streams/streamer-apis";
+import {createStreamer, fetchStreamers} from "@/app/lib/data/streams/streamer-apis";
 
 
 const defaultStreamerValues: StreamerSchema = {
   name: "",
   url: "",
-  isActivated: true
+  isActivated: true,
+  isTemplate: false,
+  templateId: -1
 }
 
-export default function Page() {
+export default async function Page() {
+
+  const templateDatas = await fetchStreamers("template")
+
   return (
       <>
-        <StreamerConfig defaultValues={defaultStreamerValues} onSubmit={createStreamer}/>
+        <StreamerForm defaultValues={defaultStreamerValues} templateUsers={templateDatas} onSubmit={createStreamer}/>
       </>
   )
 }

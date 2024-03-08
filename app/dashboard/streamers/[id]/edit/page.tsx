@@ -1,14 +1,18 @@
-import {StreamerConfig} from "@/app/dashboard/streamers/components/streamer-config";
-import {fetchStreamer} from "@/app/lib/data/streams/streamer-apis";
+import {StreamerForm} from "@/app/dashboard/streamers/components/streamer-form";
+import {fetchStreamer, fetchStreamers} from "@/app/lib/data/streams/streamer-apis";
 import {updateStreamer} from "@/app/lib/data/streams/streamer-apis";
 
 export default async function Page({params}: { params: { id: string } }) {
 
   const {id} = params
 
-  const streamer = await fetchStreamer(id)
+  const streamerData =  fetchStreamer(id)
+
+  const templateDatas = fetchStreamers("template")
+
+  const [streamer, templates] = await Promise.all([streamerData, templateDatas])
 
   return (
-      <StreamerConfig defaultValues={streamer} onSubmit={updateStreamer}/>
+      <StreamerForm defaultValues={streamer} templateUsers={templates.filter((t) => t.id != streamer.id)} onSubmit={updateStreamer}/>
   )
 }
