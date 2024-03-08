@@ -44,7 +44,11 @@ export function GlobalForm({appConfig, update}: GlobalFormProps) {
       data.maxPartSize = convertToBytes(maxPartSizeFormat, data.maxPartSize)
     }
     if (data.maxPartDuration !== undefined) {
-      data.maxPartDuration = convertToSeconds(maxPartDurationFormat, data.maxPartDuration)
+      if (data.maxPartDuration === 0) {
+        data.maxPartDuration = undefined
+      } else {
+        data.maxPartDuration = convertToSeconds(maxPartDurationFormat, data.maxPartDuration)
+      }
     }
     try {
       await update(data)
@@ -219,13 +223,15 @@ export function GlobalForm({appConfig, update}: GlobalFormProps) {
                         <FormControl>
                           <Input
                               type="number"
-                              step={.1}
                               placeholder=""
                               {...field}
-                              value={field.value}
                               onChange={(e) => {
                                 const newValue = e.target.value;
-                                field.onChange(Number(newValue));
+                                const numberValue = Number(newValue);
+                                if (isNaN(numberValue)) {
+                                  return;
+                                }
+                                field.onChange(numberValue);
                               }}
                           />
                         </FormControl>
@@ -266,6 +272,7 @@ export function GlobalForm({appConfig, update}: GlobalFormProps) {
                     </FormControl>
                     <FormDescription>
                       The maximum number of concurrent downloads. If the number of downloads exceeds this value, the download will be queued.
+                      Default is set to 5.
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>
@@ -285,6 +292,30 @@ export function GlobalForm({appConfig, update}: GlobalFormProps) {
                     </FormControl>
                     <FormDescription>
                       The maximum number of concurrent uploads. If the number of uploads exceeds this value, the upload will be queued.
+                      Default is set to 3.
+                    </FormDescription>
+                    <FormMessage/>
+                  </FormItem>
+              )}
+          />
+
+          <FormField
+              control={form.control}
+              name="downloadRetryDelay"
+              render={({field}) => (
+                  <FormItem>
+                    <FormLabel>Download retry delay</FormLabel>
+                    <FormControl>
+                      <Input type="number"
+                             onChange={(e) => field.onChange(Number(e.target.value))}
+                             value={field.value}
+                             placeholder="10"/>
+                    </FormControl>
+                    <FormDescription>
+                      This is the delay <strong>(in seconds)</strong> used to check if a streamer is still live after a failed download (usually
+                      encountered when the streamer goes offline or network issues).
+                      Increasing this value will reduce the number of requests to the platform.
+                      Default is set to 10 seconds.
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>
@@ -306,6 +337,7 @@ export function GlobalForm({appConfig, update}: GlobalFormProps) {
                     <FormDescription>
                       The maximum number of stream download retries. If the number of retries exceeds this value, the stream session will be
                       considered as finished.
+                      Default is set to 3.
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>

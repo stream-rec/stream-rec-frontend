@@ -25,10 +25,11 @@ export const globalConfigSchema = z.object({
       }).optional(),
   minPartSize: z.number().positive(),
   maxPartSize: z.number().positive(),
-  maxPartDuration: z.number().positive().optional(),
+  maxPartDuration: z.number().min(0).optional(),
   maxConcurrentDownloads: z.number().min(1).optional(),
   maxConcurrentUploads: z.number().min(1).optional(),
   maxDownloadRetries: z.number().min(1).optional(),
+  downloadRetryDelay: z.number().min(1).optional(),
   huyaConfig: huyaGlobalConfig.optional(),
   douyinConfig: douyinGlobalConfig.optional(),
 })
