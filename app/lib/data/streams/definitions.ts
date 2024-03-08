@@ -12,11 +12,13 @@ export const baseDownloadConfig = z.object({
   outputFolder: z.string().nullish(),
   outputFileName: z.string().nullish(),
   outputFileExtension: z.enum(videoFormats).nullish(),
-  partedDownloadRetry: z.number().min(0).nullish(),
   onPartedDownload: rcloneActionSchema.or(commandActionSchema).array().nullish(),
   onStreamingFinished: rcloneActionSchema.or(commandActionSchema).array().nullish(),
 })
 export type DownloadConfig = z.infer<typeof baseDownloadConfig>
+
+
+
 
 export type StreamData = {
   id: number;

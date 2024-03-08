@@ -74,28 +74,28 @@ export function BaseDownloadTab({control, showDanmu = true, showCookies = true, 
                   />
               )
           }
-          <FormField
-              control={control}
-              name="partedDownloadRetry"
-              render={({field}) => (
-                  <FormItem>
-                    <FormLabel>Parted download retry</FormLabel>
-                    <FormControl>
-                      <Input type={"number"} placeholder={"15"} value={field.value} onChange={e => {
-                        if (e.target.value === "") {
-                          field.onChange(null);
-                        } else {
-                          field.onChange(parseInt(e.target.value));
-                        }
-                      }}></Input>
-                    </FormControl>
-                    <FormDescription>
-                      Delay in seconds for each part download retry. Default is 15 seconds.
-                    </FormDescription>
-                    <FormMessage/>
-                  </FormItem>
-              )}
-          />
+          {/*<FormField*/}
+          {/*    control={control}*/}
+          {/*    name="partedDownloadRetry"*/}
+          {/*    render={({field}) => (*/}
+          {/*        <FormItem>*/}
+          {/*          <FormLabel>Parted download retry</FormLabel>*/}
+          {/*          <FormControl>*/}
+          {/*            <Input type={"number"} placeholder={"15"} value={field.value} onChange={e => {*/}
+          {/*              if (e.target.value === "") {*/}
+          {/*                field.onChange(null);*/}
+          {/*              } else {*/}
+          {/*                field.onChange(parseInt(e.target.value));*/}
+          {/*              }*/}
+          {/*            }}></Input>*/}
+          {/*          </FormControl>*/}
+          {/*          <FormDescription>*/}
+          {/*            Delay in seconds for each part download retry. Default is 15 seconds.*/}
+          {/*          </FormDescription>*/}
+          {/*          <FormMessage/>*/}
+          {/*        </FormItem>*/}
+          {/*    )}*/}
+          {/*/>*/}
 
           <OutputFolderFormField control={control}/>
           <OutputFilenameFormfield control={control}/>

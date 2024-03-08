@@ -1,5 +1,6 @@
 import {z} from "zod";
 import {baseDownloadConfig} from "@/app/lib/data/streams/definitions";
+import {globalPlatformConfig} from "@/app/lib/data/platform/definitions";
 
 export const huyaCDNs = ["AL", "TX", "HW", "WS", "HS", "AL13", "HW16", "HY"] as const;
 
@@ -7,7 +8,7 @@ export const huyaRegex = "(?:https?://)?(?:(?:www|m)\\.)?huya\\.com/([a-zA-Z0-9]
 export const huyaAvatarRegex = new RegExp("avatar\"\\s*:\\s*\"([^\"]+)")
 export const huyaBaseUrl = "https://www.huya.com/"
 
-export const huyaGlobalConfig = z.object({
+export const huyaGlobalConfig = globalPlatformConfig.extend({
   primaryCdn: z.enum(huyaCDNs).nullish(),
   cookies: z.string().nullish(),
   maxBitRate: z.number().min(1000).nullish(),

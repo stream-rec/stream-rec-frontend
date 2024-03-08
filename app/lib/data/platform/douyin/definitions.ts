@@ -1,5 +1,6 @@
 import {z} from "zod";
 import {baseDownloadConfig} from "@/app/lib/data/streams/definitions";
+import {globalPlatformConfig} from "@/app/lib/data/platform/definitions";
 
 const douyinRegex = "(?:https?://)?(?:www\\.)?(?:live\\.)?douyin\\.com/([a-zA-Z0-9]+)"
 
@@ -13,7 +14,7 @@ export enum DouyinQuality {
   ao = "ao"
 }
 
-export const douyinGlobalConfig = z.object({
+export const douyinGlobalConfig = globalPlatformConfig.extend({
   cookies: z.string().regex(/__ac_nonce=.*; __ac_signature=.*;/, {
     message: "Invalid cookies format"
   }).nullish(),

@@ -7,7 +7,7 @@ import {Button} from "@/components/new-york/ui/button";
 import {DouyinTabContent} from "@/app/dashboard/settings/platform/tabs/douyin-tab";
 import {HuyaTabContent} from "@/app/dashboard/settings/platform/tabs/huya-tab";
 import {useEffect, useState} from "react";
-import {PlatformGlobalConfig} from "@/app/lib/data/platform/definitions";
+import {GlobalPlatformConfig} from "@/app/lib/data/platform/definitions";
 import {huyaGlobalConfig} from "@/app/lib/data/platform/huya/definitions";
 import {douyinGlobalConfig} from "@/app/lib/data/platform/douyin/definitions";
 import {GlobalConfig} from "@/app/lib/data/config/definitions";
@@ -38,7 +38,7 @@ export default function PlatformForm({defaultValues}: PlatformFormValues) {
 
   const [defaultPlatformConfig, setDefaultPlatformConfig] = useState<GlobalConfig | undefined>(defaultValues)
 
-  const form = useForm<PlatformGlobalConfig>({
+  const form = useForm<GlobalPlatformConfig>({
     resolver: zodResolver(resolver),
     defaultValues: defaultPlatformConfig?.huyaConfig,
     mode: "onChange",
@@ -48,7 +48,7 @@ export default function PlatformForm({defaultValues}: PlatformFormValues) {
     form.reset(platform == "huya" ? defaultPlatformConfig?.huyaConfig : defaultPlatformConfig?.douyinConfig)
   }, [setDefaultPlatformConfig])
 
-  async function onSubmit(data: PlatformGlobalConfig) {
+  async function onSubmit(data: GlobalPlatformConfig) {
     const config = {
       ...defaultValues,
       huyaConfig: platform == "huya" ? data : defaultPlatformConfig?.huyaConfig,
