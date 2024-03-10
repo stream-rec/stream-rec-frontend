@@ -67,6 +67,9 @@ export const updateStreamer = async (streamer: StreamerSchema) => {
   if (!response.ok) {
     throw new Error("Error updating streamer, status: " + response.status + " " + response.statusText)
   }
+  // format lastLiveTime to seconds
+  if (streamer.lastLiveTime && streamer.lastLiveTime > 0)
+    streamer.lastLiveTime = streamer.lastLiveTime / 1000
   let json = await response.json() as StreamerSchema
   return json
 }
