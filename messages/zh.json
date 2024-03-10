@@ -6,8 +6,8 @@
     "status": "{status, select, recording {录制中} notRecording {不在录制} other {已禁用}}"
   },
   "Stats": {
-    "downloadMessage": "下载数量({date, select, 0 {本周} 2 {今年} 1 {本月} other {自定义日期}})",
-    "uploadMessage": "上传数量({date, select, 0 {本周} 2 {今年} 1 {本月} other {自定义日期}})",
+    "downloadMessage": "{date, select, 0 {本周} 2 {今年} 1 {本月} other {自定义日期}}下载数量",
+    "uploadMessage": "{date, select, 0 {本周} 2 {今年} 1 {本月} other {自定义日期}}上传数量",
     "relativeMessage": "相对于上一{date, select, 0 {周} 2 {年} 1 {月} other {日}}"
   },
   "StreamerData": {
