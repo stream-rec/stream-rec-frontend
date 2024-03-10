@@ -1,7 +1,7 @@
 import React, {Suspense} from "react";
 import StatsSkeleton from "@/app/[locale]/dashboard/(overview)/(stats)/stats-skeleton";
-import {TotalStatsCard} from "@/app/[locale]/dashboard/(overview)/(stats)/total-stats";
-import {WeeklyStatsCard} from "@/app/[locale]/dashboard/(overview)/(stats)/weekly-stats";
+import {TotalStatsCard, WeeklyStatsCard} from "@/app/[locale]/dashboard/(overview)/(stats)/dashboard-cards";
+
 
 export default async function StatsCardWrapper() {
 
