@@ -4,16 +4,21 @@ import {Table} from "@tanstack/react-table"
 import {Button} from "@/components/new-york/ui/button"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/new-york/ui/select"
 import {clsx} from "clsx";
+import {useTranslations} from "next-intl";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
   showSelectedCount?: boolean
 }
 
+
 export function DataTablePagination<TData>({
                                              table,
-                                             showSelectedCount = false,
+                                             showSelectedCount = false
                                            }: DataTablePaginationProps<TData>) {
+
+  const t = useTranslations("Pagination")
+
   return (
       <div className="flex flex-col md:flex-row items-center justify-between px-2">
         <div>
@@ -22,13 +27,15 @@ export function DataTablePagination<TData>({
               "flex-1 text-sm text-muted-foreground",
               showSelectedCount ? "md:flex" : "hidden"
           )}>
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
+            {t("selectedMessage", {
+              selectedCount: table.getFilteredSelectedRowModel().rows.length,
+              totalCount: table.getFilteredRowModel().rows.length
+            })}
           </div>
         </div>
         <div className="flex md:flex-row md:items-center md:space-x-6 lg:space-x-8">
           <div className="flex items-center space-x-2">
-            <p className="text-sm font-medium">Rows per page</p>
+            <p className="text-sm font-medium">{t("rowsPerPage")}</p>
             <Select
                 value={`${table.getState().pagination.pageSize}`}
                 onValueChange={(value) => {
@@ -47,9 +54,8 @@ export function DataTablePagination<TData>({
               </SelectContent>
             </Select>
           </div>
-          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-            Page {table.getState().pagination.pageIndex + 1} of{" "}
-            {table.getPageCount()}
+          <div className="flex w-[120px] items-center justify-center text-sm font-medium">
+            {t("pageMessage", {page: table.getState().pagination.pageIndex + 1, totalPages: table.getPageCount()})}
           </div>
           <div className="flex flex-col md:flex-row items-center space-x-2">
             <Button
@@ -58,7 +64,7 @@ export function DataTablePagination<TData>({
                 onClick={() => table.setPageIndex(0)}
                 disabled={!table.getCanPreviousPage()}
             >
-              <span className="sr-only">Go to first page</span>
+              <span className="sr-only">{t("goToFirst")}</span>
               <DoubleArrowLeftIcon className="h-4 w-4"/>
             </Button>
             <Button
@@ -67,7 +73,7 @@ export function DataTablePagination<TData>({
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
             >
-              <span className="sr-only">Go to previous page</span>
+              <span className="sr-only">{t("goToPrev")}</span>
               <ChevronLeftIcon className="h-4 w-4"/>
             </Button>
             <Button
@@ -76,7 +82,7 @@ export function DataTablePagination<TData>({
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
             >
-              <span className="sr-only">Go to next page</span>
+              <span className="sr-only">{t("goToNext")}</span>
               <ChevronRightIcon className="h-4 w-4"/>
             </Button>
             <Button
@@ -85,7 +91,7 @@ export function DataTablePagination<TData>({
                 onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                 disabled={!table.getCanNextPage()}
             >
-              <span className="sr-only">Go to last page</span>
+              <span className="sr-only">{t("goToLast")}</span>
               <DoubleArrowRightIcon className="h-4 w-4"/>
             </Button>
           </div>

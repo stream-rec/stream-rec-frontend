@@ -1,0 +1,347 @@
+{
+  "Dashboard": {
+    "title": "Dashboard",
+    "summaryOfDashboard": "Summary of stats, and other data",
+    "streamers": "Streamers",
+    "status": "{status, select, recording {Recording} notRecording {Not recording} other {Disabled}}"
+  },
+  "Stats": {
+    "downloadMessage": "Downloads in {date, select, 0 {this week} 2 {this year} 1 {this month} other {custom date}}",
+    "uploadMessage": "Uploads in {date, select, 0 {this week} 2 {this year} 1 {this month} other {custom date}}",
+    "relativeMessage": "from last {date, select, 0 {week} 2 {year} 1 {month} other {day}}"
+  },
+  "StreamerData": {
+    "liveNow": "is live now",
+    "notLive": "not live",
+    "noStreamsYet": "no streams yet",
+    "template": "Template",
+    "name": "name",
+    "url": "url"
+  },
+  "StreamersPage": {
+    "title": "Stremers",
+    "streamers": "Streamer",
+    "summaryOfStreamers": "List of streamers and their status",
+    "addStreamer": "Add streamer"
+  },
+  "NewStreamerPage": {
+    "title": "New streamer",
+    "description": "Add a new streamer to your list."
+  },
+  "EditStreamerPage": {
+    "title": "Edit streamer",
+    "description": "Edit the streamer's details and settings."
+  },
+  "StreamerForm": {
+    "templateDefault": "Select a template",
+    "templateSearch": "Search a template",
+    "templateDescription": "Select a template to use its configuration. <important>Warning : You can not change this streamer`s download configuration after selection.</important>",
+    "noTemplate": "no templates available",
+    "doNotUseTemplate": "do not use a template",
+    "asTemplate": "As template",
+    "asTemplateDescription": "Whether to use this streamer as a template for other streamers.",
+    "nameDescription": "The name of the streamer.",
+    "urlDescription": "Streamer`s streaming url, with following format: <code>'{`https://www.huya.com/{name}`}'</code> - Huya <code>'{`https://live.douyin.com/{id}`}'</code> - Douyin",
+    "enabledRecording": "Enabled recording",
+    "enabledRecordingDescription": "Whether to enable recording for this streamer.",
+    "streamerOnlyOptions": "Streamer only options",
+    "alert": "Heads up!",
+    "alertOverrideDescription": "Below options will override the global settings for this streamer. If you want to use the global settings, leave these fields empty.",
+    "platformSpecificOptions": "Platform specific options",
+    "defaultDownloadOptions": "Download options",
+    "callbackOptions": "Callback options",
+    "save": "Save"
+  },
+  "Metadata": {
+    "title": "Stream-rec"
+  },
+  "Themes": {
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "Toast": {
+    "submitMessage": "You have submitted：",
+    "submitErrorMessage": "An error occurred ："
+  },
+  "Platform": {
+    "huya": "Huya",
+    "douyin": "Douyin"
+  },
+  "Rclone": {
+    "title": "Rclone",
+    "operation": "Rclone operation",
+    "operationDescription": "Rclone operation, such as copy, move, sync, etc.",
+    "remote": "Rclone remote",
+    "remoteDescription": "Rclone remote name. eg: gdrive:example/, gdrive:example, etc...",
+    "args": "Arguments",
+    "argsDescription": "Arguments for the program..."
+  },
+  "Command": {
+    "title": "Command",
+    "program": "Program",
+    "programDescription": "Program to run, such as sh, ffmpeg, etc.",
+    "arguments": "Arguments",
+    "argumentsDescription": "Program arguments, like: -c 'echo hello world'",
+    "addArgument": "Add argument",
+    "removeArgument": "Delete argument"
+  },
+  "Settings": {
+    "title": "Settings",
+    "settingsDescription": "Manage your global, platforms and appearance settings.",
+    "globalSettings": "Global settings",
+    "globalSettingsDescription": "This is where you can update your global settings.",
+    "globalSettingsAlert": "Heads up!",
+    "globalSettingsAlertDescription": "Changing some of these settings may require a manual reboot",
+    "platformSettings": "Platform settings",
+    "platformSettingsDescription": "Configure streaming platforms recording settings.",
+    "themeSettings": "Appearance",
+    "themeSettingsDescription": "Customize the appearance of the app. Automatically switch between day and night themes.",
+    "themeSettingsFont": "Font",
+    "themeSettingsFontDescription": "Set the font you want to use in the application.",
+    "themeSettingsTheme": "Theme",
+    "themeSettingsThemeDescription": "Select the theme for the application.",
+    "save": "Update settings"
+  },
+  "Huya": {
+    "platform": "Huya",
+    "cdn": "Primary CDN",
+    "cdnDescription": "Huya primary CDN used to fetch the video stream. By default, it is set to AL. Possible values are AL, TX, HW, WS, HS, AL13, HW16, HY.",
+    "cdnDefault": "Select a CDN",
+    "bitrate": "Max record bitrate",
+    "bitrateDescription": "The maximum bitrate for the Huya video stream. The tool will automatically adjust the closest bitrate available for download.",
+    "part": "Part download delay",
+    "partDescription": "The delay between each part download retry. Optional. Default is 15 seconds.",
+    "cookieString": "Cookies",
+    "cookieDescription": "Cookies to be used for the Huya video stream. <important>Optional</important>"
+  },
+  "DouyinQualities": {
+    "origin": {
+      "id": "origin",
+      "name": "Origin"
+    },
+    "uhd": {
+      "id": "uhd",
+      "name": "Ultra High Definition"
+    },
+    "hd": {
+      "id": "hd",
+      "name": "High Definition"
+    },
+    "sd": {
+      "id": "sd",
+      "name": "Standard Definition"
+    },
+    "ld": {
+      "id": "ld",
+      "name": "Low Definition"
+    },
+    "md": {
+      "id": "md",
+      "name": "Smooth Definition"
+    },
+    "ao": {
+      "id": "ao",
+      "name": "Audio only"
+    }
+  },
+  "Douyin": {
+    "platform": "Douyin",
+    "quality": "Record quality",
+    "qualityDescription": "The quality of the Douyin video stream. Ordered from highest to lowest quality. The tool will look up for the closest quality available to selected.",
+    "part": "Part download delay",
+    "partDescription": "The delay between each part download retry. Optional. Default is 3 seconds.",
+    "cookieString": "Douyin Cookies",
+    "cookiesDescription": "The cookies used to authenticate the Douyin account. <important>__ac_nonce= and __ac_signature must be included</important>"
+  },
+  "BaseDownloadConfigs": {
+    "danmu": "Danmu",
+    "danmuDescription": "Whether to download bullet comments. Default is set to follow the global settings.",
+    "cookieString": "Cookies",
+    "cookiesDescription": "Cookies to be used for the download. Default is set to follow the global settings.",
+    "outputFolder": "Output folder",
+    "outputFolderDescription": "This is the folder where the downloaded files will be saved. Default is set to follow the global settings. You can use placeholders like: <code>'{title}' The title of the streaming.</code><code>'{streamer}' The streamer name of the streaming.</code><code>%yyyy The year of the streaming.</code><code>%MM The month of the streaming.</code><code>%dd The day of the streaming.</code><code>%HH The hour of the streaming.</code><code>%mm The minute of the streaming.</code><code>%ss The second of the streaming.</code>",
+    "outputFilename": "Output file format",
+    "outputFilenameDescription": "This is the file name of the downloaded file. Same placeholders as output folder are available. <important>Please do not include file extension, it will be automatically added based on the below selected format.</important>",
+    "outputFormat": "Output video extension",
+    "outputFormatDescription": "The file extension of the downloaded file. <important>Select the appropriate video extension according your needs</important>",
+    "maxBitrate": "Max record bitrate",
+    "maxBitrateDescription": "The maximum bitrate for the video stream. The tool will automatically adjust the closest bitrate available for download. Default is set to follow each platform global settings."
+  },
+  "CallbacksConfigs": {
+    "alert": "Heads up!",
+    "alertDescription": "These actions are asynchronous to the download process and will be executed concurrently.",
+    "onPartedDownload": "On parted download callbacks",
+    "onPartedDownloadDescription": "Actions to be executed when a video part is downloaded",
+    "onStreamEnded": "On Stream ended callbacks",
+    "onStreamEndedDescription": "Actions to be executed when a streamer has ended. <important>Please make sure on parted download has finished</important>",
+    "newAction": "New Action",
+    "newActionDescription": "Create a new action callback to be triggered when a new event occurs.",
+    "actionType": "Action Type",
+    "actionTypeDescription": "Type of action to be triggered.",
+    "actionSelectPlaceholder": "Select an action",
+    "actionState": "Action state",
+    "actionStateDescription": "Whether to enable or disable the action.",
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "GlobalSettings": {
+    "engine": "Download engine",
+    "engineDescription": "The engine used for the download. Defaults to FFmpeg",
+    "deleteFiles": "Global delete files flag",
+    "deleteFilesDescription": "Enable files deletion after download, if disabled, files will be kept in the download folder. <important>It only works when onPartedDownload or onStreamingFinished callbacks are not set.</important>",
+    "outputFolder": "Output folder format",
+    "outputFolderDescription": "This is the folder where the downloaded files will be saved. You can use placeholders like: <code>'{title}' The title of the streaming.</code><code>'{streamer}' The streamer name of the streaming.</code><code>%yyyy The year of the streaming.</code><code>%MM The month of the streaming.</code><code>%dd The day of the streaming.</code><code>%HH The hour of the streaming.</code><code>%mm The minute of the streaming.</code><code>%ss The second of the streaming.</code>",
+    "outputFilename": "Output file format",
+    "outputFilenameDescription": "This is the file name of the downloaded file. Same placeholders as output folder are available. <important>Please do not include file extension, it will be automatically added based on the below selected format.</important>",
+    "outputFormat": "Output video extension",
+    "outputFormatDescription": "The file extension of the downloaded file. <important>Select the appropriate video extension according your needs</important>",
+    "minPart": "Minimum parted download size",
+    "minPartDescription": "The minimum size of a parted download. If the download size is less than this value, the download will be deleted.",
+    "minPartDefault": "Enter a default size",
+    "maxPart": "Maximum parted download size",
+    "maxPartDescription": "The maximum size of a parted download. If the download size exceeds this value, the download will be parted. If the value is 0, it will use the default value of 2.5GB.",
+    "maxPartDefault": "Enter a default size",
+    "maxPartDuration": "Maximum parted download duration",
+    "maxPartDurationDescription": "The maximum duration of a parted download. If the download duration exceeds this value, the download will be parted. If the value is 0, it disables the maximum parted download duration. <important>It has priority over the maximum parted download size</important>",
+    "maxPartDurationDefault": "Enter a default duration",
+    "maxConcurrentDownload": "Maximum concurrent downloads",
+    "maxConcurrentDownloadDescription": "The maximum number of concurrent downloads. If the number of downloads exceeds this value, the download will be queued. Default is set to 5. <important>Change this field according to your streamers count and network conditions</important>",
+    "maxConcurrentUpload": "Maximum concurrent uploads",
+    "maxConcurrentUploadDescription": "The maximum number of concurrent uploads. If the number of uploads exceeds this value, the upload will be queued. Default is set to 3.",
+    "downloadRetryDelay": "Download retry delay",
+    "downloadRetryDelayDescription": "This is the delay (in seconds) used to check if a streamer is still live after a failed download (usually encountered when the streamer goes offline or network issues). Increasing this value will reduce the number of requests to the platform. Default is set to 10 seconds.",
+    "maxDownloadRetries": "Maximum retry counts",
+    "maxDownloadRetriesDescription": "The maximum number of stream download retries. If the number of retries exceeds this value, the stream session will be considered as finished. Default is set to 3.",
+    "save": "Update settings"
+  },
+  "TableToolbar": {
+    "searchPlaceholder": "Filter by {search}...",
+    "dateRange": "Date range",
+    "filter": "Filter",
+    "clearFilters": "Clear filters",
+    "success": "Success",
+    "failed": "Failed",
+    "asc": "Asc",
+    "desc": "Desc",
+    "hide": "Hide",
+    "viewOptions": "View",
+    "toggleColumns": "Toogle",
+    "noResults": "No results found"
+  },
+  "Pagination": {
+    "selectedMessage": "{selectedCount, plural, =0 {no rows selected} =1 {one row selected} other {# rows selected}} {totalCount, plural, =0 {} other {of # rows}}",
+    "rowsPerPage": "Rows per page",
+    "pageMessage": "Page {page, number} of {totalPages, number}",
+    "goToFirst": "Go to first page",
+    "goToPrev": "Go to previous page",
+    "goToNext": "Go to next page",
+    "goToLast": "Go to last page"
+  },
+  "Actions": {
+    "actions": "Actions",
+    "openMenu": "Open menu",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "deleted": "Deleted successfully",
+    "deleteError": "Delete error"
+  },
+  "Upload": {
+    "title": "Upload list",
+    "description": "Here's a list of your uploaded data. Now it only supports uploads by Rclone...",
+    "viewUploadDetails": "查看上传详情",
+    "viewStreamDetails": "查看直播详情",
+    "viewStreamerDetails": "查看主播详情"
+  },
+  "UploadDetails": {
+    "title": "Upload details",
+    "description": "View upload details."
+  },
+  "UploadData": {
+    "id": "Id",
+    "streamer": "Streamer",
+    "streamTitle": "Stream title",
+    "filePath": "File path",
+    "uploadTime": "Upload time",
+    "uploadPlatform": "Upload platform",
+    "uploadResults": "Upload results",
+    "status": "Upload status",
+    "success": "Success",
+    "failed": "Failed"
+  },
+  "UploadColumns": {
+    "id": {
+      "key": "id",
+      "value": "Id"
+    },
+    "streamer": {
+      "key": "streamer",
+      "value": "Streamer"
+    },
+    "streamTitle": {
+      "key": "streamTitle",
+      "value": "Stream title"
+    },
+    "filePath": {
+      "key": "filePath",
+      "value": "File path"
+    },
+    "uploadTime": {
+      "key": "uploadTime",
+      "value": "Upload started time"
+    },
+    "status": {
+      "key": "status",
+      "value": "Upload status"
+    }
+  },
+  "RecordsPage": {
+    "title": "Records page",
+    "description": "Here's a list of your recorded data.",
+    "viewUploadDetails": "View upload details",
+    "viewStreamDetails": "View stream details",
+    "viewStreamerDetails": "View streamer details"
+  },
+  "RecordColumns": {
+    "id": {
+      "key": "id",
+      "value": "Id"
+    },
+    "streamer": {
+      "key": "streamerName",
+      "value": "Streamer"
+    },
+    "title": {
+      "key": "title",
+      "value": "Stream title"
+    },
+    "filePath": {
+      "key": "outputFilePath",
+      "value": "File path"
+    },
+    "danmufilePath": {
+      "key": "danmuFilePath",
+      "value": "Danmu file path"
+    },
+    "dateStart": {
+      "key": "dateStart",
+      "value": "Stream start time"
+    },
+    "dateEnd": {
+      "key": "dateEnd",
+      "value": "Stream end time"
+    }
+  },
+  "RecordData": {
+    "id": "Id",
+    "streamer": "Streamer",
+    "title": "Stream title",
+    "filePath": "File path",
+    "danmuFilePath": "Danmu file path",
+    "dateStart": "Stream start time",
+    "dateEnd": "Stream end time"
+  },
+  "RecordDetails": {
+    "title": "Stream details",
+    "description": "View stream details."
+  }
+}

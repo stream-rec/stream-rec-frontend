@@ -5,10 +5,10 @@ import {Column} from "@tanstack/react-table"
 import {Button} from "@/components/new-york/ui/button"
 import {Popover, PopoverContent, PopoverTrigger,} from "@/components/new-york/ui/popover"
 import {DateRange} from "react-day-picker";
-import {format} from "date-fns";
 import {Calendar} from "@/components/new-york/ui/calendar";
 import {CalendarIcon} from "lucide-react";
 import {Command, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandSeparator,} from "@/components/new-york/ui/command"
+import {useFormatter, useTranslations} from "next-intl";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>
@@ -30,6 +30,9 @@ export function DataTableDatePickerFilter<TData, TValue>({
 
   const [date, setDate] = React.useState<DateRange | undefined>(undefined)
 
+
+  const t = useTranslations("TableToolbar")
+  const format = useFormatter()
 
   useEffect(() => {
     if (date?.from && date?.to) {
@@ -53,11 +56,26 @@ export function DataTableDatePickerFilter<TData, TValue>({
             {date?.from ? (
                 date.to ? (
                     <>
-                      {format(date.from, "LLL dd, y")} -{" "}
-                      {format(date.to, "LLL dd, y")}
+                      {format.dateTime(date.from, {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          }
+                      )} - {" "}
+                      {format.dateTime(date.to, {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          }
+                      )}
                     </>
                 ) : (
-                    format(date.from, "LLL dd, y")
+                    format.dateTime(date.from, {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        }
+                    )
                 )
             ) : (
                 <span>{title}</span>
@@ -77,7 +95,7 @@ export function DataTableDatePickerFilter<TData, TValue>({
 
           <Command>
             <CommandList>
-              <CommandEmpty>No results found.</CommandEmpty>
+              <CommandEmpty>{t("noResults")}</CommandEmpty>
               {selectedValues.size > 0 && (
                   <>
                     <CommandSeparator/>
@@ -86,7 +104,7 @@ export function DataTableDatePickerFilter<TData, TValue>({
                           onSelect={() => column?.setFilterValue(undefined)}
                           className="justify-center text-center"
                       >
-                        Clear filter
+                        {t("clearFilters")}
                       </CommandItem>
                     </CommandGroup>
                   </>
