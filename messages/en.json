@@ -187,6 +187,8 @@
   "GlobalSettings": {
     "engine": "Download engine",
     "engineDescription": "The engine used for the download. Defaults to FFmpeg",
+    "danmu": "Danmu",
+    "danmuDescription": "Whether to download bullet comments. Default is set to follow the global settings.",
     "deleteFiles": "Global delete files flag",
     "deleteFilesDescription": "Enable files deletion after download, if disabled, files will be kept in the download folder. <important>It only works when onPartedDownload or onStreamingFinished callbacks are not set.</important>",
     "outputFolder": "Output folder format",

@@ -19,6 +19,8 @@ export default async function GlobalFormWrapper() {
           submitErrorMessage: toast("submitErrorMessage"),
           engine: t("engine"),
           engineDescription: t("engineDescription"),
+          danmu: t("danmu"),
+          danmuDescription: t.rich("danmuDescription"),
           deleteFiles: t("deleteFiles"),
           deleteFilesDescription: t.rich("deleteFilesDescription"),
           outputFolder: t("outputFolder"),

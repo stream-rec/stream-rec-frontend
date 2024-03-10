@@ -188,6 +188,8 @@
   "GlobalSettings": {
     "engine": "下载引擎",
     "engineDescription": "选择一个下载引擎，工具将会使用这个引擎下载流。默认为ffmpeg。",
+    "danmu": "下载弹幕",
+    "danmuDescription": "是否下载弹幕，默认未开启。弹幕文件为XML格式。",
     "deleteFiles": "下载完成后删除文件",
     "deleteFilesDescription": "录播片段下载完成后自动删除文件，默认开启。 <important>请注意：该选项只有onPartedDownload 和 onStreamingFinished 后处理为空时才有效</important>",
     "outputFolder": "下载文件夹",
