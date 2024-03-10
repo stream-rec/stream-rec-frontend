@@ -13,10 +13,7 @@ export const baseActionSchema = z.object({
 
 
 export const commandActionSchema = baseActionSchema.extend({
-  type: z.string({
-    required_error: "Type is required",
-    invalid_type_error: "Type must be a string"
-  }),
+  type: z.literal(ActionType.Command),
   program: z.string({
     required_error: "Program is required",
     invalid_type_error: "Program must be a string"
@@ -25,11 +22,7 @@ export const commandActionSchema = baseActionSchema.extend({
 })
 
 export const rcloneActionSchema = baseActionSchema.extend({
-  type: z.string({
-        required_error: "Type is required",
-        invalid_type_error: "Type must be a string"
-      }
-  ),
+  type: z.literal(ActionType.Rclone),
   rcloneOperation: z.string().min(3),
   remotePath: z.string().min(1),
   args: z.string().array().nullish(),

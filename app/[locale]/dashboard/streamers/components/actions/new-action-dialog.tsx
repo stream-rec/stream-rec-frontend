@@ -1,14 +1,10 @@
 import {Button} from "@/components/new-york/ui/button"
-import {useFieldArray, useForm} from "react-hook-form";
-import {ActionSchema, ActionType, commandActionSchema, rcloneActionSchema} from "@/lib/data/actions/definitions";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
-import React from "react";
+import {ActionSchema, ActionType, CommandActionSchema, RcloneActionSchema} from "@/lib/data/actions/definitions";
+import {FormMessage} from "@/components/new-york/ui/form";
+import React, {useRef} from "react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
 import {Switch} from "@/components/new-york/ui/switch";
-import {Input} from "@/components/new-york/ui/input";
 import {cn} from "@/lib/utils";
-import {XIcon} from "lucide-react";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -19,6 +15,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger
 } from "@/components/new-york/ui/alert-dialog";
+import {Label} from "@/components/new-york/ui/label";
+import {CommandActionForm} from "@/app/[locale]/dashboard/streamers/components/actions/form/command-form";
+import {RcloneActionForm} from "@/app/[locale]/dashboard/streamers/components/actions/form/rclone-form";
 
 type NewActionDialogProps = {
   strings: NewActionDialogStrings
@@ -26,6 +25,7 @@ type NewActionDialogProps = {
   onSave: (data: ActionSchema) => void
   defaultValues?: ActionSchema
 }
+
 export type NewActionDialogStrings = {
   title: string,
   description: string
@@ -65,7 +65,7 @@ const defaultAction: ActionSchema = {
   program: ""
 }
 
-function useActionResolver(initial: ActionType.Command | ActionType.Rclone) {
+const useActionResolver = (initial: ActionType.Command | ActionType.Rclone) => {
   const [type, setType] = React.useState(initial)
 
   function handleTypeChange(e: ActionType.Command | ActionType.Rclone) {
@@ -75,54 +75,38 @@ function useActionResolver(initial: ActionType.Command | ActionType.Rclone) {
 
   return {
     type,
-    handleTypeChange,
-    resolver: type === "command" ? commandActionSchema : rcloneActionSchema
+    handleTypeChange
   }
-}
+};
 
 
 export function NewActionDialog({strings, openIcon, defaultValues = defaultAction, onSave}: NewActionDialogProps) {
 
   const [open, setOpen] = React.useState(false)
 
-  const {type, handleTypeChange, resolver} = useActionResolver(ActionType.Command)
+  const {type, handleTypeChange} = useActionResolver(ActionType.Command)
 
-  const form = useForm<ActionSchema>({
-    resolver: async (data, context, options) => {
-      console.log("formData", data)
-      console.log(
-          "validation result",
-          await zodResolver(resolver)(data, context, options)
-      )
-      return zodResolver(resolver)(data, context, options)
-    },
-    defaultValues: defaultValues,
-    mode: "onChange"
-  });
+  const [active, setActive] = React.useState(defaultValues?.enabled ?? true)
 
-  const {fields, append, remove} = useFieldArray({
-    control: form.control,
-    // @ts-ignore
-    name: "args",
-  })
+  const formRef = useRef<HTMLFormElement>(null)
 
+  const submitForm = () => {
+    formRef.current?.dispatchEvent(new Event("submit", {bubbles: true}))
+  };
 
-  function onSubmit(data: ActionSchema) {
+  const onFormSubmit = (data: ActionSchema) => {
+    data.enabled = active
     onSave(data)
     setOpen(false)
-  }
+  };
 
   return (
       <AlertDialog open={open} onOpenChange={
         (e) => {
           if (!e) {
             console.log("resetting form")
-            form.reset()
-            remove()
-            // setType("command")
           } else {
             console.log("setting default values")
-            form.reset(defaultValues)
             handleTypeChange(defaultValues?.type as ActionType.Command | ActionType.Rclone ?? ActionType.Command)
           }
           setOpen(e)
@@ -138,169 +122,74 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
               {strings.description}
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <Form {...form}>
-            <form onSubmit={event => {
-              event.preventDefault()
-              form.handleSubmit(onSubmit)()
-              event.stopPropagation()
-            }} className="space-y-6">
-              <FormField control={form.control} name={"type"} render={({field}) => (
-                  <FormItem>
-                    <FormLabel>{strings.actionType}</FormLabel>
-                    <Select onValueChange={e => {
-                      field.onChange(e)
-                      handleTypeChange(e as ActionType.Command | ActionType.Rclone)
-                    }} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder={strings.actionSelectPlaceholder}/>
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="command">{strings.commandStrings.title}</SelectItem>
-                        <SelectItem value="rclone">{strings.rcloneStrings.title}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>
-                      {strings.actionTypeDescription}
-                    </FormDescription>
-                    <FormMessage/>
-                  </FormItem>
-              )}>
-              </FormField>
 
-              <FormField
-                  control={form.control}
-                  name="enabled"
-                  render={({field}) => (
-                      <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                        <div className="space-y-0.5">
-                          <FormLabel>{strings.state}</FormLabel>
-                          <FormDescription>
-                            {strings.stateDescription}
-                          </FormDescription>
-                        </div>
-                        <FormControl>
-                          <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                              arial-label="State switch"
-                          />
-                        </FormControl>
-                      </FormItem>
-                  )}
-              />
+          <Label>{strings.actionType}</Label>
+          <Select onValueChange={e => {
+            handleTypeChange(e as ActionType.Command | ActionType.Rclone)
+          }} defaultValue={defaultValues?.type}>
+            <SelectTrigger>
+              <SelectValue placeholder={strings.actionSelectPlaceholder}/>
+            </SelectTrigger>
 
-              {
-                  type === "command" && (
-                      <FormField
-                          control={form.control}
-                          name="program"
-                          render={({field}) => (
-                              <FormItem>
-                                <FormLabel>{strings.commandStrings.program}</FormLabel>
-                                <FormControl>
-                                  <Input placeholder={"sh"} {...field}/>
-                                </FormControl>
-                                <FormDescription>
-                                  {strings.commandStrings.programDescription}
-                                </FormDescription>
-                                <FormMessage/>
-                              </FormItem>
-                          )}
-                      />
-                  )
-              }
-              {
-                  type === "rclone" && (
-                      <FormField
-                          control={form.control}
-                          name="rcloneOperation"
-                          render={({field}) => (
-                              <FormItem>
-                                <FormLabel>{strings.rcloneStrings.operation}</FormLabel>
-                                <FormControl>
-                                  <Input placeholder={"copy"} {...field}/>
-                                </FormControl>
-                                <FormDescription>
-                                  {strings.rcloneStrings.operationDescription}
-                                </FormDescription>
-                                <FormMessage/>
-                              </FormItem>
-                          )}
-                      />
-                  )
-              }
-              {
-                  type === "rclone" && (
-                      <FormField
-                          control={form.control}
-                          name="remotePath"
-                          render={({field}) => (
-                              <FormItem>
-                                <FormLabel>{strings.rcloneStrings.remotePath}</FormLabel>
-                                <FormControl>
-                                  <Input placeholder={"myremote:"} {...field}/>
-                                </FormControl>
-                                <FormDescription>
-                                  {strings.rcloneStrings.operationDescription}
-                                </FormDescription>
-                                <FormMessage/>
-                              </FormItem>
-                          )}
-                      />
-                  )
-              }
-              <>
-                {
-                    fields.length > 0 && (
-                        fields.map((field, index) => (
-                            <FormField
-                                control={form.control}
-                                key={field.id}
-                                name={`args.${index}`}
-                                render={({field}) => (
-                                    <FormItem>
-                                      <FormLabel className={cn(index !== 0 && "sr-only")}>
-                                        {strings.rcloneStrings.arguments}
-                                      </FormLabel>
-                                      <FormDescription className={cn(index !== 0 && "sr-only")}>
-                                        {strings.rcloneStrings.argumentsDescription}
-                                      </FormDescription>
-                                      <FormControl>
-                                        <div className="flex items-center space-x-2">
-                                          <Input {...field}/>
-                                          <Button type="button" variant="outline" size="sm" onClick={() => {
-                                            remove(index)
-                                          }}>
-                                            <span className="sr-only">{strings.rcloneStrings.argumentsDescription}</span>
-                                            <XIcon/>
-                                          </Button>
-                                        </div>
-                                      </FormControl>
-                                      <FormMessage/>
-                                    </FormItem>
-                                )}
-                            />
-                        ))
-                    )
-                }
-                <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="mt-2"
-                    onClick={() => append("")}
-                >
-                  {strings.commandStrings.addArgument}
-                </Button>
-              </>
-              <AlertDialogFooter>
-                <AlertDialogCancel>{strings.cancel}</AlertDialogCancel>
-                <Button type="submit">{strings.save}</Button>
-              </AlertDialogFooter>
-            </form>
-          </Form>
+            <SelectContent>
+              <SelectItem value="command">{strings.commandStrings.title}</SelectItem>
+              <SelectItem value="rclone">{strings.rcloneStrings.title}</SelectItem>
+            </SelectContent>
+          </Select>
+          <p className={cn("text-[0.8rem] text-muted-foreground")}>
+            {strings.actionTypeDescription}
+          </p>
+          <FormMessage/>
+
+          <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+            <div className="space-y-0.5">
+              <Label>{strings.state}</Label>
+              <p className={cn("text-[0.8rem] text-muted-foreground")}>
+                {strings.stateDescription}
+              </p>
+            </div>
+            <Switch
+                checked={active}
+                onCheckedChange={setActive}
+                arial-label="State switch"
+            />
+          </div>
+
+          <>
+            {
+                type === ActionType.Command && (
+                    <CommandActionForm ref={formRef} defaultValues={{...defaultValues, type: ActionType.Command} as CommandActionSchema} strings={
+                      {
+                        program: strings.commandStrings.program,
+                        programDescription: strings.commandStrings.programDescription,
+                        arguments: strings.commandStrings.arguments,
+                        argumentsDescription: strings.commandStrings.argumentsDescription,
+                        addArgument: strings.commandStrings.addArgument,
+                        removeArgument: strings.commandStrings.removeArgument
+                      }
+                    } onSubmit={onFormSubmit}/>
+                )
+            }
+            {
+                type === ActionType.Rclone && (
+                    <RcloneActionForm ref={formRef} defaultValues={{...defaultValues, type: ActionType.Rclone} as RcloneActionSchema} strings={
+                      {
+                        operation: strings.rcloneStrings.operation,
+                        operationDescription: strings.rcloneStrings.operationDescription,
+                        remotePath: strings.rcloneStrings.remotePath,
+                        remotePathDescription: strings.rcloneStrings.remotePathDescription,
+                        arguments: strings.rcloneStrings.arguments,
+                        argumentsDescription: strings.rcloneStrings.argumentsDescription,
+                        addArgument: strings.commandStrings.addArgument,
+                      }
+                    } onSubmit={onFormSubmit}/>
+                )
+            }
+          </>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{strings.cancel}</AlertDialogCancel>
+            <Button type="button" onClick={submitForm}>{strings.save}</Button>
+          </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
   )
