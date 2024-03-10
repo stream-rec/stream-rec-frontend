@@ -82,7 +82,7 @@ export const RcloneActionForm = forwardRef<HTMLFormElement, RcloneActionFormProp
                         <Input placeholder={"myremote:"} {...field}/>
                       </FormControl>
                       <FormDescription>
-                        {strings.operationDescription}
+                        {strings.remotePathDescription}
                       </FormDescription>
                       <FormMessage/>
                     </FormItem>
