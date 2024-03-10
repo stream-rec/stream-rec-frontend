@@ -6,11 +6,11 @@ import {cn} from "@/lib/utils";
 import {clsx} from "clsx";
 import {Badge} from "@/components/new-york/ui/badge";
 import {Button} from "@/components/new-york/ui/button";
-import {SettingsIcon} from "lucide-react";
+import {SettingsIcon, Trash2Icon} from "lucide-react";
 import {Separator} from "@/components/new-york/ui/separator";
 import {Link, useRouter} from "@/i18n";
-import {StreamerDeleteDialog} from "@/app/[locale]/dashboard/streamers/components/actions/streamer-delete-dialog";
 import {toast} from "sonner";
+import {DeleteIconDialog} from "@/app/components/dialog/delete-icon-dialog";
 
 export type StreamerCardProps = {
   streamer: string;
@@ -51,16 +51,20 @@ export function StreamerCard({
                     className={"w-4 h-4"}/></Button>
               </Link>
               <Separator orientation={"vertical"} className={"h-4"}/>
-              <StreamerDeleteDialog onConfirm={
-                async () => toast.promise(deleteStreamer(streamerId.toString()), {
-                  loading: `Deleting ${streamer}...`,
-                  success: () => {
-                    router.refresh()
-                    return "Streamer deleted"
-                  },
-                  error: (error) => `An error occurred while deleting streamer : ${error}`
-                })
-              }/>
+              <DeleteIconDialog
+                  icon={<Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><Trash2Icon className={"w-4 h-4"}/></Button>}
+                  onDelete={
+                    async () => {
+                      toast.promise(deleteStreamer(streamerId.toString()), {
+                        loading: `Deleting ${streamer}...`,
+                        success: () => {
+                          router.refresh()
+                          return "Streamer deleted"
+                        },
+                        error: (error) => `An error occurred while deleting streamer : ${error}`
+                      })
+                    }
+                  }/>
             </div>
             <CardHeader className={"pt-0 pb-3 lg:pb-6"}>
               <div className={"space-y-4 md:flex md:flex-row md:space-x-2.5 items-center md:space-y-0"}>

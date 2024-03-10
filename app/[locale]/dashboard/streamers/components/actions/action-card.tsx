@@ -1,22 +1,12 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/new-york/ui/card";
-import {Button} from "@/components/new-york/ui/button";
 import {Switch} from "@/components/new-york/ui/switch";
 import {Separator} from "@/components/new-york/ui/separator";
 import {DeleteIcon, EditIcon} from "lucide-react";
 import React from "react";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from "@/components/new-york/ui/alert-dialog";
 import {ActionSchema, ActionType, CommandActionSchema, RcloneActionSchema} from "@/lib/data/actions/definitions";
 import {NewActionDialog, NewActionDialogStrings} from "@/app/[locale]/dashboard/streamers/components/actions/new-action-dialog";
+import {DeleteIconDialog} from "@/app/components/dialog/delete-icon-dialog";
+import {Button} from "@/components/new-york/ui/button";
 
 type ActionCardProps = {
   data: ActionSchema
@@ -57,28 +47,17 @@ export function ActionCard({data, onCheckedChange, onEdit, onDelete, actionStrin
                   if (onEdit) {
                     onEdit(e)
                   }
-                }} defaultValues={data}
-                 strings={actionStrings}/>
+                }} defaultValues={data} strings={actionStrings}/>
 
                 <Separator orientation={"vertical"} className={"h-5"}/>
 
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button type={"button"} variant="outline" size={"icon"}><DeleteIcon className="h-4 w-4"/></Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={onDelete}>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <DeleteIconDialog icon={<Button type={"button"} variant="outline" size={"icon"}><DeleteIcon className="h-4 w-4"/></Button>} onDelete={
+                  async () => {
+                    if (onDelete) {
+                      onDelete()
+                    }
+                  }
+                }/>
               </div>
             </div>
           </CardContent>
