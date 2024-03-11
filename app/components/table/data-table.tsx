@@ -18,6 +18,7 @@ import {
 
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/new-york/ui/table";
 import {DataTablePagination} from "@/app/components/table/data-table-pagination";
+import {useTranslations} from "next-intl";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -57,6 +58,8 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
+  const t = useTranslations("TableToolbar")
+
 
   return (
       <div className="space-y-4">
@@ -88,7 +91,7 @@ export function DataTable<TData, TValue>({
               ) : (
                   <TableRow>
                     <TableCell colSpan={columns.length} className="h-24 text-center">
-                      No results.
+                      {t("noResults")}
                     </TableCell>
                   </TableRow>
               )}

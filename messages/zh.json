@@ -1,0 +1,350 @@
+{
+  "Dashboard": {
+    "title": "控制面板",
+    "summaryOfDashboard": "一些关于控制面板的摘要",
+    "streamers": "主播列表",
+    "status": "{status, select, recording {录制中} notRecording {不在录制} other {已禁用}}"
+  },
+  "Stats": {
+    "downloadMessage": "{date, select, 0 {本周} 2 {今年} 1 {本月} other {自定义日期}}下载数量",
+    "uploadMessage": "{date, select, 0 {本周} 2 {今年} 1 {本月} other {自定义日期}}上传数量",
+    "relativeMessage": "相对于上一{date, select, 0 {周} 2 {年} 1 {月} other {日}}"
+  },
+  "StreamerData": {
+    "liveNow": "正在直播",
+    "notLive": "未直播",
+    "noStreamsYet": "暂无直播",
+    "template": "模板",
+    "name": "名称",
+    "url": "直播链接"
+  },
+  "StreamersPage": {
+    "title": "主播",
+    "streamers": "主播列表",
+    "summaryOfStreamers": "这里是主播列表",
+    "addStreamer": "添加主播"
+  },
+  "NewStreamerPage": {
+    "title": "添加主播",
+    "description": "添加一个新的主播"
+  },
+  "EditStreamerPage": {
+    "title": "编辑主播",
+    "description": "编辑主播的各种参数"
+  },
+  "StreamerForm": {
+    "templateDefault": "选择一个模板",
+    "templateSearch": "搜索模板",
+    "templateDescription": "选择一个模板，工具将会使用这个模板的参数进行录制直播。 <important>请注意：如果你选择了模板，你将无法修改下载参数</important>",
+    "noTemplate": "没有找到模板",
+    "doNotUseTemplate": "不使用模板",
+    "asTemplate": "作为模板",
+    "asTemplateDescription": "是否作为模板",
+    "nameDescription": "主播名称",
+    "urlDescription": "直播链接, 目前支持平台 ：虎牙，抖音。 链接格式为：<code>'{`https://www.huya.com/{name}`}'</code> - 虎牙 <code>'{`https://live.douyin.com/{id}`}'</code> - 抖音",
+    "enabledRecording": "启用录制",
+    "enabledRecordingDescription": "是否启用录制",
+    "streamerOnlyOptions": "主播专属选项",
+    "alert": "请注意！",
+    "alertOverrideDescription": "以下配置将会覆盖全局配置，每项配置默认都为空。",
+    "platformSpecificOptions": "平台专属选项",
+    "defaultDownloadOptions": "默认下载选项",
+    "callbackOptions": "回调选项",
+    "save": "保存"
+  },
+  "Metadata": {
+    "title": "Stream-rec"
+  },
+  "Themes": {
+    "light": "白天模式",
+    "dark": "夜间模式"
+  },
+  "Toast": {
+    "submitMessage": "你已提交以下内容：",
+    "submitErrorMessage": "提交失败："
+  },
+  "Platform": {
+    "huya": "虎牙",
+    "douyin": "抖音"
+  },
+  "Rclone": {
+    "title": "Rclone",
+    "operation": "Rclone 操作",
+    "operationDescription": "填写Rclone操作，列如：copy, move, sync ...",
+    "remote": "Rclone 目标路径",
+    "remoteDescription": "Rclone目标路径，例如：gdrive:stream-rec",
+    "args": "参数",
+    "argsDescription": "参数"
+  },
+  "Command": {
+    "title": "命令",
+    "program": "程序",
+    "programDescription": "请填写程序，列如 ：sh",
+    "arguments": "参数",
+    "argumentsDescription": "请填写参数，列如：-c 'echo hello world'",
+    "addArgument": "添加参数",
+    "removeArgument": "删除参数"
+  },
+  "Settings": {
+    "title": "设置",
+    "settingsDescription": "在本页面修改全局，平台，主题设置",
+    "globalSettings": "全局设置",
+    "globalSettingsDescription": "关于Stream-rec的全局设置",
+    "globalSettingsAlert": "请注意！",
+    "globalSettingsAlertDescription": "更改某些设置可能需要重启Stream-rec",
+    "platformSettings": "全局平台设置",
+    "platformSettingsDescription": "关于每个平台的各种设置",
+    "themeSettings": "主题设置",
+    "themeSettingsDescription": "一些主题设置",
+    "themeSettingsFont": "字体",
+    "themeSettingsFontDescription": "选择一个字体",
+    "themeSettingsTheme": "主题",
+    "themeSettingsThemeDescription": "选择一个主题",
+    "save": "保存"
+  },
+  "Huya": {
+    "platform": "虎牙",
+    "cdn": "优先CDN线路",
+    "cdnDescription": "选择一个优先CDN线路，默认为AL、 可选以下线路：AL（阿里云 - 直播线路3）, TX（腾讯云 - 直播线路5）, HW（华为云 - 直播线路6）, WS（网宿）, HS（火山引擎 - 直播线路14）, AL13（阿里云）, HW16（华为云）, HY(星域云 - 直播线路66) ",
+    "cdnDefault": "请选择一个CDN线路",
+    "bitrate": "最大录制码率",
+    "bitrateDescription": "选择一个码率，工具将会尝试录制低于等于这个码率的流。参考：20000（蓝光20M）, 10000（蓝光10M）, 8000（蓝光8M）, 2000（超清）, 500（流畅）",
+    "part": "分段下载延迟",
+    "partDescription": "分段下载延迟，单位秒，默认为15秒。 <important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
+    "cookieString": "Cookies 字符串",
+    "cookieDescription": "虎牙Cookie字符串，用于录制虎牙直播间。 <important>请注意：Cookie字符串不是必须的</important>"
+  },
+  "DouyinQualities": {
+    "origin": {
+      "id": "origin",
+      "name": "原画"
+    },
+    "uhd": {
+      "id": "uhd",
+      "name": "蓝光"
+    },
+    "hd": {
+      "id": "hd",
+      "name": "超清"
+    },
+    "sd": {
+      "id": "sd",
+      "name": "高清"
+    },
+    "ld": {
+      "id": "ld",
+      "name": "标清"
+    },
+    "md": {
+      "id": "md",
+      "name": "流畅"
+    },
+    "ao": {
+      "id": "ao",
+      "name": "音频"
+    }
+  },
+  "Douyin": {
+    "platform": "抖音",
+    "quality": "录制画质",
+    "qualityDescription": "选择一个画质，工具将会尝试录制低于等于这个画质的流。",
+    "qualityDefault": "请选择一个画质",
+    "part": "分段下载延迟",
+    "partDescription": "分段下载延迟，单位秒，默认为3秒。<important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
+    "cookieString": "Cookies 字符串",
+    "cookiesDescription": "抖音Cookie字符串，用于录制抖音直播间，必填。 <important>请注意：Cookie字符串必须存在 __ac_nonce= 和 __ac_signature</important>"
+  },
+  "BaseDownloadConfigs": {
+    "danmu": "下载弹幕",
+    "danmuDescription": "是否下载弹幕，默认跟随全局设置。",
+    "cookieString": "Cookies 字符串",
+    "cookiesDescription": "Cookies字符串，用于录制直播间，默认跟随全局平台设置",
+    "outputFolder": "下载文件夹",
+    "outputFolderDescription": "录播文件的输出文件夹，默认跟随全局设置， 可使用以下占用符: <code>'{title}' 为当前主播直播标题</code><code>'{streamer}' 主播名称</code><code>%yyyy 当前直播年日期</code><code>%MM 当前直播月日期</code><code>%dd 当前直播日期</code><code>%HH 当前直播小时日期</code><code>%mm 当前直播分钟日期</code><code>%ss 当前直播秒日期</code>",
+    "outputFilename": "下载文件名格式",
+    "outputFilenameDescription": "录播文件的输出文件名格式， 支持占用符，默认跟随全局设置。 <important>请不要填写后缀名，请保持唯一性</important>",
+    "outputFormat": "下载文件格式",
+    "outputFormatDescription": "录播视频文件格式，默认跟随全局设置。<important>请根据需求选择合理的视频格式</important>",
+    "maxBitrate": "最大录制码率",
+    "maxBitrateDescription": "选择一个码率，工具将会尝试录制低于等于这个码率的流，默认跟随全局平台设置。"
+  },
+  "CallbacksConfigs": {
+    "alert": "请注意！",
+    "alertDescription": "以下回调命令将在异步运行，不会阻塞录制流程。每个回调将等待上一个回调结束后运行。",
+    "onPartedDownload": "分段下载完成后回调",
+    "onPartedDownloadDescription": "分段下载完成后， 默认为空。 <important>请注意：将会在分段下载完成后执行</important>",
+    "onStreamEnded": "下播后回调",
+    "onStreamEndedDescription": "录制完成后， 默认为空。 <important>请注意：将会在检测主播下播后执行。运行命令前请确保分段下载回调已结束。</important>",
+    "newAction": "新建回调",
+    "newActionDescription": "添加新事件回调",
+    "actionType": "回调类型",
+    "actionTypeDescription": "选择一个回调类型",
+    "actionSelectPlaceholder": "选择一个回调类型",
+    "actionState": "回调状态",
+    "actionStateDescription": "是否启用回调",
+    "cancel": "取消",
+    "save": "保存"
+  },
+  "GlobalSettings": {
+    "engine": "下载引擎",
+    "engineDescription": "选择一个下载引擎，工具将会使用这个引擎下载流。默认为ffmpeg。",
+    "danmu": "下载弹幕",
+    "danmuDescription": "是否下载弹幕，默认未开启。弹幕文件为XML格式。",
+    "deleteFiles": "下载完成后删除文件",
+    "deleteFilesDescription": "录播片段下载完成后自动删除文件，默认开启。 <important>请注意：该选项只有onPartedDownload 和 onStreamingFinished 后处理为空时才有效</important>",
+    "outputFolder": "下载文件夹",
+    "outputFolderDescription": "录播文件的输出文件夹，可使用以下占用符: <code>'{title}' 为当前主播直播标题</code><code>'{streamer}' 主播名称</code><code>%yyyy 当前直播年日期</code><code>%MM 当前直播月日期</code><code>%dd 当前直播日期</code><code>%HH 当前直播小时日期</code><code>%mm 当前直播分钟日期</code><code>%ss 当前直播秒日期</code>",
+    "outputFilename": "下载文件名格式",
+    "outputFilenameDescription": "录播文件的输出文件名格式， 支持占用符。 <important>请不要填写后缀名，请保持唯一性</important>",
+    "outputFormat": "下载文件格式",
+    "outputFormatDescription": "录播视频文件格式，默认为flv。<important>请根据需求选择合理的视频格式</important>",
+    "minPart": "最小分段大小",
+    "minPartDescription": "最小分段大小, 默认为20MB。 小于这个大小的分段将会被删除",
+    "minPartDefault": "10",
+    "maxPart": "最大分段大小",
+    "maxPartDescription": "最大分段大小，默认为2.5GB。 大于这个大小的分段将会被分割",
+    "maxPartDefault": "50",
+    "maxPartDuration": "最大分段时长",
+    "maxPartDurationDescription": "最大分段时长，默认未设置，设置为0恢复默认， <important>请注意，此值优先权大于 ‘最大分段大小’</important>",
+    "maxPartDurationDefault": "0",
+    "maxConcurrentDownload": "最大并发下载数",
+    "maxConcurrentDownloadDescription": "最大并发下载数，默认为5。 <important>请注意：适当根据主播数量和网络情况调整此值</important>",
+    "maxConcurrentUpload": "最大并发上传数",
+    "maxConcurrentUploadDescription": "最大并发上传数，默认为3。 <important>请适当根据主播数量和网络情况调整此值</important>",
+    "downloadRetryDelay": "下播检查延迟",
+    "downloadRetryDelayDescription": "下播检查延迟，单位秒，默认为10秒。适当增加此值可以减少伪下播状态。",
+    "maxDownloadRetries": "下播检查次数",
+    "maxDownloadRetriesDescription": "最大下播检查次数， 默认为3此。 主播下播后，工具将会重试，然后检查直播间是否真的下播。适当增加此值可以减少伪下播状态。",
+    "save": "保存设置"
+  },
+  "TableToolbar": {
+    "searchPlaceholder": "根据{search}搜索...",
+    "dateRange": "日期范围",
+    "filter": "过滤",
+    "clearFilters": "重置",
+    "success": "成功",
+    "failed": "失败",
+    "asc": "升序",
+    "desc": "降序",
+    "hide": "隐藏",
+    "viewOptions": "视图选项",
+    "toggleColumns": "是否隐藏列",
+    "noResults": "没有找到结果"
+  },
+  "Pagination": {
+    "selectedMessage": "已选 {selectedCount} / {totalCount}",
+    "rowsPerPage": "每页行数",
+    "pageMessage": "第 {page, number}页， 总共{totalPages,number}页",
+    "goToFirst": "第一页",
+    "goToPrev": "上一页",
+    "goToNext": "下一页",
+    "goToLast": "最后一页"
+  },
+  "Actions": {
+    "actions": "操作",
+    "openMenu": "打开菜单",
+    "delete": "删除",
+    "deleting": "删除中...",
+    "deleted": "已删除！",
+    "deleteError": "删除失败"
+  },
+  "Upload": {
+    "title": "上传列表",
+    "description": "这里是上传列表，目前只支持rclone平台...",
+    "viewUploadDetails": "查看上传详情",
+    "viewStreamDetails": "查看直播详情",
+    "viewStreamerDetails": "查看主播详情"
+  },
+  "UploadDetails": {
+    "title": "上传详情",
+    "description": "关于上传的一些详情"
+  },
+  "UploadData": {
+    "id": "Id",
+    "streamer": "主播",
+    "streamTitle": "直播标题",
+    "filePath": "文件路径",
+    "uploadTime": "上传时间",
+    "uploadPlatform": "上传平台",
+    "uploadResults": "上传结果",
+    "status": "上传状态",
+    "success": "成功",
+    "failed": "失败"
+  },
+  "UploadColumns": {
+    "id": {
+      "key": "id",
+      "value": "Id"
+    },
+    "streamer": {
+      "key": "streamer",
+      "value": "主播"
+    },
+    "streamTitle": {
+      "key": "streamTitle",
+      "value": "直播标题"
+    },
+    "filePath": {
+      "key": "filePath",
+      "value": "文件路径"
+    },
+    "uploadTime": {
+      "key": "uploadTime",
+      "value": "上传开始时间"
+    },
+    "status": {
+      "key": "status",
+      "value": "上传状态"
+    }
+  },
+  "RecordsPage": {
+    "title": "录播列表",
+    "description": "这里是录播列表",
+    "viewUploadDetails": "查看上传详情",
+    "viewStreamDetails": "查看直播详情",
+    "viewStreamerDetails": "查看主播详情"
+  },
+  "RecordColumns": {
+    "id": {
+      "key": "id",
+      "value": "Id"
+    },
+    "streamer": {
+      "key": "streamerName",
+      "value": "主播"
+    },
+    "title": {
+      "key": "title",
+      "value": "直播标题"
+    },
+    "filePath": {
+      "key": "outputFilePath",
+      "value": "文件路径"
+    },
+    "danmufilePath": {
+      "key": "danmuFilePath",
+      "value": "弹幕文件路径"
+    },
+    "dateStart": {
+      "key": "dateStart",
+      "value": "开始录制时间"
+    },
+    "dateEnd": {
+      "key": "dateEnd",
+      "value": "停止录制时间"
+    }
+  },
+  "RecordData": {
+    "id": "Id",
+    "streamer": "主播",
+    "title": "直播标题",
+    "filePath": "文件路径",
+    "danmuFilePath": "弹幕文件路径",
+    "dateStart": "开始录制时间",
+    "dateEnd": "停止录制时间"
+  },
+  "RecordDetails": {
+    "title": "录播详情",
+    "description": "关于录播的一些详情"
+  }
+}

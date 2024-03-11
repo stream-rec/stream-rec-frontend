@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/new-york/ui/dropdown-menu"
+import {useTranslations} from "next-intl";
 
 interface DataTableColumnHeaderProps<TData, TValue>
     extends React.HTMLAttributes<HTMLDivElement> {
@@ -22,18 +23,21 @@ export function DataTableColumnHeader<TData, TValue>({
                                                        title,
                                                        className,
                                                      }: DataTableColumnHeaderProps<TData, TValue>) {
+
+  const t = useTranslations("TableToolbar")
+
   if (!column.getCanSort()) {
     return <div className={cn(className)}>{title}</div>
   }
 
   /// Sort the column in the specified direction.
-  function sort(asc: boolean) {
+  const sort = (asc: boolean) => {
     // If the column is not sorted, sort it in the specified direction.
     if (!column.getIsSorted())
       column.toggleSorting(asc)
     else
       column.clearSorting() // clear sorting
-  }
+  };
 
   return (
       <div className={cn("flex items-center space-x-2", className)}>
@@ -57,16 +61,16 @@ export function DataTableColumnHeader<TData, TValue>({
           <DropdownMenuContent align="start">
             <DropdownMenuItem onClick={() => sort(false)}>
               <ArrowUpIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70"/>
-              Asc
+              {t("asc")}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => sort(true)}>
               <ArrowDownIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70"/>
-              Desc
+              {t("desc")}
             </DropdownMenuItem>
             <DropdownMenuSeparator/>
             <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
               <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70"/>
-              Hide
+              {t("hide")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
