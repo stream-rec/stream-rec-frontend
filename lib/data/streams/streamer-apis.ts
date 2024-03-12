@@ -14,8 +14,6 @@ export const fetchStreamers = async (filter: string) => {
   return streamer.map(s => {
     // Lowercase platform
     s.platform = s.platform?.toLowerCase()
-    if (s.lastLiveTime)
-      s.lastLiveTime = s.lastLiveTime * 1000
     return s
   })
 }
@@ -30,8 +28,6 @@ export const fetchStreamer = async (id: string) => {
   let json = await response.json() as StreamerSchema
   // Lowercase platform
   json.platform = json.platform?.toLowerCase()
-  if (json.lastLiveTime)
-    json.lastLiveTime = json.lastLiveTime * 1000
   return json
 }
 
@@ -67,9 +63,6 @@ export const updateStreamer = async (streamer: StreamerSchema) => {
   if (!response.ok) {
     throw new Error("Error updating streamer, status: " + response.status + " " + response.statusText)
   }
-  // format lastLiveTime to seconds
-  if (streamer.lastLiveTime && streamer.lastLiveTime > 0)
-    streamer.lastLiveTime = streamer.lastLiveTime / 1000
   let json = await response.json() as StreamerSchema
   return json
 }

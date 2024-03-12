@@ -21,7 +21,7 @@ export const toStreamerCards = async (streamers: StreamerSchema[], t: any, forma
 
     const lastStream = streamer.lastLiveTime
     if (!lastStream || lastStream == 0) return t("noStreamsYet")
-    let lastStreamDate = new Date(lastStream)
+    let lastStreamDate = new Date(lastStream * 1000)
     return format.relativeTime(lastStreamDate)
   }
 

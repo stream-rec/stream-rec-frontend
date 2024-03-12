@@ -29,7 +29,7 @@ export async function StreamerHoverCard({streamerId, streamerName}: StreamCardPr
     if (!streamer.lastLiveTime) {
       return t('noStreamsYet')
     }
-    const lastDate = new Date(streamer.lastLiveTime)
+    const lastDate = new Date(streamer.lastLiveTime * 1000)
     return format.relativeTime(lastDate)
   }
 
