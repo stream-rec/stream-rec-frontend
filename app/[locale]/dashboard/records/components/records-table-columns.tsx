@@ -192,7 +192,7 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
 
   return {
     columns: tableColumns,
-    filterableColumns: getStreamerFilterableColumns(streamers, {streamer: uiNameByIndex(1), dateRange: uiNameByIndex(5)}),
+    filterableColumns: getStreamerFilterableColumns(streamers, {streamer: uiNameByIndex(1), dateRange: uiNameByIndex(4)}),
     searchableColumns: searchableColumns({streamTitle: uiNameByIndex(2)}),
     idFn: (id: string) => columns.find((props) => props.accessorKey == id)?.uiName ?? id
   }
