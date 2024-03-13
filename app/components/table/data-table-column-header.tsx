@@ -32,11 +32,12 @@ export function DataTableColumnHeader<TData, TValue>({
 
   /// Sort the column in the specified direction.
   const sort = (asc: boolean) => {
-    // If the column is not sorted, sort it in the specified direction.
-    if (!column.getIsSorted())
-      column.toggleSorting(asc)
-    else
-      column.clearSorting() // clear sorting
+    const currentSort = column.getIsSorted();
+    if (!currentSort || currentSort === (asc ? "asc" : "desc")) {
+      column.toggleSorting(asc);
+    } else {
+      column.clearSorting();
+    }
   };
 
   return (

@@ -1,18 +1,40 @@
 'use client'
-import {UploadTableToolbar} from "@/app/[locale]/dashboard/uploads/components/upload-table-toolbar";
 import {DataTable} from "@/app/components/table/data-table";
 import * as React from "react";
-import {UploadData} from "@/lib/data/uploads/definitions";
 import {useUploadsTableColumns} from "@/app/[locale]/dashboard/uploads/components/upload-table-columns";
+import {useDataTable} from "@/app/hooks/use-data-table";
+import {fetchUploads} from "@/lib/data/uploads/upload-apis";
+import {fetchStreamers} from "@/lib/data/streams/streamer-apis";
 
 
-export function UploadTable({data}: { data: UploadData[] }) {
+export function UploadTable({dataPromise, streamersPromise}: {
+  dataPromise: ReturnType<typeof fetchUploads>,
+  streamersPromise: ReturnType<typeof fetchStreamers>
+}) {
 
-  const columns = useUploadsTableColumns()
+  const {data, pageCount} = React.use(dataPromise)
+
+  const streamers = React.use(streamersPromise)
+
+  const toolbarData = useUploadsTableColumns(streamers)
+
+  const filterableColumns = toolbarData.filterableColumns
+  const searchableColumns = toolbarData.searchableColumns
+  const columns = toolbarData.columns
+
+
+  const {table} = useDataTable({
+    data,
+    columns,
+    pageCount,
+    searchableColumns,
+    filterableColumns,
+  })
 
   return (
       <>
-        <DataTable columns={columns} data={data} toolbar={UploadTableToolbar}/>
+        <DataTable table={table} columns={columns} searchableColumns={searchableColumns} filterableColumns={filterableColumns}
+                   idFn={toolbarData.idFn}/>
       </>
   )
 }

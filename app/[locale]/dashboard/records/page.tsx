@@ -1,6 +1,7 @@
 import RecordTableWrapper from "@/app/[locale]/dashboard/records/components/records-table-wrapper";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
 import {useTranslations} from "next-intl";
+import {streamSearchParamsSchema, StreamsSearchParams} from "@/lib/data/streams/definitions";
 
 
 export async function generateMetadata({params: {locale}}: { params: { locale: string } }) {
@@ -10,9 +11,17 @@ export async function generateMetadata({params: {locale}}: { params: { locale: s
   };
 }
 
-export default function RecordsPage({params: {locale}}: { params: { locale: string } }) {
+type RecordsPageProps = {
+  params: {
+    locale: string
+  }
+  searchParams: StreamsSearchParams
+}
 
+export default function RecordsPage({params: {locale}, searchParams}: RecordsPageProps) {
   unstable_setRequestLocale(locale);
+
+  const search = streamSearchParamsSchema.parse(searchParams)
 
   const t = useTranslations("RecordsPage")
 
@@ -26,7 +35,7 @@ export default function RecordsPage({params: {locale}}: { params: { locale: stri
               </p>
             </div>
           </div>
-          <RecordTableWrapper/>
+          <RecordTableWrapper search={search}/>
         </div>
       </>
   )

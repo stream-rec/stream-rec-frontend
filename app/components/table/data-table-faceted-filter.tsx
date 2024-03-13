@@ -22,15 +22,12 @@ import {
 } from "@/components/new-york/ui/popover"
 import { Separator } from "@/components/new-york/ui/separator"
 import {useTranslations} from "next-intl";
+import {Option} from "@/app/components/table/data-table";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>
   title?: string
-  options: {
-    label: string
-    value: string
-    icon?: React.ComponentType<{ className?: string }>
-  }[]
+  options: Option[]
 }
 
 export function DataTableFacetedFilter<TData, TValue>({

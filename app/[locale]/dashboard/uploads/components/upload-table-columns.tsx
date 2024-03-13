@@ -1,172 +1,203 @@
 "use client"
 
 import {ColumnDef} from "@tanstack/react-table"
-import {startOfDay} from 'date-fns';
 
 import {Badge} from "@/components/new-york/ui/badge";
-import {dataStatues, UploadData} from "@/lib/data/uploads/definitions";
+import {UploadData} from "@/lib/data/uploads/definitions";
 import {deleteUpload} from "@/lib/data/uploads/upload-apis";
 import {UploadActionColumn} from "@/app/[locale]/dashboard/uploads/components/upload-action-column";
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import * as React from "react";
-import {useFormatter, useTranslations} from "next-intl";
+import {useTranslations} from "next-intl";
+import {DataTableFilterableColumn, DataTableSearchableColumn, Option} from "@/app/components/table/data-table";
+import {CircleIcon} from "lucide-react";
+import {AvatarIcon, CheckIcon, CrossCircledIcon, QuestionMarkCircledIcon, StopwatchIcon} from "@radix-ui/react-icons";
+import {StreamerSchema} from "@/lib/data/streams/definitions";
 
 export function useUploadColumns() {
-  const uploadColumns = ["id", "streamer", "streamTitle", "filePath", "uploadTime", "status"] as const
+  const uploadColumns = ["id", "streamer", "streamTitle", "filePath", "uploadPlatform", "status"] as const
   const t = useTranslations("UploadColumns")
-  return uploadColumns.map((column) => ({
-    accessorKey: t(`${column}.key`),
-    uiName: t(`${column}.value`)
-  }));
+  return React.useMemo(() => {
+    return uploadColumns.map((column) => ({
+      accessorKey: t(`${column}.key`),
+      uiName: t(`${column}.value`)
+    }))
+  }, [])
 }
 
 
-export const useUploadsTableColumns = (): ColumnDef<UploadData> [] => {
+function getUploadFilterableColumns(streamers: StreamerSchema[], uploadStatuses: Option[], strings: {
+  streamer: string,
+  status: string
+}): DataTableFilterableColumn<UploadData>[] {
+  const streamersOptions = streamers.map((streamer) => ({
+    label: streamer.name,
+    value: streamer.id?.toString() ?? "",
+    icon: AvatarIcon
+  } as Option))
 
-  const format = useFormatter();
+  return [
+    {
+      id: "streamer",
+      title: strings.streamer,
+      options: streamersOptions,
+    },
+    {
+      id: "status",
+      title: strings.status,
+      options: uploadStatuses,
+    },
+  ]
+}
+
+
+export function searchableColumns(strings: { streamTitle: string }): DataTableSearchableColumn<UploadData>[] {
+  return [
+    {
+      id: "streamTitle",
+      title: strings.streamTitle,
+    },
+  ]
+}
+
+
+export const useUploadsTableColumns = (streamers: StreamerSchema[]) => {
 
   const columns = useUploadColumns()
-
-  const t = useTranslations("TableToolbar")
+  const dataStatuesT = useTranslations("UploadStates")
 
   const uiNameByIndex = (index: number) => columns[index].uiName;
 
   const accessorKeyByIndex = (index: number) => columns[index].accessorKey;
 
-  return [
-    {
-      accessorKey: accessorKeyByIndex(0),
-      header: ({column}) => (
-          <DataTableColumnHeader column={column} title={uiNameByIndex(0)}/>
-      ),
-      cell: ({row}) => <div className="w-[80px]">{row.getValue(accessorKeyByIndex(0))}</div>,
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
-      accessorKey: accessorKeyByIndex(1),
-      header: ({column}) => (
-          <DataTableColumnHeader column={column} title={uiNameByIndex(1)}/>
-      ),
-      filterFn: (rows, id, filterValue) => {
-        if (filterValue === undefined) {
-          return rows;
+  const uploadStatuses = React.useMemo(() =>
+      [
+        {
+
+          label: dataStatuesT("notStarted"),
+          value: "NOT_STARTED",
+          icon: CircleIcon
+        },
+        {
+          label: dataStatuesT("uploading"),
+          value: "UPLOADING",
+          icon: StopwatchIcon
+        },
+
+        {
+          label: dataStatuesT("uploaded"),
+          value: "UPLOADED",
+          icon: CheckIcon
+        },
+        {
+          label: dataStatuesT("failed"),
+          value: "FAILED",
+          icon: CrossCircledIcon
+        },
+        {
+          label: dataStatuesT("retrying"),
+          value: "REUPLOADING",
+          icon: QuestionMarkCircledIcon
         }
-        const rowValue = rows.getValue(id)
-        if (rowValue === undefined || rowValue === null) {
-          return false;
-        }
-        return filterValue.includes(rowValue.toString())
-      }
-    },
-    {
-      accessorKey: accessorKeyByIndex(2),
-      header: ({column}) => (
-          <DataTableColumnHeader column={column} title={uiNameByIndex(2)}/>
-      ),
-      cell: ({row}) => {
-        return (
-            <div className="flex space-x-2">
+      ], [])
+
+
+  const tableColumns: ColumnDef<UploadData>[] = React.useMemo(() => [
+        {
+          accessorKey: accessorKeyByIndex(0),
+          header: ({column}) => (
+              <DataTableColumnHeader column={column} title={uiNameByIndex(0)}/>
+          ),
+          cell: ({row}) => <div className="w-[80px]">{row.getValue(accessorKeyByIndex(0))}</div>,
+          enableSorting: false,
+          enableHiding: false,
+        },
+        {
+          accessorKey: accessorKeyByIndex(1),
+          header: ({column}) => (
+              <DataTableColumnHeader column={column} title={uiNameByIndex(1)}/>
+          ),
+          enableSorting: false,
+        },
+        {
+          accessorKey: accessorKeyByIndex(2),
+          header: ({column}) => (
+              <DataTableColumnHeader column={column} title={uiNameByIndex(2)}/>
+          ),
+          cell: ({row}) => {
+            return (
+                <div className="flex space-x-2">
             <span className="max-w-[500px] truncate font-medium">
             {row.getValue("streamTitle")}
           </span>
-            </div>
-        )
-      },
-    },
-    {
-      accessorKey: accessorKeyByIndex(3),
-      header: ({column}) => (
-          <DataTableColumnHeader column={column} title={uiNameByIndex(3)}/>
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
-    {
-      accessorKey: accessorKeyByIndex(4),
-      header: ({column}) => (
-          <DataTableColumnHeader column={column} title={uiNameByIndex(4)}/>
-      ),
-      cell: (cell) => {
-        const date = new Date(cell.getValue() as number);
-        const now = new Date();
+                </div>
+            )
+          },
+        },
+        {
+          accessorKey: accessorKeyByIndex(3),
+          header: ({column}) => (
+              <DataTableColumnHeader column={column} title={uiNameByIndex(3)}/>
+          ),
+          enableSorting: true,
+          enableHiding: true,
+        },
+        {
+          accessorKey: accessorKeyByIndex(4),
+          header: ({column}) => (
+              <DataTableColumnHeader column={column} title={uiNameByIndex(4)}/>
+          ),
+          cell: (cell) => {
+            let platform = (cell.getValue() as string).toLocaleLowerCase()
+            platform = platform.charAt(0).toUpperCase() + platform.slice(1)
+            return (
+                <div className="flex items-center">
+                  <Badge> {platform} </Badge>
+                </div>
+            )
+          },
+          enableSorting: false,
+        },
+        {
+          accessorKey: accessorKeyByIndex(5),
+          header: ({column}) => (
+              <DataTableColumnHeader column={column} title={uiNameByIndex(5)}/>
+          ),
+          cell: (cell) => {
+            const status = uploadStatuses.find(
+                (status) => status.value === cell.getValue()
+            )
 
-        if (date.getFullYear() == now.getFullYear())
-          return format.dateTime(date, {
-            month: 'short',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric'
-          })
-        else
-          return format.dateTime(date, {
-            year: '2-digit',
-            month: 'short',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric'
-          })
-      },
-      filterFn: (rows, id, filterValue) => {
-        const rowValue = rows.getValue(id);
-        const date = startOfDay(new Date(rowValue as number));
-        const filterFromDate = filterValue && new Date(filterValue[0]);
-        const filterToDate = filterValue && filterValue[1] && new Date(filterValue[1]);
+            if (!status) {
+              return null
+            }
 
-        return !filterValue || !rowValue
-            ? true
-            : filterToDate
-                ? date >= filterFromDate && date <= filterToDate
-                : date >= filterFromDate;
-      }
-    },
-    {
-      accessorKey: accessorKeyByIndex(5),
-      header: ({column}) => (
-          <DataTableColumnHeader column={column} title={uiNameByIndex(5)}/>
-      ),
-      cell: (cell) => {
-        const statusBool = cell.getValue()
-        let status;
-        if (statusBool) {
-          status = dataStatues[0]
-        } else {
-          status = dataStatues[1]
-        }
-
-        const variant = statusBool ? "default" : "secondary"
-        return (
-            <div className="flex items-center">
-              <Badge variant={variant} className="">
-                {status.label == "success" ? t("success") : t("failed")}
-              </Badge>
-            </div>
-        )
-      },
-      enableHiding: false,
-      enableSorting: false,
-      filterFn: (rows, id, filterValue) => {
-        if (filterValue === undefined) {
-          return rows;
-        }
-        const rowValue = rows.getValue(id)
-        let rowValueString;
-        if (rowValue === true) {
-          rowValueString = "success"
-        } else {
-          rowValueString = "failed"
-        }
-        return filterValue.includes(rowValueString);
-      }
-    },
-    {
-      id: "actions",
-      cell: ({row}) => {
-        const uploadData = row.original
-        return <UploadActionColumn data={uploadData} deleteUpload={deleteUpload}/>
-      },
-    },
-  ]
+            return (
+                <div className="flex w-[100px] items-center">
+                  {status.icon && (
+                      <status.icon className="mr-2 h-4 w-4 text-muted-foreground"/>
+                  )}
+                  <span>{status.label}</span>
+                </div>
+            )
+          },
+          enableHiding: false,
+          enableSorting: false,
+        },
+        {
+          id: "actions",
+          cell: ({row}) => {
+            const uploadData = row.original
+            return <UploadActionColumn data={uploadData} deleteUpload={deleteUpload}/>
+          },
+        },
+      ]
+      , [columns])
+  return {
+    columns: tableColumns,
+    filterableColumns: getUploadFilterableColumns(streamers, uploadStatuses, {streamer: uiNameByIndex(1), status: uiNameByIndex(5)}),
+    searchableColumns: searchableColumns({streamTitle: uiNameByIndex(2)}),
+    idFn: (id : string) => columns.find((props) => props.accessorKey == id)?.uiName ?? id
+  }
 };
+

@@ -20,7 +20,7 @@ export async function StreamerHoverCard({streamerId, streamerName}: StreamCardPr
 
   const format = await getFormatter()
 
-  const t = await getTranslations('Streamer')
+  const t = await getTranslations('StreamerData')
 
   const getLastStream = () => {
     if (streamer.isLive) {

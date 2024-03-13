@@ -13,17 +13,11 @@ import {useFormatter, useTranslations} from "next-intl";
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>
   title?: string
-  options: {
-    label: string
-    value: string
-    icon?: React.ComponentType<{ className?: string }>
-  }[]
 }
 
 export function DataTableDatePickerFilter<TData, TValue>({
                                                            column,
                                                            title,
-                                                           options,
                                                          }: DataTableFacetedFilterProps<TData, TValue>) {
 
   const selectedValues = new Set(column?.getFilterValue() as string[])
@@ -36,7 +30,7 @@ export function DataTableDatePickerFilter<TData, TValue>({
 
   useEffect(() => {
     if (date?.from && date?.to) {
-      column?.setFilterValue([date.from, date.to])
+      column?.setFilterValue([date.from.getTime(), date.to.getTime()])
     }
   }, [column, date, setDate])
 
