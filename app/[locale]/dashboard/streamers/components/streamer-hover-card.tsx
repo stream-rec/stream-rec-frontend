@@ -38,7 +38,7 @@ export async function StreamerHoverCard({streamerId, streamerName}: StreamCardPr
         <HoverCard>
           <HoverCardTrigger asChild>
             <div className="space-y-1">
-              <Label htmlFor={"Streamer"}>{"Streamer"}</Label>
+              <Label htmlFor={"Streamer"}>{t("name")}</Label>
               <Input id={"Streamer"} value={streamerName} readOnly={true}/>
             </div>
           </HoverCardTrigger>
