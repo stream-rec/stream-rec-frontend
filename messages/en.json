@@ -326,7 +326,11 @@
       "key": "outputFilePath",
       "value": "File path"
     },
-    "danmufilePath": {
+    "fileSize": {
+      "key": "outputFileSize",
+      "value": "File size"
+    },
+    "danmuFilePath": {
       "key": "danmuFilePath",
       "value": "Danmu file path"
     },
@@ -344,6 +348,7 @@
     "streamer": "Streamer",
     "title": "Stream title",
     "filePath": "File path",
+    "fileSize": "File size",
     "danmuFilePath": "Danmu file path",
     "dateStart": "Stream start time",
     "dateEnd": "Stream end time"

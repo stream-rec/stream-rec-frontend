@@ -25,6 +25,7 @@ export type StreamData = {
   dateEnd: number;
   outputFilePath: string;
   danmuFilePath: string | undefined | null;
+  outputFileSize: number;
   streamerId: number;
   streamerName: string;
 }
