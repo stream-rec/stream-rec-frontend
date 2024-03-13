@@ -1,17 +1,38 @@
 'use client'
 import {DataTable} from "@/app/components/table/data-table";
 import * as React from "react";
-import {StreamData} from "@/lib/data/streams/definitions";
 import {useRecordTableColumns} from "@/app/[locale]/dashboard/records/components/records-table-columns";
-import {RecordsTableToolbar} from "@/app/[locale]/dashboard/records/components/records-table-toolbar";
+import {fetchStreams} from "@/lib/data/streams/stream-apis";
+import {useDataTable} from "@/app/hooks/use-data-table";
+import {fetchStreamers} from "@/lib/data/streams/streamer-apis";
 
-export function RecordsTable({data}: { data: StreamData[] }) {
+export function RecordsTable({dataPromise, streamersPromise}: {
+  dataPromise: ReturnType<typeof fetchStreams>,
+  streamersPromise: ReturnType<typeof fetchStreamers>
+}) {
 
-  const columns = useRecordTableColumns()
+  const {data, pageCount} = React.use(dataPromise)
+  const streamers = React.use(streamersPromise)
+
+
+  const tableColumns = useRecordTableColumns(streamers)
+
+  const columns = tableColumns.columns
+  const searchableColumns = tableColumns.searchableColumns
+  const filterableColumns = tableColumns.filterableColumns
+
+
+  const {table} = useDataTable({
+    data,
+    columns,
+    pageCount,
+    searchableColumns,
+    filterableColumns,
+  })
 
   return (
       <>
-        <DataTable columns={columns} data={data} toolbar={RecordsTableToolbar}/>
+        <DataTable table={table} columns={columns} searchableColumns={searchableColumns} filterableColumns={filterableColumns} idFn={tableColumns.idFn}/>
       </>
   )
 }

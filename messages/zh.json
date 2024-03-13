@@ -218,12 +218,10 @@
     "save": "保存设置"
   },
   "TableToolbar": {
-    "searchPlaceholder": "根据{search}搜索...",
+    "searchPlaceholder": "搜索{search}...",
     "dateRange": "日期范围",
     "filter": "过滤",
     "clearFilters": "重置",
-    "success": "成功",
-    "failed": "失败",
     "asc": "升序",
     "desc": "降序",
     "hide": "隐藏",
@@ -288,14 +286,21 @@
       "key": "filePath",
       "value": "文件路径"
     },
-    "uploadTime": {
-      "key": "uploadTime",
-      "value": "上传开始时间"
+    "uploadPlatform": {
+      "key": "uploadPlatform",
+      "value": "上传平台"
     },
     "status": {
       "key": "status",
       "value": "上传状态"
     }
+  },
+  "UploadStates": {
+    "notStarted": "未开始",
+    "uploading": "上传中",
+    "uploaded": "已上传",
+    "retrying": "重试中",
+    "failed": "上传失败"
   },
   "RecordsPage": {
     "title": "录播列表",

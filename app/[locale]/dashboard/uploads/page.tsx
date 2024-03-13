@@ -1,6 +1,8 @@
 import UploadsTableWrapper from "@/app/[locale]/dashboard/uploads/components/upload-table-wrapper";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
 import {useTranslations} from "next-intl";
+import {SearchParams} from "@/app/components/table/data-table";
+import {uploadSearchParamsSchema} from "@/lib/data/uploads/definitions";
 
 export async function generateMetadata({params: {locale}}: { params: { locale: string } }) {
   const t = await getTranslations({locale, namespace: 'Metadata'});
@@ -10,9 +12,17 @@ export async function generateMetadata({params: {locale}}: { params: { locale: s
   };
 }
 
-export default function UploadPage({params: {locale}}: { params: { locale: string } }) {
+type UploadPageProps = {
+  params: {
+    locale: string
+  }
+  searchParams: SearchParams
+}
 
+export default function UploadPage({params: {locale}, searchParams}: UploadPageProps) {
   unstable_setRequestLocale(locale);
+
+  const search = uploadSearchParamsSchema.parse(searchParams)
 
   const t = useTranslations("Upload")
 
@@ -24,7 +34,7 @@ export default function UploadPage({params: {locale}}: { params: { locale: strin
               <p className="text-muted-foreground">{t("description")}</p>
             </div>
           </div>
-          <UploadsTableWrapper/>
+          <UploadsTableWrapper search={search}/>
         </div>
       </>
   )

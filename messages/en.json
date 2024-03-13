@@ -221,8 +221,6 @@
     "dateRange": "Date range",
     "filter": "Filter",
     "clearFilters": "Clear filters",
-    "success": "Success",
-    "failed": "Failed",
     "asc": "Asc",
     "desc": "Desc",
     "hide": "Hide",
@@ -287,14 +285,21 @@
       "key": "filePath",
       "value": "File path"
     },
-    "uploadTime": {
-      "key": "uploadTime",
-      "value": "Upload started time"
+    "uploadPlatform": {
+      "key": "uploadPlatform",
+      "value": "Upload platform"
     },
     "status": {
       "key": "status",
       "value": "Upload status"
     }
+  },
+  "UploadStates": {
+    "notStarted": "Not started",
+    "uploading": "Uploading",
+    "uploaded": "Uploaded",
+    "retrying": "Retrying",
+    "failed": "Failed"
   },
   "RecordsPage": {
     "title": "Records page",

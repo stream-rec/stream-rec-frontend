@@ -18,8 +18,6 @@ export const baseDownloadConfig = z.object({
 export type DownloadConfig = z.infer<typeof baseDownloadConfig>
 
 
-
-
 export type StreamData = {
   id: number;
   title: string;
@@ -52,3 +50,16 @@ export const streamerSchema = z.object({
 
 
 export type StreamerSchema = z.infer<typeof streamerSchema>
+
+export const streamSearchParamsSchema = z.object({
+  page: z.coerce.number().default(1),
+  per_page: z.coerce.number().default(10),
+  title: z.string().optional(),
+  sort: z.string().optional(),
+  order: z.string().optional(),
+  streamerName: z.string().optional(),
+  dateStart: z.string().optional(),
+  dateEnd: z.string().optional(),
+})
+
+export type StreamsSearchParams = z.infer<typeof streamSearchParamsSchema>

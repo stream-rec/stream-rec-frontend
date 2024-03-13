@@ -1,28 +1,33 @@
-import {CheckIcon} from "@radix-ui/react-icons";
-import {XIcon} from "lucide-react";
+import {z} from "zod";
+
+export enum UploadPlatforms {
+  RCLONE = 'RCLONE',
+  NONE = 'NONE'
+}
+
 
 export type BaseUploadConfig = {
   platform: string;
 }
 
 export type RcloneUploadConfig = BaseUploadConfig & {
-  platform: 'RCLONE';
+  platform: UploadPlatforms.RCLONE;
   rcloneOperation: string;
   remotePath: string;
   args: string[];
 }
 
 export type NoopUploadConfig = BaseUploadConfig & {
-  platform: 'NONE';
+  platform: UploadPlatforms.NONE;
 }
+
 
 export type UploadData = {
   id: number;
   streamTitle: string;
   streamer: string;
-  uploadTime: number;
   filePath: string;
-  status: boolean;
+  status: UploadStatus;
   streamDataId: number;
   streamerId: string;
   uploadPlatform: string;
@@ -32,21 +37,28 @@ export type UploadData = {
 
 export type UploadResult = {
   id: number;
-  time: number;
+  startTime: number;
+  endTime: number;
   message: string;
   isSuccess: boolean;
 }
 
+export enum UploadStatus {
+  NOT_STARTED,
+  UPLOADING,
+  UPLOADED,
+  FAILED,
+  REUPLOADING
+}
 
-export const dataStatues = [
-  {
-    label: 'success',
-    value: "success",
-    icon: CheckIcon
-  },
-  {
-    label: 'failed',
-    value: "failed",
-    icon: XIcon
-  }
-]
+export const uploadSearchParamsSchema = z.object({
+  page: z.coerce.number().default(1),
+  per_page: z.coerce.number().default(10),
+  streamTitle: z.string().optional(),
+  status: z.string().optional(),
+  sort: z.string().optional(),
+  order: z.string().optional(),
+  streamer: z.string().optional(),
+})
+
+export type UploadSearchParams = z.infer<typeof uploadSearchParamsSchema>

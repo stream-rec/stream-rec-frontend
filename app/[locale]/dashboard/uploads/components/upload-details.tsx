@@ -4,7 +4,7 @@ import React from "react";
 import {Badge} from "@/components/new-york/ui/badge";
 import {UploadData, UploadResult} from "@/lib/data/uploads/definitions";
 import {StreamerHoverCard} from "@/app/[locale]/dashboard/streamers/components/streamer-hover-card";
-import {getFormatter, getTranslations} from "next-intl/server";
+import {useFormatter, useTranslations} from "next-intl";
 
 
 type UploadDetailsProps = {
@@ -13,13 +13,13 @@ type UploadDetailsProps = {
 }
 
 
-export async function UploadDetails({data, results}: UploadDetailsProps) {
+export function UploadDetails({data, results}: UploadDetailsProps) {
 
-  const format = await getFormatter()
+  const format = useFormatter()
 
-  const t = await getTranslations('UploadData')
+  const t = useTranslations('UploadData')
 
-  const rc = await getTranslations('Rclone')
+  const rc = useTranslations('Rclone')
 
   function computeDate(date: Date) {
     return format.dateTime(date, {
@@ -48,7 +48,6 @@ export async function UploadDetails({data, results}: UploadDetailsProps) {
     {generateField(t("streamTitle"), data.streamTitle)}
     <StreamerHoverCard streamerId={data.streamerId.toString()} streamerName={data.streamer}/>
 
-    {generateField(t("uploadTime"), computeDate(new Date(data.uploadTime)))}
     {generateField(t("filePath"), data.filePath)}
 
     {generateField(t("uploadPlatform"), data.uploadPlatform)}
@@ -75,7 +74,8 @@ export async function UploadDetails({data, results}: UploadDetailsProps) {
                           </p>
                           <div className={"flex flex-row items-center gap-2"}>
                             <Badge variant={result.isSuccess ? "secondary" : "destructive"}> {result.isSuccess ? t("success") : t("failed")}</Badge>
-                            <Badge variant={"secondary"}>{computeDate(new Date(result.time))}</Badge>
+                            {result.startTime != 0 && (<Badge variant={"secondary"}>{computeDate(new Date(result.startTime * 1000))}</Badge>)}
+                            {result.endTime != 0 && (<Badge variant={"secondary"}>{computeDate(new Date(result.endTime * 1000))}</Badge>)}
                           </div>
                         </div>
                       </div>
