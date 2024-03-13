@@ -6,13 +6,13 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {Button} from "@/components/new-york/ui/button";
 import {Input} from "@/components/new-york/ui/input";
 import {Switch} from "@/components/new-york/ui/switch";
-import {useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {toastData} from "@/app/utils/toast";
 import {DanmuFlagFormfield} from "@/app/[locale]/dashboard/settings/components/form/danmu-flag-formfield";
 import {OutputFolderFormField} from "@/app/[locale]/dashboard/settings/components/form/output-folder-formfield";
 import {OutputFilenameFormfield} from "@/app/[locale]/dashboard/settings/components/form/output-filename-formfield";
 import {OutputFileFormatFormfield} from "@/app/[locale]/dashboard/settings/components/form/output-file-format-formfield";
-import {convertToBytes, convertToSeconds} from "@/app/utils/conversions";
+import {convertToBytes, convertToSeconds, DurationUnit, FileSizeUnit, formatBytes, formatSeconds} from "@/app/utils/conversions";
 import {GlobalConfig, globalConfigSchema} from "@/lib/data/config/definitions";
 
 type GlobalFormProps = {
@@ -26,8 +26,8 @@ export type GlobalFormStrings = {
   submitErrorMessage: string
   engine: string
   engineDescription: string
-  danmu : string
-  danmuDescription : string
+  danmu: string
+  danmuDescription: string
   deleteFiles: string
   deleteFilesDescription: any
   outputFolder: string
@@ -58,10 +58,10 @@ export type GlobalFormStrings = {
 
 
 export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) {
-  const [minPartSizeFormat, setMinPartSizeFormat] = useState("B")
-  const [maxPartSizeFormat, setMaxPartSizeFormat] = useState("B")
+  const [minPartSizeFormat, setMinPartSizeFormat] = useState(FileSizeUnit.B)
+  const [maxPartSizeFormat, setMaxPartSizeFormat] = useState(FileSizeUnit.B)
 
-  const [maxPartDurationFormat, setMaxPartDurationFormat] = useState("ss")
+  const [maxPartDurationFormat, setMaxPartDurationFormat] = useState(DurationUnit.SECONDS)
 
   const form = useForm<GlobalConfig>({
     resolver: zodResolver(globalConfigSchema),
@@ -70,6 +70,26 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
   })
 
   const {isSubmitting} = useFormState({control: form.control})
+
+  const formatAndSetValues = useCallback((value: number, format: string, setFormat: Function, field: string) => {
+    if (value !== undefined && format === FileSizeUnit.B) {
+      const {unit, size} = formatBytes(value)
+      setFormat(unit)
+      // @ts-ignore
+      form.setValue(field, size)
+    }
+  }, [form]);
+
+  useEffect(() => {
+    formatAndSetValues(appConfig.minPartSize, minPartSizeFormat, setMinPartSizeFormat, "minPartSize")
+    formatAndSetValues(appConfig.maxPartSize, maxPartSizeFormat, setMaxPartSizeFormat, "maxPartSize")
+
+    if (appConfig.maxPartDuration !== undefined && maxPartDurationFormat === DurationUnit.SECONDS) {
+      const {unit, value} = formatSeconds(appConfig.maxPartDuration)
+      setMaxPartDurationFormat(unit)
+      form.setValue("maxPartDuration", value)
+    }
+  }, [])
 
   async function onSubmit(data: GlobalConfig) {
     if (data.minPartSize !== undefined) {
@@ -146,7 +166,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
           />
 
           <OutputFolderFormField control={form.control} name={globalStrings.outputFolder} description={globalStrings.outputFolderDescription}/>
-          <OutputFilenameFormfield control={form.control} name={globalStrings.outputFilename} description={globalStrings.outputFilenameDescription} />
+          <OutputFilenameFormfield control={form.control} name={globalStrings.outputFilename} description={globalStrings.outputFilenameDescription}/>
           <OutputFileFormatFormfield control={form.control} name={globalStrings.outputFormat} description={globalStrings.outputFormatDescription}/>
 
           <FormField
@@ -157,8 +177,13 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                     <FormLabel>{globalStrings.minPart}</FormLabel>
                     <Select
                         onValueChange={(newValue) => {
-                          minPartSizeFormat && setMinPartSizeFormat(newValue);
+                          if (!newValue && newValue.length === 0) {
+                            return;
+                          }
+                          // try to parse as file size unit
+                          setMinPartSizeFormat(newValue as FileSizeUnit);
                         }}
+                        defaultValue={minPartSizeFormat}
                         value={minPartSizeFormat}
                     >
                       <div className="flex items-center space-x-2">
@@ -178,10 +203,10 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                           <SelectValue placeholder={globalStrings.minPartDefault}/>
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="B">B</SelectItem>
-                          <SelectItem value="KB">KB</SelectItem>
-                          <SelectItem value="MB">MB</SelectItem>
-                          <SelectItem value="GB">GB</SelectItem>
+                          <SelectItem value={FileSizeUnit.B}>B</SelectItem>
+                          <SelectItem value={FileSizeUnit.KB}>KB</SelectItem>
+                          <SelectItem value={FileSizeUnit.MB}>MB</SelectItem>
+                          <SelectItem value={FileSizeUnit.GB}>GB</SelectItem>
                         </SelectContent>
                       </div>
                       <FormDescription>
@@ -201,7 +226,10 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                     <FormLabel>{globalStrings.maxPart}</FormLabel>
                     <Select
                         onValueChange={(newValue) => {
-                          maxPartSizeFormat && setMaxPartSizeFormat(newValue);
+                          if (!newValue && newValue.length === 0) {
+                            return;
+                          }
+                          setMaxPartSizeFormat(newValue as FileSizeUnit);
                         }}
                         value={maxPartSizeFormat}
                     >
@@ -223,10 +251,10 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                         </SelectTrigger>
 
                         <SelectContent>
-                          <SelectItem value="B">B</SelectItem>
-                          <SelectItem value="KB">KB</SelectItem>
-                          <SelectItem value="MB">MB</SelectItem>
-                          <SelectItem value="GB">GB</SelectItem>
+                          <SelectItem value={FileSizeUnit.B}>B</SelectItem>
+                          <SelectItem value={FileSizeUnit.KB}>KB</SelectItem>
+                          <SelectItem value={FileSizeUnit.MB}>MB</SelectItem>
+                          <SelectItem value={FileSizeUnit.GB}>GB</SelectItem>
                         </SelectContent>
                       </div>
                       <FormDescription>
@@ -247,7 +275,10 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                     <FormLabel>{globalStrings.maxPartDuration}</FormLabel>
                     <Select
                         onValueChange={(newValue) => {
-                          maxPartDurationFormat && setMaxPartDurationFormat(newValue);
+                          if (!newValue && newValue.length === 0) {
+                            return;
+                          }
+                          setMaxPartDurationFormat(newValue as DurationUnit);
                         }}
                         value={maxPartDurationFormat}
                     >
@@ -272,10 +303,10 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                         </SelectTrigger>
 
                         <SelectContent>
-                          <SelectItem value="ss">seconds</SelectItem>
-                          <SelectItem value="mm">minutes</SelectItem>
-                          <SelectItem value="hh">hours</SelectItem>
-                          <SelectItem value="dd">days</SelectItem>
+                          <SelectItem value={DurationUnit.SECONDS}>seconds</SelectItem>
+                          <SelectItem value={DurationUnit.MINUTES}>minutes</SelectItem>
+                          <SelectItem value={DurationUnit.HOURS}>hours</SelectItem>
+                          <SelectItem value={DurationUnit.DAYS}>days</SelectItem>
                         </SelectContent>
                       </div>
                       <FormDescription>
