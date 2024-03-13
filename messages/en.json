@@ -148,6 +148,7 @@
     "platform": "Douyin",
     "quality": "Record quality",
     "qualityDescription": "The quality of the Douyin video stream. Ordered from highest to lowest quality. The tool will look up for the closest quality available to selected.",
+    "qualityDefault": "Select a quality",
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry. Optional. Default is 3 seconds.",
     "cookieString": "Douyin Cookies",
