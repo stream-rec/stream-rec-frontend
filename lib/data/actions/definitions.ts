@@ -2,7 +2,9 @@ import {z} from "zod";
 
 export enum ActionType {
   Command = "command",
-  Rclone = "rclone"
+  Rclone = "rclone",
+  Remove = "remove",
+  Move = "move"
 }
 
 
@@ -28,8 +30,18 @@ export const rcloneActionSchema = baseActionSchema.extend({
   args: z.string().array().nullish(),
 })
 
+export const removeActionSchema = baseActionSchema.extend({
+  type: z.literal(ActionType.Remove),
+})
+
+export const moveActionSchema = baseActionSchema.extend({
+  type: z.literal(ActionType.Move),
+  destination: z.string().min(1),
+})
 
 export type BaseActionSchema = z.infer<typeof baseActionSchema>
 export type CommandActionSchema = z.infer<typeof commandActionSchema>
 export type RcloneActionSchema = z.infer<typeof rcloneActionSchema>
-export type ActionSchema = CommandActionSchema | RcloneActionSchema
+export type RemoveActionSchema = z.infer<typeof removeActionSchema>
+export type MoveActionSchema = z.infer<typeof moveActionSchema>
+export type ActionSchema = CommandActionSchema | RcloneActionSchema | RemoveActionSchema | MoveActionSchema

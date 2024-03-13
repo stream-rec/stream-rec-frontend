@@ -1,7 +1,13 @@
 import {Button} from "@/components/new-york/ui/button"
-import {ActionSchema, ActionType, CommandActionSchema, RcloneActionSchema} from "@/lib/data/actions/definitions";
+import {
+  ActionSchema,
+  ActionType,
+  CommandActionSchema,
+  MoveActionSchema,
+  RcloneActionSchema
+} from "@/lib/data/actions/definitions";
 import {FormMessage} from "@/components/new-york/ui/form";
-import React, {useRef} from "react";
+import React, {useCallback, useRef} from "react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
 import {Switch} from "@/components/new-york/ui/switch";
 import {cn} from "@/lib/utils";
@@ -18,6 +24,8 @@ import {
 import {Label} from "@/components/new-york/ui/label";
 import {CommandActionForm} from "@/app/[locale]/dashboard/streamers/components/actions/form/command-form";
 import {RcloneActionForm} from "@/app/[locale]/dashboard/streamers/components/actions/form/rclone-form";
+import {MoveActionForm} from "@/app/[locale]/dashboard/streamers/components/actions/form/move-form";
+import {DeleteActionForm} from "@/app/[locale]/dashboard/streamers/components/actions/form/delete-action-form";
 
 type NewActionDialogProps = {
   strings: NewActionDialogStrings
@@ -56,6 +64,16 @@ export type NewActionDialogStrings = {
     arguments: string,
     argumentsDescription: string
   }
+
+  moveStrings: {
+    title: string,
+    destination: string,
+    destinationDefault: string,
+    destinationDescription: string
+  },
+  removeStrings: {
+    title: string
+  }
 }
 
 const defaultAction: ActionSchema = {
@@ -65,13 +83,13 @@ const defaultAction: ActionSchema = {
   program: ""
 }
 
-const useActionResolver = (initial: ActionType.Command | ActionType.Rclone) => {
+const useActionResolver = (initial: ActionType) => {
   const [type, setType] = React.useState(initial)
 
-  function handleTypeChange(e: ActionType.Command | ActionType.Rclone) {
+  const handleTypeChange = useCallback((e: ActionType) => {
     console.log("setting type", e)
     setType(e)
-  }
+  }, [])
 
   return {
     type,
@@ -107,13 +125,14 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
             console.log("resetting form")
           } else {
             console.log("setting default values")
-            handleTypeChange(defaultValues?.type as ActionType.Command | ActionType.Rclone ?? ActionType.Command)
+            handleTypeChange(defaultValues?.type as (ActionType | null | undefined) ?? ActionType.Command)
           }
           setOpen(e)
         }
       }>
         <AlertDialogTrigger asChild>
-          <Button onClick={() => open ? setOpen(false) : setOpen(true)} variant="outline">{openIcon ?? strings.title}</Button>
+          <Button onClick={() => open ? setOpen(false) : setOpen(true)}
+                  variant="outline">{openIcon ?? strings.title}</Button>
         </AlertDialogTrigger>
         <AlertDialogContent className="sm:max-w-[425px]">
           <AlertDialogHeader>
@@ -132,8 +151,10 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
             </SelectTrigger>
 
             <SelectContent>
-              <SelectItem value="command">{strings.commandStrings.title}</SelectItem>
-              <SelectItem value="rclone">{strings.rcloneStrings.title}</SelectItem>
+              <SelectItem value={ActionType.Command}>{strings.commandStrings.title}</SelectItem>
+              <SelectItem value={ActionType.Rclone}>{strings.rcloneStrings.title}</SelectItem>
+              <SelectItem value={ActionType.Move}>{strings.moveStrings.title}</SelectItem>
+              <SelectItem value={ActionType.Remove}>{strings.removeStrings.title}</SelectItem>
             </SelectContent>
           </Select>
           <p className={cn("text-[0.8rem] text-muted-foreground")}>
@@ -158,32 +179,49 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
           <>
             {
                 type === ActionType.Command && (
-                    <CommandActionForm ref={formRef} defaultValues={{...defaultValues, type: ActionType.Command} as CommandActionSchema} strings={
-                      {
-                        program: strings.commandStrings.program,
-                        programDescription: strings.commandStrings.programDescription,
-                        arguments: strings.commandStrings.arguments,
-                        argumentsDescription: strings.commandStrings.argumentsDescription,
-                        addArgument: strings.commandStrings.addArgument,
-                        removeArgument: strings.commandStrings.removeArgument
-                      }
-                    } onSubmit={onFormSubmit}/>
+                    <CommandActionForm ref={formRef}
+                                       defaultValues={{...defaultValues, type: ActionType.Command} as CommandActionSchema}
+                                       strings={
+                                         {
+                                           program: strings.commandStrings.program,
+                                           programDescription: strings.commandStrings.programDescription,
+                                           arguments: strings.commandStrings.arguments,
+                                           argumentsDescription: strings.commandStrings.argumentsDescription,
+                                           addArgument: strings.commandStrings.addArgument,
+                                           removeArgument: strings.commandStrings.removeArgument
+                                         }
+                                       } onSubmit={onFormSubmit}/>
                 )
             }
             {
                 type === ActionType.Rclone && (
-                    <RcloneActionForm ref={formRef} defaultValues={{...defaultValues, type: ActionType.Rclone} as RcloneActionSchema} strings={
-                      {
-                        operation: strings.rcloneStrings.operation,
-                        operationDescription: strings.rcloneStrings.operationDescription,
-                        remotePath: strings.rcloneStrings.remotePath,
-                        remotePathDescription: strings.rcloneStrings.remotePathDescription,
-                        arguments: strings.rcloneStrings.arguments,
-                        argumentsDescription: strings.rcloneStrings.argumentsDescription,
-                        addArgument: strings.commandStrings.addArgument,
-                      }
-                    } onSubmit={onFormSubmit}/>
+                    <RcloneActionForm ref={formRef}
+                                      defaultValues={{...defaultValues, type: ActionType.Rclone} as RcloneActionSchema}
+                                      strings={
+                                        {
+                                          operation: strings.rcloneStrings.operation,
+                                          operationDescription: strings.rcloneStrings.operationDescription,
+                                          remotePath: strings.rcloneStrings.remotePath,
+                                          remotePathDescription: strings.rcloneStrings.remotePathDescription,
+                                          arguments: strings.rcloneStrings.arguments,
+                                          argumentsDescription: strings.rcloneStrings.argumentsDescription,
+                                          addArgument: strings.commandStrings.addArgument,
+                                        }
+                                      } onSubmit={onFormSubmit}/>
                 )
+            }
+
+            {
+                type === ActionType.Remove && (<DeleteActionForm ref={formRef} onSubmit={onFormSubmit} defaultValues={{
+                  ...defaultValues,
+                  type: ActionType.Remove
+                }}/>)
+            }
+            {
+                type === ActionType.Move && (<MoveActionForm ref={formRef} onSubmit={onFormSubmit} defaultValues={{
+                  ...defaultValues,
+                  type: ActionType.Move
+                } as MoveActionSchema} strings={{...strings.moveStrings}}/>)
             }
           </>
           <AlertDialogFooter>

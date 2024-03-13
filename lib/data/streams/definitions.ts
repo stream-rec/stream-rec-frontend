@@ -1,6 +1,11 @@
 import {z} from "zod";
 import {combinedRegex} from "@/lib/data/platform/definitions";
-import {commandActionSchema, rcloneActionSchema} from "@/lib/data/actions/definitions";
+import {
+  commandActionSchema,
+  moveActionSchema,
+  rcloneActionSchema,
+  removeActionSchema
+} from "@/lib/data/actions/definitions";
 
 export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv"] as const;
 
@@ -12,8 +17,8 @@ export const baseDownloadConfig = z.object({
   outputFolder: z.string().nullish(),
   outputFileName: z.string().nullish(),
   outputFileExtension: z.enum(videoFormats).nullish(),
-  onPartedDownload: rcloneActionSchema.or(commandActionSchema).array().nullish(),
-  onStreamingFinished: rcloneActionSchema.or(commandActionSchema).array().nullish(),
+  onPartedDownload: rcloneActionSchema.or(commandActionSchema).or(removeActionSchema).or(moveActionSchema).array().nullish(),
+  onStreamingFinished: rcloneActionSchema.or(commandActionSchema).or(removeActionSchema).or(moveActionSchema).array().nullish(),
 })
 export type DownloadConfig = z.infer<typeof baseDownloadConfig>
 
