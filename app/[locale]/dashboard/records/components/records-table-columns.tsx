@@ -10,10 +10,11 @@ import {StreamData, StreamerSchema} from "@/lib/data/streams/definitions";
 import {DataTableFilterableColumn, DataTableSearchableColumn, Option} from "@/app/components/table/data-table";
 import {ColumnDef} from "@tanstack/react-table";
 import {AvatarIcon} from "@radix-ui/react-icons";
+import {formatBytes} from "@/app/utils/conversions";
 
 
 export function useRecordColumns() {
-  const keys = ["id", "streamer", "title", "filePath", "danmufilePath", "dateStart", "dateEnd"] as const
+  const keys = ["id", "streamer", "title", "filePath", "danmuFilePath", "fileSize", "dateStart", "dateEnd"] as const
   const t = useTranslations("RecordColumns")
   return React.useMemo(() => {
     return keys.map((column) => ({
@@ -104,6 +105,18 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
             <DataTableColumnHeader column={column} title={uiNameByIndex(5)}/>
         ),
         cell: (cell) => {
+          const bytes = cell.getValue() as number;
+          const {unit, size } = formatBytes(bytes)
+          return `${size} ${unit}`
+        }
+      },
+
+      {
+        accessorKey: accessorKeyByIndex(6),
+        header: ({column}) => (
+            <DataTableColumnHeader column={column} title={uiNameByIndex(6)}/>
+        ),
+        cell: (cell) => {
           const date = new Date(cell.getValue() as number);
           return formatDate(date)
         },
@@ -122,9 +135,9 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
       },
 
       {
-        accessorKey: accessorKeyByIndex(6),
+        accessorKey: accessorKeyByIndex(7),
         header: ({column}) => (
-            <DataTableColumnHeader column={column} title={uiNameByIndex(6)}/>
+            <DataTableColumnHeader column={column} title={uiNameByIndex(7)}/>
         ),
         cell: (cell) => {
           const date = new Date(cell.getValue() as number);
@@ -179,7 +192,7 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
 
   return {
     columns: tableColumns,
-    filterableColumns: getStreamerFilterableColumns(streamers, {streamer: uiNameByIndex(1), dateRange : uiNameByIndex(5)}),
+    filterableColumns: getStreamerFilterableColumns(streamers, {streamer: uiNameByIndex(1), dateRange: uiNameByIndex(5)}),
     searchableColumns: searchableColumns({streamTitle: uiNameByIndex(2)}),
     idFn: (id: string) => columns.find((props) => props.accessorKey == id)?.uiName ?? id
   }

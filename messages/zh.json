@@ -326,9 +326,13 @@
       "key": "outputFilePath",
       "value": "文件路径"
     },
-    "danmufilePath": {
+    "danmuFilePath": {
       "key": "danmuFilePath",
       "value": "弹幕文件路径"
+    },
+    "fileSize": {
+      "key": "outputFileSize",
+      "value": "文件大小"
     },
     "dateStart": {
       "key": "dateStart",
@@ -344,6 +348,7 @@
     "streamer": "主播",
     "title": "直播标题",
     "filePath": "文件路径",
+    "fileSize": "文件大小",
     "danmuFilePath": "弹幕文件路径",
     "dateStart": "开始录制时间",
     "dateEnd": "停止录制时间"
