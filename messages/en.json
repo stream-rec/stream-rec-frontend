@@ -85,6 +85,16 @@
     "addArgument": "Add argument",
     "removeArgument": "Delete argument"
   },
+  "MoveAction": {
+    "title": "Move",
+    "destination": "Destination",
+    "destinationDescription": "Destination folder to move.",
+    "destinationDefault": "Enter a destination folder"
+  },
+  "RemoveAction": {
+    "title": "Remove"
+  },
+
   "Settings": {
     "title": "Settings",
     "settingsDescription": "Manage your global, platforms and appearance settings.",

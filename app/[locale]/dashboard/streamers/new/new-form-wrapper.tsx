@@ -20,7 +20,7 @@ export default function NewFormWrapper({templateData}: { templateData: StreamerS
       <>
         <NextIntlClientProvider messages={
           // … and provide the relevant messages
-          pick(messages, ['Toast', 'StreamerData', 'StreamerForm', 'Huya', 'Douyin', 'DouyinQualities', 'BaseDownloadConfigs', 'CallbacksConfigs','Rclone', 'Command'])
+          pick(messages, ['Toast', 'StreamerData', 'StreamerForm', 'Huya', 'Douyin', 'DouyinQualities', 'BaseDownloadConfigs', 'CallbacksConfigs','Rclone', 'Command', 'MoveAction', 'RemoveAction'])
         }>
           <StreamerForm defaultValues={defaultStreamerValues} templateUsers={templateData} onSubmit={createStreamer}/>
         </NextIntlClientProvider>

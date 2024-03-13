@@ -85,6 +85,15 @@
     "addArgument": "添加参数",
     "removeArgument": "删除参数"
   },
+  "MoveAction": {
+    "title": "移动文件",
+    "destination": "目标文件",
+    "destinationDescription": "目标文件路径",
+    "destinationDefault": "请输入目标文件路径"
+  },
+  "RemoveAction": {
+    "title": "删除文件"
+  },
   "Settings": {
     "title": "设置",
     "settingsDescription": "在本页面修改全局，平台，主题设置",

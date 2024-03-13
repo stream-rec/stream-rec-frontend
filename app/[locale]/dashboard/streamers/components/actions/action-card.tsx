@@ -3,8 +3,16 @@ import {Switch} from "@/components/new-york/ui/switch";
 import {Separator} from "@/components/new-york/ui/separator";
 import {DeleteIcon, EditIcon} from "lucide-react";
 import React from "react";
-import {ActionSchema, ActionType, CommandActionSchema, RcloneActionSchema} from "@/lib/data/actions/definitions";
-import {NewActionDialog, NewActionDialogStrings} from "@/app/[locale]/dashboard/streamers/components/actions/new-action-dialog";
+import {
+  ActionSchema,
+  ActionType, CommandActionSchema,
+  MoveActionSchema,
+  RcloneActionSchema
+} from "@/lib/data/actions/definitions";
+import {
+  NewActionDialog,
+  NewActionDialogStrings
+} from "@/app/[locale]/dashboard/streamers/components/actions/new-action-dialog";
 import {DeleteIconDialog} from "@/app/components/dialog/delete-icon-dialog";
 import {Button} from "@/components/new-york/ui/button";
 
@@ -17,6 +25,18 @@ type ActionCardProps = {
 }
 
 export function ActionCard({data, onCheckedChange, onEdit, onDelete, actionStrings}: ActionCardProps) {
+
+  const renderArgs = (data: CommandActionSchema | RcloneActionSchema) => (
+      <p className="text-sm text-slate-500 max-w-35 break-words">{data.args?.join(".")}</p>
+  );
+
+  const renderArgsIfType = (type: ActionType) => {
+    if (type === ActionType.Command || type === ActionType.Rclone) {
+      return renderArgs(data as CommandActionSchema | RcloneActionSchema);
+    }
+  }
+
+
   return (
       <div>
         <Card className="w-52">
@@ -38,8 +58,12 @@ export function ActionCard({data, onCheckedChange, onEdit, onDelete, actionStrin
                 {data.type === ActionType.Rclone ? (data as RcloneActionSchema).remotePath : ""}
               </p>
               <p className="text-sm text-slate-500 max-w-35 break-words">
-                {(data as ActionSchema).args?.join(" ")}
+                {data.type === ActionType.Move ? (data as MoveActionSchema).destination : ""}
               </p>
+
+              {
+                renderArgsIfType(data.type)
+              }
 
               <div className="flex flex-row items-center text-sm space-x-2">
 
@@ -51,7 +75,8 @@ export function ActionCard({data, onCheckedChange, onEdit, onDelete, actionStrin
 
                 <Separator orientation={"vertical"} className={"h-5"}/>
 
-                <DeleteIconDialog icon={<Button type={"button"} variant="outline" size={"icon"}><DeleteIcon className="h-4 w-4"/></Button>} onDelete={
+                <DeleteIconDialog icon={<Button type={"button"} variant="outline" size={"icon"}><DeleteIcon
+                    className="h-4 w-4"/></Button>} onDelete={
                   async () => {
                     if (onDelete) {
                       onDelete()

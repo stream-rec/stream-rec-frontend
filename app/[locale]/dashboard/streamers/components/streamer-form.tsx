@@ -2,7 +2,15 @@
 
 import {useFieldArray, useForm, UseFormReturn, useFormState} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/new-york/ui/form";
 import {Input} from "@/components/new-york/ui/input";
 import React, {useEffect} from "react";
 import {Switch} from "@/components/new-york/ui/switch";
@@ -137,6 +145,8 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
 
   const rcloneT = useTranslations("Rclone")
   const commandT = useTranslations("Command")
+  const removeT = useTranslations("RemoveAction")
+  const moveT = useTranslations("MoveAction")
 
 
   const {isSubmitting} = useFormState({control: form.control})
@@ -297,7 +307,8 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                       control={form.control}
                       name="isActivated"
                       render={({field}) => (
-                          <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                          <FormItem
+                              className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                             <div className="space-y-0.5">
                               <FormLabel>{streamerF("enabledRecording")}</FormLabel>
                               <FormDescription>
@@ -391,7 +402,8 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                         control={form.control}
                         name="isTemplate"
                         render={({field}) => (
-                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                            <FormItem
+                                className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                               <div className="space-y-0.5">
                                 <FormLabel>{streamerF("asTemplate")}</FormLabel>
                                 <FormDescription>
@@ -437,10 +449,13 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                     {"md:grid-cols-2": isTemplate}
                 )}>
                   {!isTemplate && (
-                      <TabsTrigger value="platform" className="text-zinc-600 dark:text-zinc-200">{streamerF("platformSpecificOptions")}</TabsTrigger>
+                      <TabsTrigger value="platform"
+                                   className="text-zinc-600 dark:text-zinc-200">{streamerF("platformSpecificOptions")}</TabsTrigger>
                   )}
-                  <TabsTrigger value="default" className="text-zinc-600 dark:text-zinc-200">{streamerF("defaultDownloadOptions")}</TabsTrigger>
-                  <TabsTrigger value="actions" className="text-zinc-600 dark:text-zinc-200">{streamerF("callbackOptions")}</TabsTrigger>
+                  <TabsTrigger value="default"
+                               className="text-zinc-600 dark:text-zinc-200">{streamerF("defaultDownloadOptions")}</TabsTrigger>
+                  <TabsTrigger value="actions"
+                               className="text-zinc-600 dark:text-zinc-200">{streamerF("callbackOptions")}</TabsTrigger>
                 </TabsList>
 
                 <div>
@@ -562,6 +577,15 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                             remotePathDescription: rcloneT("remoteDescription"),
                             arguments: rcloneT("args"),
                             argumentsDescription: rcloneT("argsDescription"),
+                          },
+                          removeStrings: {
+                            title: removeT("title")
+                          },
+                          moveStrings: {
+                            title: moveT("title"),
+                            destination: moveT("destination"),
+                            destinationDefault: moveT("destinationDefault"),
+                            destinationDescription: moveT("destinationDescription")
                           }
                         }
                       }
