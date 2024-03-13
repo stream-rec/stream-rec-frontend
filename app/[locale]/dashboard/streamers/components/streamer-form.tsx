@@ -202,6 +202,7 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
       let isCreated = !data.id;
       await onSubmit(data);
       toastData(toastT("submitMessage"), data, "code")
+      router.refresh()
       if (isCreated) {
         router.push(`/dashboard/streamers`)
       }
