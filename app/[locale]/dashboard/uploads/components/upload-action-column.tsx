@@ -24,7 +24,7 @@ export function UploadActionColumn({data, deleteUpload}: UploadActionColumnProps
   const router = useRouter()
 
   const t = useTranslations("Actions")
-  const u = useTranslations("Upload")
+  const u = useTranslations("UploadsPage")
 
   return (
       <DropdownMenu>
