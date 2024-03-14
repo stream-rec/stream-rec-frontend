@@ -3,13 +3,13 @@ import {Control} from "react-hook-form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
 import React from "react";
 import {Input} from "@/components/new-york/ui/input";
-import {Textarea} from "@/components/new-york/ui/textarea";
-import {huyaCDNs, HuyaGlobalConfig} from "@/lib/data/platform/huya/definitions";
+import {huyaCDNs} from "@/lib/data/platform/huya/definitions";
+import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 
 
 interface HuyaConfigProps {
   controlPrefix?: string
-  control: Control<HuyaGlobalConfig, any, any>;
+  control: Control<any, any, any>;
   showMaxBitrate?: boolean
   showCookies?: boolean
   showPartedDownloadRetry?: boolean,
@@ -120,12 +120,12 @@ export const HuyaTabContent = ({controlPrefix, control, showMaxBitrate, showCook
               showCookies && (
                   <FormField
                       control={control}
-                      name={controlPrefix ? `${controlPrefix}.partedDownloadRetry` : "partedDownloadRetry"}
+                      name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"}
                       render={({field}) => (
                           <FormItem>
                             <FormLabel>{huyaStrings.cookieString}</FormLabel>
                             <FormControl>
-                              <Textarea placeholder={"Cookies"} {...field}></Textarea>
+                              <AutosizeTextarea placeholder={"Cookies"} {...field}></AutosizeTextarea>
                             </FormControl>
                             <FormDescription>
                               {huyaStrings.cookieDescription}

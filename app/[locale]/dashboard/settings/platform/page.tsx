@@ -1,5 +1,5 @@
 import {Separator} from "@/components/new-york/ui/separator";
-import PlatformFormWrapper from "@/app/[locale]/dashboard/settings/platform/platform-form-wrapper";
+import PlatformFormSuspense from "@/app/[locale]/dashboard/settings/platform/platform-form-suspense";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
 import {useTranslations} from "next-intl";
 
@@ -27,7 +27,7 @@ export default function SettingsPlatformPage({params: {locale}}: { params: { loc
           </p>
         </div>
         <Separator/>
-        <PlatformFormWrapper/>
+        <PlatformFormSuspense/>
       </div>
   )
 }

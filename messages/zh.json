@@ -109,7 +109,7 @@
     "themeSettingsFontDescription": "选择一个字体",
     "themeSettingsTheme": "主题",
     "themeSettingsThemeDescription": "选择一个主题",
-    "save": "保存"
+    "save": "保存设置"
   },
   "Huya": {
     "platform": "虎牙",
@@ -214,7 +214,7 @@
     "maxPartDescription": "最大分段大小，默认为2.5GB。 大于这个大小的分段将会被分割",
     "maxPartDefault": "50",
     "maxPartDuration": "最大分段时长",
-    "maxPartDurationDescription": "最大分段时长，默认未设置，设置为0恢复默认， <important>请注意，此值优先权大于 ‘最大分段大小’</important>",
+    "maxPartDurationDescription": "最大分段时长，默认未设置。 <important>请注意，此值优先权大于 ‘最大分段大小’</important>",
     "maxPartDurationDefault": "0",
     "maxConcurrentDownload": "最大并发下载数",
     "maxConcurrentDownloadDescription": "最大并发下载数，默认为5。 <important>请注意：适当根据主播数量和网络情况调整此值</important>",
@@ -223,8 +223,7 @@
     "downloadRetryDelay": "下播检查延迟",
     "downloadRetryDelayDescription": "下播检查延迟，单位秒，默认为10秒。适当增加此值可以减少伪下播状态。",
     "maxDownloadRetries": "下播检查次数",
-    "maxDownloadRetriesDescription": "最大下播检查次数， 默认为3此。 主播下播后，工具将会重试，然后检查直播间是否真的下播。适当增加此值可以减少伪下播状态。",
-    "save": "保存设置"
+    "maxDownloadRetriesDescription": "最大下播检查次数， 默认为3此。 主播下播后，工具将会重试，然后检查直播间是否真的下播。适当增加此值可以减少伪下播状态。"
   },
   "TableToolbar": {
     "searchPlaceholder": "搜索{search}...",
@@ -365,5 +364,11 @@
   "RecordDetails": {
     "title": "录播详情",
     "description": "关于录播的一些详情"
+  },
+  "TimeUnit": {
+    "seconds": "秒",
+    "minutes": "分钟",
+    "hours": "小时",
+    "days": "天"
   }
 }
