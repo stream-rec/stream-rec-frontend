@@ -99,16 +99,16 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
 
   async function onSubmit(data: GlobalConfig) {
     if (data.minPartSize !== undefined) {
-      data.minPartSize = convertToBytes(minPartSizeFormat, data.minPartSize)
+      data.minPartSize = Math.round(convertToBytes(minPartSizeFormat, data.minPartSize))
     }
     if (data.maxPartSize !== undefined) {
-      data.maxPartSize = convertToBytes(maxPartSizeFormat, data.maxPartSize)
+      data.maxPartSize = Math.round(convertToBytes(maxPartSizeFormat, data.maxPartSize))
     }
     if (data.maxPartDuration) {
       if (data.maxPartDuration === 0) {
         data.maxPartDuration = undefined
       } else {
-        data.maxPartDuration = convertToSeconds(maxPartDurationFormat, data.maxPartDuration)
+        data.maxPartDuration = Math.round(convertToSeconds(maxPartDurationFormat, data.maxPartDuration))
       }
     }
     try {
