@@ -369,5 +369,20 @@
     "minutes": "minutes",
     "hours": "hours",
     "days": "days"
+  },
+  "LoginPage": {
+    "title": "Welcome back!",
+    "description": "Please enter your credentials to login.",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "signIn": "Sign in",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "recoverPasswordSuccess": "Password printed to server console",
+    "loginError": "Login error",
+    "loginSuccess": "Login success",
+    "logout": "Logout"
   }
 }

@@ -6,13 +6,14 @@ import {cn} from "@/lib/utils";
 import {Separator} from "@/components/new-york/ui/separator";
 import {AccountSwitcher} from "@/app/[locale]/dashboard/(overview)/components/account-switcher";
 import {Nav} from "@/app/[locale]/dashboard/(overview)/components/nav";
-import {FileVideo2, LucideLayoutDashboard, LucideUsers, Settings, UploadCloud} from "lucide-react";
+import {FileVideo2, LogOutIcon, LucideLayoutDashboard, LucideUsers, Settings, UploadCloud} from "lucide-react";
+import {removeAccessToken, removeValidUntil} from "@/lib/data/auth/tokens";
 
 interface DashboardProps {
   accounts: {
     label: string
     email: string
-    icon: React.ReactNode
+    icon: React.ReactNode,
   }[]
   defaultLayout: number[] | undefined
   defaultCollapsed?: boolean
@@ -22,7 +23,8 @@ interface DashboardProps {
     streamers: string
     records: string
     settings: string
-    uploads: string
+    uploads: string,
+    logout: string
   }
   children?: React.ReactNode
 }
@@ -72,6 +74,16 @@ export function DashboardLayout(
           href: "/dashboard/settings",
           icon: Settings,
         },
+        {
+          title: strings.logout,
+          label: "",
+          href: "/login",
+          icon: LogOutIcon,
+          action: async () => {
+            await removeAccessToken()
+            await removeValidUntil()
+          }
+        }
       ], [strings])
 
   const handleCollapse = () => {

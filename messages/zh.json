@@ -369,5 +369,20 @@
     "minutes": "分钟",
     "hours": "小时",
     "days": "天"
+  },
+  "LoginPage": {
+    "title": "欢迎回来",
+    "description": "请输入你的用户名和密码",
+    "username": "用户名",
+    "usernamePlaceholder": "请输入你的用户名",
+    "password": "密码",
+    "passwordPlaceholder": "请输入你的密码",
+    "signIn": "登录",
+    "rememberMe": "记住我",
+    "forgotPassword": "忘记密码？",
+    "recoverPasswordSuccess": "用户密码已打印到服务器控制台",
+    "loginError": "登录失败",
+    "loginSuccess": "登录成功",
+    "logout": "退出登录"
   }
 }

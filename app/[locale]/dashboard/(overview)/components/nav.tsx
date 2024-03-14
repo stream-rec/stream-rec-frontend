@@ -11,7 +11,8 @@ import {Link, usePathname} from "@/i18n";
 export type NavLink = {
   title: string
   label?: string
-  href: string
+  href: string,
+  action?: () => void
   icon: LucideIcon
 }
 
@@ -39,6 +40,129 @@ export function Nav({links, isCollapsed}: NavProps) {
     return "ghost"
   };
 
+
+  const collapsedIcon = (link: NavLink) => {
+    return (
+        <Tooltip key={link.title} delayDuration={0}>
+          <TooltipTrigger asChild>
+            {
+              link.action ? (
+                  <button
+                      onClick={link.action}
+                      className={clsx(
+                          cn(
+                              buttonVariants({variant: computeVariant(link.href), size: "icon"}),
+                              "h-9 w-9",
+                          ),
+                          {
+                            "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white": isCurrentLink(link.href)
+                          }
+                      )}
+                  >
+                    <link.icon className="h-4 w-4"/>
+                    <span className="sr-only">{link.title}</span>
+                  </button>
+              ) : (
+                  <Link
+                      href={link.href}
+                      className={clsx(
+                          cn(
+                              buttonVariants({variant: computeVariant(link.href), size: "icon"}),
+                              "h-9 w-9",
+                          ),
+                          {
+                            "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white": isCurrentLink(link.href)
+                          }
+                      )}
+                  >
+                    <link.icon className="h-4 w-4"/>
+                    <span className="sr-only">{link.title}</span>
+                  </Link>
+              )
+            }
+          </TooltipTrigger>
+          <TooltipContent side="right" className="flex items-center gap-4">
+            {link.title}
+            {link.label && (
+                <span className="ml-auto text-muted-foreground">
+                  {link.label}
+                </span>
+            )}
+          </TooltipContent>
+        </Tooltip>
+    )
+  }
+
+
+  const expandedIcon = (link: NavLink) => {
+    return (
+        <>
+
+          {
+            link.action ? (
+                <button
+                    key={link.title}
+                    onClick={link.action}
+                    className={clsx(
+                        cn(
+                            buttonVariants({variant: computeVariant(link.href), size: "sm"}),
+                            "justify-start"
+                        ),
+                        {
+                          "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white": isCurrentLink(link.href),
+                        }
+                    )}
+                >
+                  <link.icon className="mr-2 h-4 w-4"/>
+                  {link.title}
+                  {link.label && (
+                      <span
+                          className={clsx(
+                              cn(
+                                  "ml-auto",
+                              ),
+                              {"text-background dark:text-white": isCurrentLink(link.href)}
+                          )}
+                      >
+                  {link.label}
+                </span>
+                  )}
+                </button>
+            ) : (
+                <Link
+                    key={link.title}
+                    href={link.href}
+                    className={clsx(
+                        cn(
+                            buttonVariants({variant: computeVariant(link.href), size: "sm"}),
+                            "justify-start"
+                        ),
+                        {
+                          "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white": isCurrentLink(link.href),
+                        }
+                    )}
+                >
+                  <link.icon className="mr-2 h-4 w-4"/>
+                  {link.title}
+                  {link.label && (
+                      <span
+                          className={clsx(
+                              cn(
+                                  "ml-auto",
+                              ),
+                              {"text-background dark:text-white": isCurrentLink(link.href)}
+                          )}
+                      >
+                  {link.label}
+                </span>
+                  )}
+                </Link>
+            )
+          }
+        </>
+    )
+  }
+
   return (
       <div
           data-collapsed={isCollapsed}
@@ -48,62 +172,9 @@ export function Nav({links, isCollapsed}: NavProps) {
           {links.map((link, index) =>
               isCollapsed ? (
                   // eslint-disable-next-line react/jsx-no-undef
-                  <Tooltip key={index} delayDuration={0}>
-                    <TooltipTrigger asChild>
-                      <Link
-                          href={link.href}
-                          className={clsx(
-                              cn(
-                                  buttonVariants({variant: computeVariant(link.href), size: "icon"}),
-                                  "h-9 w-9",
-                              ),
-                              {
-                                "dark:bg-muted dark:text-muted-foreground dark:hover:bg-muted dark:hover:text-white": isCurrentLink(link.href)
-                              }
-                          )}
-                      >
-                        <link.icon className="h-4 w-4"/>
-                        <span className="sr-only">{link.title}</span>
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent side="right" className="flex items-center gap-4">
-                      {link.title}
-                      {link.label && (
-                          <span className="ml-auto text-muted-foreground">
-                    {link.label}
-                  </span>
-                      )}
-                    </TooltipContent>
-                  </Tooltip>
+                  collapsedIcon(link)
               ) : (
-                  <Link
-                      key={index}
-                      href={link.href}
-                      className={clsx(
-                          cn(
-                              buttonVariants({variant: computeVariant(link.href), size: "sm"}),
-                              "justify-start"
-                          ),
-                          {
-                            "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white": isCurrentLink(link.href),
-                          }
-                      )}
-                  >
-                    <link.icon className="mr-2 h-4 w-4"/>
-                    {link.title}
-                    {link.label && (
-                        <span
-                            className={clsx(
-                                cn(
-                                    "ml-auto",
-                                ),
-                                {"text-background dark:text-white": isCurrentLink(link.href)}
-                            )}
-                        >
-                  {link.label}
-                </span>
-                    )}
-                  </Link>
+                  expandedIcon(link)
               )
           )}
         </nav>
