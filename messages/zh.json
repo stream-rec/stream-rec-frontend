@@ -19,8 +19,7 @@
     "url": "直播链接"
   },
   "StreamersPage": {
-    "title": "主播",
-    "streamers": "主播列表",
+    "title": "主播列表",
     "summaryOfStreamers": "这里是主播列表",
     "addStreamer": "添加主播"
   },
@@ -94,7 +93,7 @@
   "RemoveAction": {
     "title": "删除文件"
   },
-  "Settings": {
+  "SettingsPage": {
     "title": "设置",
     "settingsDescription": "在本页面修改全局，平台，主题设置",
     "globalSettings": "全局设置",
@@ -255,7 +254,7 @@
     "deleted": "已删除！",
     "deleteError": "删除失败"
   },
-  "Upload": {
+  "UploadsPage": {
     "title": "上传列表",
     "description": "这里是上传列表，目前只支持rclone平台...",
     "viewUploadDetails": "查看上传详情",

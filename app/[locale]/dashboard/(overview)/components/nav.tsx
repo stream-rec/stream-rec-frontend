@@ -8,15 +8,16 @@ import {buttonVariants} from "@/components/new-york/ui/button";
 import {clsx} from "clsx";
 import {Link, usePathname} from "@/i18n";
 
+export type NavLink = {
+  title: string
+  label?: string
+  href: string
+  icon: LucideIcon
+}
 
 interface NavProps {
   isCollapsed: boolean
-  links: {
-    title: string
-    label?: string
-    href: string
-    icon: LucideIcon
-  }[]
+  links: NavLink[]
 }
 
 export function Nav({links, isCollapsed}: NavProps) {

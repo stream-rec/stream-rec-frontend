@@ -3,12 +3,12 @@ import * as React from "react"
 import {TooltipProvider} from "@/components/new-york/ui/tooltip";
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup} from "@/components/new-york/ui/resizable";
 import {cn} from "@/lib/utils";
-import {FileVideo2, LucideLayoutDashboard, LucideUsers, Settings, UploadCloud} from "lucide-react";
 import {Separator} from "@/components/new-york/ui/separator";
 import {AccountSwitcher} from "@/app/[locale]/dashboard/(overview)/components/account-switcher";
 import {Nav} from "@/app/[locale]/dashboard/(overview)/components/nav";
+import {FileVideo2, LucideLayoutDashboard, LucideUsers, Settings, UploadCloud} from "lucide-react";
 
-interface MailProps {
+interface DashboardProps {
   accounts: {
     label: string
     email: string
@@ -17,42 +17,16 @@ interface MailProps {
   defaultLayout: number[] | undefined
   defaultCollapsed?: boolean
   navCollapsedSize: number
+  strings: {
+    dashboard: string
+    streamers: string
+    records: string
+    settings: string
+    uploads: string
+  }
   children?: React.ReactNode
 }
 
-const dashboardLinks = [
-  {
-    title: "Dashboard",
-    label: "",
-    href: "/dashboard",
-    icon: LucideLayoutDashboard,
-  },
-  {
-    title: "Streamers",
-    label: "",
-    href: "/dashboard/streamers",
-    icon: LucideUsers,
-  },
-  {
-    title: "Records",
-    label: "",
-    href: "/dashboard/records",
-    icon: FileVideo2,
-  },
-
-  {
-    title: "Uploads",
-    label: "",
-    href: "/dashboard/uploads",
-    icon: UploadCloud,
-  },
-  {
-    title: "Settings",
-    label: "",
-    href: "/dashboard/settings",
-    icon: Settings,
-  },
-]
 
 export function DashboardLayout(
     {
@@ -60,9 +34,45 @@ export function DashboardLayout(
       defaultLayout = [265, 655],
       defaultCollapsed = false,
       navCollapsedSize,
+      strings,
       children,
-    }: MailProps) {
+    }: DashboardProps) {
 
+
+  const dashboardLinks = React.useMemo(() =>
+      [
+        {
+          title: strings.dashboard,
+          label: "",
+          href: "/dashboard",
+          icon: LucideLayoutDashboard,
+        },
+        {
+          title: strings.streamers,
+          label: "",
+          href: "/dashboard/streamers",
+          icon: LucideUsers,
+        },
+        {
+          title: strings.records,
+          label: "",
+          href: "/dashboard/records",
+          icon: FileVideo2,
+        },
+
+        {
+          title: strings.uploads,
+          label: "",
+          href: "/dashboard/uploads",
+          icon: UploadCloud,
+        },
+        {
+          title: strings.settings,
+          label: "",
+          href: "/dashboard/settings",
+          icon: Settings,
+        },
+      ], [strings])
 
   const handleCollapse = () => {
     document.cookie = `react-resizable-panels:collapsed=${JSON.stringify(true)}`

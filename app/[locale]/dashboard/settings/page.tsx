@@ -10,7 +10,7 @@ export default function Settings({params: {locale}}: { params: { locale: string 
 
   unstable_setRequestLocale(locale);
 
-  const t = useTranslations("Settings");
+  const t = useTranslations("SettingsPage");
 
   return (
       <div className="space-y-6">
