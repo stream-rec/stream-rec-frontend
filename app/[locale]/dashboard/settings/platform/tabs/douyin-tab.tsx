@@ -23,6 +23,7 @@ export type DouyinTabString = {
 }
 
 interface DouyinTabContentProps {
+  controlPrefix?: string;
   control: Control<DouyinGlobalConfig, any, any>;
   qualityOptions: DouyinQuality[]
   showCookies?: boolean
@@ -30,12 +31,19 @@ interface DouyinTabContentProps {
   douyinStrings: DouyinTabString
 }
 
-export const DouyinTabContent = ({control, showCookies, showPartedDownloadRetry, qualityOptions, douyinStrings}: DouyinTabContentProps) => {
+export const DouyinTabContent = ({
+                                   controlPrefix,
+                                   control,
+                                   showCookies,
+                                   showPartedDownloadRetry,
+                                   qualityOptions,
+                                   douyinStrings
+                                 }: DouyinTabContentProps) => {
   return (
       <div className="mt-6 space-y-6">
         <FormField
             control={control}
-            name="quality"
+            name={controlPrefix ? `${controlPrefix}.quality` : "quality"}
             render={({field}) => (
                 <FormItem>
                   <FormLabel>{douyinStrings.quality}</FormLabel>
@@ -64,7 +72,7 @@ export const DouyinTabContent = ({control, showCookies, showPartedDownloadRetry,
             showPartedDownloadRetry && (
                 <FormField
                     control={control}
-                    name="partedDownloadRetry"
+                    name={controlPrefix ? `${controlPrefix}.partedDownloadRetry` : "partedDownloadRetry"}
                     render={({field}) => (
                         <FormItem>
                           <FormLabel>{douyinStrings.part}</FormLabel>
@@ -92,7 +100,7 @@ export const DouyinTabContent = ({control, showCookies, showPartedDownloadRetry,
             showCookies && (
                 <FormField
                     control={control}
-                    name="cookies"
+                    name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"}
                     render={({field}) => (
                         <FormItem>
                           <FormLabel>{douyinStrings.cookies}</FormLabel>

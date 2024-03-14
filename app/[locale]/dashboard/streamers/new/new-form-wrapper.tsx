@@ -1,7 +1,6 @@
-import {NextIntlClientProvider, useMessages} from "next-intl";
-import {StreamerForm} from "@/app/[locale]/dashboard/streamers/components/streamer-form";
-import {pick} from "next/dist/lib/pick";
 import {StreamerSchema} from "@/lib/data/streams/definitions";
+import React from "react";
+import {StreamerFormWrapper} from "@/app/[locale]/dashboard/streamers/components/streamer-form-wrapper";
 import {createStreamer} from "@/lib/data/streams/streamer-apis";
 
 const defaultStreamerValues: StreamerSchema = {
@@ -14,16 +13,9 @@ const defaultStreamerValues: StreamerSchema = {
 
 export default function NewFormWrapper({templateData}: { templateData: StreamerSchema[] }) {
 
-  const messages = useMessages()
-
   return (
       <>
-        <NextIntlClientProvider messages={
-          // … and provide the relevant messages
-          pick(messages, ['Toast', 'StreamerData', 'StreamerForm', 'Huya', 'Douyin', 'DouyinQualities', 'BaseDownloadConfigs', 'CallbacksConfigs','Rclone', 'Command', 'MoveAction', 'RemoveAction'])
-        }>
-          <StreamerForm defaultValues={defaultStreamerValues} templateUsers={templateData} onSubmit={createStreamer}/>
-        </NextIntlClientProvider>
+        <StreamerFormWrapper defaultStreamerValues={defaultStreamerValues} templateData={templateData} onSubmit={createStreamer}/>
       </>
   )
 }
