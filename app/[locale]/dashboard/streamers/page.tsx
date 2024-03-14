@@ -26,7 +26,7 @@ export default function Page({params: {locale}}: { params: { locale: string } })
 
     <div className="flex flex-col md:flex-row space-x-0 md:items-center justify-between space-y-2">
       <div>
-        <h2 className="text-2xl font-bold tracking-tight">{t("streamers")}</h2>
+        <h2 className="text-2xl font-bold tracking-tight">{t("title")}</h2>
         <p className="text-muted-foreground">
           {t("summaryOfStreamers")}.
         </p>

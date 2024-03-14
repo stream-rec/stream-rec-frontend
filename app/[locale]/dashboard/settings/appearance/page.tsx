@@ -17,7 +17,7 @@ export default function SettingsAppearancePage({params: {locale}}: { params: { l
 
   unstable_setRequestLocale(locale);
 
-  const t = useTranslations("Settings");
+  const t = useTranslations("SettingsPage");
   const themes = useTranslations("Themes")
   const toast = useTranslations("Toast")
 

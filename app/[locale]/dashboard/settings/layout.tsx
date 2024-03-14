@@ -8,7 +8,7 @@ import {useTranslations} from "next-intl";
 export default function SettingsLayout({params: {locale}, children}: { params: { locale: string }, children: React.ReactNode }) {
   unstable_setRequestLocale(locale);
 
-  const t = useTranslations("Settings");
+  const t = useTranslations("SettingsPage");
 
   const sidebarNavItems = [
     {
