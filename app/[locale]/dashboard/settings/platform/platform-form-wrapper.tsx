@@ -18,7 +18,7 @@ export function PlatformFormWrapper({configPromise}: PlatformFormSuspenseProps) 
   const douyinT = useDouyinTranslations()
   const douyinQualityOptions = useDouyinQualityTranslations()
 
-  const settingsT = useTranslations("Settings")
+  const settingsT = useTranslations("SettingsPage")
   return (
       <>
         <PlatformForm defaultValues={config} huyaStrings={huyaT} douyinQualityOptions={douyinQualityOptions} douyinStrings={douyinT}
