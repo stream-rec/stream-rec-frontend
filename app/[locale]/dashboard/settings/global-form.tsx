@@ -3,10 +3,9 @@ import {zodResolver} from "@hookform/resolvers/zod"
 import {useForm, useFormState} from "react-hook-form"
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
-import {Button} from "@/components/new-york/ui/button";
 import {Input} from "@/components/new-york/ui/input";
 import {Switch} from "@/components/new-york/ui/switch";
-import {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {toastData} from "@/app/utils/toast";
 import {DanmuFlagFormfield} from "@/app/[locale]/dashboard/settings/components/form/danmu-flag-formfield";
 import {OutputFolderFormField} from "@/app/[locale]/dashboard/settings/components/form/output-folder-formfield";
@@ -14,6 +13,7 @@ import {OutputFilenameFormfield} from "@/app/[locale]/dashboard/settings/compone
 import {OutputFileFormatFormfield} from "@/app/[locale]/dashboard/settings/components/form/output-file-format-formfield";
 import {convertToBytes, convertToSeconds, DurationUnit, FileSizeUnit, formatBytes, formatSeconds} from "@/app/utils/conversions";
 import {GlobalConfig, globalConfigSchema} from "@/lib/data/config/definitions";
+import {LoadingButton} from "@/components/new-york/ui/loading-button";
 
 type GlobalFormProps = {
   appConfig: GlobalConfig,
@@ -27,15 +27,15 @@ export type GlobalFormStrings = {
   engine: string
   engineDescription: string
   danmu: string
-  danmuDescription: string
+  danmuDescription: string | React.ReactNode
   deleteFiles: string
   deleteFilesDescription: any
   outputFolder: string
-  outputFolderDescription: string
+  outputFolderDescription: string | React.ReactNode
   outputFilename: string
-  outputFilenameDescription: string
+  outputFilenameDescription: string | React.ReactNode
   outputFormat: string
-  outputFormatDescription: string
+  outputFormatDescription: string | React.ReactNode
   minPart: string
   minPartDescription: string
   minPartDefault: string
@@ -44,16 +44,22 @@ export type GlobalFormStrings = {
   maxPartDescription: string
   maxPartDuration: string
   maxPartDurationDefault: string
-  maxPartDurationDescription: string
+  maxPartDurationDescription: string | React.ReactNode
   maxConcurrentDownload: string
-  maxConcurrentDownloadDescription: string
+  maxConcurrentDownloadDescription: string | React.ReactNode
   maxConcurrentUpload: string
-  maxConcurrentUploadDescription: string
+  maxConcurrentUploadDescription: string | React.ReactNode
   downloadRetryDelay: string
   downloadRetryDelayDescription: string
   maxDownloadRetries: string
   maxDownloadRetriesDescription: string
-  save: string
+  save: string,
+  timeFormats: {
+    seconds: string
+    minutes: string
+    hours: string
+    days: string
+  }
 }
 
 
@@ -84,12 +90,12 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
     formatAndSetValues(appConfig.minPartSize, minPartSizeFormat, setMinPartSizeFormat, "minPartSize")
     formatAndSetValues(appConfig.maxPartSize, maxPartSizeFormat, setMaxPartSizeFormat, "maxPartSize")
 
-    if (appConfig.maxPartDuration !== undefined && maxPartDurationFormat === DurationUnit.SECONDS) {
+    if (appConfig.maxPartDuration && maxPartDurationFormat === DurationUnit.SECONDS) {
       const {unit, value} = formatSeconds(appConfig.maxPartDuration)
       setMaxPartDurationFormat(unit)
       form.setValue("maxPartDuration", value)
     }
-  }, [])
+  }, [appConfig])
 
   async function onSubmit(data: GlobalConfig) {
     if (data.minPartSize !== undefined) {
@@ -98,7 +104,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
     if (data.maxPartSize !== undefined) {
       data.maxPartSize = convertToBytes(maxPartSizeFormat, data.maxPartSize)
     }
-    if (data.maxPartDuration !== undefined) {
+    if (data.maxPartDuration) {
       if (data.maxPartDuration === 0) {
         data.maxPartDuration = undefined
       } else {
@@ -158,16 +164,19 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                       <Switch
                           checked={field.value}
                           onCheckedChange={field.onChange}
-                          arial-label="Enable files deletion after download, if disabled, files will be kept in the download folder. It only works when onPartedDownload or onStreamingFinished callbacks are not set."
+                          arial-label="File deletion switch"
                       />
                     </FormControl>
                   </FormItem>
               )}
           />
 
-          <OutputFolderFormField control={form.control} name={globalStrings.outputFolder} description={globalStrings.outputFolderDescription}/>
-          <OutputFilenameFormfield control={form.control} name={globalStrings.outputFilename} description={globalStrings.outputFilenameDescription}/>
-          <OutputFileFormatFormfield control={form.control} name={globalStrings.outputFormat} description={globalStrings.outputFormatDescription}/>
+          <OutputFolderFormField control={form.control} name={globalStrings.outputFolder}
+                                 description={globalStrings.outputFolderDescription}/>
+          <OutputFilenameFormfield control={form.control} name={globalStrings.outputFilename}
+                                   description={globalStrings.outputFilenameDescription}/>
+          <OutputFileFormatFormfield control={form.control} name={globalStrings.outputFormat}
+                                     description={globalStrings.outputFormatDescription}/>
 
           <FormField
               control={form.control}
@@ -288,6 +297,9 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                               type="number"
                               placeholder=""
                               {...field}
+                              value={
+                                field.value ? field.value : undefined
+                              }
                               onChange={(e) => {
                                 const newValue = e.target.value;
                                 const numberValue = Number(newValue);
@@ -303,10 +315,10 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                         </SelectTrigger>
 
                         <SelectContent>
-                          <SelectItem value={DurationUnit.SECONDS}>seconds</SelectItem>
-                          <SelectItem value={DurationUnit.MINUTES}>minutes</SelectItem>
-                          <SelectItem value={DurationUnit.HOURS}>hours</SelectItem>
-                          <SelectItem value={DurationUnit.DAYS}>days</SelectItem>
+                          <SelectItem value={DurationUnit.SECONDS}>{globalStrings.timeFormats.seconds}</SelectItem>
+                          <SelectItem value={DurationUnit.MINUTES}>{globalStrings.timeFormats.minutes}</SelectItem>
+                          <SelectItem value={DurationUnit.HOURS}>{globalStrings.timeFormats.hours}</SelectItem>
+                          <SelectItem value={DurationUnit.DAYS}>{globalStrings.timeFormats.days}</SelectItem>
                         </SelectContent>
                       </div>
                       <FormDescription>
@@ -397,7 +409,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
               )}
           />
 
-          <Button type="submit" aria-disabled={isSubmitting}>{globalStrings.save}</Button>
+          <LoadingButton type="submit" loading={isSubmitting}>{globalStrings.save}</LoadingButton>
         </form>
       </Form>
   )

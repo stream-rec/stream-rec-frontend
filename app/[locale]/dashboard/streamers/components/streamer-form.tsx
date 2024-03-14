@@ -11,7 +11,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui
 import {clsx} from "clsx";
 import {CaretSortIcon, CheckIcon, RocketIcon} from "@radix-ui/react-icons";
 import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/alert";
-import {baseDownloadConfig, streamerSchema, StreamerSchema} from "@/lib/data/streams/definitions";
+import {streamerSchema, StreamerSchema} from "@/lib/data/streams/definitions";
 import {huyaDownloadConfig, huyaRegex} from "@/lib/data/platform/huya/definitions";
 import {douyinDownloadConfig, douyinRegex} from "@/lib/data/platform/douyin/definitions";
 import {PlatformType} from "@/lib/data/platform/definitions";
@@ -69,16 +69,6 @@ type StreamerConfigProps = {
   defaultValues?: StreamerSchema
   templateUsers: StreamerSchema[]
   onSubmit: (data: StreamerSchema) => Promise<StreamerSchema>
-}
-
-function getPlatformDownloadConfigSchema(platform: PlatformType) {
-  if (platform === PlatformType.HUYA) {
-    return huyaDownloadConfig;
-  } else if (platform === PlatformType.DOUYIN) {
-    return douyinDownloadConfig;
-  } else {
-    return baseDownloadConfig;
-  }
 }
 
 export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: StreamerConfigProps) {

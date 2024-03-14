@@ -2,9 +2,9 @@ import {Separator} from "@/components/new-york/ui/separator";
 import {AlertTriangleIcon} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/alert";
 import React from "react";
-import GlobalFormWrapper from "@/app/[locale]/dashboard/settings/global-form-wrapper";
 import {unstable_setRequestLocale} from "next-intl/server";
 import {useTranslations} from "next-intl";
+import {GlobalFormSuspense} from "@/app/[locale]/dashboard/settings/global-form-suspense";
 
 export default function Settings({params: {locale}}: { params: { locale: string } }) {
 
@@ -30,7 +30,7 @@ export default function Settings({params: {locale}}: { params: { locale: string 
           </div>
         </div>
         <Separator/>
-        <GlobalFormWrapper/>
+        <GlobalFormSuspense/>
       </div>
   )
 }

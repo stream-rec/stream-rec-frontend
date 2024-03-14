@@ -1,8 +1,9 @@
 import {useTranslations} from "next-intl";
 import {StreamerForm} from "@/app/[locale]/dashboard/streamers/components/streamer-form";
-import React, {useMemo} from "react";
+import React from "react";
 import {StreamerSchema} from "@/lib/data/streams/definitions";
-import {DouyinQuality} from "@/app/[locale]/dashboard/settings/platform/tabs/douyin-tab";
+import {useHuyaTranslations} from "@/app/[locale]/dashboard/translations/huya-translations";
+import {useDouyinQualityTranslations, useDouyinTranslations} from "@/app/[locale]/dashboard/translations/douyin-translations";
 
 
 type StreamerFormWrapperProps = {
@@ -10,8 +11,6 @@ type StreamerFormWrapperProps = {
   defaultStreamerValues: StreamerSchema,
   onSubmit: (data: StreamerSchema) => Promise<StreamerSchema>
 }
-
-const douyinQualityKeys = ['origin', 'uhd', 'hd', 'sd', 'ld', 'md', 'ao'] as const
 
 export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubmit}: StreamerFormWrapperProps) {
 
@@ -21,15 +20,11 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
   const baseT = useTranslations("BaseDownloadConfigs")
 
   // huya translations
-  const huyaS = useTranslations("Huya")
+  const huyaT = useHuyaTranslations()
 
   // douyin translations
-  const douyinS = useTranslations("Douyin")
-  const douyinQualityStrings = useTranslations("DouyinQualities")
-  const douyinQualityOptions: DouyinQuality[] = useMemo(() => douyinQualityKeys.map((key) => ({
-    quality: douyinQualityStrings(`${key}.id`),
-    description: douyinQualityStrings(`${key}.name`)
-  })), [douyinQualityStrings])
+  const douyinT = useDouyinTranslations()
+  const douyinQualityOptions = useDouyinQualityTranslations()
 
   // action callbacks translations
   const actionsT = useTranslations("CallbacksConfigs")
@@ -72,28 +67,8 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
           callbackOptions: streamerF("callbackOptions"),
           save: streamerF("save"),
         },
-        huyaStrings: {
-          platform: huyaS("platform"),
-          cdn: huyaS("cdn"),
-          cdnDescription: huyaS("cdnDescription"),
-          cdnDefault: huyaS("cdnDefault"),
-          bitrate: huyaS("bitrate"),
-          bitrateDescription: huyaS("bitrateDescription"),
-          part: huyaS("part"),
-          partDescription: huyaS.rich("partDescription"),
-          cookieString: huyaS("cookieString"),
-          cookieDescription: huyaS.rich("cookieDescription"),
-        },
-        douyinStrings: {
-          platform: douyinS("platform"),
-          quality: douyinS("quality"),
-          qualityDescription: douyinS("qualityDescription"),
-          qualityDefault: douyinS("qualityDefault"),
-          part: douyinS("part"),
-          partDescription: douyinS.rich("partDescription"),
-          cookies: douyinS("cookieString"),
-          cookiesDescription: douyinS.rich("cookiesDescription"),
-        },
+        huyaStrings: huyaT,
+        douyinStrings: douyinT,
         douyinQualityOptions: douyinQualityOptions,
         baseDownloadStrings: {
           danmu: baseT("danmu"),

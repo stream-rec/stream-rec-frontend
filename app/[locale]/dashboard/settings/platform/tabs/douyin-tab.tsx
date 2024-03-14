@@ -1,10 +1,9 @@
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Control} from "react-hook-form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
-import {Textarea} from "@/components/new-york/ui/textarea";
 import React from "react";
-import {DouyinGlobalConfig} from "@/lib/data/platform/douyin/definitions";
 import {Input} from "@/components/new-york/ui/input";
+import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 
 export type DouyinQuality = {
   quality: string,
@@ -24,7 +23,7 @@ export type DouyinTabString = {
 
 interface DouyinTabContentProps {
   controlPrefix?: string;
-  control: Control<DouyinGlobalConfig, any, any>;
+  control: Control<any, any, any>;
   qualityOptions: DouyinQuality[]
   showCookies?: boolean
   showPartedDownloadRetry?: boolean
@@ -105,7 +104,7 @@ export const DouyinTabContent = ({
                         <FormItem>
                           <FormLabel>{douyinStrings.cookies}</FormLabel>
                           <FormControl>
-                            <Textarea className={"h-[200px]"} placeholder="Cookies" {...field}></Textarea>
+                            <AutosizeTextarea className={"h-[200px]"} placeholder="Cookies" {...field}></AutosizeTextarea>
                           </FormControl>
                           <FormDescription>
                             <p>{douyinStrings.cookiesDescription}</p>
