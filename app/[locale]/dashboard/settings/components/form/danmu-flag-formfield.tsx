@@ -1,17 +1,19 @@
 import {Control} from "react-hook-form";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel} from "@/components/new-york/ui/form";
 import {Switch} from "@/components/new-york/ui/switch";
+import React from "react";
 
 type DanmuFlagFormfieldProps = {
+  controlPrefix?: string;
   control: Control<any>;
   title?: string;
   description?: string | React.ReactNode;
 }
 
-export function DanmuFlagFormfield({control, title, description}: DanmuFlagFormfieldProps) {
+export function DanmuFlagFormfield({controlPrefix, control, title, description}: DanmuFlagFormfieldProps) {
   return <FormField
       control={control}
-      name="danmu"
+      name={controlPrefix ? `${controlPrefix}.danmu` : "danmu"}
       render={({field}) => (
           <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
             <div className="space-y-0.5">

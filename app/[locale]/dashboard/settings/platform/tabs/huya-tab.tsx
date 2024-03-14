@@ -8,6 +8,7 @@ import {huyaCDNs, HuyaGlobalConfig} from "@/lib/data/platform/huya/definitions";
 
 
 interface HuyaConfigProps {
+  controlPrefix?: string
   control: Control<HuyaGlobalConfig, any, any>;
   showMaxBitrate?: boolean
   showCookies?: boolean
@@ -28,13 +29,13 @@ export type HuyaTabString = {
   cookieDescription: any,
 }
 
-export const HuyaTabContent = ({control, showMaxBitrate, showCookies, showPartedDownloadRetry, huyaStrings}: HuyaConfigProps) => {
+export const HuyaTabContent = ({controlPrefix, control, showMaxBitrate, showCookies, showPartedDownloadRetry, huyaStrings}: HuyaConfigProps) => {
   {
     return (
         <div className="mt-6 space-y-6 fade-in">
           <FormField
               control={control}
-              name="primaryCdn"
+              name={controlPrefix ? `${controlPrefix}.primaryCdn` : "primaryCdn"}
               render={({field}) => (
                   <FormItem>
                     <FormLabel>{huyaStrings.cdn}</FormLabel>
@@ -65,7 +66,7 @@ export const HuyaTabContent = ({control, showMaxBitrate, showCookies, showParted
           {
               showMaxBitrate && (<FormField
                   control={control}
-                  name="maxBitRate"
+                  name={controlPrefix ? `${controlPrefix}.maxBitRate` : "maxBitRate"}
                   render={({field}) => (
                       <FormItem>
                         <FormLabel>{huyaStrings.bitrate}</FormLabel>
@@ -92,7 +93,7 @@ export const HuyaTabContent = ({control, showMaxBitrate, showCookies, showParted
               showPartedDownloadRetry && (
                   <FormField
                       control={control}
-                      name="partedDownloadRetry"
+                      name={controlPrefix ? `${controlPrefix}.partedDownloadRetry` : "partedDownloadRetry"}
                       render={({field}) => (
                           <FormItem>
                             <FormLabel>{huyaStrings.part}</FormLabel>
@@ -119,7 +120,7 @@ export const HuyaTabContent = ({control, showMaxBitrate, showCookies, showParted
               showCookies && (
                   <FormField
                       control={control}
-                      name="cookies"
+                      name={controlPrefix ? `${controlPrefix}.partedDownloadRetry` : "partedDownloadRetry"}
                       render={({field}) => (
                           <FormItem>
                             <FormLabel>{huyaStrings.cookieString}</FormLabel>

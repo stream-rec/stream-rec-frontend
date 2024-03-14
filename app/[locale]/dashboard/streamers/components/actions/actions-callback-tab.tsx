@@ -18,7 +18,7 @@ type ActionsCallbackTabProps = {
   updateItemEnded: (index: number, data: ActionSchema) => void
 }
 
-type ActionsCallbackTabStrings = {
+export type ActionsCallbackTabStrings = {
   alert: string,
   alertDescription: string,
   onPartedDownload: string

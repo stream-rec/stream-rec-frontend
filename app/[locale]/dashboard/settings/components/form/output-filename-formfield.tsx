@@ -1,17 +1,11 @@
-import {Control} from "react-hook-form";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Input} from "@/components/new-york/ui/input";
+import {FormFieldProps} from "@/app/[locale]/dashboard/settings/components/form/form-field";
 
-type OutputFilenameFormfieldProps = {
-  control: Control<any>;
-  name: string,
-  description: string | React.ReactNode,
-}
-
-export function OutputFilenameFormfield({control, name, description}: OutputFilenameFormfieldProps) {
+export function OutputFilenameFormfield({control, name, description, controlPrefix}: FormFieldProps) {
   return <FormField
       control={control}
-      name="outputFileName"
+      name={controlPrefix ? `${controlPrefix}.outputFileName` : "outputFileName"}
       render={({field}) => (
           <FormItem>
             <FormLabel>{name}</FormLabel>

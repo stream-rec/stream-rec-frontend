@@ -1,6 +1,5 @@
 import {Control} from "react-hook-form";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
-import {Textarea} from "@/components/new-york/ui/textarea";
 import React from "react";
 import {Input} from "@/components/new-york/ui/input";
 import {DownloadConfig} from "@/lib/data/streams/definitions";
@@ -8,8 +7,10 @@ import {OutputFilenameFormfield} from "@/app/[locale]/dashboard/settings/compone
 import {OutputFileFormatFormfield} from "@/app/[locale]/dashboard/settings/components/form/output-file-format-formfield";
 import {OutputFolderFormField} from "@/app/[locale]/dashboard/settings/components/form/output-folder-formfield";
 import {DanmuFlagFormfield} from "@/app/[locale]/dashboard/settings/components/form/danmu-flag-formfield";
+import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 
 type BaseDownloadTabProps = {
+  controlPrefix?: string;
   control: Control<DownloadConfig, any, any>;
   showDanmu?: boolean;
   showCookies?: boolean;
@@ -17,9 +18,9 @@ type BaseDownloadTabProps = {
   strings: BaseDownloadTabString
 }
 
-type BaseDownloadTabString = {
+export type BaseDownloadTabString = {
   danmu: string,
-    danmuDescription: string,
+  danmuDescription: string,
   cookies: string,
   cookiesDescription: string,
   maxBitrate: string,
@@ -32,26 +33,33 @@ type BaseDownloadTabString = {
   outputFileFormatDescription: string | React.ReactNode
 }
 
-export function BaseDownloadTab({control, strings, showDanmu = true, showCookies = true, showMaxBitrate = true}: BaseDownloadTabProps) {
+export function BaseDownloadTab({
+                                  controlPrefix = "downloadConfig",
+                                  control,
+                                  strings,
+                                  showDanmu = true,
+                                  showCookies = true,
+                                  showMaxBitrate = true
+                                }: BaseDownloadTabProps) {
 
   return (
       <>
         <div className="mt-6 space-y-6">
           {
               showDanmu && (
-                  <DanmuFlagFormfield control={control} title={strings.danmu} description={strings.danmuDescription}/>
+                  <DanmuFlagFormfield controlPrefix={controlPrefix} control={control} title={strings.danmu} description={strings.danmuDescription}/>
               )
           }
           {
               showCookies && (
                   <FormField
                       control={control}
-                      name="cookies"
+                      name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"}
                       render={({field}) => (
                           <FormItem>
                             <FormLabel>{strings.cookies}</FormLabel>
                             <FormControl>
-                              <Textarea placeholder="Cookies" {...field}></Textarea>
+                              <AutosizeTextarea id={controlPrefix ? `${controlPrefix}.cookies` : "cookies"} placeholder="Cookies" {...field}/>
                             </FormControl>
                             <FormDescription>
                               {strings.cookiesDescription}
@@ -66,7 +74,7 @@ export function BaseDownloadTab({control, strings, showDanmu = true, showCookies
               showMaxBitrate && (
                   <FormField
                       control={control}
-                      name="maxBitRate"
+                      name={controlPrefix ? `${controlPrefix}.maxBitRate` : "maxBitRate"}
                       render={({field}) => (
                           <FormItem>
                             <FormLabel>{strings.maxBitrate}</FormLabel>
@@ -114,9 +122,12 @@ export function BaseDownloadTab({control, strings, showDanmu = true, showCookies
           {/*/>*/}
 
 
-          <OutputFolderFormField control={control} name={strings.outputFolder} description={strings.outputFolderDescription}/>
-          <OutputFilenameFormfield control={control} name={strings.outputFilename} description={strings.outputFilenameDescription}/>
-          <OutputFileFormatFormfield control={control} name={strings.outputFileFormat} description={strings.outputFileFormatDescription}/>
+          <OutputFolderFormField control={control} controlPrefix={controlPrefix} name={strings.outputFolder}
+                                 description={strings.outputFolderDescription}/>
+          <OutputFilenameFormfield control={control} controlPrefix={controlPrefix} name={strings.outputFilename}
+                                   description={strings.outputFilenameDescription}/>
+          <OutputFileFormatFormfield control={control} controlPrefix={controlPrefix} name={strings.outputFileFormat}
+                                     description={strings.outputFileFormatDescription}/>
         </div>
       </>
   )

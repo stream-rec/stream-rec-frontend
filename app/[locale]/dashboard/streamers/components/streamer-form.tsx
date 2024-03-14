@@ -1,90 +1,113 @@
 'use client';
 
-import {useFieldArray, useForm, UseFormReturn, useFormState} from "react-hook-form";
+import {useFieldArray, useForm, useFormState} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from "@/components/new-york/ui/form";
+import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Input} from "@/components/new-york/ui/input";
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {Switch} from "@/components/new-york/ui/switch";
 import {Button} from "@/components/new-york/ui/button";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui/tabs";
 import {clsx} from "clsx";
 import {CaretSortIcon, CheckIcon, RocketIcon} from "@radix-ui/react-icons";
 import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/alert";
-import {baseDownloadConfig, DownloadConfig, streamerSchema, StreamerSchema} from "@/lib/data/streams/definitions";
-import {HuyaDownloadConfig, huyaDownloadConfig, HuyaGlobalConfig} from "@/lib/data/platform/huya/definitions";
-import {DouyinDownloadConfig, douyinDownloadConfig} from "@/lib/data/platform/douyin/definitions";
-import {combinedRegex} from "@/lib/data/platform/definitions";
+import {baseDownloadConfig, streamerSchema, StreamerSchema} from "@/lib/data/streams/definitions";
+import {huyaDownloadConfig, huyaRegex} from "@/lib/data/platform/huya/definitions";
+import {douyinDownloadConfig, douyinRegex} from "@/lib/data/platform/douyin/definitions";
+import {PlatformType} from "@/lib/data/platform/definitions";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/new-york/ui/popover";
 import {cn} from "@/lib/utils";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem} from "@/components/new-york/ui/command";
 import {toastData} from "@/app/utils/toast";
-import {DouyinTabContent} from "@/app/[locale]/dashboard/settings/platform/tabs/douyin-tab";
-import {HuyaTabContent} from "@/app/[locale]/dashboard/settings/platform/tabs/huya-tab";
-import {BaseDownloadTab} from "@/app/[locale]/dashboard/settings/platform/tabs/base-download-tab";
-import {ActionsCallbackTab} from "@/app/[locale]/dashboard/streamers/components/actions/actions-callback-tab";
+import {DouyinQuality, DouyinTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/douyin-tab";
+import {HuyaTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/huya-tab";
+import {ActionsCallbackTab, ActionsCallbackTabStrings} from "@/app/[locale]/dashboard/streamers/components/actions/actions-callback-tab";
 import {useRouter} from "@/i18n";
-import {useTranslations} from "next-intl";
-
+import {BaseDownloadConfig} from "@/app/[locale]/dashboard/streamers/components/platforms/base-download-config";
+import {BaseDownloadTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/base-download-tab";
+import {DouyinPlatform} from "@/app/[locale]/dashboard/streamers/components/platforms/douyin-platform";
+import {HuyaPlatform} from "@/app/[locale]/dashboard/streamers/components/platforms/huya-platform";
+import {LoadingButton} from "@/components/new-york/ui/loading-button";
 
 type StreamerConfigProps = {
+  strings: {
+    toast: {
+      submitErrorMessage: string,
+      submitMessage: string
+    },
+    streamerData: {
+      name: string,
+      url: string,
+      template: string,
+    },
+    streamerForm: {
+      nameDescription: string,
+      urlDescription: string | React.ReactNode,
+      enabledRecording: string,
+      enabledRecordingDescription: string,
+      templateSearch: string,
+      noTemplate: string,
+      templateDefault: string,
+      templateDescription: string | React.ReactNode,
+      doNotUseTemplate: string,
+      asTemplate: string,
+      asTemplateDescription: string,
+      save: string,
+      streamerOnlyOptions: string,
+      alert: string,
+      alertOverrideDescription: string,
+      platformSpecificOptions: string,
+      defaultDownloadOptions: string,
+      callbackOptions: string,
+    },
+    huyaStrings: HuyaTabString,
+    douyinStrings: DouyinTabString,
+    douyinQualityOptions: DouyinQuality[],
+    baseDownloadStrings: BaseDownloadTabString,
+    actionTabStrings: ActionsCallbackTabStrings
+  },
   defaultValues?: StreamerSchema
   templateUsers: StreamerSchema[]
   onSubmit: (data: StreamerSchema) => Promise<StreamerSchema>
 }
 
-function getPlatformDownloadConfigSchema(platform: string) {
-  if (platform === "huya") {
+function getPlatformDownloadConfigSchema(platform: PlatformType) {
+  if (platform === PlatformType.HUYA) {
     return huyaDownloadConfig;
-  } else if (platform === "douyin") {
+  } else if (platform === PlatformType.DOUYIN) {
     return douyinDownloadConfig;
   } else {
     return baseDownloadConfig;
   }
 }
 
-export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerConfigProps) {
+export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: StreamerConfigProps) {
 
-  const router = useRouter();
+  const router = useRouter()
+
+  const [platform, setPlatform] = React.useState(defaultValues?.platform || "invalid")
+  const [isTemplate, setIsTemplate] = React.useState(defaultValues?.isTemplate || false)
+
+  const platformStreamerSchema = useCallback(() => {
+    if (platform === PlatformType.HUYA) {
+      return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: huyaDownloadConfig});
+    } else if (platform === PlatformType.DOUYIN) {
+      return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: douyinDownloadConfig});
+    } else {
+      return streamerSchema;
+    }
+  }, [platform]);
 
   const form = useForm<StreamerSchema>({
     resolver: async (data, context, options) => {
+      const schema = platformStreamerSchema()
       console.log("formData", data)
-      console.log(
-          "validation result",
-          await zodResolver(streamerSchema)(data, context, options)
-      )
-      return zodResolver(streamerSchema)(data, context, options)
+      console.log("validation result", await zodResolver(schema)(data, context, options))
+      return zodResolver(schema)(data, context, options)
     },
     defaultValues: defaultValues,
     mode: "onChange"
   });
-
-  const huyaForm = useForm<HuyaGlobalConfig>({
-    resolver: zodResolver(huyaDownloadConfig),
-    defaultValues: defaultValues?.downloadConfig as HuyaDownloadConfig,
-    mode: "onChange"
-  })
-
-  const douyinForm = useForm<DownloadConfig>({
-    resolver: zodResolver(douyinDownloadConfig),
-    defaultValues: defaultValues?.downloadConfig as DouyinDownloadConfig,
-    mode: "onChange"
-  })
-
-  const baseDownloadForm = useForm<DownloadConfig>({
-    resolver: zodResolver(baseDownloadConfig),
-    defaultValues: defaultValues?.downloadConfig as DownloadConfig,
-    mode: "onChange"
-  })
 
   const {
     fields: partedFields,
@@ -92,12 +115,11 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
     remove: partedRemove,
     update: partedUpdate
   } = useFieldArray({
-    control: baseDownloadForm.control,
-    name: "onPartedDownload",
+    control: form.control,
+    name: "downloadConfig.onPartedDownload",
   })
 
   useEffect(() => {
-    console.log("retrieving defaultValues", defaultValues)
     if (defaultValues && defaultValues.downloadConfig?.onPartedDownload) {
       partedRemove()
       defaultValues.downloadConfig?.onPartedDownload.forEach(item => {
@@ -120,98 +142,19 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
     remove: streamEndedRemove,
     update: streamEndedUpdate
   } = useFieldArray({
-    control: baseDownloadForm.control,
-    name: "onStreamingFinished"
+    control: form.control,
+    name: "downloadConfig.onStreamingFinished"
   })
-
-  const [isTemplate, setIsTemplate] = React.useState(defaultValues?.isTemplate || false)
-
-  const toastT = useTranslations("Toast")
-  const streamerT = useTranslations("StreamerData")
-  const streamerF = useTranslations("StreamerForm")
-  const baseT = useTranslations("BaseDownloadConfigs")
-
-  const huyaS = useTranslations("Huya")
-  const douyinS = useTranslations("Douyin")
-  const douyinQualityStrings = useTranslations("DouyinQualities")
-  const douyinQualityKeys = ['origin', 'uhd', 'hd', 'sd', 'ld', 'md', 'ao'] as const
-
-  const douyinQualityOptions = douyinQualityKeys.map((key) => ({
-    quality: douyinQualityStrings(`${key}.id`),
-    description: douyinQualityStrings(`${key}.name`)
-  }))
-
-  const actionsT = useTranslations("CallbacksConfigs")
-
-  const rcloneT = useTranslations("Rclone")
-  const commandT = useTranslations("Command")
-  const removeT = useTranslations("RemoveAction")
-  const moveT = useTranslations("MoveAction")
-
 
   const {isSubmitting} = useFormState({control: form.control})
 
-  async function handlePlatformConfig(data: StreamerSchema, baseDownloadForm: UseFormReturn, platform: string, platformForm?: UseFormReturn) {
-    // upper case platform
-    data.platform = platform.toUpperCase();
-    let downloadConfig: DownloadConfig = {
-      "type": platform,
-    };
-
-    const baseFormValues = await baseDownloadForm.handleSubmit((baseData) => {
-      downloadConfig = {...downloadConfig, ...baseData};
-    })();
-
-    let status: boolean = false;
-
-    if (platformForm === undefined) {
-      let parse = getPlatformDownloadConfigSchema(platform).safeParse(downloadConfig);
-      if (!parse.success) {
-        toastData(toastT('submitErrorMessage'), JSON.stringify(parse.error, null, 2), "error")
-        status = false;
-        return false
-      }
-      data.platform = "UNKNOWN"
-      data.downloadConfig = parse.data;
-      status = true;
-    } else {
-      await platformForm.handleSubmit((platformData) => {
-        console.log("platformData", platformData)
-        let all = {...platformData, ...downloadConfig};
-        console.log("all", all)
-        let parse = getPlatformDownloadConfigSchema(platform).safeParse(all);
-
-        if (!parse.success) {
-          toastData(toastT('submitErrorMessage'), JSON.stringify(parse.error, null, 2), "error")
-          status = false;
-          return;
-        }
-        data.downloadConfig = parse.data;
-        status = true;
-      })();
-    }
-    return status;
-  }
-
   async function onSubmitData(data: StreamerSchema) {
-    let status = false;
-    if (platform === "huya") {
-      status = await handlePlatformConfig(data, baseDownloadForm, platform, huyaForm);
-    } else if (platform === "douyin") {
-      status = await handlePlatformConfig(data, baseDownloadForm, platform, douyinForm);
-    } else if (platform === "template") {
-      status = await handlePlatformConfig(data, baseDownloadForm, "template");
-    }
-
-    console.log("validation ", status)
-    if (!status) {
-      return;
-    }
-
     try {
       let isCreated = !data.id;
-      await onSubmit(data);
-      toastData(toastT("submitMessage"), data, "code")
+      let submitData = {...data}
+      submitData.platform = platform.toUpperCase()
+      await onSubmit(submitData);
+      toastData(strings.toast.submitMessage, submitData, "code")
       router.refresh()
       if (isCreated) {
         router.push(`/dashboard/streamers`)
@@ -223,33 +166,46 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
     }
   }
 
-  const [platform, setPlatform] = React.useState(defaultValues?.platform || "invalid")
 
   const selectedTemplateId = form.watch("templateId")
 
-
   const trySetPlatform = (e: string) => {
-    let match = e.match(combinedRegex);
-    if (match !== null && match?.[1]) {
-      setPlatform("huya");
-      return true;
-    } else if (match !== null && match?.[2]) {
-      setPlatform("douyin");
-      return true;
-    } else {
-      setPlatform("invalid");
-      return false;
+    function setFormPlatform(platform: PlatformType | "invalid") {
+      form.setValue("downloadConfig.type", platform)
+      setPlatform(platform)
     }
+
+    let match = e.match(huyaRegex);
+    // match with huya
+    if (match?.[1]) {
+      if (platform === PlatformType.HUYA) {
+        return true
+      }
+      setFormPlatform(PlatformType.HUYA)
+      return true
+    }
+    match = e.match(douyinRegex)
+    if (match?.[1]) {
+      if (platform === PlatformType.DOUYIN) {
+        return true
+      }
+      setFormPlatform(PlatformType.DOUYIN)
+      return true
+    }
+    /// add more platforms here
+    setFormPlatform("invalid");
+    return false
   }
 
   useEffect(() => {
     if (isTemplate && !defaultValues?.url) {
       form.setValue("url", "https://www.huya.com/" + Date.now())
+      form.setValue("downloadConfig.type", PlatformType.TEMPLATE)
       setPlatform("template")
     } else {
       form.setValue("url", defaultValues?.url ?? "")
     }
-  }, [isTemplate, form, setIsTemplate]);
+  }, [setIsTemplate]);
 
 
   return (
@@ -261,12 +217,12 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                 name="name"
                 render={({field}) => (
                     <FormItem>
-                      <FormLabel>{streamerT("name")}</FormLabel>
+                      <FormLabel>{strings.streamerData.name}</FormLabel>
                       <FormControl>
                         <Input {...field}/>
                       </FormControl>
                       <FormDescription>
-                        {streamerF("nameDescription")}
+                        {strings.streamerForm.nameDescription}
                       </FormDescription>
                       <FormMessage/>
                     </FormItem>
@@ -280,23 +236,18 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                       name="url"
                       render={({field}) => (
                           <FormItem>
-                            <FormLabel>{streamerT("url")}</FormLabel>
+                            <FormLabel>{strings.streamerData.url}</FormLabel>
                             <FormControl>
                               <Input value={field.value} onChange={
                                 (e) => {
-                                  let value = e.target.value;
-                                  if (value !== platform) {
-                                    console.log("setting platform", value)
-                                    trySetPlatform(value)
-                                    field.onChange(e)
-                                  }
+                                  let value = e.target.value
+                                  field.onChange(e)
+                                  trySetPlatform(value)
                                 }
                               }/>
                             </FormControl>
                             <FormDescription>
-                              {streamerF.rich("urlDescription", {
-                                code: (chunks) => <><br/><code>{chunks}</code></>
-                              })}
+                              {strings.streamerForm.urlDescription}
                             </FormDescription>
                             <FormMessage/>
                           </FormItem>
@@ -310,9 +261,9 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                           <FormItem
                               className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                             <div className="space-y-0.5">
-                              <FormLabel>{streamerF("enabledRecording")}</FormLabel>
+                              <FormLabel>{strings.streamerForm.enabledRecording}</FormLabel>
                               <FormDescription>
-                                {streamerF("enabledRecordingDescription")}
+                                {strings.streamerForm.enabledRecordingDescription}
                               </FormDescription>
                             </div>
                             <FormControl>
@@ -331,7 +282,7 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                       name="templateId"
                       render={({field}) => (
                           <FormItem className="flex flex-col">
-                            <FormLabel>{streamerT("template")}</FormLabel>
+                            <FormLabel>{strings.streamerData.template}</FormLabel>
                             <Popover>
                               <PopoverTrigger asChild>
                                 <FormControl>
@@ -340,7 +291,9 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                                       role="combobox"
                                       className={cn("w-[200px] justify-between", !field.value && field.value !== -1 && "text-muted-foreground")}
                                   >
-                                    {field.value ? field.value === -1 ? streamerF("templateDefault") : templateUsers.find((language) => language.id === field.value)?.name : streamerT("templateDefault")}
+                                    {field.value ? field.value === -1 ? strings.streamerForm.templateDefault
+                                            : templateUsers.find((language) => language.id === field.value)?.name
+                                        : strings.streamerForm.templateDefault}
                                     <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
                                   </Button>
                                 </FormControl>
@@ -348,15 +301,15 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                               <PopoverContent className="w-[200px] p-0">
                                 <Command>
                                   <CommandInput
-                                      placeholder={streamerF("templateSearch")}
+                                      placeholder={strings.streamerForm.templateSearch}
                                       className="h-9"
                                   />
-                                  <CommandEmpty>{streamerF("noTemplate")}</CommandEmpty>
+                                  <CommandEmpty>{strings.streamerForm.noTemplate}</CommandEmpty>
                                   <CommandGroup>
                                     <CommandItem value={"-1"} key={"No template"} onSelect={() => {
                                       form.setValue("templateId", -1)
                                     }}>
-                                      {streamerF("doNotUseTemplate")}
+                                      {strings.streamerForm.doNotUseTemplate}
                                       <CheckIcon
                                           className={cn("ml-auto h-4 w-4", field.value === -1 ? "opacity-100" : "opacity-0")}
                                       />
@@ -371,11 +324,8 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                                         >
                                           {language.name}
                                           <CheckIcon
-                                              className={cn(
-                                                  "ml-auto h-4 w-4",
-                                                  language.id === field.value
-                                                      ? "opacity-100"
-                                                      : "opacity-0"
+                                              className={cn("ml-auto h-4 w-4",
+                                                  language.id === field.value ? "opacity-100" : "opacity-0"
                                               )}
                                           />
                                         </CommandItem>
@@ -385,9 +335,7 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                               </PopoverContent>
                             </Popover>
                             <FormDescription>
-                              {streamerF.rich("templateDescription", {
-                                important: (chunks) => <><br/><strong>{chunks}</strong></>
-                              })}
+                              {strings.streamerForm.templateDescription}
                             </FormDescription>
                             <FormMessage/>
                           </FormItem>
@@ -405,9 +353,9 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                             <FormItem
                                 className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                               <div className="space-y-0.5">
-                                <FormLabel>{streamerF("asTemplate")}</FormLabel>
+                                <FormLabel>{strings.streamerForm.asTemplate}</FormLabel>
                                 <FormDescription>
-                                  {streamerF("asTemplateDescription")}
+                                  {strings.streamerForm.asTemplateDescription}
                                 </FormDescription>
                               </div>
                               <FormControl>
@@ -431,13 +379,13 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                 {"hidden": platform === "invalid"},
                 {"hidden": selectedTemplateId && selectedTemplateId !== -1},
             )}>
-              <h3 className="text-md font-semibold">{streamerF("streamerOnlyOptions")}</h3>
+              <h3 className="text-md font-semibold">{strings.streamerForm.streamerOnlyOptions}</h3>
 
               <Alert>
                 <RocketIcon className="h-4 w-4"/>
-                <AlertTitle>{streamerF("alert")}</AlertTitle>
+                <AlertTitle>{strings.streamerForm.alert}</AlertTitle>
                 <AlertDescription>
-                  {streamerF("alertOverrideDescription")}
+                  {strings.streamerForm.alertOverrideDescription}
                 </AlertDescription>
               </Alert>
 
@@ -450,12 +398,12 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                 )}>
                   {!isTemplate && (
                       <TabsTrigger value="platform"
-                                   className="text-zinc-600 dark:text-zinc-200">{streamerF("platformSpecificOptions")}</TabsTrigger>
+                                   className="text-zinc-600 dark:text-zinc-200">{strings.streamerForm.platformSpecificOptions}</TabsTrigger>
                   )}
                   <TabsTrigger value="default"
-                               className="text-zinc-600 dark:text-zinc-200">{streamerF("defaultDownloadOptions")}</TabsTrigger>
+                               className="text-zinc-600 dark:text-zinc-200">{strings.streamerForm.defaultDownloadOptions}</TabsTrigger>
                   <TabsTrigger value="actions"
-                               className="text-zinc-600 dark:text-zinc-200">{streamerF("callbackOptions")}</TabsTrigger>
+                               className="text-zinc-600 dark:text-zinc-200">{strings.streamerForm.callbackOptions}</TabsTrigger>
                 </TabsList>
 
                 <div>
@@ -464,62 +412,18 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                           <>
                             <TabsContent value="platform">
                               {
-                                  platform === "huya" && <Form  {...huyaForm}>
-                                      <HuyaTabContent control={huyaForm.control} huyaStrings={{
-                                        platform: huyaS("platform"),
-                                        cdn: huyaS("cdn"),
-                                        cdnDescription: huyaS("cdnDescription"),
-                                        cdnDefault: huyaS("cdnDefault"),
-                                        bitrate: huyaS("bitrate"),
-                                        bitrateDescription: huyaS("bitrateDescription"),
-                                        part: huyaS("part"),
-                                        partDescription: huyaS.rich("partDescription"),
-                                        cookieString: huyaS("cookieString"),
-                                        cookieDescription: huyaS.rich("cookieDescription"),
-                                      }}/>
-                                  </Form>
+                                  platform === PlatformType.HUYA && <HuyaPlatform strings={strings.huyaStrings}/>
                               }
                               {
-                                  platform === "douyin" && <Form  {...douyinForm}>
-                                      <DouyinTabContent control={douyinForm.control} douyinStrings={{
-                                        platform: douyinS("platform"),
-                                        quality: douyinS("quality"),
-                                        qualityDescription: douyinS("qualityDescription"),
-                                        qualityDefault: douyinS("qualityDefault"),
-                                        part: douyinS("part"),
-                                        partDescription: douyinS.rich("partDescription"),
-                                        cookies: douyinS("cookieString"),
-                                        cookiesDescription: douyinS.rich("cookiesDescription"),
-                                      }} qualityOptions={douyinQualityOptions}/>
-                                  </Form>
+                                  platform === PlatformType.DOUYIN && (
+                                      <DouyinPlatform douyinQualityOptions={strings.douyinQualityOptions} strings={strings.douyinStrings}/>)
                               }
                             </TabsContent>
                           </>
                       )
                   }
                   <TabsContent value="default">
-                    <Form {...baseDownloadForm}>
-                      <BaseDownloadTab control={baseDownloadForm.control} strings={{
-                        danmu: baseT("danmu"),
-                        danmuDescription: baseT("danmuDescription"),
-                        cookies: baseT("cookieString"),
-                        cookiesDescription: baseT("cookiesDescription"),
-                        maxBitrate: baseT("maxBitrate"),
-                        maxBitrateDescription: baseT("maxBitrateDescription"),
-                        outputFolder: baseT("outputFolder"),
-                        outputFolderDescription: baseT.rich("outputFolderDescription", {
-                          code: (chunks) => <><br/><code>{chunks}</code></>
-                        }),
-                        outputFilename: baseT("outputFilename"),
-                        outputFilenameDescription: baseT.rich("outputFilenameDescription", {
-                          important: (chunks) => <><strong>{chunks}</strong></>
-                        }),
-                        outputFileFormat: baseT("outputFormat"),
-                        outputFileFormatDescription: baseT.rich("outputFormatDescription", {
-                          important: (chunks) => <><strong>{chunks}</strong></>
-                        }),
-                      }}/>
-                    </Form>
+                    <BaseDownloadConfig strings={strings.baseDownloadStrings}/>
                   </TabsContent>
                   <TabsContent value="actions">
                     <ActionsCallbackTab addItem={partedAppend} addItemEnded={streamEndedAppend}
@@ -528,76 +432,22 @@ export function StreamerForm({defaultValues, templateUsers, onSubmit}: StreamerC
                                         endedList={streamEndedFields} updateItem={
                       (index, data) => {
                         partedUpdate(index, data)
-                        toastData(toastT("submitMessage"), data, "code")
+                        toastData(strings.toast.submitMessage, data, "code")
                       }
                     } updateItemEnded={
                       (index, data) => {
                         streamEndedUpdate(index, data)
-                        toastData(toastT("submitMessage"), data, "code")
+                        toastData(strings.toast.submitMessage, data, "code")
                       }
-                    } strings={
-                      {
-                        alert: actionsT("alert"),
-                        alertDescription: actionsT("alertDescription"),
-                        onPartedDownload: actionsT("onPartedDownload"),
-                        onPartedDownloadDescription: actionsT.rich("onPartedDownloadDescription", {
-                          important: (chunks) => <><br/><strong>{chunks}</strong></>
-
-                        }),
-                        onStreamEnded: actionsT("onStreamEnded"),
-                        onStreamEndedDescription: actionsT.rich("onStreamEndedDescription", {
-                          important: (chunks) => <><br/><strong>{chunks}</strong></>
-                        }),
-                        newAction: actionsT("newAction"),
-                        actionStrings: {
-                          title: actionsT("newAction"),
-                          description: actionsT("newActionDescription"),
-                          actionType: actionsT("actionType"),
-                          actionTypeDescription: actionsT("actionTypeDescription"),
-                          actionSelectPlaceholder: actionsT("actionSelectPlaceholder"),
-                          state: actionsT("actionState"),
-                          stateDescription: actionsT("actionStateDescription"),
-                          cancel: actionsT("cancel"),
-                          save: actionsT("save"),
-
-                          commandStrings: {
-                            title: commandT("title"),
-                            program: commandT("program"),
-                            programDescription: commandT("programDescription"),
-                            arguments: commandT("arguments"),
-                            argumentsDescription: commandT("argumentsDescription"),
-                            addArgument: commandT("addArgument"),
-                            removeArgument: commandT("removeArgument"),
-                          },
-                          rcloneStrings: {
-                            title: rcloneT("title"),
-                            operation: rcloneT("operation"),
-                            operationDescription: rcloneT("operationDescription"),
-                            remotePath: rcloneT("remote"),
-                            remotePathDescription: rcloneT("remoteDescription"),
-                            arguments: rcloneT("args"),
-                            argumentsDescription: rcloneT("argsDescription"),
-                          },
-                          removeStrings: {
-                            title: removeT("title")
-                          },
-                          moveStrings: {
-                            title: moveT("title"),
-                            destination: moveT("destination"),
-                            destinationDefault: moveT("destinationDefault"),
-                            destinationDescription: moveT("destinationDescription")
-                          }
-                        }
-                      }
-                    }/>
+                    } strings={strings.actionTabStrings}/>
                   </TabsContent>
                 </div>
 
               </Tabs>
             </div>
 
-            <Button type="submit" aria-disabled={isSubmitting}
-                    className="flex h-12 w-full items-center justify-center rounded-lg p-3 text-sm font-medium">{streamerF("save")}</Button>
+            <LoadingButton type="submit" loading={isSubmitting}
+                           className="flex h-12 w-full items-center justify-center rounded-lg p-3 text-sm font-medium">{strings.streamerForm.save}</LoadingButton>
           </form>
         </Form>
       </div>

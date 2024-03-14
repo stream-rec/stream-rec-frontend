@@ -1,18 +1,13 @@
-import {Control} from "react-hook-form";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
 import {videoFormats} from "@/lib/data/streams/definitions";
+import {FormFieldProps} from "@/app/[locale]/dashboard/settings/components/form/form-field";
 
-type OutputFileFormatFormfieldProps = {
-  control: Control<any>;
-  name: string,
-  description: string | React.ReactNode,
-}
 
-export function OutputFileFormatFormfield({control, name, description}: OutputFileFormatFormfieldProps) {
+export function OutputFileFormatFormfield({control, name, description, controlPrefix}: FormFieldProps) {
   return <FormField
       control={control}
-      name="outputFileFormat"
+      name={controlPrefix ? `${controlPrefix}.outputFileFormat` : "outputFileFormat"}
       render={({field}) => (
           <FormItem>
             <FormLabel>{name}</FormLabel>

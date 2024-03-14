@@ -6,3 +6,10 @@ export const globalPlatformConfig = z.object({
 })
 
 export type GlobalPlatformConfig = z.infer<typeof globalPlatformConfig>
+
+
+export enum PlatformType {
+  HUYA = "huya",
+  DOUYIN = "douyin",
+  TEMPLATE = "template"
+}
