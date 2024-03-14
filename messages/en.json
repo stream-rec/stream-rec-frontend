@@ -213,7 +213,7 @@
     "maxPartDescription": "The maximum size of a parted download. If the download size exceeds this value, the download will be parted. If the value is 0, it will use the default value of 2.5GB.",
     "maxPartDefault": "Enter a default size",
     "maxPartDuration": "Maximum parted download duration",
-    "maxPartDurationDescription": "The maximum duration of a parted download. If the download duration exceeds this value, the download will be parted. If the value is 0, it disables the maximum parted download duration. <important>It has priority over the maximum parted download size</important>",
+    "maxPartDurationDescription": "The maximum duration of a parted download. If the download duration exceeds this value, the download will be parted. <important>It has priority over the maximum parted download size</important>",
     "maxPartDurationDefault": "Enter a default duration",
     "maxConcurrentDownload": "Maximum concurrent downloads",
     "maxConcurrentDownloadDescription": "The maximum number of concurrent downloads. If the number of downloads exceeds this value, the download will be queued. Default is set to 5. <important>Change this field according to your streamers count and network conditions</important>",
@@ -222,8 +222,7 @@
     "downloadRetryDelay": "Download retry delay",
     "downloadRetryDelayDescription": "This is the delay (in seconds) used to check if a streamer is still live after a failed download (usually encountered when the streamer goes offline or network issues). Increasing this value will reduce the number of requests to the platform. Default is set to 10 seconds.",
     "maxDownloadRetries": "Maximum retry counts",
-    "maxDownloadRetriesDescription": "The maximum number of stream download retries. If the number of retries exceeds this value, the stream session will be considered as finished. Default is set to 3.",
-    "save": "Update settings"
+    "maxDownloadRetriesDescription": "The maximum number of stream download retries. If the number of retries exceeds this value, the stream session will be considered as finished. Default is set to 3."
   },
   "TableToolbar": {
     "searchPlaceholder": "Filter by {search}...",
@@ -364,5 +363,11 @@
   "RecordDetails": {
     "title": "Stream details",
     "description": "View stream details."
+  },
+  "TimeUnit": {
+    "seconds": "seconds",
+    "minutes": "minutes",
+    "hours": "hours",
+    "days": "days"
   }
 }

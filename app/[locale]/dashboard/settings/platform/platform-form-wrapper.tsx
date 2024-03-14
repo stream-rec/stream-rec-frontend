@@ -1,46 +1,28 @@
-'use server'
-import {fetchConfig} from "@/lib/data/config/apis";
+import {useHuyaTranslations} from "@/app/[locale]/dashboard/translations/huya-translations";
 import PlatformForm from "@/app/[locale]/dashboard/settings/platform/platform-form";
-import {getTranslations} from "next-intl/server";
+import {GlobalConfig} from "@/lib/data/config/definitions";
+import {useTranslations} from "next-intl";
+import React from "react";
+import {useDouyinQualityTranslations, useDouyinTranslations} from "@/app/[locale]/dashboard/translations/douyin-translations";
 
-export default async function PlatformFormWrapper() {
 
-  const config = await fetchConfig()
+type PlatformFormSuspenseProps = {
+  configPromise: Promise<GlobalConfig>
+}
 
-  const t = await getTranslations("Huya")
-  const douyinStrings = await getTranslations("Douyin")
-  const douyinQualityStrings = await getTranslations("DouyinQualities")
-  const douyinQualityKeys = ['origin', 'uhd', 'hd', 'sd', 'ld', 'md', 'ao'] as const
+export function PlatformFormWrapper({configPromise}: PlatformFormSuspenseProps) {
 
-  const douyinQualityOptions = douyinQualityKeys.map((key) => ({
-    quality: douyinQualityStrings(`${key}.id`),
-    description: douyinQualityStrings(`${key}.name`)
-  }))
+  const config = React.use(configPromise)
 
-  const globalStrings = await getTranslations("GlobalSettings")
+  const huyaT = useHuyaTranslations()
+  const douyinT = useDouyinTranslations()
+  const douyinQualityOptions = useDouyinQualityTranslations()
+
+  const settingsT = useTranslations("Settings")
   return (
       <>
-        <PlatformForm defaultValues={config} huyaStrings={{
-          platform: t("platform"),
-          cdn: t("cdn"),
-          cdnDescription: t("cdnDescription"),
-          cdnDefault: t("cdnDefault"),
-          bitrate: t("bitrate"),
-          bitrateDescription: t("bitrateDescription"),
-          part: t("part"),
-          partDescription: t.rich("partDescription"),
-          cookieString: t("cookieString"),
-          cookieDescription: t.rich("cookieDescription"),
-        }} douyinQualityOptions={douyinQualityOptions} douyinStrings={{
-          platform: douyinStrings("platform"),
-          quality: douyinStrings("quality"),
-          qualityDescription: douyinStrings("qualityDescription"),
-          qualityDefault: douyinStrings("qualityDefault"),
-          part: douyinStrings("part"),
-          partDescription: douyinStrings.rich("partDescription"),
-          cookies: douyinStrings("cookieString"),
-          cookiesDescription: douyinStrings.rich("cookiesDescription"),
-        }} save={globalStrings("save")}/>
+        <PlatformForm defaultValues={config} huyaStrings={huyaT} douyinQualityOptions={douyinQualityOptions} douyinStrings={douyinT}
+                      save={settingsT("save")}/>
       </>
   )
 }
