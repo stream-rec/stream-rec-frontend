@@ -18,7 +18,7 @@ export default function UploadsTableWrapper({search}: { search: UploadSearchPara
       <>
         <NextIntlClientProvider messages={
           // … and provide the relevant messages
-          pick(messages, ['Pagination', 'UploadColumns', 'UploadStates', 'TableToolbar', 'Upload', 'Actions'])
+          pick(messages, ['Pagination', 'UploadColumns', 'UploadStates', 'TableToolbar', 'UploadsPage', 'Actions'])
         }
         >
           <Suspense fallback={<DataTableSkeleton columnCount={4} filterableColumnCount={2}/>}>
