@@ -1,9 +1,8 @@
 'use client'
 import {Form} from "@/components/new-york/ui/form";
-import {useForm} from "react-hook-form";
+import {useForm, useFormState} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui/tabs";
-import {Button} from "@/components/new-york/ui/button";
 import {PlatformType} from "@/lib/data/platform/definitions";
 import {GlobalConfig, globalConfigSchema} from "@/lib/data/config/definitions";
 import {HuyaTabContent, HuyaTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/huya-tab";
@@ -11,6 +10,7 @@ import {DouyinQuality, DouyinTabContent, DouyinTabString} from "@/app/[locale]/d
 import {toast} from "sonner";
 import {updateConfig} from "@/lib/data/config/apis";
 import {useRouter} from "@/i18n";
+import {LoadingButton} from "@/components/new-york/ui/loading-button";
 
 
 export type PlatformFormValues = {
@@ -36,6 +36,8 @@ export default function PlatformForm({
   })
 
   const router = useRouter()
+
+  const {isSubmitting} = useFormState({control: form.control})
 
   async function onSubmit(data: GlobalConfig) {
     toast.promise(updateConfig(data), {
@@ -71,7 +73,7 @@ export default function PlatformForm({
               </TabsContent>
             </div>
           </Tabs>
-          <Button type="submit">{save}</Button>
+          <LoadingButton loading={isSubmitting} type="submit">{save}</LoadingButton>
         </form>
       </Form>
   );

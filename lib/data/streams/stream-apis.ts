@@ -43,7 +43,8 @@ export const fetchStreams = async (search: StreamsSearchParams) => {
     cache: 'no-cache'
   })
   if (!response.ok) {
-    throw new Error("Error fetching streams, status: " + response.status + " " + response.statusText)
+    const errorText = await response.text()
+    throw new Error("Error fetching streams, status: " + response.status + " " + errorText)
   }
   let json = await response.json() as { data: StreamData[], pages: number }
   const results = json.data.map(stream => {
@@ -63,7 +64,8 @@ export const fetchStream = async (id: string) => {
     cache: 'no-cache'
   })
   if (!response.ok) {
-    throw new Error("Error fetching stream, status: " + response.status + " " + response.statusText)
+    const errorText = await response.text()
+    throw new Error("Error fetching stream, status: " + response.status + " " + errorText)
   }
   let json = await response.json() as StreamData
   // Convert seconds to milliseconds
@@ -77,6 +79,7 @@ export const deleteStream = async (id: string) => {
     method: 'DELETE'
   })
   if (!response.ok) {
-    throw new Error("Error deleting stream, status: " + response.status + " " + response.statusText)
+    const errorText = await response.text()
+    throw new Error("Error deleting stream, status: " + response.status + " " + errorText)
   }
 }

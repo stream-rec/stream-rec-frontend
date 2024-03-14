@@ -2,17 +2,18 @@
 
 import {zodResolver} from "@hookform/resolvers/zod"
 import {ChevronDownIcon} from "@radix-ui/react-icons"
-import {useForm} from "react-hook-form"
+import {useForm, useFormState} from "react-hook-form"
 import {z} from "zod"
 
 import {cn} from "@/lib/utils"
-import {Button, buttonVariants} from "@/components/new-york/ui/button"
+import {buttonVariants} from "@/components/new-york/ui/button"
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/new-york/ui/form"
 import {RadioGroup, RadioGroupItem} from "@/components/new-york/ui/radio-group"
 import {useTheme} from "next-themes";
 import React from "react";
 import {useConfig} from "@/app/hooks/use-config";
 import {toastData} from "@/app/utils/toast";
+import {LoadingButton} from "@/components/new-york/ui/loading-button";
 
 const appearanceFormSchema = z.object({
   theme: z.enum(["light", "dark"], {
@@ -43,13 +44,25 @@ type AppearanceFormProps = {
   submitMessage: string
 }
 
-export function AppearanceForm( {fontString, fontDescription, themeString, themeDescription, themeLight, themeDark, saveButton, submitMessage}: AppearanceFormProps) {
+export function AppearanceForm({
+                                 fontString,
+                                 fontDescription,
+                                 themeString,
+                                 themeDescription,
+                                 themeLight,
+                                 themeDark,
+                                 saveButton,
+                                 submitMessage
+                               }: AppearanceFormProps) {
   const [config, setConfig] = useConfig()
   const {setTheme, theme, themes} = useTheme()
   const form = useForm<AppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
     defaultValues,
   })
+
+
+  const {isSubmitting} = useFormState({control: form.control})
 
   function onSubmit(data: AppearanceFormValues) {
     if (data.theme !== theme) {
@@ -162,7 +175,7 @@ export function AppearanceForm( {fontString, fontDescription, themeString, theme
               )}
           />
 
-          <Button type="submit">{saveButton}</Button>
+          <LoadingButton type="submit" loading={isSubmitting}>{saveButton}</LoadingButton>
         </form>
       </Form>
   )

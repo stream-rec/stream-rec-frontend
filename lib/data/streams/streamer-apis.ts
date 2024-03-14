@@ -8,7 +8,8 @@ export const fetchStreamers = async (filter: string) => {
     cache: 'no-cache'
   })
   if (!response.ok) {
-    throw new Error("Error fetching streamers, status: " + response.status + " " + response.statusText)
+    const errorText = await response.text()
+    throw new Error("Error fetching streamers, status: " + response.status + " " + errorText)
   }
   let streamer = await response.json() as StreamerSchema[]
   return streamer.map(s => {
@@ -23,7 +24,8 @@ export const fetchStreamer = async (id: string) => {
     cache: 'no-cache'
   })
   if (!response.ok) {
-    throw new Error("Error fetching streamer, status: " + response.status + " " + response.statusText)
+    const errorText = await response.text()
+    throw new Error("Error fetching streamer, status: " + response.status + " " + errorText)
   }
   let json = await response.json() as StreamerSchema
   // Lowercase platform
@@ -48,8 +50,10 @@ export const createStreamer = async (streamer: StreamerSchema) => {
     method: 'POST',
     body: JSON.stringify(streamer)
   })
+
   if (!response.ok) {
-    throw new Error("Error posting streamer, status: " + response.status + " " + response.statusText)
+    const errorText = await response.text()
+    throw new Error("Error posting streamer, status: " + response.status + " " + errorText)
   }
   let json = await response.json() as StreamerSchema
   return json
@@ -61,7 +65,8 @@ export const updateStreamer = async (streamer: StreamerSchema) => {
     body: JSON.stringify(streamer)
   })
   if (!response.ok) {
-    throw new Error("Error updating streamer, status: " + response.status + " " + response.statusText)
+    const errorText = await response.text()
+    throw new Error("Error updating streamer, status: " + response.status + " " + errorText)
   }
   let json = await response.json() as StreamerSchema
   return json
@@ -72,6 +77,7 @@ export const deleteStreamer = async (id: string | number) => {
     method: 'DELETE',
   })
   if (!response.ok) {
-    throw new Error("Error deleting streamer, status: " + response.status + " " + response.statusText)
+    const errorText = await response.text()
+    throw new Error("Error deleting streamer, status: " + response.status + " " + errorText)
   }
 }

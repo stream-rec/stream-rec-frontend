@@ -13,7 +13,7 @@ export default function GlobalFormWrapper({appConfigPromise}: GlobalFormWrapperP
   const appConfig = React.use(appConfigPromise)
 
   const t = useTranslations("GlobalSettings")
-  const settingsT = useTranslations("Settings")
+  const settingsT = useTranslations("SettingsPage")
 
   const toast = useTranslations("Toast")
   const timeUnitsT = useTranslations("TimeUnit")

@@ -16,7 +16,7 @@ export default function SettingsPlatformPage({params: {locale}}: { params: { loc
 
   unstable_setRequestLocale(locale);
 
-  const t = useTranslations('Settings');
+  const t = useTranslations('SettingsPage');
 
   return (
       <div className="space-y-6">

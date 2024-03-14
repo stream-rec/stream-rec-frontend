@@ -10,7 +10,8 @@ export const fetchConfig = async () => {
     }
   })
   if (!response.ok) {
-    throw new Error("Error fetching config, status: " + response.status + " " + response.statusText)
+    const errorText = await response.text()
+    throw new Error("Error fetching config, status: " + response.status + " " + errorText)
   }
   return await response.json() as GlobalConfig
 }
@@ -21,7 +22,8 @@ export const updateConfig = async (config: GlobalConfig) => {
     body: JSON.stringify(config)
   })
   if (!response.ok) {
-    throw new Error("Error updating config, status: " + response.status + " " + response.statusText)
+    const errorText = await response.text()
+    throw new Error("Error updating config, status: " + response.status + " " + errorText)
   }
   revalidateTag('config')
 }
