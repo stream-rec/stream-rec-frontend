@@ -3,16 +3,8 @@ import {Switch} from "@/components/new-york/ui/switch";
 import {Separator} from "@/components/new-york/ui/separator";
 import {DeleteIcon, EditIcon} from "lucide-react";
 import React from "react";
-import {
-  ActionSchema,
-  ActionType, CommandActionSchema,
-  MoveActionSchema,
-  RcloneActionSchema
-} from "@/lib/data/actions/definitions";
-import {
-  NewActionDialog,
-  NewActionDialogStrings
-} from "@/app/[locale]/dashboard/streamers/components/actions/new-action-dialog";
+import {ActionSchema, ActionType, CommandActionSchema, MoveActionSchema, RcloneActionSchema} from "@/lib/data/actions/definitions";
+import {NewActionDialog, NewActionDialogStrings} from "@/app/[locale]/dashboard/streamers/components/actions/new-action-dialog";
 import {DeleteIconDialog} from "@/app/components/dialog/delete-icon-dialog";
 import {Button} from "@/components/new-york/ui/button";
 
@@ -27,7 +19,7 @@ type ActionCardProps = {
 export function ActionCard({data, onCheckedChange, onEdit, onDelete, actionStrings}: ActionCardProps) {
 
   const renderArgs = (data: CommandActionSchema | RcloneActionSchema) => (
-      <p className="text-sm text-slate-500 max-w-35 break-words">{data.args?.join(".")}</p>
+      <p className="text-sm text-slate-500 max-w-35 break-words">{data.args?.join(" ")}</p>
   );
 
   const renderArgsIfType = (type: ActionType) => {
