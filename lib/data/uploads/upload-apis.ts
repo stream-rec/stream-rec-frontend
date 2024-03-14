@@ -32,7 +32,8 @@ export const fetchUploads = async (search: UploadSearchParams) => {
     cache: 'no-cache'
   })
   if (!response.ok) {
-    throw new Error("Error fetching uploads, status: " + response.status + " " + response.statusText)
+    const errorText = await response.text()
+    throw new Error("Error fetching uploads, status: " + response.status + " " + errorText)
   }
   let json = await response.json() as { data: UploadData[], pages: number }
   return {
