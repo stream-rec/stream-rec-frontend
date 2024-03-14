@@ -78,6 +78,16 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
   const [platform, setPlatform] = React.useState(defaultValues?.platform || "invalid")
   const [isTemplate, setIsTemplate] = React.useState(defaultValues?.isTemplate || false)
 
+  useEffect(() => {
+    if (isTemplate && !defaultValues?.url) {
+      form.setValue("url", "https://www.huya.com/" + Date.now())
+      form.setValue("downloadConfig.type", PlatformType.TEMPLATE)
+      setPlatform("UNKNOWN")
+    } else {
+      form.setValue("url", defaultValues?.url ?? "")
+    }
+  }, [isTemplate]);
+
   const platformStreamerSchema = useCallback(() => {
     if (platform === PlatformType.HUYA) {
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: huyaDownloadConfig});
@@ -145,10 +155,10 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
       submitData.platform = platform.toUpperCase()
       await onSubmit(submitData);
       toastData(strings.toast.submitMessage, submitData, "code")
-      router.refresh()
       if (isCreated) {
         router.push(`/dashboard/streamers`)
       }
+      router.refresh()
     } catch (e) {
       console.error(e)
       if (e instanceof Error)
@@ -186,17 +196,6 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
     setFormPlatform("invalid");
     return false
   }
-
-  useEffect(() => {
-    if (isTemplate && !defaultValues?.url) {
-      form.setValue("url", "https://www.huya.com/" + Date.now())
-      form.setValue("downloadConfig.type", PlatformType.TEMPLATE)
-      setPlatform("template")
-    } else {
-      form.setValue("url", defaultValues?.url ?? "")
-    }
-  }, [setIsTemplate]);
-
 
   return (
       <div>
@@ -335,7 +334,7 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
             )}
 
             {
-                selectedTemplateId && selectedTemplateId < 0 && (
+                selectedTemplateId && selectedTemplateId < 1 && (
                     <FormField
                         control={form.control}
                         name="isTemplate"
