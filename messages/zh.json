@@ -222,7 +222,7 @@
     "downloadRetryDelay": "下播检查延迟",
     "downloadRetryDelayDescription": "下播检查延迟，单位秒，默认为10秒。适当增加此值可以减少伪下播状态。",
     "maxDownloadRetries": "下播检查次数",
-    "maxDownloadRetriesDescription": "最大下播检查次数， 默认为3此。 主播下播后，工具将会重试，然后检查直播间是否真的下播。适当增加此值可以减少伪下播状态。"
+    "maxDownloadRetriesDescription": "最大下播检查次数， 默认为3次。 主播下播后，工具将会重试，然后检查直播间是否真的下播。适当增加此值可以减少伪下播状态。"
   },
   "TableToolbar": {
     "searchPlaceholder": "搜索{search}...",
