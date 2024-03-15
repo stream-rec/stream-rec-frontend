@@ -1,6 +1,5 @@
 "use client"
 
-import {startOfDay} from 'date-fns';
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import {RecordTableActionColumn} from "@/app/[locale]/dashboard/records/components/records-action-colum";
 import {deleteStream} from "@/lib/data/streams/stream-apis";
@@ -120,18 +119,6 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
           const date = new Date(cell.getValue() as number);
           return formatDate(date)
         },
-        filterFn: (rows, id, filterValue) => {
-          const rowValue = rows.getValue(id);
-          const date = startOfDay(new Date(rowValue as number));
-          const filterFromDate = filterValue && new Date(filterValue[0]);
-          const filterToDate = filterValue && filterValue[1] && new Date(filterValue[1]);
-
-          return !filterValue || !rowValue
-              ? true
-              : filterToDate
-                  ? date >= filterFromDate && date <= filterToDate
-                  : date >= filterFromDate;
-        }
       },
 
       {
@@ -192,7 +179,7 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
 
   return {
     columns: tableColumns,
-    filterableColumns: getStreamerFilterableColumns(streamers, {streamer: uiNameByIndex(1), dateRange: uiNameByIndex(4)}),
+    filterableColumns: getStreamerFilterableColumns(streamers, {streamer: uiNameByIndex(1), dateRange: uiNameByIndex(6)}),
     searchableColumns: searchableColumns({streamTitle: uiNameByIndex(2)}),
     idFn: (id: string) => columns.find((props) => props.accessorKey == id)?.uiName ?? id
   }
