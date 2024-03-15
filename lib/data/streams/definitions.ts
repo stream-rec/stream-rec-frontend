@@ -1,13 +1,8 @@
 import {z} from "zod";
 import {combinedRegex} from "@/lib/data/platform/definitions";
-import {
-  commandActionSchema,
-  moveActionSchema,
-  rcloneActionSchema,
-  removeActionSchema
-} from "@/lib/data/actions/definitions";
+import {commandActionSchema, moveActionSchema, rcloneActionSchema, removeActionSchema} from "@/lib/data/actions/definitions";
 
-export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv"] as const;
+export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv", "ts"] as const;
 
 export const baseDownloadConfig = z.object({
   type: z.string().nullish(),
