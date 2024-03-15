@@ -48,6 +48,8 @@ export default function GlobalFormWrapper({appConfigPromise}: GlobalFormWrapperP
     maxConcurrentUploadDescription: t.rich("maxConcurrentUploadDescription"),
     downloadRetryDelay: t("downloadRetryDelay"),
     downloadRetryDelayDescription: t("downloadRetryDelayDescription"),
+    downloadCheckInterval: t("downloadCheckInterval"),
+    downloadCheckIntervalDescription: t("downloadCheckIntervalDescription"),
     maxDownloadRetries: t("maxDownloadRetries"),
     maxDownloadRetriesDescription: t("maxDownloadRetriesDescription"),
     save: settingsT("save"),

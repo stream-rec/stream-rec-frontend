@@ -51,6 +51,8 @@ export type GlobalFormStrings = {
   maxConcurrentUploadDescription: string | React.ReactNode
   downloadRetryDelay: string
   downloadRetryDelayDescription: string
+  downloadCheckInterval: string
+  downloadCheckIntervalDescription: string
   maxDownloadRetries: string
   maxDownloadRetriesDescription: string
   save: string,
@@ -383,6 +385,26 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                     </FormControl>
                     <FormDescription>
                       {globalStrings.downloadRetryDelayDescription}
+                    </FormDescription>
+                    <FormMessage/>
+                  </FormItem>
+              )}
+          />
+
+          <FormField
+              control={form.control}
+              name="downloadCheckInterval"
+              render={({field}) => (
+                  <FormItem>
+                    <FormLabel>{globalStrings.downloadCheckInterval}</FormLabel>
+                    <FormControl>
+                      <Input type="number"
+                             onChange={(e) => field.onChange(Number(e.target.value))}
+                             value={field.value}
+                             placeholder="60"/>
+                    </FormControl>
+                    <FormDescription>
+                      {globalStrings.downloadCheckIntervalDescription}
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>

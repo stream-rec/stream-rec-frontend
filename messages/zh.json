@@ -221,6 +221,8 @@
     "maxConcurrentUploadDescription": "最大并发上传数，默认为3。 <important>请适当根据主播数量和网络情况调整此值</important>",
     "downloadRetryDelay": "下播检查延迟",
     "downloadRetryDelayDescription": "下播检查延迟，单位秒，默认为10秒。适当增加此值可以减少伪下播状态。",
+    "downloadCheckInterval": "开播检查间隔",
+    "downloadCheckIntervalDescription": "开播检查间隔，单位秒，默认为60秒。适当增加此值可以减少平台api频繁的问题。",
     "maxDownloadRetries": "下播检查次数",
     "maxDownloadRetriesDescription": "最大下播检查次数， 默认为3次。 主播下播后，工具将会重试，然后检查直播间是否真的下播。适当增加此值可以减少伪下播状态。"
   },
