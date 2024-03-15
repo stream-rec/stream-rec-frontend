@@ -221,6 +221,8 @@
     "maxConcurrentUploadDescription": "The maximum number of concurrent uploads. If the number of uploads exceeds this value, the upload will be queued. Default is set to 3.",
     "downloadRetryDelay": "Download retry delay",
     "downloadRetryDelayDescription": "This is the delay (in seconds) used to check if a streamer is still live after a failed download (usually encountered when the streamer goes offline or network issues). Increasing this value will reduce the number of requests to the platform. Default is set to 10 seconds.",
+    "downloadCheckInterval": "Download check interval",
+    "downloadCheckIntervalDescription": "This is the interval (in seconds) used to check if a streamer is live or not. Increasing this value will reduce the number of requests to the platform. Default is set to 60 seconds.",
     "maxDownloadRetries": "Maximum retry counts",
     "maxDownloadRetriesDescription": "The maximum number of stream download retries. If the number of retries exceeds this value, the stream session will be considered as finished. Default is set to 3."
   },
