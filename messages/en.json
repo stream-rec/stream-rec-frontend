@@ -166,7 +166,7 @@
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry. Optional. Default is 3 seconds.",
     "cookieString": "Douyin Cookies",
-    "cookiesDescription": "The cookies used to authenticate the Douyin account. <important>__ac_nonce= and __ac_signature must be included</important>"
+    "cookiesDescription": "The cookies used to authenticate the Douyin account. Optional. <important>__ac_nonce='anything' must be included</important>"
   },
   "BaseDownloadConfigs": {
     "danmu": "Danmu",

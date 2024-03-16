@@ -166,7 +166,7 @@
     "part": "分段下载延迟",
     "partDescription": "分段下载延迟，单位秒，默认为3秒。<important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
     "cookieString": "Cookies 字符串",
-    "cookiesDescription": "抖音Cookie字符串，用于录制抖音直播间，必填。 <important>请注意：Cookie字符串必须存在 __ac_nonce= 和 __ac_signature</important>"
+    "cookiesDescription": "抖音Cookie字符串，用于录制抖音直播间，非必填。 <important>请注意：Cookie字符串必须存在 __ac_nonce。为了避免风控，建议使用小号的cookies。</important>"
   },
   "BaseDownloadConfigs": {
     "danmu": "下载弹幕",
