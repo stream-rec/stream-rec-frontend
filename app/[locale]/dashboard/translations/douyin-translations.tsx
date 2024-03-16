@@ -8,6 +8,9 @@ export const useDouyinTranslations = () => {
   const t = useTranslations("Douyin")
   return useMemo(() => ({
     platform: t("platform"),
+    sourceFormat: t("sourceFormat"),
+    sourceFormatPlaceholder: t("sourceFormatPlaceholder"),
+    sourceFormatDescription: t.rich("sourceFormatDescription"),
     quality: t("quality"),
     qualityDescription: t("qualityDescription"),
     qualityDefault: t("qualityDefault"),

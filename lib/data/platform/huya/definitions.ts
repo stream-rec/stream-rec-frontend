@@ -13,6 +13,7 @@ export const huyaGlobalConfig = globalPlatformConfig.extend({
   cookies: z.string().nullish(),
   maxBitRate: z.number().min(1000).nullish(),
   partedDownloadRetry: z.number().min(0).nullish(),
+  sourceFormat: z.enum(["flv", "hls"]).nullish(),
 })
 export const huyaDownloadConfig = baseDownloadConfig.merge(huyaGlobalConfig)
 export type HuyaGlobalConfig = z.infer<typeof huyaGlobalConfig>
