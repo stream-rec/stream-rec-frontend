@@ -115,6 +115,9 @@
     "cdn": "Primary CDN",
     "cdnDescription": "Huya primary CDN used to fetch the video stream. By default, it is set to AL. Possible values are AL, TX, HW, WS, HS, AL13, HW16, HY.",
     "cdnDefault": "Select a CDN",
+    "sourceFormat": "Source format",
+    "sourceFormatDescription": "Select the source format of the Huya live stream. Default is set to flv. <important> Huya HLS stream is not available for all streams. It is recommended to use flv sources as some streams has no hls streams.</important>",
+    "sourceFormatPlaceholder": "Please select a source format",
     "bitrate": "Max record bitrate",
     "bitrateDescription": "The maximum bitrate for the Huya video stream. The tool will automatically adjust the closest bitrate available for download.",
     "part": "Part download delay",
@@ -157,10 +160,13 @@
     "quality": "Record quality",
     "qualityDescription": "The quality of the Douyin video stream. Ordered from highest to lowest quality. The tool will look up for the closest quality available to selected.",
     "qualityDefault": "Select a quality",
+    "sourceFormat": "Source format",
+    "sourceFormatDescription": "Select the source format of the Douyin live stream. Default is set to flv. <important>It is recommended to use flv sources as some streams has no hls streams.</important>",
+    "sourceFormatPlaceholder": "Please select a source format",
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry. Optional. Default is 3 seconds.",
     "cookieString": "Douyin Cookies",
-    "cookiesDescription": "The cookies used to authenticate the Douyin account. <important>__ac_nonce= and __ac_signature must be included</important>"
+    "cookiesDescription": "The cookies used to authenticate the Douyin account. Optional. <important>__ac_nonce='anything' must be included</important>"
   },
   "BaseDownloadConfigs": {
     "danmu": "Danmu",

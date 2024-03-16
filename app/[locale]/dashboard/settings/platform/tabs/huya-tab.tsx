@@ -5,6 +5,7 @@ import React from "react";
 import {Input} from "@/components/new-york/ui/input";
 import {huyaCDNs} from "@/lib/data/platform/huya/definitions";
 import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
+import {Badge} from "@/components/new-york/ui/badge";
 
 
 interface HuyaConfigProps {
@@ -21,6 +22,9 @@ export type HuyaTabString = {
   cdn: string,
   cdnDescription: string,
   cdnDefault: string,
+  sourceFormat: string,
+  sourceFormatPlaceholder: string,
+  sourceFormatDescription: string,
   bitrate: string,
   bitrateDescription: string,
   part: string,
@@ -57,6 +61,41 @@ export const HuyaTabContent = ({controlPrefix, control, showMaxBitrate, showCook
                     </Select>
                     <FormDescription>
                       {huyaStrings.cdnDescription}
+                    </FormDescription>
+                    <FormMessage/>
+                  </FormItem>
+              )}
+          />
+
+          <FormField
+              control={control}
+              name={controlPrefix ? `${controlPrefix}.sourceFormat` : "sourceFormat"}
+              render={({field}) => (
+                  <FormItem>
+                    <FormLabel>{
+                      <>
+                        {huyaStrings.sourceFormat}
+                        <Badge>Experimental</Badge>
+                      </>
+                    }</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder={huyaStrings.sourceFormatPlaceholder}/>
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {
+                          ["flv", "hls"].map((format) => (
+                              <SelectItem key={format} value={format}>
+                                {format}
+                              </SelectItem>
+                          ))
+                        }
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      {huyaStrings.sourceFormatDescription}
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>

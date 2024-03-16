@@ -4,6 +4,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import React from "react";
 import {Input} from "@/components/new-york/ui/input";
 import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
+import {Badge} from "@/components/new-york/ui/badge";
 
 export type DouyinQuality = {
   quality: string,
@@ -15,6 +16,9 @@ export type DouyinTabString = {
   quality: string,
   qualityDescription: string,
   qualityDefault: string,
+  sourceFormat: string,
+  sourceFormatPlaceholder: string,
+  sourceFormatDescription: string,
   part: string,
   partDescription: any,
   cookies: string,
@@ -67,6 +71,43 @@ export const DouyinTabContent = ({
                 </FormItem>
             )}
         />
+
+
+        <FormField
+            control={control}
+            name={controlPrefix ? `${controlPrefix}.sourceFormat` : "sourceFormat"}
+            render={({field}) => (
+                <FormItem>
+                  <FormLabel>{
+                    <>
+                      {douyinStrings.sourceFormat}
+                      <Badge>Experimental</Badge>
+                    </>
+                  }</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder={douyinStrings.sourceFormatPlaceholder}/>
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {
+                        ["flv", "hls"].map((format) => (
+                            <SelectItem key={format} value={format}>
+                              {format}
+                            </SelectItem>
+                        ))
+                      }
+                    </SelectContent>
+                  </Select>
+                  <FormDescription>
+                    {douyinStrings.sourceFormatDescription}
+                  </FormDescription>
+                  <FormMessage/>
+                </FormItem>
+            )}
+        />
+
         {
             showPartedDownloadRetry && (
                 <FormField
