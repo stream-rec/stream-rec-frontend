@@ -18,7 +18,7 @@ export type DouyinTabString = {
   qualityDefault: string,
   sourceFormat: string,
   sourceFormatPlaceholder: string,
-  sourceFormatDescription: string,
+  sourceFormatDescription: string | React.ReactNode,
   part: string,
   partDescription: any,
   cookies: string,
