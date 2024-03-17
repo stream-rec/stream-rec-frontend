@@ -1,7 +1,7 @@
-import {Separator} from "@/components/new-york/ui/separator";
 import PlatformFormSuspense from "@/app/[locale]/dashboard/settings/platform/platform-form-suspense";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
 import {useTranslations} from "next-intl";
+import {SettingsPage} from "@/app/[locale]/dashboard/settings/components/pages";
 
 
 export async function generateMetadata({params: {locale}}: { params: { locale: string } }) {
@@ -19,15 +19,13 @@ export default function SettingsPlatformPage({params: {locale}}: { params: { loc
   const t = useTranslations('SettingsPage');
 
   return (
-      <div className="space-y-6">
-        <div>
-          <h3 className="text-lg font-medium">{t("platformSettings")}</h3>
-          <p className="text-sm text-muted-foreground">
-            {t("platformSettingsDescription")}
-          </p>
-        </div>
-        <Separator/>
+      <SettingsPage strings={
+        {
+          title: t("platformSettings"),
+          description: t("platformSettingsDescription")
+        }
+      }>
         <PlatformFormSuspense/>
-      </div>
+      </SettingsPage>
   )
 }

@@ -1,6 +1,6 @@
 import {Suspense} from "react";
-import GlobalFormWrapper from "@/app/[locale]/dashboard/settings/global-form-wrapper";
-import {GlobalSettingSkeleton} from "@/app/[locale]/dashboard/settings/global-setting-skeleton";
+import GlobalFormWrapper from "@/app/[locale]/dashboard/settings/(global)/global-form-wrapper";
+import {GlobalSettingSkeleton} from "@/app/[locale]/dashboard/settings/(global)/global-setting-skeleton";
 import {fetchConfig} from "@/lib/data/config/apis";
 
 export const GlobalFormSuspense = () => {

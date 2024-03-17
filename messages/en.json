@@ -1,4 +1,8 @@
 {
+  "Locales": {
+    "zh": "Simplified Chinese",
+    "en": "English"
+  },
   "Dashboard": {
     "title": "Dashboard",
     "summaryOfDashboard": "Summary of stats, and other data",
@@ -109,6 +113,12 @@
     "themeSettingsTheme": "Theme",
     "themeSettingsThemeDescription": "Select the theme for the application.",
     "save": "Update settings"
+  },
+  "WebSettingPage": {
+    "title": "Web settings",
+    "description": "Manage your web settings.",
+    "locale": "Language",
+    "localeDescription": "Select the language for the web interface."
   },
   "Huya": {
     "platform": "Huya",
