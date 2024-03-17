@@ -1,10 +1,10 @@
-import {Separator} from "@/components/new-york/ui/separator";
 import {AlertTriangleIcon} from "lucide-react";
 import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/alert";
 import React from "react";
 import {unstable_setRequestLocale} from "next-intl/server";
 import {useTranslations} from "next-intl";
-import {GlobalFormSuspense} from "@/app/[locale]/dashboard/settings/global-form-suspense";
+import {GlobalFormSuspense} from "@/app/[locale]/dashboard/settings/(global)/global-form-suspense";
+import {SettingsPage} from "@/app/[locale]/dashboard/settings/components/pages";
 
 export default function Settings({params: {locale}}: { params: { locale: string } }) {
 
@@ -13,24 +13,22 @@ export default function Settings({params: {locale}}: { params: { locale: string 
   const t = useTranslations("SettingsPage");
 
   return (
-      <div className="space-y-6">
-        <div>
-          <h3 className="text-lg font-medium">{t("globalSettings")}</h3>
-          <p className="text-sm text-muted-foreground">
-            {t("globalSettingsDescription")}
-          </p>
-          <div className={"mt-6"}>
-            <Alert variant={"destructive"} className={""}>
-              <AlertTriangleIcon className="h-4 w-4"/>
-              <AlertTitle>{t("globalSettingsAlert")}</AlertTitle>
-              <AlertDescription>
-                {t("globalSettingsAlertDescription")}
-              </AlertDescription>
-            </Alert>
-          </div>
+      <>
+        <SettingsPage strings={{
+          title: t("globalSettings"),
+          description: t("globalSettingsDescription")
+        }} top={<div className={"mt-6"}>
+          <Alert variant={"destructive"} className={""}>
+            <AlertTriangleIcon className="h-4 w-4"/>
+            <AlertTitle>{t("globalSettingsAlert")}</AlertTitle>
+            <AlertDescription>
+              {t("globalSettingsAlertDescription")}
+            </AlertDescription>
+          </Alert>
         </div>
-        <Separator/>
-        <GlobalFormSuspense/>
-      </div>
+        }>
+          <GlobalFormSuspense/>
+        </SettingsPage>
+      </>
   )
 }

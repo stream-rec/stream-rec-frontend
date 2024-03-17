@@ -1,4 +1,4 @@
-import {GlobalForm} from "@/app/[locale]/dashboard/settings/global-form";
+import {GlobalForm} from "@/app/[locale]/dashboard/settings/(global)/global-form";
 import {GlobalConfig} from "@/lib/data/config/definitions";
 import React, {useMemo} from "react";
 import {updateConfig} from "@/lib/data/config/apis";

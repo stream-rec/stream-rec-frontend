@@ -9,6 +9,7 @@ export default function SettingsLayout({params: {locale}, children}: { params: {
   unstable_setRequestLocale(locale);
 
   const t = useTranslations("SettingsPage");
+  const webT = useTranslations("WebSettingPage");
 
   const sidebarNavItems = [
     {
@@ -23,6 +24,10 @@ export default function SettingsLayout({params: {locale}, children}: { params: {
       title: t("themeSettings"),
       href: "/dashboard/settings/appearance",
     },
+    {
+      title: webT("title"),
+      href: "/dashboard/settings/web",
+    }
   ]
 
   return (

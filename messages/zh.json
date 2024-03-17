@@ -1,4 +1,8 @@
 {
+  "Locales": {
+    "zh": "中文",
+    "en": "英语"
+  },
   "Dashboard": {
     "title": "控制面板",
     "summaryOfDashboard": "一些关于控制面板的摘要",
@@ -109,6 +113,12 @@
     "themeSettingsTheme": "主题",
     "themeSettingsThemeDescription": "选择一个主题",
     "save": "保存设置"
+  },
+  "WebSettingPage": {
+    "title": "网页设置",
+    "description": "关于网页的一些设置",
+    "locale": "语言",
+    "localeDescription": "选择一个语言"
   },
   "Huya": {
     "platform": "虎牙",
