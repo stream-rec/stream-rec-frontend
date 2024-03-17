@@ -1,5 +1,5 @@
 import * as React from "react"
-import {useEffect} from "react"
+import {useEffect, useMemo} from "react"
 import {Column} from "@tanstack/react-table"
 
 import {Button} from "@/components/new-york/ui/button"
@@ -8,7 +8,8 @@ import {DateRange} from "react-day-picker";
 import {Calendar} from "@/components/new-york/ui/calendar";
 import {CalendarIcon} from "lucide-react";
 import {Command, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandSeparator,} from "@/components/new-york/ui/command"
-import {useFormatter, useTranslations} from "next-intl";
+import {useFormatter, useLocale, useTranslations} from "next-intl";
+import {enUS, zhCN} from "date-fns/locale";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>
@@ -27,6 +28,13 @@ export function DataTableDatePickerFilter<TData, TValue>({
 
   const t = useTranslations("TableToolbar")
   const format = useFormatter()
+  const locale = useLocale()
+
+  const localeObj = useMemo(() => {
+    if (locale === "zh") return zhCN
+    else if (locale === "en") return enUS
+    else return enUS
+  }, [locale])
 
   useEffect(() => {
     if (date?.from && date?.to) {
@@ -85,6 +93,7 @@ export function DataTableDatePickerFilter<TData, TValue>({
               selected={date}
               onSelect={setDate}
               numberOfMonths={2}
+              locale={localeObj}
           />
 
           <Command>
