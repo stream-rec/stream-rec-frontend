@@ -34,6 +34,9 @@ export function StreamerStatusList({
   const router = useRouter()
 
   useEffect(() => {
+    // vercel does not support websockets
+    if (process.env.VERCEL) return
+
     let ws: WebSocket;
     try {
       ws = new WebSocket(wsUrl);

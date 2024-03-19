@@ -58,6 +58,7 @@ export function LoginForm({strings, defaultValues, submit, storeToken, recoverPa
       router.push("/dashboard")
       toastData(strings.loginSuccessful, strings.loginSuccessful, 'success')
     } catch (e) {
+      console.error(e)
       if (e instanceof Error)
         toastData("", strings.loginFailed + e.message, 'error')
     }
