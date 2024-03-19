@@ -1,8 +1,7 @@
+import {removeAccessToken, removeValidUntil} from "@/lib/data/auth/tokens";
+
 export async function POST() {
-  return {
-    status: 200,
-    body: {
-      "message": "Logged out"
-    }
-  }
+  await removeAccessToken()
+  await removeValidUntil()
+  return
 }
