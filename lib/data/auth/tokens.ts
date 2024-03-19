@@ -31,6 +31,7 @@ export async function storeToken(request: StoreTokenRequest) {
     sameSite: "strict",
     secure: true,
   })
+  console.log("stored token for", request.username)
 }
 
 

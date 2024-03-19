@@ -1,6 +1,5 @@
 import {LoginForm, LoginFormStrings} from "@/app/[locale]/login/login-form";
 import {login, recoverPassword} from "@/lib/data/user/user-apis";
-import {storeToken} from "@/lib/data/auth/tokens";
 import {cookies} from "next/headers";
 
 
@@ -15,7 +14,7 @@ export default async function LoginFormWrapper({strings}: { strings: LoginFormSt
 
 
   return <>
-    <LoginForm defaultValues={defaultValues} submit={login} storeToken={storeToken} strings={strings}
+    <LoginForm defaultValues={defaultValues} submit={login} strings={strings}
                recoverPassword={recoverPassword}/>
   </>
 }

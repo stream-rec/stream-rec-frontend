@@ -11,7 +11,6 @@ import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import {toastData} from "@/app/utils/toast";
 import {login, recoverPassword} from "@/lib/data/user/user-apis";
 import {useRouter} from "@/i18n";
-import {storeToken, StoreTokenRequest} from "@/lib/data/auth/tokens";
 
 
 export type LoginFormStrings = {
@@ -31,12 +30,11 @@ type LoginFormProps = {
   defaultValues: User
   strings: LoginFormStrings
   submit: (username: string, password: string) => ReturnType<typeof login>,
-  storeToken: (request: StoreTokenRequest) => ReturnType<typeof storeToken>,
   recoverPassword: (username: string) => ReturnType<typeof recoverPassword>
 }
 
 
-export function LoginForm({strings, defaultValues, submit, storeToken, recoverPassword}: LoginFormProps) {
+export function LoginForm({strings, defaultValues, submit, recoverPassword}: LoginFormProps) {
 
   const [isSave, setIsSave] = useState(defaultValues.username !== "")
 
@@ -54,9 +52,7 @@ export function LoginForm({strings, defaultValues, submit, storeToken, recoverPa
   const onSubmit = async (data: User) => {
     try {
       const json = await submit(data.username, data.password)
-      const username = isSave ? data.username : ""
-      // save token
-      await storeToken({username: username, token: json.token, validUntil: json.validTo.toString()})
+      console.log(json)
       // save token
       router.replace("/dashboard")
       toastData(strings.loginSuccessful, strings.loginSuccessful, 'success')
