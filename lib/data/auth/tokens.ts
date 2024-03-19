@@ -1,7 +1,7 @@
 'use server'
 import {cookies} from "next/headers";
 
-interface StoreTokenRequest {
+export interface StoreTokenRequest {
   username: string
   token: string
   validUntil: string

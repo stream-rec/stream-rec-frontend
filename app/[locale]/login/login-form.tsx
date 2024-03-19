@@ -11,25 +11,27 @@ import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import {toastData} from "@/app/utils/toast";
 import {login, recoverPassword} from "@/lib/data/user/user-apis";
 import {useRouter} from "@/i18n";
-import {storeToken} from "@/lib/data/auth/tokens";
+import {storeToken, StoreTokenRequest} from "@/lib/data/auth/tokens";
 
+
+export type LoginFormStrings = {
+  username: string
+  usernamePlaceholder: string
+  password: string
+  passwordPlaceholder: string
+  rememberMe: string
+  forgotPassword: string
+  recoverPasswordSuccess: string
+  signIn: string,
+  loginSuccessful: string
+  loginFailed: string
+}
 
 type LoginFormProps = {
   defaultValues: User
-  strings: {
-    username: string
-    usernamePlaceholder: string
-    password: string
-    passwordPlaceholder: string
-    rememberMe: string
-    forgotPassword: string
-    recoverPasswordSuccess: string
-    signIn: string,
-    loginSuccessful: string
-    loginFailed: string
-  }
+  strings: LoginFormStrings
   submit: (username: string, password: string) => ReturnType<typeof login>,
-  storeToken: (request: { username: string, token: string, validUntil: string }) => ReturnType<typeof storeToken>,
+  storeToken: (request: StoreTokenRequest) => ReturnType<typeof storeToken>,
   recoverPassword: (username: string) => ReturnType<typeof recoverPassword>
 }
 
@@ -53,9 +55,10 @@ export function LoginForm({strings, defaultValues, submit, storeToken, recoverPa
     try {
       const json = await submit(data.username, data.password)
       const username = isSave ? data.username : ""
+      // save token
       await storeToken({username: username, token: json.token, validUntil: json.validTo.toString()})
       // save token
-      router.push("/dashboard")
+      router.replace("/dashboard")
       toastData(strings.loginSuccessful, strings.loginSuccessful, 'success')
     } catch (e) {
       console.error(e)

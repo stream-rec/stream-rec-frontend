@@ -1,24 +1,14 @@
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/new-york/ui/card";
 import {unstable_setRequestLocale} from "next-intl/server";
-import {LoginForm} from "@/app/[locale]/login/login-form";
-import {login, recoverPassword} from "@/lib/data/user/user-apis";
-import {cookies} from "next/headers";
-import {storeToken} from "@/lib/data/auth/tokens";
 import {useTranslations} from "next-intl";
 import {useMemo} from "react";
+import LoginFormWrapper from "@/app/[locale]/login/login-form-wrapper";
 
 
 export default function LoginPage({params: {locale}}: { params: { locale: string } }) {
   unstable_setRequestLocale(locale);
 
-  const defaultValues = {
-    id: 0,
-    username: cookies().get("username")?.value || "",
-    password: ""
-  }
-
   const t = useTranslations("LoginPage")
-
   const loginStrings = useMemo(() => ({
     username: t("username"),
     usernamePlaceholder: t("usernamePlaceholder"),
@@ -40,8 +30,7 @@ export default function LoginPage({params: {locale}}: { params: { locale: string
           <CardDescription>{t("description")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <LoginForm defaultValues={defaultValues} submit={login} storeToken={storeToken} strings={loginStrings}
-                     recoverPassword={recoverPassword}/>
+          <LoginFormWrapper strings={loginStrings}/>
         </CardContent>
       </Card>
     </div>
