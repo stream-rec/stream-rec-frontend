@@ -23,6 +23,9 @@ export const fetchApi = async (url: string, options?: RequestInit) => {
         ...options.headers,
         'Authorization': `Bearer ${authToken}`
       }
+    } else {
+      console.error("No access token found")
+      return Promise.reject("No access token found")
     }
   }
 
