@@ -6,6 +6,7 @@ import {deleteStreamer} from "@/lib/data/streams/streamer-apis";
 import {UpdateSchema} from "@/lib/data/events/definitions";
 import {format} from "date-fns";
 import {useRouter} from "@/i18n";
+import {toastData} from "@/app/utils/toast";
 
 
 type StreamerStatusListProps = {
@@ -33,8 +34,14 @@ export function StreamerStatusList({
   const router = useRouter()
 
   useEffect(() => {
-    const ws = new WebSocket(wsUrl);
-
+    let ws: WebSocket;
+    try {
+      ws = new WebSocket(wsUrl);
+    } catch (e) {
+      console.error('WebSocket error:', e)
+      toastData('error', 'WebSocket connection failed', "info")
+      return
+    }
     ws.onopen = () => {
       console.log('WebSocket connection established');
     };

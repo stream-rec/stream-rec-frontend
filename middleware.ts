@@ -1,6 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
 import {localePrefix} from "@/i18n";
-import {NextRequest} from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 
 
 export default async function middleware(request: NextRequest) {
@@ -9,7 +9,17 @@ export default async function middleware(request: NextRequest) {
   // Redirect to login page if no token is present or if the token is expired
   if (!isAuthenticated(request) && segments.join("/") !== "login") {
     request.nextUrl.pathname = `/${locale}/login`
+  }
 
+  // ignore api routes
+  if (segments[0] === "api") {
+    if (segments[1] === "logout") {
+      request.cookies.delete("accessToken")
+      request.cookies.delete("validUntil")
+      request.nextUrl.pathname = `/${locale}/login`
+      return NextResponse.redirect(request.nextUrl.toString())
+    }
+    return NextResponse.next()
   }
 
   const handleI18nRouting = createMiddleware({

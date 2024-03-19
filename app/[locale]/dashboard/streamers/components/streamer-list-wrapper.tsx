@@ -45,6 +45,8 @@ export function toStreamerCard(streamer: StreamerCardProps, deleteStreamerAction
       platform={streamer.platform}
       deleteStreamer={deleteStreamerAction}
       template={streamer.template}
+      bitrate={streamer.bitrate}
+      duration={streamer.duration}
   />
 }
 

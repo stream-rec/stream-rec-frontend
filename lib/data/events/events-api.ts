@@ -1,7 +1,7 @@
-import {API_URL} from "@/lib/data/api";
+import {API_URL} from "@/lib/data/definitions";
 
-// remove api suffix
 const apiUrl = new URL(API_URL);
-apiUrl.protocol = 'ws';
+// vercel uses https, local uses ws
+apiUrl.protocol = process.env.VERCEL ? 'https' : 'ws';
 apiUrl.pathname = '/live/update';
 export const wsUrl = apiUrl.href;

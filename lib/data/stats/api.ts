@@ -1,3 +1,4 @@
+'use server'
 import {SummaryStats} from "./definitions";
 import {fetchApi} from "../api";
 
