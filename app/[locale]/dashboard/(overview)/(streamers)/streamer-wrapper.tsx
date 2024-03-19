@@ -1,9 +1,11 @@
+'use server'
 import React from "react";
-import {RecordList} from "@/app/[locale]/dashboard/(overview)/(streamers)/record-list";
 import {deleteStreamer, fetchStreamers} from "@/lib/data/streams/streamer-apis";
 import {StreamerCardProps} from "@/app/[locale]/dashboard/(overview)/(streamers)/streamer";
 import {StreamerSchema} from "@/lib/data/streams/definitions";
 import {getFormatter, getTranslations} from "next-intl/server";
+import {StreamerStatusList} from "@/app/[locale]/dashboard/(overview)/(streamers)/streamer-status-list";
+import {wsUrl} from "@/lib/data/events/events-api";
 
 type StreamerWrapperProps = {
   recordingString: string;
@@ -52,24 +54,14 @@ export default async function StreamerWrapper({recordingString, inactiveString, 
 
   const format = await getFormatter()
 
-  function toCards(schemas: StreamerSchema[]) {
-    return toStreamerCards(schemas, t, format)
-  }
+  const toCards = (schemas: StreamerSchema[]) => toStreamerCards(schemas, t, format);
 
   const [recordingCards, disabledCards, inactiveCards] = await Promise.all([toCards(recordingStreamers), toCards(disabledStreamers), toCards(inactiveStreamers)])
 
-
   return (
       <>
-        <div className="space-y-4 col-span-1">
-          <RecordList cards={recordingCards} title={recordingString} deleteStreamerAction={deleteStreamer}/>
-        </div>
-        <div className="space-y-4 col-span-1 ">
-          <RecordList cards={inactiveCards} title={inactiveString} deleteStreamerAction={deleteStreamer}/>
-        </div>
-        <div className="space-y-4 col-span-1">
-          <RecordList cards={disabledCards} title={disabledString} deleteStreamerAction={deleteStreamer}/>
-        </div>
+        <StreamerStatusList recordingCards={recordingCards} disabledCards={disabledCards} inactiveCards={inactiveCards}
+                            recordingString={recordingString} inactiveString={inactiveString} disabledString={disabledString} wsUrl={wsUrl}/>
       </>
   )
 }
