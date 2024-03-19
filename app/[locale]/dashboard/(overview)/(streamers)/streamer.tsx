@@ -22,6 +22,8 @@ export type StreamerCardProps = {
   lastStream?: string | null;
   platform: string;
   template?: string | null;
+  bitrate?: string | null;
+  duration?: string | null;
   deleteStreamer: (id: string) => Promise<void>;
 }
 
@@ -36,6 +38,8 @@ export function StreamerCard({
                                lastStream,
                                platform,
                                template,
+                               bitrate,
+                               duration,
                                deleteStreamer,
                              }: StreamerCardProps) {
 
@@ -46,6 +50,11 @@ export function StreamerCard({
         <div className={"relative"}>
           <Card className={"mx-auto"}>
             <div className={"flex flex-row items-center mr-2 justify-end space-x-0.5 md:space-x-1"}>
+              {duration && <> <p className={"text-muted-foreground text-[0.70rem]"}>{duration}</p></>}
+              {bitrate && <>
+                  <Separator orientation={"vertical"} className={"h-4"}/>
+                  <p className={"text-muted-foreground text-[0.70rem]"}>{bitrate} kbps</p>
+              </>}
               <Link href={`/dashboard/streamers/${streamerId}/edit`}>
                 <Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><SettingsIcon
                     className={"w-4 h-4"}/></Button>

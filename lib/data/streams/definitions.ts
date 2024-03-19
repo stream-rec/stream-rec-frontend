@@ -18,17 +18,19 @@ export const baseDownloadConfig = z.object({
 export type DownloadConfig = z.infer<typeof baseDownloadConfig>
 
 
-export type StreamData = {
-  id: number;
-  title: string;
-  dateStart: number;
-  dateEnd: number;
-  outputFilePath: string;
-  danmuFilePath: string | undefined | null;
-  outputFileSize: number;
-  streamerId: number;
-  streamerName: string;
-}
+export const streamDataSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  dateStart: z.number(),
+  dateEnd: z.number(),
+  outputFilePath: z.string(),
+  danmuFilePath: z.string().nullish(),
+  outputFileSize: z.number(),
+  streamerId: z.number(),
+  streamerName: z.string(),
+})
+
+export type StreamData = z.infer<typeof streamDataSchema>
 
 
 export const streamerSchema = z.object({
