@@ -1,7 +1,6 @@
 'use server'
 
 import {fetchApi} from "@/lib/data/api";
-import {storeToken} from "@/lib/data/auth/tokens";
 
 export const login = async (username: string, password: string) => {
   const response = await fetchApi('/auth/login', {
@@ -16,9 +15,7 @@ export const login = async (username: string, password: string) => {
     const errorText = await response.text()
     throw new Error("Error logging in, status: " + response.status + " " + errorText)
   }
-  const json = await response.json() as { token: string, validTo: number }
-  await storeToken({username, token: json.token, validUntil: json.validTo.toString()})
-  return json
+  return await response.json() as { token: string, validTo: number }
 }
 
 export const recoverPassword = async (username: string) => {

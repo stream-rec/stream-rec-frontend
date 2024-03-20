@@ -10,7 +10,9 @@ import {Checkbox} from "@/components/new-york/ui/checkbox";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import {toastData} from "@/app/utils/toast";
 import {login, recoverPassword} from "@/lib/data/user/user-apis";
-import {useRouter} from "@/i18n";
+import {useLocale} from "next-intl";
+import {signIn} from "next-auth/react";
+import {useRouter} from "next/navigation";
 
 
 export type LoginFormStrings = {
@@ -46,21 +48,22 @@ export function LoginForm({strings, defaultValues, submit, recoverPassword}: Log
   )
 
   const {isDirty, isValid, isSubmitting} = useFormState({control: form.control})
-
+  const locale = useLocale();
   const router = useRouter()
 
-  const onSubmit = async (data: User) => {
-    try {
-      const json = await submit(data.username, data.password)
-      console.log(json)
-      // save token
-      router.replace("/dashboard")
-      toastData(strings.loginSuccessful, strings.loginSuccessful, 'success')
-    } catch (e) {
-      console.error(e)
-      if (e instanceof Error)
-        toastData("", strings.loginFailed + e.message, 'error')
-    }
+  const onSubmit = (data: User) => {
+    signIn('credentials', {
+      username: data.username,
+      password: data.password,
+      redirect: false
+    }).then((result) => {
+      if (result?.error) {
+        toastData("", strings.loginFailed + "\n" + result.error, 'error')
+      } else {
+        toastData(strings.loginSuccessful, strings.loginSuccessful, 'success')
+        router.push('/' + locale + '/dashboard');
+      }
+    }).catch((e) => console.error(e))
   }
 
   const recover = async (username: string) => {
@@ -75,7 +78,12 @@ export function LoginForm({strings, defaultValues, submit, recoverPassword}: Log
 
   return <>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form action="/api/auth/callback/credentials" method="post" onSubmit={
+        event => {
+          event.preventDefault()
+          form.handleSubmit(onSubmit)()
+        }
+      }>
         <div className="grid w-full items-center gap-4">
           <FormField
               control={form.control}
