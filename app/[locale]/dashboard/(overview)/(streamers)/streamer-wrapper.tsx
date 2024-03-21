@@ -5,7 +5,7 @@ import {StreamerCardProps} from "@/app/[locale]/dashboard/(overview)/(streamers)
 import {StreamerSchema} from "@/lib/data/streams/definitions";
 import {getFormatter, getTranslations} from "next-intl/server";
 import {StreamerStatusList} from "@/app/[locale]/dashboard/(overview)/(streamers)/streamer-status-list";
-import {wsUrl} from "@/lib/data/events/events-api";
+import {WS_API_URL} from "@/lib/data/events/events-api";
 
 type StreamerWrapperProps = {
   recordingString: string;
@@ -61,7 +61,7 @@ export default async function StreamerWrapper({recordingString, inactiveString, 
   return (
       <>
         <StreamerStatusList recordingCards={recordingCards} disabledCards={disabledCards} inactiveCards={inactiveCards}
-                            recordingString={recordingString} inactiveString={inactiveString} disabledString={disabledString} wsUrl={wsUrl}/>
+                            recordingString={recordingString} inactiveString={inactiveString} disabledString={disabledString} wsUrl={WS_API_URL}/>
       </>
   )
 }

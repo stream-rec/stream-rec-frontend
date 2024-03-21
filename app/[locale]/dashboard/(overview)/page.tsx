@@ -1,8 +1,9 @@
 import React, {Suspense} from "react";
-import StatsCardWrapper from "@/app/[locale]/dashboard/(overview)/(stats)/stats-card-wrapper";
-import {StreamerWrapperSkeleton} from "@/app/[locale]/dashboard/(overview)/(streamers)/streamer-wrapper-skeleton";
-import StreamerWrapper from "@/app/[locale]/dashboard/(overview)/(streamers)/streamer-wrapper";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
+import StatsCardWrapper from "@/app/[locale]/dashboard/(overview)/(stats)/stats-card-wrapper";
+import StreamerWrapper from "@/app/[locale]/dashboard/(overview)/(streamers)/streamer-wrapper";
+import {StreamerWrapperSkeleton} from "@/app/[locale]/dashboard/(overview)/(streamers)/streamer-wrapper-skeleton";
+import {getServerSession} from "next-auth";
 
 export async function generateMetadata({params: {locale}}: { params: { locale: string } }) {
   const t = await getTranslations({locale, namespace: 'Metadata'});
@@ -18,6 +19,16 @@ export default async function DashboardPage({params: {locale}}: { params: { loca
   unstable_setRequestLocale(locale);
 
   const t = await getTranslations('Dashboard');
+  const user = await getServerSession()
+  if (!user) {
+    console.log("no user")
+    return {
+      redirect: {
+        destination: `/${locale}/login`,
+        permanent: false
+      }
+    }
+  }
 
   return (
       <>

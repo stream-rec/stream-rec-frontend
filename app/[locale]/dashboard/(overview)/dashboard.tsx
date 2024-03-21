@@ -7,7 +7,7 @@ import {Separator} from "@/components/new-york/ui/separator";
 import {AccountSwitcher} from "@/app/[locale]/dashboard/(overview)/components/account-switcher";
 import {Nav} from "@/app/[locale]/dashboard/(overview)/components/nav";
 import {FileVideo2, LogOutIcon, LucideLayoutDashboard, LucideUsers, Settings, UploadCloud} from "lucide-react";
-import {removeAccessToken, removeValidUntil} from "@/lib/data/auth/tokens";
+import {signOut} from "next-auth/react";
 
 interface DashboardProps {
   accounts: {
@@ -80,8 +80,9 @@ export function DashboardLayout(
           href: "/login",
           icon: LogOutIcon,
           action: async () => {
-            await removeAccessToken()
-            await removeValidUntil()
+            await signOut({
+              callbackUrl: "/login"
+            })
           }
         }
       ], [strings])

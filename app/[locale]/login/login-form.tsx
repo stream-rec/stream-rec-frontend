@@ -10,31 +10,33 @@ import {Checkbox} from "@/components/new-york/ui/checkbox";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import {toastData} from "@/app/utils/toast";
 import {login, recoverPassword} from "@/lib/data/user/user-apis";
-import {useRouter} from "@/i18n";
-import {storeToken} from "@/lib/data/auth/tokens";
+import {useLocale} from "next-intl";
+import {signIn} from "next-auth/react";
+import {useRouter} from "next/navigation";
 
+
+export type LoginFormStrings = {
+  username: string
+  usernamePlaceholder: string
+  password: string
+  passwordPlaceholder: string
+  rememberMe: string
+  forgotPassword: string
+  recoverPasswordSuccess: string
+  signIn: string,
+  loginSuccessful: string
+  loginFailed: string
+}
 
 type LoginFormProps = {
   defaultValues: User
-  strings: {
-    username: string
-    usernamePlaceholder: string
-    password: string
-    passwordPlaceholder: string
-    rememberMe: string
-    forgotPassword: string
-    recoverPasswordSuccess: string
-    signIn: string,
-    loginSuccessful: string
-    loginFailed: string
-  }
+  strings: LoginFormStrings
   submit: (username: string, password: string) => ReturnType<typeof login>,
-  storeToken: (request: { username: string, token: string, validUntil: string }) => ReturnType<typeof storeToken>,
   recoverPassword: (username: string) => ReturnType<typeof recoverPassword>
 }
 
 
-export function LoginForm({strings, defaultValues, submit, storeToken, recoverPassword}: LoginFormProps) {
+export function LoginForm({strings, defaultValues, submit, recoverPassword}: LoginFormProps) {
 
   const [isSave, setIsSave] = useState(defaultValues.username !== "")
 
@@ -46,21 +48,22 @@ export function LoginForm({strings, defaultValues, submit, storeToken, recoverPa
   )
 
   const {isDirty, isValid, isSubmitting} = useFormState({control: form.control})
-
+  const locale = useLocale();
   const router = useRouter()
 
-  const onSubmit = async (data: User) => {
-    try {
-      const json = await submit(data.username, data.password)
-      const username = isSave ? data.username : ""
-      await storeToken({username: username, token: json.token, validUntil: json.validTo.toString()})
-      // save token
-      router.push("/dashboard")
-      toastData(strings.loginSuccessful, strings.loginSuccessful, 'success')
-    } catch (e) {
-      if (e instanceof Error)
-        toastData("", strings.loginFailed + e.message, 'error')
-    }
+  const onSubmit = (data: User) => {
+    signIn('credentials', {
+      username: data.username,
+      password: data.password,
+      redirect: false
+    }).then((result) => {
+      if (result?.error) {
+        toastData("", strings.loginFailed + "\n" + result.error, 'error')
+      } else {
+        toastData(strings.loginSuccessful, strings.loginSuccessful, 'success')
+        router.push('/' + locale + '/dashboard');
+      }
+    }).catch((e) => console.error(e))
   }
 
   const recover = async (username: string) => {
@@ -75,7 +78,12 @@ export function LoginForm({strings, defaultValues, submit, storeToken, recoverPa
 
   return <>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form action="/api/auth/callback/credentials" method="post" onSubmit={
+        event => {
+          event.preventDefault()
+          form.handleSubmit(onSubmit)()
+        }
+      }>
         <div className="grid w-full items-center gap-4">
           <FormField
               control={form.control}

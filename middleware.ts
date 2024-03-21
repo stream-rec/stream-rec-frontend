@@ -1,53 +1,50 @@
 import createMiddleware from 'next-intl/middleware';
-import {localePrefix} from "@/i18n";
-import {NextRequest, NextResponse} from "next/server";
+import {localePrefix, locales} from "@/i18n";
+import {NextRequest} from "next/server";
+import {withAuth} from "next-auth/middleware";
 
+const publicPages = ['/', '/login'];
 
-export default async function middleware(request: NextRequest) {
-  const [, locale, ...segments] = request.nextUrl.pathname.split('/')
+const intlMiddleware = createMiddleware({
+  // A list of all locales that are supported
+  locales: locales,
+  localePrefix: localePrefix,
+  // Used when no locale matches
+  defaultLocale: 'en',
+})
 
-  // Redirect to login page if no token is present or if the token is expired
-  if (!isAuthenticated(request) && segments.join("/") !== "login") {
-    request.nextUrl.pathname = `/${locale}/login`
-  }
-
-  // ignore api routes
-  if (segments[0] === "api") {
-    if (segments[1] === "logout") {
-      request.cookies.delete("accessToken")
-      request.cookies.delete("validUntil")
-      request.nextUrl.pathname = `/${locale}/login`
-      return NextResponse.redirect(request.nextUrl.toString())
+const authMiddleware = withAuth(
+    // Note that this callback is only invoked if
+    // the `authorized` callback has returned `true`
+    // and not for pages listed in `pages`.
+    (req) => intlMiddleware(req),
+    {
+      callbacks: {
+        authorized: ({token}) => token != null
+      },
+      pages: {
+        signIn: '/login'
+      }
     }
-    return NextResponse.next()
+);
+
+export default function middleware(req: NextRequest) {
+  const publicPathnameRegex = RegExp(
+      `^(/(${locales.join('|')}))?(${publicPages
+          .flatMap((p) => (p === '/' ? ['', '/'] : p))
+          .join('|')})/?$`,
+      'i'
+  );
+  const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
+
+  if (isPublicPage) {
+    return intlMiddleware(req);
+  } else {
+    return (authMiddleware as any)(req);
   }
-
-  const handleI18nRouting = createMiddleware({
-    // A list of all locales that are supported
-    locales: ['en', 'zh'],
-    localePrefix,
-    // Used when no locale matches
-    defaultLocale: 'en',
-  })
-
-
-  const response = handleI18nRouting(request)
-  return response;
 }
-
-const isAuthenticated = (request: NextRequest) => {
-  const token = request.cookies.get("accessToken")?.value
-  const tokenValidUntil = request.cookies.get("validUntil")?.value
-
-  return token && tokenValidUntil && parseInt(tokenValidUntil) > Date.now()
-}
-
 
 export const config = {
-  // Match only internationalized pathnames
-  matcher: ['/', '/(zh|en)/:path*',
-    // Enable redirects that add missing locales
-    // (e.g. `/pathnames` -> `/en/pathnames`)
-    '/((?!_next|_vercel|.*\\..*).*)'
-  ]
-}
+  // Skip all paths that should not be internationalized
+  matcher: ['/((?!api|_next|.*\\..*).*)']
+};
