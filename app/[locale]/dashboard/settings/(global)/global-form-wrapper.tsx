@@ -22,7 +22,7 @@ export default function GlobalFormWrapper({appConfigPromise}: GlobalFormWrapperP
     submitMessage: toast("submitMessage"),
     submitErrorMessage: toast("submitErrorMessage"),
     engine: t("engine"),
-    engineDescription: t("engineDescription"),
+    engineDescription: t.rich("engineDescription"),
     danmu: t("danmu"),
     danmuDescription: t.rich("danmuDescription"),
     deleteFiles: t("deleteFiles"),

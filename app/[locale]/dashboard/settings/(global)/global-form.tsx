@@ -25,7 +25,7 @@ export type GlobalFormStrings = {
   submitMessage: string
   submitErrorMessage: string
   engine: string
-  engineDescription: string
+  engineDescription: string | React.ReactNode
   danmu: string
   danmuDescription: string | React.ReactNode
   deleteFiles: string
@@ -97,6 +97,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
       setMaxPartDurationFormat(unit)
       form.setValue("maxPartDuration", value)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [appConfig])
 
   async function onSubmit(data: GlobalConfig) {
@@ -139,6 +140,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="ffmpeg">ffmpeg</SelectItem>
+                        <SelectItem value="streamlink">streamlink</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription>
