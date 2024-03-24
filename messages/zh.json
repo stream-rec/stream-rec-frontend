@@ -44,7 +44,7 @@
     "asTemplate": "作为模板",
     "asTemplateDescription": "是否作为模板",
     "nameDescription": "主播名称",
-    "urlDescription": "直播链接, 目前支持平台 ：虎牙，抖音。 链接格式为：<code>'{`https://www.huya.com/{name}`}'</code> - 虎牙 <code>'{`https://live.douyin.com/{id}`}'</code> - 抖音",
+    "urlDescription": "直播链接, 目前支持平台 ：虎牙，抖音，斗鱼。 链接格式为：<code>'{`https://www.huya.com/{name}`}'</code> - 虎牙 <code>'{`https://live.douyin.com/{id}`}'</code> - 抖音 <code>'{`https://www.douyu.com/{name}`}'</code> - 斗鱼",
     "enabledRecording": "启用录制",
     "enabledRecordingDescription": "是否启用录制",
     "streamerOnlyOptions": "主播专属选项",
@@ -177,6 +177,41 @@
     "partDescription": "分段下载延迟，单位秒，默认为3秒。<important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
     "cookieString": "Cookies 字符串",
     "cookiesDescription": "抖音Cookie字符串，用于录制抖音直播间，非必填。 <important>请注意：Cookie字符串必须存在 __ac_nonce。为了避免风控，建议使用小号的cookies。</important>"
+  },
+  "Douyu": {
+    "platform": "斗鱼",
+    "cdn": "优先CDN线路",
+    "cdnDescription": "选择一个优先CDN线路，默认为tct-h5、 可选以下线路：tctc-h5（备用线路4）, tct-h5（备用线路5）, ali-h5（备用线路6）, hw-h5（备用线路7）, akm-h5（备用线路13） ",
+    "cdnDefault": "请选择一个CDN线路",
+    "quality": "录制画质",
+    "qualityDescription": "选择一个画质，工具将会尝试录制低于等于这个画质的流。",
+    "qualityDefault": "请选择一个画质",
+    "part": "分段下载延迟",
+    "partDescription": "分段下载延迟，单位秒，默认为30秒。<important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
+    "cookieString": "Cookies 字符串",
+    "cookiesDescription": "斗鱼Cookie字符串，用于录制斗鱼直播间，非必填。 <important>请注意：为了避免风控，建议使用小号的cookies。</important>"
+  },
+  "DouyuQualities": {
+    "origin": {
+      "id": "0",
+      "name": "原画"
+    },
+    "uhd": {
+      "id": "4",
+      "name": "蓝光"
+    },
+    "hd": {
+      "id": "3",
+      "name": "超清"
+    },
+    "sd": {
+      "id": "2",
+      "name": "高清"
+    },
+    "ld": {
+      "id": "1",
+      "name": "标清"
+    }
   },
   "BaseDownloadConfigs": {
     "danmu": "下载弹幕",

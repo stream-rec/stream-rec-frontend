@@ -44,7 +44,7 @@
     "asTemplate": "As template",
     "asTemplateDescription": "Whether to use this streamer as a template for other streamers.",
     "nameDescription": "The name of the streamer.",
-    "urlDescription": "Streamer`s streaming url, with following format: <code>'{`https://www.huya.com/{name}`}'</code> - Huya <code>'{`https://live.douyin.com/{id}`}'</code> - Douyin",
+    "urlDescription": "Streamer`s streaming url, with following format: <code>'{`https://www.huya.com/{name}`}'</code> - Huya <code>'{`https://live.douyin.com/{id}`}'</code> - Douyin <code>'{`https://www.douyu.com/{id}`}'</code> - Douyu",
     "enabledRecording": "Enabled recording",
     "enabledRecordingDescription": "Whether to enable recording for this streamer.",
     "streamerOnlyOptions": "Streamer only options",
@@ -177,6 +177,41 @@
     "partDescription": "The delay between each part download retry. Optional. Default is 3 seconds.",
     "cookieString": "Douyin Cookies",
     "cookiesDescription": "The cookies used to authenticate the Douyin account. Optional. <important>__ac_nonce='anything' must be included</important>"
+  },
+  "Douyu": {
+    "platform": "Douyu",
+    "cdn": "Primary CDN",
+    "cdnDescription": "Douyu primary CDN used to fetch the video stream. By default, it is set to tct-h5. Possible values are ws-h5, tctc-h5, tct-h5, ali-h5, hw-h5, akm-h5.",
+    "cdnDefault": "Select a CDN",
+    "quality": "Record quality",
+    "qualityDescription": "The quality of the Douyin video stream. Ordered from highest to lowest quality. The tool will look up for the closest quality available to selected.",
+    "qualityDefault": "Select a quality",
+    "part": "Part download delay",
+    "partDescription": "The delay between each part download retry. Optional. Default is 30 seconds.",
+    "cookieString": "Cookies",
+    "cookieDescription": "Cookies to be used for the Douyu video stream. <important>Optional</important>"
+  },
+  "DouyuQualities": {
+    "origin": {
+      "id": "0",
+      "name": "Origin"
+    },
+    "uhd": {
+      "id": "4",
+      "name": "Ultra High Definition"
+    },
+    "hd": {
+      "id": "3",
+      "name": "High Definition"
+    },
+    "sd": {
+      "id": "2",
+      "name": "Standard Definition"
+    },
+    "ld": {
+      "id": "1",
+      "name": "Low Definition"
+    }
   },
   "BaseDownloadConfigs": {
     "danmu": "Danmu",

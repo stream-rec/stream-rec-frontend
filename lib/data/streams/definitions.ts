@@ -1,6 +1,6 @@
 import {z} from "zod";
-import {combinedRegex} from "@/lib/data/platform/definitions";
 import {commandActionSchema, moveActionSchema, rcloneActionSchema, removeActionSchema} from "@/lib/data/actions/definitions";
+import {combinedRegex} from "@/lib/data/platform/definitions";
 
 export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv", "ts"] as const;
 

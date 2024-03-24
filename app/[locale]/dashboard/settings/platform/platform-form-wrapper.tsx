@@ -4,6 +4,7 @@ import {GlobalConfig} from "@/lib/data/config/definitions";
 import {useTranslations} from "next-intl";
 import React from "react";
 import {useDouyinQualityTranslations, useDouyinTranslations} from "@/app/[locale]/dashboard/translations/douyin-translations";
+import {useDouyuQualityTranslations, useDouyuTranslations} from "@/app/[locale]/dashboard/translations/douyu-translations";
 
 
 type PlatformFormSuspenseProps = {
@@ -18,10 +19,14 @@ export function PlatformFormWrapper({configPromise}: PlatformFormSuspenseProps) 
   const douyinT = useDouyinTranslations()
   const douyinQualityOptions = useDouyinQualityTranslations()
 
+  const douyuT = useDouyuTranslations()
+  const douyuQualityOptions = useDouyuQualityTranslations()
+
   const settingsT = useTranslations("SettingsPage")
   return (
       <>
         <PlatformForm defaultValues={config} huyaStrings={huyaT} douyinQualityOptions={douyinQualityOptions} douyinStrings={douyinT}
+                      douyuStrings={douyuT} douyuQualityOptions={douyuQualityOptions}
                       save={settingsT("save")}/>
       </>
   )
