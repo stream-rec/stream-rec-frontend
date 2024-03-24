@@ -5,7 +5,6 @@ import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 import React from "react";
 import {Control} from "react-hook-form";
 import {douyuCdns} from "@/lib/data/platform/douyu/definitions";
-import {undefined} from "zod";
 
 
 export type DouyuQuality = {
@@ -38,13 +37,6 @@ export type DouyuTabString = {
 
 
 export default function DouyuTabContent({controlPrefix, control, showCookies, showPartedDownloadRetry, strings, qualityOptions}: DouyuTabProps) {
-
-
-  const transformQualityValueToString = (quality: number): string | undefined => {
-    if (quality !== null) {
-      return quality.toString();
-    }
-  };
 
   return (
       <>
@@ -93,7 +85,7 @@ export default function DouyuTabContent({controlPrefix, control, showCookies, sh
                           field.onChange(parseInt(e));
                         }
                       }
-                    } defaultValue={transformQualityValueToString(field.value)}>
+                    } defaultValue={field.value?.toString() || undefined}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder={strings.qualityDefault}/>
