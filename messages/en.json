@@ -189,7 +189,7 @@
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry. Optional. Default is 30 seconds.",
     "cookieString": "Cookies",
-    "cookieDescription": "Cookies to be used for the Douyu video stream. <important>Optional</important>"
+    "cookiesDescription": "Cookies to be used for the Douyu video stream. <important>Optional</important>"
   },
   "DouyuQualities": {
     "origin": {

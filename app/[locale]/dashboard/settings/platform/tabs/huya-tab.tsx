@@ -75,6 +75,7 @@ export const HuyaTabContent = ({controlPrefix, control, showMaxBitrate, showCook
                     <FormLabel>{
                       <>
                         {huyaStrings.sourceFormat}
+                        <> </>
                         <Badge>Experimental</Badge>
                       </>
                     }</FormLabel>

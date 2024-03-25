@@ -81,6 +81,7 @@ export const DouyinTabContent = ({
                   <FormLabel>{
                     <>
                       {douyinStrings.sourceFormat}
+                      <> </>
                       <Badge>Experimental</Badge>
                     </>
                   }</FormLabel>
