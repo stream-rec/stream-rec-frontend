@@ -24,7 +24,7 @@ export async function StreamerHoverCard({streamerId, streamerName}: StreamCardPr
 
   const getLastStream = () => {
     if (streamer.isLive) {
-      return t('live')
+      return t('liveNow')
     }
     if (!streamer.lastLiveTime) {
       return t('noStreamsYet')
