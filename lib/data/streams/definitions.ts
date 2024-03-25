@@ -12,6 +12,7 @@ export const baseDownloadConfig = z.object({
   outputFolder: z.string().nullish(),
   outputFileName: z.string().nullish(),
   outputFileExtension: z.enum(videoFormats).nullish(),
+  outputFileFormat: z.string().nullish(),
   onPartedDownload: rcloneActionSchema.or(commandActionSchema).or(removeActionSchema).or(moveActionSchema).array().nullish(),
   onStreamingFinished: rcloneActionSchema.or(commandActionSchema).or(removeActionSchema).or(moveActionSchema).array().nullish(),
 })
