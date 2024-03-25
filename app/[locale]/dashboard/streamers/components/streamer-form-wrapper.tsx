@@ -4,6 +4,7 @@ import React from "react";
 import {StreamerSchema} from "@/lib/data/streams/definitions";
 import {useHuyaTranslations} from "@/app/[locale]/dashboard/translations/huya-translations";
 import {useDouyinQualityTranslations, useDouyinTranslations} from "@/app/[locale]/dashboard/translations/douyin-translations";
+import {useDouyuQualityTranslations, useDouyuTranslations} from "@/app/[locale]/dashboard/translations/douyu-translations";
 
 
 type StreamerFormWrapperProps = {
@@ -25,6 +26,10 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
   // douyin translations
   const douyinT = useDouyinTranslations()
   const douyinQualityOptions = useDouyinQualityTranslations()
+
+  // douyu translations
+  const douyuT = useDouyuTranslations()
+  const douyuQualityOptions = useDouyuQualityTranslations()
 
   // action callbacks translations
   const actionsT = useTranslations("CallbacksConfigs")
@@ -70,6 +75,8 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
         huyaStrings: huyaT,
         douyinStrings: douyinT,
         douyinQualityOptions: douyinQualityOptions,
+        douyuStrings: douyuT,
+        douyuQualityOptions: douyuQualityOptions,
         baseDownloadStrings: {
           danmu: baseT("danmu"),
           danmuDescription: baseT("danmuDescription"),

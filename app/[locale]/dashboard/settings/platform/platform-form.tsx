@@ -11,6 +11,7 @@ import {toast} from "sonner";
 import {updateConfig} from "@/lib/data/config/apis";
 import {useRouter} from "@/i18n";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
+import DouyuTabContent, {DouyuQuality, DouyuTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/douyu-tab";
 
 
 export type PlatformFormValues = {
@@ -19,6 +20,8 @@ export type PlatformFormValues = {
   huyaStrings: HuyaTabString
   douyinStrings: DouyinTabString
   douyinQualityOptions: DouyinQuality[]
+  douyuStrings: DouyuTabString
+  douyuQualityOptions: DouyuQuality[]
 }
 
 export default function PlatformForm({
@@ -26,7 +29,9 @@ export default function PlatformForm({
                                        save,
                                        huyaStrings,
                                        douyinStrings,
-                                       douyinQualityOptions
+                                       douyinQualityOptions,
+                                       douyuStrings,
+                                       douyuQualityOptions
                                      }: PlatformFormValues) {
 
   const form = useForm<GlobalConfig>({
@@ -59,6 +64,8 @@ export default function PlatformForm({
                            className="text-zinc-600 dark:text-zinc-200">{huyaStrings.platform}</TabsTrigger>
               <TabsTrigger value={PlatformType.DOUYIN}
                            className="text-zinc-600 dark:text-zinc-200">{douyinStrings.platform}</TabsTrigger>
+              <TabsTrigger value={PlatformType.DOUYU}
+                           className="text-zinc-600 dark:text-zinc-200">{douyuStrings.platform}</TabsTrigger>
             </TabsList>
 
             <div>
@@ -70,6 +77,11 @@ export default function PlatformForm({
                 <DouyinTabContent controlPrefix={"douyinConfig"} control={form.control} showCookies
                                   showPartedDownloadRetry douyinStrings={douyinStrings}
                                   qualityOptions={douyinQualityOptions}/>
+              </TabsContent>
+              <TabsContent value={PlatformType.DOUYU}>
+                <DouyuTabContent controlPrefix={"douyuConfig"} control={form.control} showCookies
+                                 showPartedDownloadRetry strings={douyuStrings}
+                                 qualityOptions={douyuQualityOptions}/>
               </TabsContent>
             </div>
           </Tabs>

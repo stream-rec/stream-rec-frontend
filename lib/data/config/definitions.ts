@@ -1,6 +1,7 @@
 import {huyaGlobalConfig} from "@/lib/data/platform/huya/definitions";
 import {douyinGlobalConfig} from "@/lib/data/platform/douyin/definitions";
 import {z} from "zod";
+import {douyuGlobalConfig} from "@/lib/data/platform/douyu/definitions";
 
 
 export const globalConfigSchema = z.object({
@@ -33,6 +34,7 @@ export const globalConfigSchema = z.object({
   downloadCheckInterval: z.number().min(30).optional(),
   huyaConfig: huyaGlobalConfig.optional(),
   douyinConfig: douyinGlobalConfig.optional(),
+  douyuConfig: douyuGlobalConfig.optional(),
 })
 
 export type GlobalConfig = z.infer<typeof globalConfigSchema>

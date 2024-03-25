@@ -28,6 +28,9 @@ import {BaseDownloadTabString} from "@/app/[locale]/dashboard/settings/platform/
 import {DouyinPlatform} from "@/app/[locale]/dashboard/streamers/components/platforms/douyin-platform";
 import {HuyaPlatform} from "@/app/[locale]/dashboard/streamers/components/platforms/huya-platform";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
+import {DouyuPlatformForm} from "@/app/[locale]/dashboard/streamers/components/platforms/douyu-platform";
+import {douyuDownloadConfig, douyuRegex} from "@/lib/data/platform/douyu/definitions";
+import {DouyuQuality, DouyuTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/douyu-tab";
 
 type StreamerConfigProps = {
   strings: {
@@ -63,6 +66,8 @@ type StreamerConfigProps = {
     huyaStrings: HuyaTabString,
     douyinStrings: DouyinTabString,
     douyinQualityOptions: DouyinQuality[],
+    douyuStrings: DouyuTabString,
+    douyuQualityOptions: DouyuQuality[],
     baseDownloadStrings: BaseDownloadTabString,
     actionTabStrings: ActionsCallbackTabStrings
   },
@@ -93,6 +98,8 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: huyaDownloadConfig});
     } else if (platform === PlatformType.DOUYIN) {
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: douyinDownloadConfig});
+    } else if (platform === PlatformType.DOUYU) {
+      return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: douyuDownloadConfig});
     } else {
       return streamerSchema;
     }
@@ -169,33 +176,27 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
 
   const selectedTemplateId = form.watch("templateId")
 
-  const trySetPlatform = (e: string) => {
-    function setFormPlatform(platform: PlatformType | "invalid") {
-      form.setValue("downloadConfig.type", platform)
-      setPlatform(platform)
+  const trySetPlatform = (url: string) => {
+    const platformRegexes = [
+      {platformType: PlatformType.HUYA, regex: huyaRegex},
+      {platformType: PlatformType.DOUYIN, regex: douyinRegex},
+      {platformType: PlatformType.DOUYU, regex: douyuRegex},
+    ];
+
+    for (const {platformType, regex} of platformRegexes) {
+      if (url.match(regex)) {
+        if (platform !== platformType) {
+          form.setValue("downloadConfig.type", platformType);
+          setPlatform(platformType);
+        }
+        return true;
+      }
     }
 
-    let match = e.match(huyaRegex);
-    // match with huya
-    if (match?.[1]) {
-      if (platform === PlatformType.HUYA) {
-        return true
-      }
-      setFormPlatform(PlatformType.HUYA)
-      return true
-    }
-    match = e.match(douyinRegex)
-    if (match?.[1]) {
-      if (platform === PlatformType.DOUYIN) {
-        return true
-      }
-      setFormPlatform(PlatformType.DOUYIN)
-      return true
-    }
-    /// add more platforms here
-    setFormPlatform("invalid");
-    return false
-  }
+    form.setValue("downloadConfig.type", "invalid");
+    setPlatform("invalid");
+    return false;
+  };
 
   return (
       <div>
@@ -406,6 +407,10 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                               {
                                   platform === PlatformType.DOUYIN && (
                                       <DouyinPlatform douyinQualityOptions={strings.douyinQualityOptions} strings={strings.douyinStrings}/>)
+                              }
+                              {
+                                  platform === PlatformType.DOUYU && (
+                                      <DouyuPlatformForm strings={strings.douyuStrings} douyuQualityOptions={strings.douyuQualityOptions}/>)
                               }
                             </TabsContent>
                           </>

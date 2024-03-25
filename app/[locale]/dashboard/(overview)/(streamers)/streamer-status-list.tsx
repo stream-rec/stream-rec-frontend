@@ -19,6 +19,13 @@ type StreamerStatusListProps = {
   wsUrl: string
 }
 
+const heartBeatInterval = 45000
+const heartBeatDataArray = new Uint8Array(4)
+heartBeatDataArray[0] = 0x88
+heartBeatDataArray[1] = 0x88
+heartBeatDataArray[2] = 0x88
+heartBeatDataArray[3] = 0x88
+
 export function StreamerStatusList({
                                      recordingCards,
                                      disabledCards,
@@ -33,9 +40,10 @@ export function StreamerStatusList({
 
   const router = useRouter()
 
+
   useEffect(() => {
     // vercel does not support ws websockets
-    if (process.env.VERCEL) return
+    if (process.env.VERCEL_ENV !== undefined) return
 
     let ws: WebSocket;
     try {
@@ -47,15 +55,27 @@ export function StreamerStatusList({
     }
     ws.onopen = () => {
       console.log('WebSocket connection established');
+      // send a heartbeat message every 45 seconds to keep the connection alive
+      setInterval(() => {
+        ws.send(heartBeatDataArray)
+      }, heartBeatInterval)
     };
 
     ws.onmessage = (event) => {
+      // console.log('WebSocket message received:', event.data);
+
+      // check if the message is a heartbeat message
+      // heartbeats are sent as a Uint8Array, so we can check if the message is a blob
+      if (event.data instanceof Blob) {
+        return
+      }
+
       const data = JSON.parse(event.data);
+      const type = data.type as string;
       if ('streamerId' in data && 'bitrate' in data) {
         setBitrates(prev => ({...prev, [data.streamerId]: data}));
-      } else {
-        // if the message is not a bitrate update, refresh the page
-        // usually this is a streamer online/offline update
+      } else if (type.includes('StreamerOffline') || type.includes('StreamerOnline')) {
+        // refresh the page when a streamer goes online or offline
         router.refresh()
       }
     };
