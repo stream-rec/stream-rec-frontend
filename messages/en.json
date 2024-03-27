@@ -19,8 +19,8 @@
     "notLive": "not live",
     "noStreamsYet": "no streams yet",
     "template": "Template",
-    "name": "name",
-    "url": "url"
+    "name": "Name",
+    "url": "Url"
   },
   "StreamersPage": {
     "title": "Streamers",
@@ -131,7 +131,7 @@
     "bitrate": "Max record bitrate",
     "bitrateDescription": "The maximum bitrate for the Huya video stream. The tool will automatically adjust the closest bitrate available for download.",
     "part": "Part download delay",
-    "partDescription": "The delay between each part download retry. Optional. Default is 15 seconds.",
+    "partDescription": "The delay between each part download retry. Default is 15 seconds.",
     "cookieString": "Cookies",
     "cookieDescription": "Cookies to be used for the Huya video stream. <important>Optional</important>"
   },
@@ -174,7 +174,7 @@
     "sourceFormatDescription": "Select the source format of the Douyin live stream. Default is set to flv. <important>It is recommended to use flv sources as some streams has no hls streams. Please use Streamlink to download HLS sources.</important>",
     "sourceFormatPlaceholder": "Please select a source format",
     "part": "Part download delay",
-    "partDescription": "The delay between each part download retry. Optional. Default is 3 seconds.",
+    "partDescription": "The delay between each part download retry. Default is 3 seconds.",
     "cookieString": "Douyin Cookies",
     "cookiesDescription": "The cookies used to authenticate the Douyin account. Optional. <important>__ac_nonce='anything' must be included</important>"
   },
@@ -187,7 +187,7 @@
     "qualityDescription": "The quality of the Douyin video stream. Ordered from highest to lowest quality. The tool will look up for the closest quality available to selected.",
     "qualityDefault": "Select a quality",
     "part": "Part download delay",
-    "partDescription": "The delay between each part download retry. Optional. Default is 30 seconds.",
+    "partDescription": "The delay between each part download retry. Default is 30 seconds.",
     "cookieString": "Cookies",
     "cookiesDescription": "Cookies to be used for the Douyu video stream. <important>Optional</important>"
   },
@@ -248,10 +248,10 @@
     "engine": "Download engine",
     "engineDescription": "The engine used for the download. Defaults to FFmpeg. <important>FFmpeg is recommended for most users. Use streamlink only when downloading HLS sources.</important>",
     "danmu": "Danmu",
-    "danmuDescription": "Whether to download bullet comments. Default is set to follow the global settings.",
+    "danmuDescription": "Whether to download bullet comments. Default is set to false.",
     "deleteFiles": "Global delete files flag",
     "deleteFilesDescription": "Enable files deletion after download, if disabled, files will be kept in the download folder. <important>It only works when onPartedDownload or onStreamingFinished callbacks are not set.</important>",
-    "outputFolder": "Output folder format",
+    "outputFolder": "Output folder",
     "outputFolderDescription": "This is the folder where the downloaded files will be saved. You can use placeholders like: <code>'{title}' The title of the streaming.</code><code>'{streamer}' The streamer name of the streaming.</code><code>%yyyy The year of the streaming.</code><code>%MM The month of the streaming.</code><code>%dd The day of the streaming.</code><code>%HH The hour of the streaming.</code><code>%mm The minute of the streaming.</code><code>%ss The second of the streaming.</code>",
     "outputFilename": "Output file format",
     "outputFilenameDescription": "This is the file name of the downloaded file. Same placeholders as output folder are available. <important>Please do not include file extension, it will be automatically added based on the below selected format.</important>",
