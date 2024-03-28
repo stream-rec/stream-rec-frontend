@@ -7,6 +7,7 @@ import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/new-york/ui/
 import {buttonVariants} from "@/components/new-york/ui/button";
 import {clsx} from "clsx";
 import {Link, usePathname} from "@/i18n";
+import React from "react";
 
 export type NavLink = {
   title: string
@@ -171,10 +172,13 @@ export function Nav({links, isCollapsed}: NavProps) {
         <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
           {links.map((link, index) =>
               isCollapsed ? (
-                  // eslint-disable-next-line react/jsx-no-undef
-                  collapsedIcon(link)
+                  <React.Fragment key={index}>
+                    {collapsedIcon(link)}
+                  </React.Fragment>
               ) : (
-                  expandedIcon(link)
+                  <React.Fragment key={index}>
+                    {expandedIcon(link)}
+                  </React.Fragment>
               )
           )}
         </nav>
