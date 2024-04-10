@@ -15,10 +15,6 @@ export const fetchStreams = async (search: StreamsSearchParams) => {
     params.append('date_start', dateStartNumber.toString())
     if (dates.length > 1) {
       let dateEndNumber = Number(dates[1]) / 1000
-      if (dateStartNumber === dateEndNumber) {
-        // bump the end date by 1 day
-        dateEndNumber += 86400
-      }
       params.append('date_end', dateEndNumber.toString())
     } else {
       throw new Error("dateStart is not in the correct format")

@@ -38,6 +38,8 @@ export function DataTableDatePickerFilter<TData, TValue>({
 
   useEffect(() => {
     if (date?.from && date?.to) {
+      // set date.to to the end of the day
+      date.to.setHours(23, 59, 59, 999)
       column?.setFilterValue([date.from.getTime(), date.to.getTime()])
     }
   }, [column, date, setDate])
