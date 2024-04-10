@@ -437,5 +437,9 @@
     "loginError": "Login error",
     "loginSuccess": "Login success",
     "logout": "Logout"
+  },
+  "OpenVideoContextMenu": {
+    "download": "Download",
+    "openWithPotPlayer": "Open with PotPlayer"
   }
 }

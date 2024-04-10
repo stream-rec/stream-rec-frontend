@@ -51,6 +51,7 @@ export default async function StreamerWrapper({recordingString, inactiveString, 
       inactiveStreamers = activeStreamers.filter(streamer => !streamer.isLive);
 
   const t = await getTranslations('StreamerData');
+  const contextMenuT = await getTranslations('OpenVideoContextMenu');
 
   const format = await getFormatter()
 
@@ -61,7 +62,11 @@ export default async function StreamerWrapper({recordingString, inactiveString, 
   return (
       <>
         <StreamerStatusList recordingCards={recordingCards} disabledCards={disabledCards} inactiveCards={inactiveCards}
-                            recordingString={recordingString} inactiveString={inactiveString} disabledString={disabledString} wsUrl={WS_API_URL}/>
+                            recordingString={recordingString} inactiveString={inactiveString} disabledString={disabledString} wsUrl={WS_API_URL}
+                            contextMenuStrings={{
+                              download: contextMenuT('download'),
+                              openWithPotPlayer: contextMenuT('openWithPotPlayer')
+                            }}/>
       </>
   )
 }

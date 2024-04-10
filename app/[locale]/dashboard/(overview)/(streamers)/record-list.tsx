@@ -6,14 +6,16 @@ import {Button} from "@/components/new-york/ui/button";
 import {StreamerCardProps} from "@/app/[locale]/dashboard/(overview)/(streamers)/streamer";
 import {CaretSortIcon} from "@radix-ui/react-icons";
 import {toStreamerCard} from "@/app/[locale]/dashboard/streamers/components/streamer-list-wrapper";
+import {OpenVideoContextMenuStrings} from "@/app/[locale]/dashboard/(overview)/components/open-video-context-menu";
 
 type RecordListProps = {
   title: string,
   cards: StreamerCardProps[],
+  contextMenuStrings: OpenVideoContextMenuStrings,
   deleteStreamerAction: (id: string) => Promise<void>
 }
 
-export function RecordList({cards, title, deleteStreamerAction}: RecordListProps) {
+export function RecordList({cards, title, contextMenuStrings, deleteStreamerAction}: RecordListProps) {
 
   const [isOpen, setIsOpen] = React.useState(true)
 
@@ -37,7 +39,7 @@ export function RecordList({cards, title, deleteStreamerAction}: RecordListProps
         <CollapsibleContent className="space-y-4">
           <div className={"grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 xl:gap-4"}>
             {
-              cards.map(streamer => toStreamerCard(streamer, deleteStreamerAction))
+              cards.map(streamer => toStreamerCard(streamer, contextMenuStrings, deleteStreamerAction))
             }
           </div>
 

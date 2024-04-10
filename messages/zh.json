@@ -437,5 +437,9 @@
     "loginError": "登录失败",
     "loginSuccess": "登录成功",
     "logout": "退出登录"
+  },
+  "OpenVideoContextMenu": {
+    "download": "下载",
+    "openWithPotPlayer": "使用PotPlayer播放"
   }
 }

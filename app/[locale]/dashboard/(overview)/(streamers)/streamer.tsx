@@ -11,6 +11,7 @@ import {Separator} from "@/components/new-york/ui/separator";
 import {Link, useRouter} from "@/i18n";
 import {toast} from "sonner";
 import {DeleteIconDialog} from "@/app/components/dialog/delete-icon-dialog";
+import {OpenVideoContextMenu, OpenVideoContextMenuStrings} from "@/app/[locale]/dashboard/(overview)/components/open-video-context-menu";
 
 export type StreamerCardProps = {
   streamer: string;
@@ -24,6 +25,8 @@ export type StreamerCardProps = {
   template?: string | null;
   bitrate?: string | null;
   duration?: string | null;
+  downloadUrl?: string;
+  contextMenuStrings: OpenVideoContextMenuStrings;
   deleteStreamer: (id: string) => Promise<void>;
 }
 
@@ -40,10 +43,13 @@ export function StreamerCard({
                                template,
                                bitrate,
                                duration,
+                               downloadUrl,
+                               contextMenuStrings,
                                deleteStreamer,
                              }: StreamerCardProps) {
 
   const router = useRouter()
+
 
   return (
       <>
@@ -77,11 +83,18 @@ export function StreamerCard({
             </div>
             <CardHeader className={"pt-0 pb-3 lg:pb-6"}>
               <div className={"space-y-4 md:flex md:flex-row md:space-x-2.5 items-center md:space-y-0"}>
-                <Avatar>
+                {
+                    downloadUrl && <OpenVideoContextMenu url={downloadUrl} string={contextMenuStrings}>
+                        <Avatar className={clsx({"cursor-pointer": downloadUrl})}>
+                            <AvatarImage src={streamerAvatar ?? ""} alt={streamer}></AvatarImage>
+                            <AvatarFallback>{streamer}</AvatarFallback>
+                        </Avatar>
+                    </OpenVideoContextMenu>
+                } {!downloadUrl && <Avatar>
                   <AvatarImage src={streamerAvatar ?? ""} alt={streamer}></AvatarImage>
                   <AvatarFallback>{streamer}</AvatarFallback>
-                </Avatar>
-
+              </Avatar>
+              }
                 <div className={"flex flex-col mt-0 space-y-1"}>
                   <div className={"flex flex-row items-center space-x-2.5 gap-x-1"}>
                     <CardTitle

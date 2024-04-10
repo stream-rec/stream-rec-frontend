@@ -4,14 +4,16 @@ import {deleteStreamer} from "@/lib/data/streams/streamer-apis";
 import {StreamerCard, StreamerCardProps} from "@/app/[locale]/dashboard/(overview)/(streamers)/streamer";
 import {toStreamerCards} from "@/app/[locale]/dashboard/(overview)/(streamers)/streamer-wrapper";
 import {getFormatter, getTranslations} from "next-intl/server";
+import {OpenVideoContextMenuStrings} from "@/app/[locale]/dashboard/(overview)/components/open-video-context-menu";
 
 type StreamersListWrapperProps = {
   streamers: StreamerSchema[],
   templateStreamers: StreamerSchema[],
+  contextMenuStrings: OpenVideoContextMenuStrings,
   deleteStreamer: (id: string) => Promise<void>
 }
 
-export default async function StreamerListWrapper({templateStreamers, streamers}: StreamersListWrapperProps) {
+export default async function StreamerListWrapper({templateStreamers, streamers, contextMenuStrings}: StreamersListWrapperProps) {
 
   const t = await getTranslations('StreamerData');
 
@@ -24,15 +26,15 @@ export default async function StreamerListWrapper({templateStreamers, streamers}
       <div className={"grid gap-3 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7"}>
         {
           <>
-            {templateCards.map(e => toResponsiveCard(e, deleteStreamer))}
-            {streamerCards.map(e => toResponsiveCard(e, deleteStreamer))}
+            {templateCards.map(e => toResponsiveCard(e, contextMenuStrings, deleteStreamer))}
+            {streamerCards.map(e => toResponsiveCard(e, contextMenuStrings, deleteStreamer))}
           </>
         }
       </div>
   )
 }
 
-export function toStreamerCard(streamer: StreamerCardProps, deleteStreamerAction: (id: string) => Promise<void>) {
+export function toStreamerCard(streamer: StreamerCardProps, contextMenuStrings: OpenVideoContextMenuStrings, deleteStreamerAction: (id: string) => Promise<void>) {
   return <StreamerCard
       key={streamer.streamerId}
       streamer={streamer.streamer}
@@ -47,11 +49,14 @@ export function toStreamerCard(streamer: StreamerCardProps, deleteStreamerAction
       template={streamer.template}
       bitrate={streamer.bitrate}
       duration={streamer.duration}
-  />
+      downloadUrl={streamer.downloadUrl}
+      contextMenuStrings={
+        contextMenuStrings
+      }/>
 }
 
-function toResponsiveCard(streamer: StreamerCardProps, deleteStreamerAction: (id: string) => Promise<void>) {
+function toResponsiveCard(streamer: StreamerCardProps, contextMenuStrings: OpenVideoContextMenuStrings, deleteStreamerAction: (id: string) => Promise<void>) {
   return <div key={streamer.streamerId} className={"col-span-2 md:col-span-2 lg:col-span-2 xl:col-span-1"}>
-    {toStreamerCard(streamer, deleteStreamerAction)}
+    {toStreamerCard(streamer, contextMenuStrings, deleteStreamerAction)}
   </div>
 }

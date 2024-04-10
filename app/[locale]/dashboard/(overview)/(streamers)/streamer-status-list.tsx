@@ -7,6 +7,7 @@ import {UpdateSchema} from "@/lib/data/events/definitions";
 import {format} from "date-fns";
 import {useRouter} from "@/i18n";
 import {toastData} from "@/app/utils/toast";
+import {OpenVideoContextMenuStrings} from "@/app/[locale]/dashboard/(overview)/components/open-video-context-menu";
 
 
 type StreamerStatusListProps = {
@@ -16,7 +17,8 @@ type StreamerStatusListProps = {
   recordingString: string
   disabledString: string
   inactiveString: string
-  wsUrl: string
+  wsUrl: string,
+  contextMenuStrings: OpenVideoContextMenuStrings
 }
 
 const heartBeatInterval = 45000
@@ -33,7 +35,8 @@ export function StreamerStatusList({
                                      recordingString,
                                      inactiveString,
                                      disabledString,
-                                     wsUrl
+                                     wsUrl,
+                                     contextMenuStrings
                                    }: StreamerStatusListProps) {
 
   const [bitrates, setBitrates] = useState<Record<number, UpdateSchema>>({});
@@ -106,7 +109,7 @@ export function StreamerStatusList({
     setBitratedRecordingCards(recordingCards.map(card => {
       const updateData = bitrates[card.streamerId]
       if (updateData) {
-        return {...card, bitrate: updateData.bitrate.toString(), duration: secondsToHHmmss(updateData.duration)}
+        return {...card, bitrate: updateData.bitrate.toString(), duration: secondsToHHmmss(updateData.duration), downloadUrl: updateData.url}
       }
       return card
     }));
@@ -115,13 +118,14 @@ export function StreamerStatusList({
 
   return <>
     <div className="space-y-4 col-span-1">
-      <RecordList cards={bitratedRecordingCards} title={recordingString} deleteStreamerAction={deleteStreamer}/>
+      <RecordList cards={bitratedRecordingCards} title={recordingString} deleteStreamerAction={deleteStreamer}
+                  contextMenuStrings={contextMenuStrings}/>
     </div>
     <div className="space-y-4 col-span-1 ">
-      <RecordList cards={inactiveCards} title={inactiveString} deleteStreamerAction={deleteStreamer}/>
+      <RecordList cards={inactiveCards} title={inactiveString} deleteStreamerAction={deleteStreamer} contextMenuStrings={contextMenuStrings}/>
     </div>
     <div className="space-y-4 col-span-1">
-      <RecordList cards={disabledCards} title={disabledString} deleteStreamerAction={deleteStreamer}/>
+      <RecordList cards={disabledCards} title={disabledString} deleteStreamerAction={deleteStreamer} contextMenuStrings={contextMenuStrings}/>
     </div>
   </>
 }
