@@ -160,6 +160,10 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
       let isCreated = !data.id;
       let submitData = {...data}
       submitData.platform = platform.toUpperCase()
+      // make streamer offline if streamer is not activated
+      if (!submitData.isActivated) {
+        submitData.isLive = false
+      }
       await onSubmit(submitData);
       toastData(strings.toast.submitMessage, submitData, "code")
       if (isCreated) {
