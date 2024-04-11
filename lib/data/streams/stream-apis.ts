@@ -11,10 +11,10 @@ export const fetchStreams = async (search: StreamsSearchParams) => {
   if (dateStart) {
     // if dateStart has dotted format, split it and append each part to the params
     let dates = dateStart.split('.')
-    const dateStartNumber = Number(dates[0]) / 1000
+    const dateStartNumber = Math.floor(Number(dates[0]) / 1000)
     params.append('date_start', dateStartNumber.toString())
     if (dates.length > 1) {
-      let dateEndNumber = Number(dates[1]) / 1000
+      let dateEndNumber = Math.floor(Number(dates[1]) / 1000)
       params.append('date_end', dateEndNumber.toString())
     } else {
       throw new Error("dateStart is not in the correct format")
