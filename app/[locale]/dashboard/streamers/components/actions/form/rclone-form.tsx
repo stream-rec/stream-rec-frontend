@@ -7,7 +7,7 @@ import {cn} from "@/lib/utils";
 import {Input} from "@/components/new-york/ui/input";
 import {Button} from "@/components/new-york/ui/button";
 import {XIcon} from "lucide-react";
-import React, {forwardRef, useEffect} from "react";
+import React, {forwardRef} from "react";
 
 export type RcloneActionFormProps = {
   defaultValues: RcloneActionSchema,
@@ -15,7 +15,7 @@ export type RcloneActionFormProps = {
     operation: string,
     operationDescription: string,
     remotePath: string,
-    remotePathDescription: string
+    remotePathDescription: string | React.ReactNode
     arguments: string,
     argumentsDescription: string,
     addArgument: string,
@@ -49,9 +49,8 @@ export const RcloneActionForm = forwardRef<HTMLFormElement, RcloneActionFormProp
 
   return (
       <>
-        <Form {...form}>
-
-          <form ref={ref} onSubmit={e => {
+        <Form {...form}  >
+          <form ref={ref} className={"space-y-4"} onSubmit={e => {
             e.preventDefault()
             form.handleSubmit(handleSubmit)()
             e.stopPropagation()
@@ -79,7 +78,7 @@ export const RcloneActionForm = forwardRef<HTMLFormElement, RcloneActionFormProp
                     <FormItem>
                       <FormLabel>{strings.remotePath}</FormLabel>
                       <FormControl>
-                        <Input placeholder={"myremote:"} {...field}/>
+                        <Input placeholder={"myremote:records/{streamer}/%MM/%dd"} {...field}/>
                       </FormControl>
                       <FormDescription>
                         {strings.remotePathDescription}
@@ -123,17 +122,14 @@ export const RcloneActionForm = forwardRef<HTMLFormElement, RcloneActionFormProp
                 )
             }
 
-
             <Button
                 type="button"
                 variant="outline"
                 size="sm"
-                className="mt-2"
                 onClick={() => append("")}
             >
               {strings.addArgument}
             </Button>
-
 
           </form>
         </Form>

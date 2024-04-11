@@ -75,9 +75,9 @@
     "operation": "Rclone 操作",
     "operationDescription": "填写Rclone操作，列如：copy, move, sync ...",
     "remote": "Rclone 目标路径",
-    "remoteDescription": "Rclone目标路径，例如：gdrive:stream-rec",
+    "remoteDescription": "Rclone目标路径，支持占用符，例如：gdrive:records/'{streamer}/{%MM}/{%dd}' <important>建议把配置文件放入录播文件夹再添加--config参数。</important>",
     "args": "参数",
-    "argsDescription": "参数"
+    "argsDescription": "Rclone参数，请将键值分开添加， 例如: --config /path/to/rclone.conf， 请先添加--config参数再添加/path/to/rclone.conf"
   },
   "Command": {
     "title": "命令",

@@ -1,11 +1,5 @@
 import {Button} from "@/components/new-york/ui/button"
-import {
-  ActionSchema,
-  ActionType,
-  CommandActionSchema,
-  MoveActionSchema,
-  RcloneActionSchema
-} from "@/lib/data/actions/definitions";
+import {ActionSchema, ActionType, CommandActionSchema, MoveActionSchema, RcloneActionSchema} from "@/lib/data/actions/definitions";
 import {FormMessage} from "@/components/new-york/ui/form";
 import React, {useCallback, useRef} from "react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
@@ -60,7 +54,7 @@ export type NewActionDialogStrings = {
     operation: string,
     operationDescription: string,
     remotePath: string,
-    remotePathDescription: string
+    remotePathDescription: string | React.ReactNode
     arguments: string,
     argumentsDescription: string
   }
@@ -118,6 +112,28 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
     setOpen(false)
   };
 
+  const populateForm = (type: ActionType): React.ReactNode => {
+    const formProps = {
+      ref: formRef,
+      onSubmit: onFormSubmit,
+      defaultValues: {...defaultValues, type}
+    };
+
+    const forms = {
+      [ActionType.Command]: <CommandActionForm {...formProps} defaultValues={formProps.defaultValues as CommandActionSchema}
+                                               strings={strings.commandStrings}/>,
+      [ActionType.Rclone]: <RcloneActionForm {...formProps} defaultValues={formProps.defaultValues as RcloneActionSchema} strings={{
+        ...strings.rcloneStrings,
+        addArgument: strings.commandStrings.addArgument
+      }}/>,
+      [ActionType.Remove]: <DeleteActionForm {...formProps} />,
+      [ActionType.Move]: <MoveActionForm {...formProps} defaultValues={formProps.defaultValues as MoveActionSchema} strings={strings.moveStrings}/>
+    };
+
+    return forms[type] || null;
+  }
+
+
   return (
       <AlertDialog open={open} onOpenChange={
         (e) => {
@@ -134,7 +150,7 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
           <Button onClick={() => open ? setOpen(false) : setOpen(true)}
                   variant="outline">{openIcon ?? strings.title}</Button>
         </AlertDialogTrigger>
-        <AlertDialogContent className="sm:max-w-[425px]">
+        <AlertDialogContent className="sm:max-w-[425px] max-h-[850px] overflow-auto">
           <AlertDialogHeader>
             <AlertDialogTitle>{strings.title}</AlertDialogTitle>
             <AlertDialogDescription>
@@ -144,7 +160,7 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
 
           <Label>{strings.actionType}</Label>
           <Select onValueChange={e => {
-            handleTypeChange(e as ActionType.Command | ActionType.Rclone)
+            handleTypeChange(e as ActionType)
           }} defaultValue={defaultValues?.type}>
             <SelectTrigger>
               <SelectValue placeholder={strings.actionSelectPlaceholder}/>
@@ -176,54 +192,9 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
             />
           </div>
 
-          <>
-            {
-                type === ActionType.Command && (
-                    <CommandActionForm ref={formRef}
-                                       defaultValues={{...defaultValues, type: ActionType.Command} as CommandActionSchema}
-                                       strings={
-                                         {
-                                           program: strings.commandStrings.program,
-                                           programDescription: strings.commandStrings.programDescription,
-                                           arguments: strings.commandStrings.arguments,
-                                           argumentsDescription: strings.commandStrings.argumentsDescription,
-                                           addArgument: strings.commandStrings.addArgument,
-                                           removeArgument: strings.commandStrings.removeArgument
-                                         }
-                                       } onSubmit={onFormSubmit}/>
-                )
-            }
-            {
-                type === ActionType.Rclone && (
-                    <RcloneActionForm ref={formRef}
-                                      defaultValues={{...defaultValues, type: ActionType.Rclone} as RcloneActionSchema}
-                                      strings={
-                                        {
-                                          operation: strings.rcloneStrings.operation,
-                                          operationDescription: strings.rcloneStrings.operationDescription,
-                                          remotePath: strings.rcloneStrings.remotePath,
-                                          remotePathDescription: strings.rcloneStrings.remotePathDescription,
-                                          arguments: strings.rcloneStrings.arguments,
-                                          argumentsDescription: strings.rcloneStrings.argumentsDescription,
-                                          addArgument: strings.commandStrings.addArgument,
-                                        }
-                                      } onSubmit={onFormSubmit}/>
-                )
-            }
-
-            {
-                type === ActionType.Remove && (<DeleteActionForm ref={formRef} onSubmit={onFormSubmit} defaultValues={{
-                  ...defaultValues,
-                  type: ActionType.Remove
-                }}/>)
-            }
-            {
-                type === ActionType.Move && (<MoveActionForm ref={formRef} onSubmit={onFormSubmit} defaultValues={{
-                  ...defaultValues,
-                  type: ActionType.Move
-                } as MoveActionSchema} strings={{...strings.moveStrings}}/>)
-            }
-          </>
+          {
+            populateForm(type)
+          }
           <AlertDialogFooter>
             <AlertDialogCancel>{strings.cancel}</AlertDialogCancel>
             <Button type="button" onClick={submitForm}>{strings.save}</Button>

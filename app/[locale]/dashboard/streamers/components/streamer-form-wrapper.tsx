@@ -129,7 +129,7 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
               operation: rcloneT("operation"),
               operationDescription: rcloneT("operationDescription"),
               remotePath: rcloneT("remote"),
-              remotePathDescription: rcloneT("remoteDescription"),
+              remotePathDescription: rcloneT.rich("remoteDescription"),
               arguments: rcloneT("args"),
               argumentsDescription: rcloneT("argsDescription"),
             },

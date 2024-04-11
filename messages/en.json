@@ -75,9 +75,9 @@
     "operation": "Rclone operation",
     "operationDescription": "Rclone operation, such as copy, move, sync, etc.",
     "remote": "Rclone remote",
-    "remoteDescription": "Rclone remote name. eg: gdrive:example/, gdrive:example, etc...",
+    "remoteDescription": "Rclone remote name, placeholders are supported. eg: gdrive:records/'{streamer}/{%MM}/{%dd}' <important>It is recommended to keep conf file in the same folder as records and add a --config argument.</important>",
     "args": "Arguments",
-    "argsDescription": "Arguments for the program..."
+    "argsDescription": "Rclone arguments, each argument and value should be separated. For example: for --config /path/to/rclone.conf, you should add a new argument with --config then add another argument with /path/to/rclone.conf"
   },
   "Command": {
     "title": "Command",
