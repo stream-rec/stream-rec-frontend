@@ -250,7 +250,7 @@
     "danmu": "下载弹幕",
     "danmuDescription": "是否下载弹幕，默认未开启。弹幕文件为XML格式。",
     "deleteFiles": "下载完成后删除文件",
-    "deleteFilesDescription": "录播片段下载完成后自动删除文件，默认开启。 <important>请注意：该选项只有onPartedDownload 和 onStreamingFinished 后处理为空时才有效</important>",
+    "deleteFilesDescription": "录播片段下载完成后自动删除文件，默认开启。 <important>请注意：该选项只有分段下载完成后和下播后回调为空时才有效</important>",
     "outputFolder": "下载文件夹",
     "outputFolderDescription": "录播文件的输出文件夹，可使用以下占用符: <code>'{title}' 为当前主播直播标题</code><code>'{streamer}' 主播名称</code><code>%yyyy 当前直播年日期</code><code>%MM 当前直播月日期</code><code>%dd 当前直播日期</code><code>%HH 当前直播小时日期</code><code>%mm 当前直播分钟日期</code><code>%ss 当前直播秒日期</code>",
     "outputFilename": "下载文件名格式",
