@@ -1,6 +1,6 @@
 'use client'
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/new-york/ui/card";
-import React from "react";
+import React, {useState} from "react";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/new-york/ui/avatar";
 import {cn} from "@/lib/utils";
 import {clsx} from "clsx";
@@ -12,6 +12,7 @@ import {Link, useRouter} from "@/i18n";
 import {toast} from "sonner";
 import {DeleteIconDialog} from "@/app/components/dialog/delete-icon-dialog";
 import {OpenVideoContextMenu, OpenVideoContextMenuStrings} from "@/app/[locale]/dashboard/(overview)/components/open-video-context-menu";
+import Marquee from "react-fast-marquee";
 
 export type StreamerCardProps = {
   streamer: string;
@@ -50,6 +51,8 @@ export function StreamerCard({
 
   const router = useRouter()
 
+  // description marquee hover state
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
       <>
@@ -101,7 +104,15 @@ export function StreamerCard({
                         className={clsx(cn("2xl:text-sm"), {"md:self-center": description})}>{streamer}</CardTitle>
                   </div>
                   {description &&
-                      <p className="text-[0.75rem] md:text-sm text-muted-foreground line-clamp-1">{description}</p>}
+                      <div
+                          onMouseEnter={() => setIsHovered(true)}
+                          onMouseLeave={() => setIsHovered(false)}
+                      >
+                          <Marquee speed={isHovered ? 30 : 0}>
+                              <p className="text-[0.75rem] md:text-sm text-muted-foreground line-clamp-1">{description}</p>
+                          </Marquee>
+                      </div>
+                  }
                 </div>
               </div>
             </CardHeader>
