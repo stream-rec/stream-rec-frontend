@@ -108,8 +108,11 @@ export function StreamerCard({
                           onMouseEnter={() => setIsHovered(true)}
                           onMouseLeave={() => setIsHovered(false)}
                       >
-                          <Marquee speed={isHovered ? 30 : 0}>
-                              <p className="text-[0.75rem] md:text-sm text-muted-foreground line-clamp-1">{description}</p>
+                          <Marquee speed={40} play={isHovered}>
+                              <div className={"flex"}>
+                                  <p className="text-[0.75rem] md:text-sm text-muted-foreground line-clamp-1">{description}</p>
+                                  <div className={"w-10"}></div>
+                              </div>
                           </Marquee>
                       </div>
                   }
