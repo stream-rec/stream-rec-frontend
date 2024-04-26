@@ -14,7 +14,7 @@ export type DouyuQuality = {
 
 export type DouyuTabProps = {
   controlPrefix?: string;
-  control: Control<any, any, any>;
+  control: Control<any>;
   showCookies?: boolean
   showPartedDownloadRetry?: boolean
   strings: DouyuTabString,

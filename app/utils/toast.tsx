@@ -17,8 +17,9 @@ export function toastData(title: string | React.ReactNode, data: any, toastType:
   } else if (toastType === "code") {
     description =
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4"><code className="text-white">{JSON.stringify(data, null, 2)}</code></pre>
-    toast(title, {
-      description,
-    })
+    toast(<div>
+      <p>{title}</p>
+      {description}
+    </div>)
   }
 }

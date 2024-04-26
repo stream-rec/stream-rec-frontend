@@ -3,7 +3,7 @@ import React from "react";
 
 export interface FormFieldProps {
   controlPrefix?: string;
-  control: Control<any, any, any>;
+  control: Control<any>;
   name: string;
   description: string | React.ReactNode;
 }

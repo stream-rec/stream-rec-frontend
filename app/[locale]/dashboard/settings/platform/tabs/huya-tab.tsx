@@ -10,7 +10,7 @@ import {Badge} from "@/components/new-york/ui/badge";
 
 interface HuyaConfigProps {
   controlPrefix?: string
-  control: Control<any, any, any>;
+  control: Control<any>;
   showMaxBitrate?: boolean
   showCookies?: boolean
   showPartedDownloadRetry?: boolean,

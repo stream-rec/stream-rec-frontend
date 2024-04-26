@@ -2,7 +2,6 @@ import {Control} from "react-hook-form";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import React from "react";
 import {Input} from "@/components/new-york/ui/input";
-import {DownloadConfig} from "@/lib/data/streams/definitions";
 import {OutputFilenameFormfield} from "@/app/[locale]/dashboard/settings/components/form/output-filename-formfield";
 import {OutputFileFormatFormfield} from "@/app/[locale]/dashboard/settings/components/form/output-file-format-formfield";
 import {OutputFolderFormField} from "@/app/[locale]/dashboard/settings/components/form/output-folder-formfield";
@@ -11,7 +10,7 @@ import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 
 type BaseDownloadTabProps = {
   controlPrefix?: string;
-  control: Control<DownloadConfig, any, any>;
+  control: Control<any>;
   showDanmu?: boolean;
   showCookies?: boolean;
   showMaxBitrate?: boolean;

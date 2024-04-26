@@ -56,7 +56,7 @@ interface StatsCardProps {
 }
 
 const createStatsCard = ({getStartOfTimeRange, getEndOfTimeRange, dateKey}: StatsCardProps) => {
-  return async () => {
+  const Component = async () => {
     const t = await getTranslations('Stats');
 
     const summaryStats = await fetchStats({
@@ -83,12 +83,22 @@ const createStatsCard = ({getStartOfTimeRange, getEndOfTimeRange, dateKey}: Stat
         }/>
     )
   };
-};
+  Component.displayName = "StatsCard";
+  return Component;
+}
 
 export const WeeklyStatsCard = createStatsCard(
-    {getStartOfTimeRange : () => startOfWeek(new Date().getTime(), {weekStartsOn: 1}).getTime(), getEndOfTimeRange : () => endOfWeek(new Date().getTime(), {weekStartsOn: 1}).getTime(), dateKey : "0"}
+    {
+      getStartOfTimeRange: () => startOfWeek(new Date().getTime(), {weekStartsOn: 1}).getTime(),
+      getEndOfTimeRange: () => endOfWeek(new Date().getTime(), {weekStartsOn: 1}).getTime(),
+      dateKey: "0"
+    }
 );
 
 export const TotalStatsCard = createStatsCard(
-    {getStartOfTimeRange : () => startOfYear(new Date().getTime()).getTime(), getEndOfTimeRange : () => endOfYear(new Date().getTime()).getTime(), dateKey : "2"}
+    {
+      getStartOfTimeRange: () => startOfYear(new Date().getTime()).getTime(),
+      getEndOfTimeRange: () => endOfYear(new Date().getTime()).getTime(),
+      dateKey: "2"
+    }
 );

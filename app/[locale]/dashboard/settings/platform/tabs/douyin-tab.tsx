@@ -27,7 +27,7 @@ export type DouyinTabString = {
 
 interface DouyinTabContentProps {
   controlPrefix?: string;
-  control: Control<any, any, any>;
+  control: Control<any>;
   qualityOptions: DouyinQuality[]
   showCookies?: boolean
   showPartedDownloadRetry?: boolean
