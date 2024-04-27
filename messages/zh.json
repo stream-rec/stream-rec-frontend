@@ -167,7 +167,7 @@
   },
   "Douyin": {
     "platform": "抖音",
-    "quality": "录制画质",
+    "quality": "优先录制画质",
     "qualityDescription": "选择一个画质，工具将会尝试录制低于等于这个画质的流。",
     "qualityDefault": "请选择一个画质",
     "sourceFormat": "源格式 (实验性）",
@@ -183,7 +183,7 @@
     "cdn": "优先CDN线路",
     "cdnDescription": "选择一个优先CDN线路，默认为tct-h5、 可选以下线路：tctc-h5（备用线路4）, tct-h5（备用线路5）, ali-h5（备用线路6）, hw-h5（备用线路7）, akm-h5（备用线路13） ",
     "cdnDefault": "请选择一个CDN线路",
-    "quality": "录制画质",
+    "quality": "优先录制画质",
     "qualityDescription": "选择一个画质，工具将会尝试录制低于等于这个画质的流。",
     "qualityDefault": "请选择一个画质",
     "part": "分段下载延迟",
@@ -196,9 +196,13 @@
       "id": "0",
       "name": "原画"
     },
+    "uhd_8m": {
+      "id": "8",
+      "name": "蓝光8M"
+    },
     "uhd": {
       "id": "4",
-      "name": "蓝光"
+      "name": "蓝光4M"
     },
     "hd": {
       "id": "3",

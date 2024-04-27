@@ -167,7 +167,7 @@
   },
   "Douyin": {
     "platform": "Douyin",
-    "quality": "Record quality",
+    "quality": "Preferred record quality",
     "qualityDescription": "The quality of the Douyin video stream. Ordered from highest to lowest quality. The tool will look up for the closest quality available to selected.",
     "qualityDefault": "Select a quality",
     "sourceFormat": "Source format",
@@ -183,7 +183,7 @@
     "cdn": "Primary CDN",
     "cdnDescription": "Douyu primary CDN used to fetch the video stream. By default, it is set to tct-h5. Possible values are ws-h5, tctc-h5, tct-h5, ali-h5, hw-h5, akm-h5.",
     "cdnDefault": "Select a CDN",
-    "quality": "Record quality",
+    "quality": "Preferred record quality",
     "qualityDescription": "The quality of the Douyin video stream. Ordered from highest to lowest quality. The tool will look up for the closest quality available to selected.",
     "qualityDefault": "Select a quality",
     "part": "Part download delay",
@@ -196,9 +196,13 @@
       "id": "0",
       "name": "Origin"
     },
+    "uhd_8m": {
+      "id": "8",
+      "name": "Ultra High Definition 8M"
+    },
     "uhd": {
       "id": "4",
-      "name": "Ultra High Definition"
+      "name": "Ultra High Definition 4M"
     },
     "hd": {
       "id": "3",

@@ -7,6 +7,7 @@ export const douyuCdns = ["ws-h5", "tctc-h5", "tct-h5", "ali-h5", "hw-h5", "akm-
 
 export enum DouyuQuality {
   origin = 0,
+  uhd_8m = 8,
   uhd = 4,
   hd = 3,
   sd = 2,

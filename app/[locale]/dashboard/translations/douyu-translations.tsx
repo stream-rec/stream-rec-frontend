@@ -1,7 +1,7 @@
 import {useTranslations} from "next-intl";
 import {useMemo} from "react";
 
-export const douyuQualityKeys = ['origin', 'uhd', 'hd', 'sd', 'ld'] as const
+export const douyuQualityKeys = ['origin', 'uhd_8m', 'uhd', 'hd', 'sd', 'ld'] as const
 
 
 export const useDouyuTranslations = () => {
