@@ -50,9 +50,8 @@ export function toStreamerCard(streamer: StreamerCardProps, contextMenuStrings: 
       bitrate={streamer.bitrate}
       duration={streamer.duration}
       downloadUrl={streamer.downloadUrl}
-      contextMenuStrings={
-        contextMenuStrings
-      }/>
+      liveUrl={streamer.liveUrl}
+      contextMenuStrings={contextMenuStrings}/>
 }
 
 function toResponsiveCard(streamer: StreamerCardProps, contextMenuStrings: OpenVideoContextMenuStrings, deleteStreamerAction: (id: string) => Promise<void>) {

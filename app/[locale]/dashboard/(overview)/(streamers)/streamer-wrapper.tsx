@@ -38,6 +38,7 @@ export const toStreamerCards = async (streamers: StreamerSchema[], t: any, forma
       lastStream: formatLastStream(streamer),
       platform: streamer.platform,
       template: streamer.isTemplate ? t('template') : null,
+      liveUrl: streamer.url,
       deleteStreamer: deleteStreamer
     }
   }) as StreamerCardProps []

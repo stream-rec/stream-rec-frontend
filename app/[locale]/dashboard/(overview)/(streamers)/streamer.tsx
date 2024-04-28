@@ -26,6 +26,7 @@ export type StreamerCardProps = {
   template?: string | null;
   bitrate?: string | null;
   duration?: string | null;
+  liveUrl: string;
   downloadUrl?: string;
   contextMenuStrings: OpenVideoContextMenuStrings;
   deleteStreamer: (id: string) => Promise<void>;
@@ -45,6 +46,7 @@ export function StreamerCard({
                                bitrate,
                                duration,
                                downloadUrl,
+                               liveUrl,
                                contextMenuStrings,
                                deleteStreamer,
                              }: StreamerCardProps) {
@@ -53,6 +55,13 @@ export function StreamerCard({
 
   // description marquee hover state
   const [isHovered, setIsHovered] = useState(false);
+
+  function openUrl(liveUrl: string) {
+    // open a new tab with the liveUrl
+    return () => {
+      window.open(liveUrl, "_blank")
+    }
+  }
 
   return (
       <>
@@ -88,7 +97,7 @@ export function StreamerCard({
               <div className={"space-y-4 md:flex md:flex-row md:space-x-2.5 items-center md:space-y-0"}>
                 {
                     downloadUrl && <OpenVideoContextMenu url={downloadUrl} string={contextMenuStrings}>
-                        <Avatar className={clsx({"cursor-pointer": downloadUrl})}>
+                        <Avatar onClick={openUrl(liveUrl)} className={"cursor-pointer"}>
                             <AvatarImage src={streamerAvatar ?? ""} alt={streamer}></AvatarImage>
                             <AvatarFallback>{streamer}</AvatarFallback>
                         </Avatar>
