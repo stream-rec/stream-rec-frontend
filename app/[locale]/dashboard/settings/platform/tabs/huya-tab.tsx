@@ -1,11 +1,12 @@
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Control} from "react-hook-form";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
 import React from "react";
 import {Input} from "@/components/new-york/ui/input";
-import {huyaCDNs} from "@/lib/data/platform/huya/definitions";
 import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 import {Badge} from "@/components/new-york/ui/badge";
+import Select from "@/app/components/empty-select";
+import {huyaCDNs} from "@/lib/data/platform/huya/definitions";
+import {SelectItem} from "@/components/new-york/ui/select";
 
 
 interface HuyaConfigProps {
@@ -14,6 +15,7 @@ interface HuyaConfigProps {
   showMaxBitrate?: boolean
   showCookies?: boolean
   showPartedDownloadRetry?: boolean,
+  allowNone?: boolean
   huyaStrings: HuyaTabString
 }
 
@@ -33,7 +35,15 @@ export type HuyaTabString = {
   cookieDescription: any,
 }
 
-export const HuyaTabContent = ({controlPrefix, control, showMaxBitrate, showCookies, showPartedDownloadRetry, huyaStrings}: HuyaConfigProps) => {
+export const HuyaTabContent = ({
+                                 controlPrefix,
+                                 control,
+                                 showMaxBitrate,
+                                 showCookies,
+                                 showPartedDownloadRetry,
+                                 allowNone = false,
+                                 huyaStrings
+                               }: HuyaConfigProps) => {
   {
     return (
         <div className="mt-6 space-y-6 fade-in">
@@ -43,22 +53,17 @@ export const HuyaTabContent = ({controlPrefix, control, showMaxBitrate, showCook
               render={({field}) => (
                   <FormItem>
                     <FormLabel>{huyaStrings.cdn}</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder={huyaStrings.cdnDefault}/>
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {
-                          huyaCDNs.map((cdn) => (
-                              <SelectItem key={cdn} value={cdn}>
-                                {cdn}
-                              </SelectItem>
-                          ))
-                        }
-                      </SelectContent>
-                    </Select>
+                    <Select defaultValue={field.value}
+                            onValueChange={field.onChange}
+                            placeholder={huyaStrings.cdnDefault}
+                            allowNone={allowNone}
+                            options={
+                              huyaCDNs.map((cdn) => (
+                                  <SelectItem key={cdn} value={cdn}>
+                                    {cdn}
+                                  </SelectItem>
+                              ))
+                            }/>
                     <FormDescription>
                       {huyaStrings.cdnDescription}
                     </FormDescription>
@@ -72,29 +77,26 @@ export const HuyaTabContent = ({controlPrefix, control, showMaxBitrate, showCook
               name={controlPrefix ? `${controlPrefix}.sourceFormat` : "sourceFormat"}
               render={({field}) => (
                   <FormItem>
-                    <FormLabel>{
+                    <FormLabel>
                       <>
                         {huyaStrings.sourceFormat}
                         <> </>
                         <Badge>Experimental</Badge>
                       </>
-                    }</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder={huyaStrings.sourceFormatPlaceholder}/>
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {
+                    </FormLabel>
+                    <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        placeholder={huyaStrings.sourceFormatPlaceholder}
+                        options={
                           ["flv", "hls"].map((format) => (
                               <SelectItem key={format} value={format}>
                                 {format}
                               </SelectItem>
                           ))
                         }
-                      </SelectContent>
-                    </Select>
+                        allowNone={allowNone}
+                    />
                     <FormDescription>
                       {huyaStrings.sourceFormatDescription}
                     </FormDescription>

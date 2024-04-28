@@ -406,22 +406,24 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                           <>
                             <TabsContent value="platform">
                               {
-                                  platform === PlatformType.HUYA && <HuyaPlatform strings={strings.huyaStrings}/>
+                                  platform === PlatformType.HUYA && <HuyaPlatform allowNone={true} strings={strings.huyaStrings}/>
                               }
                               {
                                   platform === PlatformType.DOUYIN && (
-                                      <DouyinPlatform douyinQualityOptions={strings.douyinQualityOptions} strings={strings.douyinStrings}/>)
+                                      <DouyinPlatform douyinQualityOptions={strings.douyinQualityOptions} allowNone={true}
+                                                      strings={strings.douyinStrings}/>)
                               }
                               {
                                   platform === PlatformType.DOUYU && (
-                                      <DouyuPlatformForm strings={strings.douyuStrings} douyuQualityOptions={strings.douyuQualityOptions}/>)
+                                      <DouyuPlatformForm strings={strings.douyuStrings} allowNone={true}
+                                                         douyuQualityOptions={strings.douyuQualityOptions}/>)
                               }
                             </TabsContent>
                           </>
                       )
                   }
                   <TabsContent value="default">
-                    <BaseDownloadConfig strings={strings.baseDownloadStrings}/>
+                    <BaseDownloadConfig allowNone={true} strings={strings.baseDownloadStrings}/>
                   </TabsContent>
                   <TabsContent value="actions">
                     <ActionsCallbackTab addItem={partedAppend} addItemEnded={streamEndedAppend}

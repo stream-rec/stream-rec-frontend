@@ -1,10 +1,11 @@
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
+import {Select as OriginalSelect, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
 import {Input} from "@/components/new-york/ui/input";
 import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 import React from "react";
 import {Control} from "react-hook-form";
 import {douyuCdns} from "@/lib/data/platform/douyu/definitions";
+import Select from "@/app/components/empty-select";
 
 
 export type DouyuQuality = {
@@ -19,6 +20,7 @@ export type DouyuTabProps = {
   showPartedDownloadRetry?: boolean
   strings: DouyuTabString,
   qualityOptions: DouyuQuality[]
+  allowNone?: boolean
 }
 
 export type DouyuTabString = {
@@ -36,7 +38,15 @@ export type DouyuTabString = {
 }
 
 
-export default function DouyuTabContent({controlPrefix, control, showCookies, showPartedDownloadRetry, strings, qualityOptions}: DouyuTabProps) {
+export default function DouyuTabContent({
+                                          controlPrefix,
+                                          control,
+                                          showCookies,
+                                          showPartedDownloadRetry,
+                                          strings,
+                                          qualityOptions,
+                                          allowNone = false
+                                        }: DouyuTabProps) {
 
   return (
       <>
@@ -47,22 +57,13 @@ export default function DouyuTabContent({controlPrefix, control, showCookies, sh
               render={({field}) => (
                   <FormItem>
                     <FormLabel>{strings.cdn}</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder={strings.cdnDefault}/>
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {
-                          douyuCdns.map((cdn) => (
-                              <SelectItem key={cdn} value={cdn}>
-                                {cdn}
-                              </SelectItem>
-                          ))
-                        }
-                      </SelectContent>
-                    </Select>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} placeholder={strings.cdnDefault} allowNone={allowNone} options={
+                      douyuCdns.map((cdn) => (
+                          <SelectItem key={cdn} value={cdn}>
+                            {cdn}
+                          </SelectItem>
+                      ))
+                    }/>
                     <FormDescription>
                       {strings.cdnDescription}
                     </FormDescription>
@@ -77,28 +78,32 @@ export default function DouyuTabContent({controlPrefix, control, showCookies, sh
               render={({field}) => (
                   <FormItem>
                     <FormLabel>{strings.quality}</FormLabel>
-                    <Select onValueChange={
+                    <OriginalSelect onValueChange={
                       e => {
-                        if (e === "") {
+                        if (e === "" || e === "99999") {
                           field.onChange(null);
                         } else {
                           field.onChange(parseInt(e));
                         }
                       }
-                    } defaultValue={field.value?.toString() || undefined}>
+                    } defaultValue={field.value?.toString() || ""}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder={strings.qualityDefault}/>
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
+                        {
+                            allowNone &&
+                            <SelectItem key="null" value={"99999"}>{strings.qualityDefault}</SelectItem>
+                        }
                         {qualityOptions.map((quality) => (
                             <SelectItem key={quality.quality.toString()} value={quality.quality.toString()}>
                               {quality.description}
                             </SelectItem>
                         ))}
                       </SelectContent>
-                    </Select>
+                    </OriginalSelect>
                     <FormDescription>
                       {strings.qualityDescription}
                     </FormDescription>

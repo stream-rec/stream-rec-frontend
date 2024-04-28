@@ -14,6 +14,7 @@ type BaseDownloadTabProps = {
   showDanmu?: boolean;
   showCookies?: boolean;
   showMaxBitrate?: boolean;
+  allowNone?: boolean;
   strings: BaseDownloadTabString
 }
 
@@ -38,7 +39,8 @@ export function BaseDownloadTab({
                                   strings,
                                   showDanmu = true,
                                   showCookies = true,
-                                  showMaxBitrate = true
+                                  showMaxBitrate = true,
+                                  allowNone = false
                                 }: BaseDownloadTabProps) {
 
   return (
@@ -126,7 +128,7 @@ export function BaseDownloadTab({
           <OutputFilenameFormfield control={control} controlPrefix={controlPrefix} name={strings.outputFilename}
                                    description={strings.outputFilenameDescription}/>
           <OutputFileFormatFormfield control={control} controlPrefix={controlPrefix} name={strings.outputFileFormat}
-                                     description={strings.outputFileFormatDescription}/>
+                                     description={strings.outputFileFormatDescription} allowNull={allowNone}/>
         </div>
       </>
   )

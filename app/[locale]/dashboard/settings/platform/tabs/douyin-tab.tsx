@@ -1,10 +1,11 @@
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Control} from "react-hook-form";
-import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
+import {SelectItem} from "@/components/new-york/ui/select";
 import React from "react";
 import {Input} from "@/components/new-york/ui/input";
 import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 import {Badge} from "@/components/new-york/ui/badge";
+import Select from "@/app/components/empty-select";
 
 export type DouyinQuality = {
   quality: string,
@@ -31,6 +32,7 @@ interface DouyinTabContentProps {
   qualityOptions: DouyinQuality[]
   showCookies?: boolean
   showPartedDownloadRetry?: boolean
+  allowNone?: boolean
   douyinStrings: DouyinTabString
 }
 
@@ -40,6 +42,7 @@ export const DouyinTabContent = ({
                                    showCookies,
                                    showPartedDownloadRetry,
                                    qualityOptions,
+                                   allowNone = false,
                                    douyinStrings
                                  }: DouyinTabContentProps) => {
   return (
@@ -50,20 +53,14 @@ export const DouyinTabContent = ({
             render={({field}) => (
                 <FormItem>
                   <FormLabel>{douyinStrings.quality}</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder={douyinStrings.qualityDefault}/>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {qualityOptions.map((quality) => (
+                  <Select onValueChange={field.onChange} defaultValue={field.value} placeholder={douyinStrings.qualityDefault} allowNone={allowNone}
+                          options={
+                            qualityOptions.map((quality) => (
                           <SelectItem key={quality.quality} value={quality.quality}>
                             {quality.description}
                           </SelectItem>
                       ))}
-                    </SelectContent>
-                  </Select>
+                  />
                   <FormDescription>
                     {douyinStrings.qualityDescription}
                   </FormDescription>
@@ -78,29 +75,26 @@ export const DouyinTabContent = ({
             name={controlPrefix ? `${controlPrefix}.sourceFormat` : "sourceFormat"}
             render={({field}) => (
                 <FormItem>
-                  <FormLabel>{
+                  <FormLabel>
                     <>
                       {douyinStrings.sourceFormat}
                       <> </>
                       <Badge>Experimental</Badge>
                     </>
-                  }</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder={douyinStrings.sourceFormatPlaceholder}/>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {
+                  </FormLabel>
+                  <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      placeholder={douyinStrings.sourceFormatPlaceholder}
+                      options={
                         ["flv", "hls"].map((format) => (
                             <SelectItem key={format} value={format}>
                               {format}
                             </SelectItem>
                         ))
                       }
-                    </SelectContent>
-                  </Select>
+                      allowNone={allowNone}
+                  />
                   <FormDescription>
                     {douyinStrings.sourceFormatDescription}
                   </FormDescription>

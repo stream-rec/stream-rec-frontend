@@ -4,16 +4,17 @@ import {BaseDownloadTab, BaseDownloadTabString} from "@/app/[locale]/dashboard/s
 
 
 type BaseDownloadConfigFormProps = {
+  allowNone?: boolean;
   strings: BaseDownloadTabString
 }
 
-export const BaseDownloadConfig = ({strings}: BaseDownloadConfigFormProps) => {
+export const BaseDownloadConfig = ({allowNone, strings}: BaseDownloadConfigFormProps) => {
 
   const context = useFormContext()
 
   return (
       <>
-        <BaseDownloadTab control={context.control} strings={strings}/>
+        <BaseDownloadTab control={context.control} strings={strings} allowNone={allowNone}/>
       </>
   )
 }

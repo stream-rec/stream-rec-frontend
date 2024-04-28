@@ -4,13 +4,14 @@ import {HuyaTabContent, HuyaTabString} from "@/app/[locale]/dashboard/settings/p
 
 
 type HuyaPlatformFormProps = {
+  allowNone?: boolean
   strings: HuyaTabString
 }
 
-export const HuyaPlatform = (({strings}: HuyaPlatformFormProps) => {
+export const HuyaPlatform = (({allowNone, strings}: HuyaPlatformFormProps) => {
   const form = useFormContext()
 
   return <>
-    <HuyaTabContent controlPrefix={"downloadConfig"} control={form.control} huyaStrings={strings}/>
+    <HuyaTabContent controlPrefix={"downloadConfig"} control={form.control} huyaStrings={strings} allowNone={allowNone}/>
   </>
 })

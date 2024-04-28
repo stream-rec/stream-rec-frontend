@@ -6,4 +6,5 @@ export interface FormFieldProps {
   control: Control<any>;
   name: string;
   description: string | React.ReactNode;
+  allowNull?: boolean;
 }
