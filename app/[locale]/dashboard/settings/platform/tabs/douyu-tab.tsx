@@ -4,7 +4,7 @@ import {Input} from "@/components/new-york/ui/input";
 import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 import React from "react";
 import {Control} from "react-hook-form";
-import {douyuCdns} from "@/lib/data/platform/douyu/definitions";
+import {douyuCdns} from "@/lib/data/platform/douyu/constants";
 import Select from "@/app/components/empty-select";
 
 

@@ -5,6 +5,7 @@ import {StreamerSchema} from "@/lib/data/streams/definitions";
 import {useHuyaTranslations} from "@/app/[locale]/dashboard/translations/huya-translations";
 import {useDouyinQualityTranslations, useDouyinTranslations} from "@/app/[locale]/dashboard/translations/douyin-translations";
 import {useDouyuQualityTranslations, useDouyuTranslations} from "@/app/[locale]/dashboard/translations/douyu-translations";
+import {useTwitchQualityTranslations, useTwitchTranslations} from "@/app/[locale]/dashboard/translations/twitch-translations";
 
 
 type StreamerFormWrapperProps = {
@@ -30,6 +31,10 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
   // douyu translations
   const douyuT = useDouyuTranslations()
   const douyuQualityOptions = useDouyuQualityTranslations()
+
+  // twitch translations
+  const twitchT = useTwitchTranslations()
+  const twitchQualityOptions = useTwitchQualityTranslations()
 
   // action callbacks translations
   const actionsT = useTranslations("CallbacksConfigs")
@@ -77,6 +82,8 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
         douyinQualityOptions: douyinQualityOptions,
         douyuStrings: douyuT,
         douyuQualityOptions: douyuQualityOptions,
+        twitchStrings: twitchT,
+        twitchQualityOptions: twitchQualityOptions,
         baseDownloadStrings: {
           danmu: baseT("danmu"),
           danmuDescription: baseT("danmuDescription"),

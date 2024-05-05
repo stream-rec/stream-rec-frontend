@@ -2,7 +2,6 @@ import {z} from "zod";
 import {baseDownloadConfig} from "@/lib/data/streams/definitions";
 import {globalPlatformConfig} from "@/lib/data/platform/definitions";
 
-export const douyinRegex = "(?:https?://)?(?:www\\.)?(?:live\\.)?douyin\\.com/([a-zA-Z0-9]+)"
 
 export enum DouyinQuality {
   origin = "origin",

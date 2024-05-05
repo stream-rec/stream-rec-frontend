@@ -5,7 +5,7 @@ import {Input} from "@/components/new-york/ui/input";
 import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 import {Badge} from "@/components/new-york/ui/badge";
 import Select from "@/app/components/empty-select";
-import {huyaCDNs} from "@/lib/data/platform/huya/definitions";
+import {huyaCDNs} from "@/lib/data/platform/huya/constants";
 import {SelectItem} from "@/components/new-york/ui/select";
 
 

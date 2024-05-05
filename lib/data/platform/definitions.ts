@@ -12,5 +12,6 @@ export enum PlatformType {
   HUYA = "huya",
   DOUYIN = "douyin",
   DOUYU = "douyu",
+  TWITCH = "twitch",
   TEMPLATE = "template"
 }

@@ -12,8 +12,8 @@ import {clsx} from "clsx";
 import {CaretSortIcon, CheckIcon, RocketIcon} from "@radix-ui/react-icons";
 import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/alert";
 import {streamerSchema, StreamerSchema} from "@/lib/data/streams/definitions";
-import {huyaDownloadConfig, huyaRegex} from "@/lib/data/platform/huya/definitions";
-import {douyinDownloadConfig, douyinRegex} from "@/lib/data/platform/douyin/definitions";
+import {huyaDownloadConfig} from "@/lib/data/platform/huya/definitions";
+import {douyinDownloadConfig} from "@/lib/data/platform/douyin/definitions";
 import {PlatformType} from "@/lib/data/platform/definitions";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/new-york/ui/popover";
 import {cn} from "@/lib/utils";
@@ -29,8 +29,15 @@ import {DouyinPlatform} from "@/app/[locale]/dashboard/streamers/components/plat
 import {HuyaPlatform} from "@/app/[locale]/dashboard/streamers/components/platforms/huya-platform";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import {DouyuPlatformForm} from "@/app/[locale]/dashboard/streamers/components/platforms/douyu-platform";
-import {douyuDownloadConfig, douyuRegex} from "@/lib/data/platform/douyu/definitions";
+import {douyuDownloadConfig} from "@/lib/data/platform/douyu/definitions";
 import {DouyuQuality, DouyuTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/douyu-tab";
+import {huyaRegex} from "@/lib/data/platform/huya/constants";
+import {douyinRegex} from "@/lib/data/platform/douyin/constants";
+import {douyuRegex} from "@/lib/data/platform/douyu/constants";
+import {twitchDownloadConfig} from "@/lib/data/platform/twitch/definitions";
+import {TwitchPlatformForm} from "@/app/[locale]/dashboard/streamers/components/platforms/twitch-platform";
+import {TwitchQualityItem, TwitchTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/twitch-tab";
+import {twitchRegex} from "@/lib/data/platform/twitch/constants";
 
 type StreamerConfigProps = {
   strings: {
@@ -68,6 +75,8 @@ type StreamerConfigProps = {
     douyinQualityOptions: DouyinQuality[],
     douyuStrings: DouyuTabString,
     douyuQualityOptions: DouyuQuality[],
+    twitchStrings: TwitchTabString,
+    twitchQualityOptions: TwitchQualityItem[],
     baseDownloadStrings: BaseDownloadTabString,
     actionTabStrings: ActionsCallbackTabStrings
   },
@@ -100,6 +109,8 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: douyinDownloadConfig});
     } else if (platform === PlatformType.DOUYU) {
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: douyuDownloadConfig});
+    } else if (platform === PlatformType.TWITCH) {
+      return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: twitchDownloadConfig});
     } else {
       return streamerSchema;
     }
@@ -185,6 +196,7 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
       {platformType: PlatformType.HUYA, regex: huyaRegex},
       {platformType: PlatformType.DOUYIN, regex: douyinRegex},
       {platformType: PlatformType.DOUYU, regex: douyuRegex},
+      {platformType: PlatformType.TWITCH, regex: twitchRegex}
     ];
 
     for (const {platformType, regex} of platformRegexes) {
@@ -417,6 +429,11 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                                   platform === PlatformType.DOUYU && (
                                       <DouyuPlatformForm strings={strings.douyuStrings} allowNone={true}
                                                          douyuQualityOptions={strings.douyuQualityOptions}/>)
+                              }
+                              {
+                                  platform === PlatformType.TWITCH && (
+                                      <TwitchPlatformForm strings={strings.twitchStrings} allowNone={true} qualities={strings.twitchQualityOptions}/>
+                                  )
                               }
                             </TabsContent>
                           </>
