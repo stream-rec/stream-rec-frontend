@@ -1,8 +1,8 @@
-import {huyaGlobalConfig} from "@/lib/data/platform/huya/definitions";
-import {douyinGlobalConfig} from "@/lib/data/platform/douyin/definitions";
 import {z} from "zod";
 import {douyuGlobalConfig} from "@/lib/data/platform/douyu/definitions";
-
+import {twitchGlobalConfig} from "@/lib/data/platform/twitch/definitions";
+import {huyaGlobalConfig} from "@/lib/data/platform/huya/definitions";
+import {douyinGlobalConfig} from "@/lib/data/platform/douyin/definitions";
 
 export const globalConfigSchema = z.object({
   id: z.number(),
@@ -35,6 +35,7 @@ export const globalConfigSchema = z.object({
   huyaConfig: huyaGlobalConfig.optional(),
   douyinConfig: douyinGlobalConfig.optional(),
   douyuConfig: douyuGlobalConfig.optional(),
+  twitchConfig: twitchGlobalConfig.optional(),
 })
 
 export type GlobalConfig = z.infer<typeof globalConfigSchema>

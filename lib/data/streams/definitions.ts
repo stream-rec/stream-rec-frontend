@@ -1,6 +1,9 @@
 import {z} from "zod";
 import {commandActionSchema, moveActionSchema, rcloneActionSchema, removeActionSchema} from "@/lib/data/actions/definitions";
-import {combinedRegex} from "@/lib/data/platform/definitions";
+import {twitchRegex} from "@/lib/data/platform/twitch/constants";
+import {huyaRegex} from "@/lib/data/platform/huya/constants";
+import {douyinRegex} from "@/lib/data/platform/douyin/constants";
+import {douyuRegex} from "@/lib/data/platform/douyu/constants";
 
 export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv", "ts"] as const;
 
@@ -17,7 +20,6 @@ export const baseDownloadConfig = z.object({
   onStreamingFinished: rcloneActionSchema.or(commandActionSchema).or(removeActionSchema).or(moveActionSchema).array().nullish(),
 })
 export type DownloadConfig = z.infer<typeof baseDownloadConfig>
-
 
 export const streamDataSchema = z.object({
   id: z.number(),
@@ -39,8 +41,18 @@ export const streamerSchema = z.object({
   name: z.string().min(1),
   url: z.string({
     required_error: "Streamer url is required",
-    invalid_type_error: "Only Huya and Douyin urls are supported",
-  }).url().regex(RegExp(combinedRegex)).startsWith("https://").min(1),
+    invalid_type_error: "Only Huya, Douyin, Douyu and Twitch urls are supported",
+  }).url().startsWith("https://").min(1).refine((url) => {
+    const regexps = [
+      huyaRegex,
+      douyinRegex,
+      douyuRegex,
+      twitchRegex,
+    ];
+    return regexps.some((regex) => new RegExp(regex).test(url));
+  }, {
+    message: "Only Huya, Douyin, Douyu and Twitch urls are supported",
+  }),
   avatar: z.string().url().nullish(),
   streamTitle: z.string().nullish(),
   platform: z.string().optional(),

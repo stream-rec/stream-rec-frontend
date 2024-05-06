@@ -12,6 +12,7 @@ import {updateConfig} from "@/lib/data/config/apis";
 import {useRouter} from "@/i18n";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import DouyuTabContent, {DouyuQuality, DouyuTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/douyu-tab";
+import {TwitchQualityItem, TwitchTabContent, TwitchTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/twitch-tab";
 
 
 export type PlatformFormValues = {
@@ -22,6 +23,8 @@ export type PlatformFormValues = {
   douyinQualityOptions: DouyinQuality[]
   douyuStrings: DouyuTabString
   douyuQualityOptions: DouyuQuality[]
+  twitchStrings: TwitchTabString
+  twitchQualityOptions: TwitchQualityItem[]
 }
 
 export default function PlatformForm({
@@ -31,7 +34,9 @@ export default function PlatformForm({
                                        douyinStrings,
                                        douyinQualityOptions,
                                        douyuStrings,
-                                       douyuQualityOptions
+                                       douyuQualityOptions,
+                                       twitchStrings,
+                                       twitchQualityOptions
                                      }: PlatformFormValues) {
 
   const form = useForm<GlobalConfig>({
@@ -66,6 +71,8 @@ export default function PlatformForm({
                            className="text-zinc-600 dark:text-zinc-200">{douyinStrings.platform}</TabsTrigger>
               <TabsTrigger value={PlatformType.DOUYU}
                            className="text-zinc-600 dark:text-zinc-200">{douyuStrings.platform}</TabsTrigger>
+              <TabsTrigger value={PlatformType.TWITCH}
+                           className="text-zinc-600 dark:text-zinc-200">{twitchStrings.platform}</TabsTrigger>
             </TabsList>
 
             <div>
@@ -82,6 +89,11 @@ export default function PlatformForm({
                 <DouyuTabContent controlPrefix={"douyuConfig"} control={form.control} showCookies
                                  showPartedDownloadRetry strings={douyuStrings}
                                  qualityOptions={douyuQualityOptions}/>
+              </TabsContent>
+              <TabsContent value={PlatformType.TWITCH}>
+                <TwitchTabContent controlPrefix={"twitchConfig"} control={form.control} showCookies
+                                  showPartedDownloadRetry strings={twitchStrings}
+                                  qualityOptions={twitchQualityOptions}/>
               </TabsContent>
             </div>
           </Tabs>

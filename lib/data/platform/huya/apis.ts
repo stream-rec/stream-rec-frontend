@@ -1,4 +1,4 @@
-import {huyaAvatarRegex, huyaBaseUrl, huyaRegex} from "@/lib/data/platform/huya/definitions";
+import {huyaAvatarRegex, huyaBaseUrl, huyaRegex} from "@/lib/data/platform/huya/constants";
 
 export async function fetchAvatar(id: string) {
 

@@ -44,7 +44,7 @@
     "asTemplate": "As template",
     "asTemplateDescription": "Whether to use this streamer as a template for other streamers.",
     "nameDescription": "The name of the streamer.",
-    "urlDescription": "Streamer`s streaming url, with following format: <code>'{`https://www.huya.com/{name}`}'</code> - Huya <code>'{`https://live.douyin.com/{id}`}'</code> - Douyin <code>'{`https://www.douyu.com/{id}`}'</code> - Douyu",
+    "urlDescription": "Streamer`s streaming url, with following format: <code>'{`https://www.huya.com/{name}`}'</code> - Huya <code>'{`https://live.douyin.com/{id}`}'</code> - Douyin <code>'{`https://www.douyu.com/{id}`}'</code> - Douyu <code>'{`https://www.twitch.tv/{name}`}'</code> - Twitch",
     "enabledRecording": "Enabled recording",
     "enabledRecordingDescription": "Whether to enable recording for this streamer.",
     "streamerOnlyOptions": "Streamer only options",
@@ -215,6 +215,49 @@
     "ld": {
       "id": "1",
       "name": "Low Definition"
+    }
+  },
+  "Twitch": {
+    "platform": "Twitch",
+    "quality": "Preferred record quality",
+    "qualityDescription": "The quality of the Twitch video stream. Ordered from highest to lowest quality. The tool will look up for the closest quality available to selected.",
+    "qualityPlaceholder": "Select a quality",
+    "authToken": "OAuth Token",
+    "authTokenPlaceholder": "Enter your auth token",
+    "authTokenDescription": "The auth token used to authenticate the Twitch account. Obligatory. <important>Read the documentation [https://streamlink.github.io/cli/plugins/twitch.html#authentication] to get the auth token</important>",
+    "part": "Part download delay",
+    "partDescription": "The delay between each part download retry. Default is 30 seconds.",
+    "cookies": "Cookies",
+    "cookiesDescription": "Cookies to be used for the Twitch video stream. <important>Optional</important>"
+  },
+  "TwitchQualities": {
+    "origin": {
+      "id": "best",
+      "name": "Source"
+    },
+    "1080p": {
+      "id": "1080p",
+      "name": "1080p"
+    },
+    "720p": {
+      "id": "720p",
+      "name": "720p"
+    },
+    "480p": {
+      "id": "480p",
+      "name": "480p"
+    },
+    "360p": {
+      "id": "360p",
+      "name": "360p"
+    },
+    "160p": {
+      "id": "160p",
+      "name": "160p"
+    },
+    "audio_only": {
+      "id": "audio_only",
+      "name": "Audio only"
     }
   },
   "BaseDownloadConfigs": {
