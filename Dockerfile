@@ -56,14 +56,14 @@ RUN chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# set timezone
+ENV TZ ${TZ:-Europe/Paris}
+RUN apk add --no-cache tzdata
 USER nextjs
 
 EXPOSE 15275
 
 ENV PORT 15275
-# set timezone
-ENV TZ ${TZ:-Europe/Paris}
-RUN apk add --no-cache tzdata
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 
