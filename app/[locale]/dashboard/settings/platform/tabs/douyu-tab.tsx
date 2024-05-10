@@ -152,7 +152,7 @@ export default function DouyuTabContent({
                               <AutosizeTextarea className={"h-[200px]"} placeholder="Cookies" {...field}></AutosizeTextarea>
                             </FormControl>
                             <FormDescription>
-                              <p>{strings.cookiesDescription}</p>
+                              {strings.cookiesDescription}
                             </FormDescription>
                             <FormMessage/>
                           </FormItem>

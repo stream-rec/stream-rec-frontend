@@ -4,6 +4,7 @@ import {twitchRegex} from "@/lib/data/platform/twitch/constants";
 import {huyaRegex} from "@/lib/data/platform/huya/constants";
 import {douyinRegex} from "@/lib/data/platform/douyin/constants";
 import {douyuRegex} from "@/lib/data/platform/douyu/constants";
+import {pandaliveRegex} from "@/lib/data/platform/pandalive/constants";
 
 export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv", "ts"] as const;
 
@@ -41,17 +42,18 @@ export const streamerSchema = z.object({
   name: z.string().min(1),
   url: z.string({
     required_error: "Streamer url is required",
-    invalid_type_error: "Only Huya, Douyin, Douyu and Twitch urls are supported",
+    invalid_type_error: "Invalid url format",
   }).url().startsWith("https://").min(1).refine((url) => {
     const regexps = [
       huyaRegex,
       douyinRegex,
       douyuRegex,
       twitchRegex,
+      pandaliveRegex,
     ];
     return regexps.some((regex) => new RegExp(regex).test(url));
   }, {
-    message: "Only Huya, Douyin, Douyu and Twitch urls are supported",
+    message: "Invalid url format",
   }),
   avatar: z.string().url().nullish(),
   streamTitle: z.string().nullish(),

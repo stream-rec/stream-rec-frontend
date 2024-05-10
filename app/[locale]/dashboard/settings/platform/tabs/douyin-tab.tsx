@@ -56,10 +56,10 @@ export const DouyinTabContent = ({
                   <Select onValueChange={field.onChange} defaultValue={field.value} placeholder={douyinStrings.qualityDefault} allowNone={allowNone}
                           options={
                             qualityOptions.map((quality) => (
-                          <SelectItem key={quality.quality} value={quality.quality}>
-                            {quality.description}
-                          </SelectItem>
-                      ))}
+                                <SelectItem key={quality.quality} value={quality.quality}>
+                                  {quality.description}
+                                </SelectItem>
+                            ))}
                   />
                   <FormDescription>
                     {douyinStrings.qualityDescription}
@@ -143,7 +143,7 @@ export const DouyinTabContent = ({
                             <AutosizeTextarea className={"h-[200px]"} placeholder="Cookies" {...field}></AutosizeTextarea>
                           </FormControl>
                           <FormDescription>
-                            <p>{douyinStrings.cookiesDescription}</p>
+                            {douyinStrings.cookiesDescription}
                           </FormDescription>
                           <FormMessage/>
                         </FormItem>

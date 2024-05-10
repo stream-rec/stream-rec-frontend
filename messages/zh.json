@@ -44,7 +44,7 @@
     "asTemplate": "作为模板",
     "asTemplateDescription": "是否作为模板",
     "nameDescription": "主播名称",
-    "urlDescription": "直播链接, 目前支持平台 ：虎牙，抖音，斗鱼, Twitch 、 链接格式为：<code>'{`https://www.huya.com/{name}`}'</code> - 虎牙 <code>'{`https://live.douyin.com/{id}`}'</code> - 抖音 <code>'{`https://www.douyu.com/{name}`}'</code> - 斗鱼 <code>'{`https://www.twitch.tv/{name}`}'</code> - Twitch",
+    "urlDescription": "直播链接格式为：<code>'{`https://www.huya.com/{name}`}'</code> - 虎牙 <code>'{`https://live.douyin.com/{id}`}'</code> - 抖音 <code>'{`https://www.douyu.com/{name}`}'</code> - 斗鱼 <code>'{`https://www.twitch.tv/{name}`}'</code> - Twitch <code>'{`https://www.pandalive.co.kr/live/play/{name}`}'</code> - PandaTv",
     "enabledRecording": "启用录制",
     "enabledRecordingDescription": "是否启用录制",
     "streamerOnlyOptions": "主播专属选项",
@@ -258,6 +258,42 @@
     "audio_only": {
       "id": "audio_only",
       "name": "音频"
+    }
+  },
+  "Pandalive": {
+    "platform": "PandaTV",
+    "quality": "优先录制画质",
+    "qualityDescription": "选择一个画质，工具将会尝试录制低于等于这个画质的流。",
+    "qualityPlaceholder": "请选择一个画质",
+    "part": "分段下载延迟",
+    "partDescription": "分段下载延迟，单位秒，默认为30秒。<important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
+    "cookies": "Cookies",
+    "cookiesDescription": "PandaTV Cookies字符串，用于录制18+ PandaTV直播间，非必填。 <important>请注意：为了避免风控，建议使用小号的cookies。</important>"
+  },
+  "PandaliveQualities": {
+    "origin": {
+      "id": "best",
+      "name": "原画"
+    },
+    "1080p": {
+      "id": "1080p",
+      "name": "1080p"
+    },
+    "720p": {
+      "id": "720p",
+      "name": "720p"
+    },
+    "480p": {
+      "id": "480p",
+      "name": "480p"
+    },
+    "360p": {
+      "id": "360p",
+      "name": "360p"
+    },
+    "160p": {
+      "id": "160p",
+      "name": "160p"
     }
   },
   "BaseDownloadConfigs": {
