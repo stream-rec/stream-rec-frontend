@@ -38,6 +38,10 @@ import {twitchDownloadConfig} from "@/lib/data/platform/twitch/definitions";
 import {TwitchPlatformForm} from "@/app/[locale]/dashboard/streamers/components/platforms/twitch-platform";
 import {TwitchQualityItem, TwitchTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/twitch-tab";
 import {twitchRegex} from "@/lib/data/platform/twitch/constants";
+import {PandaliveQualityItem, PandaliveTabString} from "@/app/[locale]/dashboard/settings/platform/tabs/pandalive-tab";
+import {pandaliveDownloadConfig} from "@/lib/data/platform/pandalive/definitions";
+import {PandalivePlatformForm} from "@/app/[locale]/dashboard/streamers/components/platforms/pandalive-platform";
+import {pandaliveRegex} from "@/lib/data/platform/pandalive/constants";
 
 type StreamerConfigProps = {
   strings: {
@@ -77,6 +81,8 @@ type StreamerConfigProps = {
     douyuQualityOptions: DouyuQuality[],
     twitchStrings: TwitchTabString,
     twitchQualityOptions: TwitchQualityItem[],
+    pandaStrings: PandaliveTabString,
+    pandaQualityOptions: PandaliveQualityItem[],
     baseDownloadStrings: BaseDownloadTabString,
     actionTabStrings: ActionsCallbackTabStrings
   },
@@ -111,6 +117,8 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: douyuDownloadConfig});
     } else if (platform === PlatformType.TWITCH) {
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: twitchDownloadConfig});
+    } else if (platform === PlatformType.PANDALIVE) {
+      return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: pandaliveDownloadConfig});
     } else {
       return streamerSchema;
     }
@@ -196,7 +204,8 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
       {platformType: PlatformType.HUYA, regex: huyaRegex},
       {platformType: PlatformType.DOUYIN, regex: douyinRegex},
       {platformType: PlatformType.DOUYU, regex: douyuRegex},
-      {platformType: PlatformType.TWITCH, regex: twitchRegex}
+      {platformType: PlatformType.TWITCH, regex: twitchRegex},
+      {platformType: PlatformType.PANDALIVE, regex: pandaliveRegex}
     ];
 
     for (const {platformType, regex} of platformRegexes) {
@@ -433,6 +442,11 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                               {
                                   platform === PlatformType.TWITCH && (
                                       <TwitchPlatformForm strings={strings.twitchStrings} allowNone={true} qualities={strings.twitchQualityOptions}/>
+                                  )
+                              }
+                              {
+                                  platform === PlatformType.PANDALIVE && (
+                                      <PandalivePlatformForm strings={strings.pandaStrings} allowNone={true} qualities={strings.pandaQualityOptions}/>
                                   )
                               }
                             </TabsContent>

@@ -6,6 +6,7 @@ import {useHuyaTranslations} from "@/app/[locale]/dashboard/translations/huya-tr
 import {useDouyinQualityTranslations, useDouyinTranslations} from "@/app/[locale]/dashboard/translations/douyin-translations";
 import {useDouyuQualityTranslations, useDouyuTranslations} from "@/app/[locale]/dashboard/translations/douyu-translations";
 import {useTwitchQualityTranslations, useTwitchTranslations} from "@/app/[locale]/dashboard/translations/twitch-translations";
+import {usePandaliveQualityTranslations, usePandaliveTranslations} from "@/app/[locale]/dashboard/translations/pandalive-translations";
 
 
 type StreamerFormWrapperProps = {
@@ -35,6 +36,10 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
   // twitch translations
   const twitchT = useTwitchTranslations()
   const twitchQualityOptions = useTwitchQualityTranslations()
+
+  // pandalive translations
+  const pandaT = usePandaliveTranslations()
+  const pandaQualityOptions = usePandaliveQualityTranslations()
 
   // action callbacks translations
   const actionsT = useTranslations("CallbacksConfigs")
@@ -84,6 +89,8 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
         douyuQualityOptions: douyuQualityOptions,
         twitchStrings: twitchT,
         twitchQualityOptions: twitchQualityOptions,
+        pandaStrings: pandaT,
+        pandaQualityOptions: pandaQualityOptions,
         baseDownloadStrings: {
           danmu: baseT("danmu"),
           danmuDescription: baseT("danmuDescription"),

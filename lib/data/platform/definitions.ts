@@ -1,6 +1,5 @@
 import {z} from "zod";
 
-export const combinedRegex = "(?:https?://)?(?:(?:www|m)\\.)?(?:huya\\.com/([a-zA-Z0-9]+)|(?:live\\.)?douyin\\.com/([a-zA-Z0-9]+)|douyu\\.com/(.*))";
 export const globalPlatformConfig = z.object({
   partedDownloadRetry: z.number().min(0).nullish(),
 })
@@ -13,5 +12,6 @@ export enum PlatformType {
   DOUYIN = "douyin",
   DOUYU = "douyu",
   TWITCH = "twitch",
+  PANDALIVE = "pandalive",
   TEMPLATE = "template"
 }
