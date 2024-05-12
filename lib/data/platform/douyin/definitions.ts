@@ -14,9 +14,7 @@ export enum DouyinQuality {
 }
 
 export const douyinGlobalConfig = globalPlatformConfig.extend({
-  cookies: z.string().regex(/__ac_nonce=.*; __ac_signature=.*;/, {
-    message: "Invalid cookies format"
-  }).nullish(),
+  cookies: z.string().nullish(),
   quality: z.nativeEnum(DouyinQuality).nullish(),
   partedDownloadRetry: z.number().min(0).nullish(),
   sourceFormat: z.enum(["flv", "hls"]).nullish(),
