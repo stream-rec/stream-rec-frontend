@@ -52,7 +52,7 @@ export default function PlatformForm({
 
   const router = useRouter()
 
-  const {isSubmitting} = useFormState({control: form.control})
+  const {isSubmitting, isValid} = useFormState({control: form.control})
 
   async function onSubmit(data: GlobalConfig) {
     toast.promise(updateConfig(data), {
@@ -109,7 +109,7 @@ export default function PlatformForm({
               </TabsContent>
             </div>
           </Tabs>
-          <LoadingButton loading={isSubmitting} type="submit">{save}</LoadingButton>
+          <LoadingButton loading={isSubmitting} disabled={!isValid} type="submit">{save}</LoadingButton>
         </form>
       </Form>
   );
