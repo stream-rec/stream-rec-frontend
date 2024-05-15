@@ -1,6 +1,7 @@
 import {z} from "zod";
 import {baseDownloadConfig} from "@/lib/data/streams/definitions";
 import {globalPlatformConfig} from "@/lib/data/platform/definitions";
+import {douyinAcNonceRegex, douyinAcSignatureRegex} from "@/lib/data/platform/douyin/constants";
 
 
 export enum DouyinQuality {
@@ -14,12 +15,14 @@ export enum DouyinQuality {
 }
 
 export const douyinGlobalConfig = globalPlatformConfig.extend({
-  cookies: z.string().refine((v)=>{
+  cookies: z.string().refine((v) => {
     // check if it`s a valid cookie
     // a valid cookie must include `ac_nonce` and `__ac_signature`
     // /__ac_nonce=.*; __ac_signature=.*;/
     if (!v) return true
-    return /__ac_nonce=.*; __ac_signature=.*;/.test(v)
+    const acNonce = v.match(douyinAcNonceRegex)
+    const acSignature = v.match(douyinAcSignatureRegex)
+    return acNonce && acSignature
   }).nullish(),
   quality: z.nativeEnum(DouyinQuality).nullish(),
   partedDownloadRetry: z.number().min(0).nullish(),

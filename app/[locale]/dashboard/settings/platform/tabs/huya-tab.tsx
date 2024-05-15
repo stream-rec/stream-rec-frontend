@@ -2,11 +2,11 @@ import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessag
 import {Control} from "react-hook-form";
 import React from "react";
 import {Input} from "@/components/new-york/ui/input";
-import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 import {Badge} from "@/components/new-york/ui/badge";
 import Select from "@/app/components/empty-select";
 import {huyaCDNs} from "@/lib/data/platform/huya/constants";
 import {SelectItem} from "@/components/new-york/ui/select";
+import {CookiesFormfield} from "@/app/[locale]/dashboard/settings/components/form/cookies-formfield";
 
 
 interface HuyaConfigProps {
@@ -160,21 +160,8 @@ export const HuyaTabContent = ({
           }
           {
               showCookies && (
-                  <FormField
-                      control={control}
-                      name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"}
-                      render={({field}) => (
-                          <FormItem>
-                            <FormLabel>{huyaStrings.cookieString}</FormLabel>
-                            <FormControl>
-                              <AutosizeTextarea placeholder={"Cookies"} {...field}></AutosizeTextarea>
-                            </FormControl>
-                            <FormDescription>
-                              {huyaStrings.cookieDescription}
-                            </FormDescription>
-                            <FormMessage/>
-                          </FormItem>
-                      )}
+                  <CookiesFormfield title={huyaStrings.cookieString} description={huyaStrings.cookieDescription}
+                                    name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"} control={control}
                   />
               )
           }

@@ -1,11 +1,17 @@
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
-import {Select as OriginalSelect, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
+import {
+  Select as OriginalSelect,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/new-york/ui/select";
 import {Input} from "@/components/new-york/ui/input";
-import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 import React from "react";
 import {Control} from "react-hook-form";
 import {douyuCdns} from "@/lib/data/platform/douyu/constants";
 import Select from "@/app/components/empty-select";
+import {CookiesFormfield} from "@/app/[locale]/dashboard/settings/components/form/cookies-formfield";
 
 
 export type DouyuQuality = {
@@ -57,7 +63,8 @@ export default function DouyuTabContent({
               render={({field}) => (
                   <FormItem>
                     <FormLabel>{strings.cdn}</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value} placeholder={strings.cdnDefault} allowNone={allowNone} options={
+                    <Select onValueChange={field.onChange} defaultValue={field.value} placeholder={strings.cdnDefault}
+                            allowNone={allowNone} options={
                       douyuCdns.map((cdn) => (
                           <SelectItem key={cdn} value={cdn}>
                             {cdn}
@@ -142,22 +149,10 @@ export default function DouyuTabContent({
 
           {
               showCookies && (
-                  <FormField
-                      control={control}
-                      name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"}
-                      render={({field}) => (
-                          <FormItem>
-                            <FormLabel>{strings.cookies}</FormLabel>
-                            <FormControl>
-                              <AutosizeTextarea className={"h-[200px]"} placeholder="Cookies" {...field}></AutosizeTextarea>
-                            </FormControl>
-                            <FormDescription>
-                              {strings.cookiesDescription}
-                            </FormDescription>
-                            <FormMessage/>
-                          </FormItem>
-                      )}
-                  />)
+                  <CookiesFormfield title={strings.cookies} description={strings.cookiesDescription}
+                                    name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"} control={control}
+                  />
+              )
           }
         </div>
       </>

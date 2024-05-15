@@ -3,10 +3,12 @@ import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessag
 import React from "react";
 import {Input} from "@/components/new-york/ui/input";
 import {OutputFilenameFormfield} from "@/app/[locale]/dashboard/settings/components/form/output-filename-formfield";
-import {OutputFileFormatFormfield} from "@/app/[locale]/dashboard/settings/components/form/output-file-format-formfield";
+import {
+  OutputFileFormatFormfield
+} from "@/app/[locale]/dashboard/settings/components/form/output-file-format-formfield";
 import {OutputFolderFormField} from "@/app/[locale]/dashboard/settings/components/form/output-folder-formfield";
 import {DanmuFlagFormfield} from "@/app/[locale]/dashboard/settings/components/form/danmu-flag-formfield";
-import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
+import {CookiesFormfield} from "@/app/[locale]/dashboard/settings/components/form/cookies-formfield";
 
 type BaseDownloadTabProps = {
   controlPrefix?: string;
@@ -43,31 +45,20 @@ export function BaseDownloadTab({
                                   allowNone = false
                                 }: BaseDownloadTabProps) {
 
+
   return (
       <>
         <div className="mt-6 space-y-6">
           {
               showDanmu && (
-                  <DanmuFlagFormfield controlPrefix={controlPrefix} control={control} title={strings.danmu} description={strings.danmuDescription}/>
+                  <DanmuFlagFormfield controlPrefix={controlPrefix} control={control} title={strings.danmu}
+                                      description={strings.danmuDescription}/>
               )
           }
           {
               showCookies && (
-                  <FormField
-                      control={control}
-                      name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"}
-                      render={({field}) => (
-                          <FormItem>
-                            <FormLabel>{strings.cookies}</FormLabel>
-                            <FormControl>
-                              <AutosizeTextarea id={controlPrefix ? `${controlPrefix}.cookies` : "cookies"} placeholder="Cookies" {...field}/>
-                            </FormControl>
-                            <FormDescription>
-                              {strings.cookiesDescription}
-                            </FormDescription>
-                            <FormMessage/>
-                          </FormItem>
-                      )}
+                  <CookiesFormfield title={strings.cookies} description={strings.cookiesDescription}
+                                    name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"} control={control}
                   />
               )
           }

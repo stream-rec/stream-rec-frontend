@@ -3,8 +3,8 @@ import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessag
 import Select from "@/app/components/empty-select";
 import {SelectItem} from "@/components/new-york/ui/select";
 import {Input} from "@/components/new-york/ui/input";
-import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 import React from "react";
+import {CookiesFormfield} from "@/app/[locale]/dashboard/settings/components/form/cookies-formfield";
 
 
 interface TwitchConfigProps {
@@ -108,7 +108,8 @@ export const TwitchTabContent = ({
                   <FormItem>
                     <FormLabel>{strings.authToken}</FormLabel>
                     <FormControl>
-                      <Input maxLength={30} minLength={30} placeholder={strings.authTokenPlaceholder} value={field.value} onChange={field.onChange}/>
+                      <Input maxLength={30} minLength={30} placeholder={strings.authTokenPlaceholder}
+                             value={field.value} onChange={field.onChange}/>
                     </FormControl>
                     <FormDescription>
                       {strings.authTokenDescription}
@@ -117,23 +118,12 @@ export const TwitchTabContent = ({
                   </FormItem>
               )}
           />
+
           {
-              showCookies && <FormField
-                  control={control}
-                  name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"}
-                  render={({field}) => (
-                      <FormItem>
-                        <FormLabel>{strings.cookieString}</FormLabel>
-                        <FormControl>
-                          <AutosizeTextarea {...field} placeholder={"Cookies"}></AutosizeTextarea>
-                        </FormControl>
-                        <FormDescription>
-                          {strings.cookieDescription}
-                        </FormDescription>
-                        <FormMessage/>
-                      </FormItem>
-                  )}
-              />
+              showCookies && (
+                  <CookiesFormfield title={strings.cookieString} description={strings.cookieDescription}
+                                    name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"} control={control}
+                  />)
           }
         </div>
     )

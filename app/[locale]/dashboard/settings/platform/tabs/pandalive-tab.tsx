@@ -3,8 +3,8 @@ import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessag
 import Select from "@/app/components/empty-select";
 import {SelectItem} from "@/components/new-york/ui/select";
 import {Input} from "@/components/new-york/ui/input";
-import {AutosizeTextarea} from "@/components/new-york/ui/autosize-textarea";
 import React from "react";
+import {CookiesFormfield} from "@/app/[locale]/dashboard/settings/components/form/cookies-formfield";
 
 
 interface PandaliveConfigProps {
@@ -98,24 +98,14 @@ export const PandaliveTabContent = ({
               />
           }
 
+
           {
-              showCookies && <FormField
-                  control={control}
-                  name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"}
-                  render={({field}) => (
-                      <FormItem>
-                        <FormLabel>{strings.cookieString}</FormLabel>
-                        <FormControl>
-                          <AutosizeTextarea {...field} placeholder={"Cookies"}></AutosizeTextarea>
-                        </FormControl>
-                        <FormDescription>
-                          {strings.cookieDescription}
-                        </FormDescription>
-                        <FormMessage/>
-                      </FormItem>
-                  )}
-              />
+              showCookies && (
+                  <CookiesFormfield title={strings.cookieString} description={strings.cookieDescription}
+                                    name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"} control={control}
+                  />)
           }
+
         </div>
     )
   }
