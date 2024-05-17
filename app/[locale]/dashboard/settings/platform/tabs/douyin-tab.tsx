@@ -77,11 +77,10 @@ export const DouyinTabContent = ({
             render={({field}) => (
                 <FormItem>
                   <FormLabel>
-                    <>
+                    <div className={"flex-row items-center space-x-3"}>
                       {douyinStrings.sourceFormat}
-                      <> </>
                       <Badge>Experimental</Badge>
-                    </>
+                    </div>
                   </FormLabel>
                   <Select
                       onValueChange={field.onChange}

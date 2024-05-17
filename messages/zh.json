@@ -302,7 +302,7 @@
     "cookieString": "Cookies 字符串",
     "cookiesDescription": "Cookies字符串，用于录制直播间，默认跟随全局平台设置",
     "outputFolder": "下载文件夹",
-    "outputFolderDescription": "录播文件的输出文件夹，默认跟随全局设置， 可使用以下占用符: <code>'{title}' 为当前主播直播标题</code><code>'{streamer}' 主播名称</code><code>%yyyy 当前直播年日期</code><code>%MM 当前直播月日期</code><code>%dd 当前直播日期</code><code>%HH 当前直播小时日期</code><code>%mm 当前直播分钟日期</code><code>%ss 当前直播秒日期</code>",
+    "outputFolderDescription": "录播文件的输出文件夹，默认跟随全局设置， 可使用以下占用符: <code>'{title}' 为当前主播直播标题</code><code>'{streamer}' 主播名称</code><code>%Y 当前直播年日期</code><code>%m 当前直播月日期</code><code>%d 当前直播日期</code><code>%H 当前直播小时日期</code><code>%M 当前直播分钟日期</code><code>%S 当前直播秒日期</code>",
     "outputFilename": "下载文件名格式",
     "outputFilenameDescription": "录播文件的输出文件名格式， 支持占用符，默认跟随全局设置。 <important>请不要填写后缀名，请保持唯一性</important>",
     "outputFormat": "下载文件格式",
@@ -329,13 +329,13 @@
   },
   "GlobalSettings": {
     "engine": "下载引擎",
-    "engineDescription": "选择一个下载引擎，工具将会使用这个引擎下载流。默认为ffmpeg。 <important>请根据需求选择合理的下载引擎， streamlink只支持hls流。</important>",
+    "engineDescription": "选择一个下载引擎，工具将会使用这个引擎下载流。默认为ffmpeg。 <important>请根据需求选择合理的下载引擎， Streamlink只支持HLS流。</important>",
     "danmu": "下载弹幕",
     "danmuDescription": "是否下载弹幕，默认未开启。弹幕文件为XML格式。",
     "deleteFiles": "下载完成后删除文件",
-    "deleteFilesDescription": "录播片段下载完成后自动删除文件，默认开启。 <important>请注意：该选项只有分段下载完成后和下播后回调为空时才有效</important>",
+    "deleteFilesDescription": "录播片段下载完成后自动删除文件，默认开启。 <important>请注意：该选项只有主播回调为空时才有效</important>",
     "outputFolder": "下载文件夹",
-    "outputFolderDescription": "录播文件的输出文件夹，可使用以下占用符: <code>'{title}' 为当前主播直播标题</code><code>'{streamer}' 主播名称</code><code>%yyyy 当前直播年日期</code><code>%MM 当前直播月日期</code><code>%dd 当前直播日期</code><code>%HH 当前直播小时日期</code><code>%mm 当前直播分钟日期</code><code>%ss 当前直播秒日期</code>",
+    "outputFolderDescription": "录播文件的输出文件夹，可使用以下占用符: <code>'{title}' 为当前主播直播标题</code><code>'{streamer}' 主播名称</code><code>%Y 当前直播年日期</code><code>%m 当前直播月日期</code><code>%d 当前直播日期</code><code>%H 当前直播小时日期</code><code>%M 当前直播分钟日期</code><code>%S 当前直播秒日期</code>",
     "outputFilename": "下载文件名格式",
     "outputFilenameDescription": "录播文件的输出文件名格式， 支持占用符。 <important>请不要填写后缀名，请保持唯一性</important>",
     "outputFormat": "下载文件格式",
@@ -358,7 +358,11 @@
     "downloadCheckInterval": "开播检查间隔",
     "downloadCheckIntervalDescription": "开播检查间隔，单位秒，默认为60秒。适当增加此值可以减少平台api频繁的问题。",
     "maxDownloadRetries": "下播检查次数",
-    "maxDownloadRetriesDescription": "最大下播检查次数， 默认为3次。 主播下播后，工具将会重试，然后检查直播间是否真的下播。适当增加此值可以减少伪下播状态。"
+    "maxDownloadRetriesDescription": "最大下播检查次数， 默认为3次。 主播下播后，工具将会重试，然后检查直播间是否真的下播。适当增加此值可以减少伪下播状态。",
+    "useBuiltInSegmenter": "使用FFmpeg分段（实验性）",
+    "useBuiltInSegmenterDescription": "开启此选项将会使用FFmpeg分段， 减少直播平台API调用，实现无损分段。",
+    "useBuiltInSegmenterNote": "注意事件：",
+    "useBuiltInSegmenterNoteDescription": "* 开启后只能使用时长分段，无法使用大小分段\n* 开启后无法及时更新主播标题\n* 开启后无法查看主播当前下载码率\n* 使用FLV格式下载时会出现颜色错误\n* 使用该选项时请使用时间戳文件名格式"
   },
   "TableToolbar": {
     "searchPlaceholder": "搜索{search}...",

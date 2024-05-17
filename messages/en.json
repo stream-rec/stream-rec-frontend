@@ -302,7 +302,7 @@
     "cookieString": "Cookies",
     "cookiesDescription": "Cookies to be used for the download. Default is set to follow the global settings.",
     "outputFolder": "Output folder",
-    "outputFolderDescription": "This is the folder where the downloaded files will be saved. Default is set to follow the global settings. You can use placeholders like: <code>'{title}' The title of the streaming.</code><code>'{streamer}' The streamer name of the streaming.</code><code>%yyyy The year of the streaming.</code><code>%MM The month of the streaming.</code><code>%dd The day of the streaming.</code><code>%HH The hour of the streaming.</code><code>%mm The minute of the streaming.</code><code>%ss The second of the streaming.</code>",
+    "outputFolderDescription": "This is the folder where the downloaded files will be saved. Default is set to follow the global settings. You can use placeholders like: <code>'{title}' The title of the streaming.</code><code>'{streamer}' The streamer name of the streaming.</code><code>%Y The year of the streaming.</code><code>%m The month of the streaming.</code><code>%d The day of the streaming.</code><code>%H The hour of the streaming.</code><code>%m The minute of the streaming.</code><code>%s The second of the streaming.</code>",
     "outputFilename": "Output file format",
     "outputFilenameDescription": "This is the file name of the downloaded file. Same placeholders as output folder are available. <important>Please do not include file extension, it will be automatically added based on the below selected format.</important>",
     "outputFormat": "Output video extension",
@@ -335,7 +335,7 @@
     "deleteFiles": "Global delete files flag",
     "deleteFilesDescription": "Enable files deletion after download, if disabled, files will be kept in the download folder. <important>It only works when onPartedDownload or onStreamEnded callbacks are not set.</important>",
     "outputFolder": "Output folder",
-    "outputFolderDescription": "This is the folder where the downloaded files will be saved. You can use placeholders like: <code>'{title}' The title of the streaming.</code><code>'{streamer}' The streamer name of the streaming.</code><code>%yyyy The year of the streaming.</code><code>%MM The month of the streaming.</code><code>%dd The day of the streaming.</code><code>%HH The hour of the streaming.</code><code>%mm The minute of the streaming.</code><code>%ss The second of the streaming.</code>",
+    "outputFolderDescription": "This is the folder where the downloaded files will be saved. You can use placeholders like: <code>'{title}' The title of the streaming.</code><code>'{streamer}' The streamer name of the streaming.</code><code>%Y The year of the streaming.</code><code>%m The month of the streaming.</code><code>%d The day of the streaming.</code><code>%H The hour of the streaming.</code><code>%M The minute of the streaming.</code><code>%S The second of the streaming.</code>",
     "outputFilename": "Output file format",
     "outputFilenameDescription": "This is the file name of the downloaded file. Same placeholders as output folder are available. <important>Please do not include file extension, it will be automatically added based on the below selected format.</important>",
     "outputFormat": "Output video extension",
@@ -358,7 +358,11 @@
     "downloadCheckInterval": "Download check interval",
     "downloadCheckIntervalDescription": "This is the interval (in seconds) used to check if a streamer is live or not. Increasing this value will reduce the number of requests to the platform. Default is set to 60 seconds.",
     "maxDownloadRetries": "Maximum retry counts",
-    "maxDownloadRetriesDescription": "The maximum number of stream download retries. If the number of retries exceeds this value, the stream session will be considered as finished. Default is set to 3."
+    "maxDownloadRetriesDescription": "The maximum number of stream download retries. If the number of retries exceeds this value, the stream session will be considered as finished. Default is set to 3.",
+    "useBuiltInSegmenter": "Use FFmpeg built-in segmenter",
+    "useBuiltInSegmenterDescription": "Whether to use FFmpeg built-in segmenter for parting downloads. Default is set to false. <important>Enabling this feature will reduce platform API calls.</important>",
+    "useBuiltInSegmenterNote": "Notes:",
+    "useBuiltInSegmenterNoteDescription": "* Only works with time-based parting\n* Streamer's title won't be updated during download\n* Dashboard streamers real time bitrate updating will be disabled\n* Using FLV format will cause color issues in the output video\n* Please use time placeholders in the filename"
   },
   "TableToolbar": {
     "searchPlaceholder": "Filter by {search}...",

@@ -14,11 +14,12 @@ import {OutputFileFormatFormfield} from "@/app/[locale]/dashboard/settings/compo
 import {convertToBytes, convertToSeconds, DurationUnit, FileSizeUnit, formatBytes, formatSeconds} from "@/app/utils/conversions";
 import {GlobalConfig, globalConfigSchema} from "@/lib/data/config/definitions";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
+import {BuiltInSegmenterFlagFormField} from "@/app/[locale]/dashboard/settings/components/form/built-in-segmenter-flag-form-field";
 
 type GlobalFormProps = {
   appConfig: GlobalConfig,
   update: (config: GlobalConfig) => Promise<void>,
-  globalStrings: GlobalFormStrings
+  strings: GlobalFormStrings
 }
 
 export type GlobalFormStrings = {
@@ -54,7 +55,11 @@ export type GlobalFormStrings = {
   downloadCheckInterval: string
   downloadCheckIntervalDescription: string
   maxDownloadRetries: string
-  maxDownloadRetriesDescription: string
+  maxDownloadRetriesDescription: string,
+  useBuiltInSegmenter: string,
+  useBuiltInSegmenterDescription: string | React.ReactNode,
+  useBuiltInSegmenterNote: string,
+  useBuiltInSegmenterNoteDescription: string | React.ReactNode,
   save: string,
   timeFormats: {
     seconds: string
@@ -65,7 +70,7 @@ export type GlobalFormStrings = {
 }
 
 
-export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) {
+export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
   const [minPartSizeFormat, setMinPartSizeFormat] = useState(FileSizeUnit.B)
   const [maxPartSizeFormat, setMaxPartSizeFormat] = useState(FileSizeUnit.B)
 
@@ -116,10 +121,10 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
     }
     try {
       await update(data)
-      toastData(globalStrings.submitMessage, data, "code")
+      toastData(strings.submitMessage, data, "code")
     } catch (e) {
       console.error(e)
-      toastData(globalStrings.submitErrorMessage, (e as Error).message, "error")
+      toastData(strings.submitErrorMessage, (e as Error).message, "error")
     }
   }
 
@@ -131,7 +136,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
               name="engine"
               render={({field}) => (
                   <FormItem>
-                    <FormLabel>{globalStrings.engine}</FormLabel>
+                    <FormLabel>{strings.engine}</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
@@ -144,14 +149,14 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                       </SelectContent>
                     </Select>
                     <FormDescription>
-                      {globalStrings.engineDescription}
+                      {strings.engineDescription}
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>
               )}
           />
 
-          <DanmuFlagFormfield control={form.control} title={globalStrings.danmu} description={globalStrings.danmuDescription}/>
+          <DanmuFlagFormfield control={form.control} title={strings.danmu} description={strings.danmuDescription}/>
 
           <FormField
               control={form.control}
@@ -159,9 +164,9 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
               render={({field}) => (
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                     <div className="space-y-0.5">
-                      <FormLabel>{globalStrings.deleteFiles}</FormLabel>
+                      <FormLabel>{strings.deleteFiles}</FormLabel>
                       <FormDescription>
-                        {globalStrings.deleteFilesDescription}
+                        {strings.deleteFilesDescription}
                       </FormDescription>
                     </div>
                     <FormControl>
@@ -175,19 +180,23 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
               )}
           />
 
-          <OutputFolderFormField control={form.control} name={globalStrings.outputFolder}
-                                 description={globalStrings.outputFolderDescription}/>
-          <OutputFilenameFormfield control={form.control} name={globalStrings.outputFilename}
-                                   description={globalStrings.outputFilenameDescription}/>
-          <OutputFileFormatFormfield control={form.control} name={globalStrings.outputFormat}
-                                     description={globalStrings.outputFormatDescription}/>
+          <BuiltInSegmenterFlagFormField control={form.control} title={strings.useBuiltInSegmenter}
+                                         description={strings.useBuiltInSegmenterDescription} note={strings.useBuiltInSegmenterNote}
+                                         noteDescription={strings.useBuiltInSegmenterNoteDescription}/>
+
+          <OutputFolderFormField control={form.control} name={strings.outputFolder}
+                                 description={strings.outputFolderDescription}/>
+          <OutputFilenameFormfield control={form.control} name={strings.outputFilename}
+                                   description={strings.outputFilenameDescription}/>
+          <OutputFileFormatFormfield control={form.control} name={strings.outputFormat}
+                                     description={strings.outputFormatDescription}/>
 
           <FormField
               control={form.control}
               name="minPartSize"
               render={({field}) => (
                   <FormItem>
-                    <FormLabel>{globalStrings.minPart}</FormLabel>
+                    <FormLabel>{strings.minPart}</FormLabel>
                     <Select
                         onValueChange={(newValue) => {
                           if (!newValue && newValue.length === 0) {
@@ -213,17 +222,17 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                           />
                         </FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={globalStrings.minPartDefault}/>
+                          <SelectValue placeholder={strings.minPartDefault}/>
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value={FileSizeUnit.B}>B</SelectItem>
-                          <SelectItem value={FileSizeUnit.KB}>KB</SelectItem>
-                          <SelectItem value={FileSizeUnit.MB}>MB</SelectItem>
-                          <SelectItem value={FileSizeUnit.GB}>GB</SelectItem>
+                          <SelectItem value={FileSizeUnit.B}>{FileSizeUnit.B}</SelectItem>
+                          <SelectItem value={FileSizeUnit.KB}>{FileSizeUnit.KB}</SelectItem>
+                          <SelectItem value={FileSizeUnit.MB}>{FileSizeUnit.MB}</SelectItem>
+                          <SelectItem value={FileSizeUnit.GB}>{FileSizeUnit.GB}</SelectItem>
                         </SelectContent>
                       </div>
                       <FormDescription>
-                        {globalStrings.minPartDescription}
+                        {strings.minPartDescription}
                       </FormDescription>
                     </Select>
                     <FormMessage/>
@@ -236,7 +245,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
               name="maxPartSize"
               render={({field}) => (
                   <FormItem>
-                    <FormLabel>{globalStrings.maxPart}</FormLabel>
+                    <FormLabel>{strings.maxPart}</FormLabel>
                     <Select
                         onValueChange={(newValue) => {
                           if (!newValue && newValue.length === 0) {
@@ -260,18 +269,18 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                           />
                         </FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={globalStrings.maxPartDefault}/>
+                          <SelectValue placeholder={strings.maxPartDefault}/>
                         </SelectTrigger>
 
                         <SelectContent>
-                          <SelectItem value={FileSizeUnit.B}>B</SelectItem>
-                          <SelectItem value={FileSizeUnit.KB}>KB</SelectItem>
-                          <SelectItem value={FileSizeUnit.MB}>MB</SelectItem>
-                          <SelectItem value={FileSizeUnit.GB}>GB</SelectItem>
+                          <SelectItem value={FileSizeUnit.B}>{FileSizeUnit.B}</SelectItem>
+                          <SelectItem value={FileSizeUnit.KB}>{FileSizeUnit.KB}</SelectItem>
+                          <SelectItem value={FileSizeUnit.MB}>{FileSizeUnit.MB}</SelectItem>
+                          <SelectItem value={FileSizeUnit.GB}>{FileSizeUnit.GB}</SelectItem>
                         </SelectContent>
                       </div>
                       <FormDescription>
-                        {globalStrings.maxPartDescription}
+                        {strings.maxPartDescription}
                       </FormDescription>
                     </Select>
                     <FormMessage/>
@@ -285,7 +294,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
               name="maxPartDuration"
               render={({field}) => (
                   <FormItem>
-                    <FormLabel>{globalStrings.maxPartDuration}</FormLabel>
+                    <FormLabel>{strings.maxPartDuration}</FormLabel>
                     <Select
                         onValueChange={(newValue) => {
                           if (!newValue && newValue.length === 0) {
@@ -315,18 +324,18 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                           />
                         </FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder={globalStrings.maxPartDurationDefault}/>
+                          <SelectValue placeholder={strings.maxPartDurationDefault}/>
                         </SelectTrigger>
 
                         <SelectContent>
-                          <SelectItem value={DurationUnit.SECONDS}>{globalStrings.timeFormats.seconds}</SelectItem>
-                          <SelectItem value={DurationUnit.MINUTES}>{globalStrings.timeFormats.minutes}</SelectItem>
-                          <SelectItem value={DurationUnit.HOURS}>{globalStrings.timeFormats.hours}</SelectItem>
-                          <SelectItem value={DurationUnit.DAYS}>{globalStrings.timeFormats.days}</SelectItem>
+                          <SelectItem value={DurationUnit.SECONDS}>{strings.timeFormats.seconds}</SelectItem>
+                          <SelectItem value={DurationUnit.MINUTES}>{strings.timeFormats.minutes}</SelectItem>
+                          <SelectItem value={DurationUnit.HOURS}>{strings.timeFormats.hours}</SelectItem>
+                          <SelectItem value={DurationUnit.DAYS}>{strings.timeFormats.days}</SelectItem>
                         </SelectContent>
                       </div>
                       <FormDescription>
-                        {globalStrings.maxPartDurationDescription}
+                        {strings.maxPartDurationDescription}
                       </FormDescription>
                     </Select>
                     <FormMessage/>
@@ -339,7 +348,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
               name="maxConcurrentDownloads"
               render={({field}) => (
                   <FormItem>
-                    <FormLabel>{globalStrings.maxConcurrentDownload}</FormLabel>
+                    <FormLabel>{strings.maxConcurrentDownload}</FormLabel>
                     <FormControl>
                       <Input type="number"
                              placeholder="5"
@@ -347,7 +356,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                              value={field.value}/>
                     </FormControl>
                     <FormDescription>
-                      {globalStrings.maxConcurrentDownloadDescription}
+                      {strings.maxConcurrentDownloadDescription}
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>
@@ -358,7 +367,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
               name="maxConcurrentUploads"
               render={({field}) => (
                   <FormItem>
-                    <FormLabel>{globalStrings.maxConcurrentUpload}</FormLabel>
+                    <FormLabel>{strings.maxConcurrentUpload}</FormLabel>
                     <FormControl>
                       <Input type="number"
                              onChange={(e) => field.onChange(parseInt(e.target.value))}
@@ -366,27 +375,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                              placeholder="3"/>
                     </FormControl>
                     <FormDescription>
-                      {globalStrings.maxConcurrentUploadDescription}
-                    </FormDescription>
-                    <FormMessage/>
-                  </FormItem>
-              )}
-          />
-
-          <FormField
-              control={form.control}
-              name="downloadRetryDelay"
-              render={({field}) => (
-                  <FormItem>
-                    <FormLabel>{globalStrings.downloadRetryDelay}</FormLabel>
-                    <FormControl>
-                      <Input type="number"
-                             onChange={(e) => field.onChange(Number(e.target.value))}
-                             value={field.value}
-                             placeholder="10"/>
-                    </FormControl>
-                    <FormDescription>
-                      {globalStrings.downloadRetryDelayDescription}
+                      {strings.maxConcurrentUploadDescription}
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>
@@ -398,7 +387,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
               name="downloadCheckInterval"
               render={({field}) => (
                   <FormItem>
-                    <FormLabel>{globalStrings.downloadCheckInterval}</FormLabel>
+                    <FormLabel>{strings.downloadCheckInterval}</FormLabel>
                     <FormControl>
                       <Input type="number"
                              onChange={(e) => field.onChange(Number(e.target.value))}
@@ -406,7 +395,7 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                              placeholder="60"/>
                     </FormControl>
                     <FormDescription>
-                      {globalStrings.downloadCheckIntervalDescription}
+                      {strings.downloadCheckIntervalDescription}
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>
@@ -415,10 +404,31 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
 
           <FormField
               control={form.control}
+              name="downloadRetryDelay"
+              render={({field}) => (
+                  <FormItem>
+                    <FormLabel>{strings.downloadRetryDelay}</FormLabel>
+                    <FormControl>
+                      <Input type="number"
+                             onChange={(e) => field.onChange(Number(e.target.value))}
+                             value={field.value}
+                             placeholder="10"/>
+                    </FormControl>
+                    <FormDescription>
+                      {strings.downloadRetryDelayDescription}
+                    </FormDescription>
+                    <FormMessage/>
+                  </FormItem>
+              )}
+          />
+
+
+          <FormField
+              control={form.control}
               name="maxDownloadRetries"
               render={({field}) => (
                   <FormItem>
-                    <FormLabel>{globalStrings.maxDownloadRetries}</FormLabel>
+                    <FormLabel>{strings.maxDownloadRetries}</FormLabel>
                     <FormControl>
                       <Input type="number"
                              onChange={(e) => field.onChange(Number(e.target.value))}
@@ -426,14 +436,14 @@ export function GlobalForm({appConfig, update, globalStrings}: GlobalFormProps) 
                              placeholder="3"/>
                     </FormControl>
                     <FormDescription>
-                      {globalStrings.maxDownloadRetriesDescription}
+                      {strings.maxDownloadRetriesDescription}
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>
               )}
           />
 
-          <LoadingButton type="submit" loading={isSubmitting}>{globalStrings.save}</LoadingButton>
+          <LoadingButton type="submit" loading={isSubmitting}>{strings.save}</LoadingButton>
         </form>
       </Form>
   )

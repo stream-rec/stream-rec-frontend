@@ -2,6 +2,7 @@
 import {fetchApi} from "@/lib/data/api";
 import {StreamerSchema} from "@/lib/data/streams/definitions";
 import {fetchAvatar, getHuyaId} from "@/lib/data/platform/huya/apis";
+import {PlatformType} from "@/lib/data/platform/definitions";
 
 export const fetchStreamers = async (filter: string) => {
   const response = await fetchApi('/streamers?filter=' + filter, {
@@ -35,7 +36,7 @@ export const fetchStreamer = async (id: string) => {
 
 export const createStreamer = async (streamer: StreamerSchema) => {
   if (!streamer.avatar || streamer.avatar !== "") {
-    if (streamer.platform?.toLowerCase() === "huya") {
+    if (streamer.platform?.toLowerCase() === PlatformType.HUYA) {
       let urlId = getHuyaId(streamer.url)
       await fetchAvatar(urlId).then(avatar => {
         streamer.avatar = avatar
@@ -43,7 +44,6 @@ export const createStreamer = async (streamer: StreamerSchema) => {
         console.error("Error fetching avatar: " + e)
       })
     }
-    // TODO: fetch douyin avatar
   }
 
   const response = await fetchApi('/streamers', {

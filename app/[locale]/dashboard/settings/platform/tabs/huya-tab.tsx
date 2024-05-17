@@ -78,11 +78,10 @@ export const HuyaTabContent = ({
               render={({field}) => (
                   <FormItem>
                     <FormLabel>
-                      <>
+                      <div className={"flex-row items-center space-x-3"}>
                         {huyaStrings.sourceFormat}
-                        <> </>
                         <Badge>Experimental</Badge>
-                      </>
+                      </div>
                     </FormLabel>
                     <Select
                         onValueChange={field.onChange}
