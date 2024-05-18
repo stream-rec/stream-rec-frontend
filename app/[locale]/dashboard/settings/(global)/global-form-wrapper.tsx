@@ -52,6 +52,10 @@ export default function GlobalFormWrapper({appConfigPromise}: GlobalFormWrapperP
     downloadCheckIntervalDescription: t("downloadCheckIntervalDescription"),
     maxDownloadRetries: t("maxDownloadRetries"),
     maxDownloadRetriesDescription: t("maxDownloadRetriesDescription"),
+    useBuiltInSegmenter: t("useBuiltInSegmenter"),
+    useBuiltInSegmenterDescription: t.rich("useBuiltInSegmenterDescription"),
+    useBuiltInSegmenterNote: t("useBuiltInSegmenterNote"),
+    useBuiltInSegmenterNoteDescription: t.rich("useBuiltInSegmenterNoteDescription"),
     save: settingsT("save"),
     timeFormats: {
       hours: timeUnitsT("hours"),
@@ -63,7 +67,7 @@ export default function GlobalFormWrapper({appConfigPromise}: GlobalFormWrapperP
 
   return (
       <>
-        <GlobalForm appConfig={appConfig} update={updateConfig} globalStrings={translations}/>
+        <GlobalForm appConfig={appConfig} update={updateConfig} strings={translations}/>
       </>
   )
 

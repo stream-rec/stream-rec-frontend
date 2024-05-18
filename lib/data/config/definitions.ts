@@ -33,6 +33,7 @@ export const globalConfigSchema = z.object({
   maxDownloadRetries: z.number().min(1).optional(),
   downloadRetryDelay: z.number().min(1).optional(),
   downloadCheckInterval: z.number().min(30).optional(),
+  useBuiltInSegmenter: z.boolean().optional(),
   huyaConfig: huyaGlobalConfig.optional(),
   douyinConfig: douyinGlobalConfig.optional(),
   douyuConfig: douyuGlobalConfig.optional(),
