@@ -360,7 +360,7 @@
     "maxDownloadRetries": "下播检查次数",
     "maxDownloadRetriesDescription": "最大下播检查次数， 默认为3次。 主播下播后，工具将会重试，然后检查直播间是否真的下播。适当增加此值可以减少伪下播状态。",
     "useBuiltInSegmenter": "使用FFmpeg分段（实验性）",
-    "useBuiltInSegmenterDescription": "开启此选项将会使用FFmpeg分段， 减少直播平台API调用，实现无损分段。",
+    "useBuiltInSegmenterDescription": "开启此选项将使用FFmpeg分段， 减少直播平台API调用，实现无损分段。",
     "useBuiltInSegmenterNote": "注意事件：",
     "useBuiltInSegmenterNoteDescription": "* 开启后只能使用时长分段，无法使用大小分段\n* 开启后无法及时更新主播标题\n* 开启后无法查看主播当前下载码率\n* 使用FLV格式下载时会出现颜色错误\n* 使用该选项时请使用时间戳文件名格式"
   },
