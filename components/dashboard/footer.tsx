@@ -1,4 +1,4 @@
-import Link from "next/link";
+import {Link} from "@/i18n";
 import {APP_VERSION} from "@/lib/version";
 
 export function Footer() {

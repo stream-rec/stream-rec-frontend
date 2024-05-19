@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import {useState} from "react";
 import {ChevronDown, Dot, LucideIcon} from "lucide-react";
 
@@ -17,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/new-york/ui/dropdown-menu";
+import {Link} from "@/i18n";
 
 type Submenu = {
   href: string;

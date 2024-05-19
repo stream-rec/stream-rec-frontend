@@ -1,4 +1,4 @@
-import Link from "next/link";
+import {Link} from "@/i18n";
 import {MenuIcon} from "lucide-react";
 
 import {Button} from "@/components/new-york/ui/button";

@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import {Link} from "@/i18n";
 import {LayoutGrid, LogOut, User} from "lucide-react";
 
 import {Button} from "@/components/new-york/ui/button";
