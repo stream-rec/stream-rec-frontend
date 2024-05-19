@@ -5,7 +5,6 @@
   },
   "Dashboard": {
     "title": "控制面板",
-    "summaryOfDashboard": "一些关于控制面板的摘要",
     "streamers": "主播列表",
     "status": "{status, select, recording {录制中} notRecording {不在录制} other {已禁用}}"
   },
@@ -22,9 +21,17 @@
     "name": "名称",
     "url": "直播链接"
   },
+  "Sidebar": {
+    "dashboard": "控制面板",
+    "streamers": "主播列表",
+    "settings": "设置",
+    "uploads": "上传列表",
+    "records": "录播列表",
+    "users": "用户",
+    "logout": "退出登录"
+  },
   "StreamersPage": {
     "title": "主播列表",
-    "summaryOfStreamers": "这里是主播列表",
     "addStreamer": "添加主播"
   },
   "NewStreamerPage": {
@@ -32,8 +39,7 @@
     "description": "添加一个新的主播"
   },
   "EditStreamerPage": {
-    "title": "编辑主播",
-    "description": "编辑主播的各种参数"
+    "title": "编辑主播"
   },
   "StreamerForm": {
     "templateDefault": "选择一个模板",
@@ -99,11 +105,10 @@
   },
   "SettingsPage": {
     "title": "设置",
-    "settingsDescription": "在本页面修改全局，平台，主题设置",
     "globalSettings": "全局设置",
     "globalSettingsDescription": "关于Stream-rec的全局设置",
     "globalSettingsAlert": "请注意！",
-    "globalSettingsAlertDescription": "更改某些设置可能需要重启Stream-rec",
+    "globalSettingsAlertDescription": "更改此设置可能需要重启Stream-rec",
     "platformSettings": "全局平台设置",
     "platformSettingsDescription": "关于每个平台的各种设置",
     "themeSettings": "主题设置",
@@ -116,7 +121,6 @@
   },
   "WebSettingPage": {
     "title": "网页设置",
-    "description": "关于网页的一些设置",
     "locale": "语言",
     "localeDescription": "选择一个语言"
   },
@@ -395,14 +399,12 @@
   },
   "UploadsPage": {
     "title": "上传列表",
-    "description": "这里是上传列表，目前只支持rclone平台...",
     "viewUploadDetails": "查看上传详情",
     "viewStreamDetails": "查看直播详情",
     "viewStreamerDetails": "查看主播详情"
   },
   "UploadDetails": {
-    "title": "上传详情",
-    "description": "关于上传的一些详情"
+    "title": "上传详情"
   },
   "UploadData": {
     "id": "Id",
@@ -451,7 +453,6 @@
   },
   "RecordsPage": {
     "title": "录播列表",
-    "description": "这里是录播列表",
     "viewUploadDetails": "查看上传详情",
     "viewStreamDetails": "查看直播详情",
     "viewStreamerDetails": "查看主播详情"
@@ -501,8 +502,7 @@
     "dateEnd": "停止录制时间"
   },
   "RecordDetails": {
-    "title": "录播详情",
-    "description": "关于录播的一些详情"
+    "title": "录播详情"
   },
   "TimeUnit": {
     "seconds": "秒",

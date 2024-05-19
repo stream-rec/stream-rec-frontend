@@ -1,5 +1,6 @@
-// import('next')
 import createNextIntlPlugin from 'next-intl/plugin';
+
+import packageJson from './package.json' assert {type: 'json'};
 
 const withNextIntl = createNextIntlPlugin();
 
@@ -14,6 +15,9 @@ const nextConfig = {
         ]
     },
     output: 'standalone',
+    env: {
+        APP_VERSION: packageJson.version,
+    }
 };
 
 export default withNextIntl(nextConfig);
