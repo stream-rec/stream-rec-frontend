@@ -5,7 +5,6 @@
   },
   "Dashboard": {
     "title": "Dashboard",
-    "summaryOfDashboard": "Summary of stats, and other data",
     "streamers": "Streamers",
     "status": "{status, select, recording {Recording} notRecording {Not recording} other {Disabled}}"
   },
@@ -22,18 +21,24 @@
     "name": "Name",
     "url": "Url"
   },
+  "Sidebar": {
+    "dashboard": "Dashboard",
+    "streamers": "Streamers",
+    "records": "Records",
+    "uploads": "Uploads",
+    "settings": "Settings",
+    "users": "Users",
+    "logout": "Logout"
+  },
   "StreamersPage": {
     "title": "Streamers",
-    "summaryOfStreamers": "List of streamers and their status",
     "addStreamer": "Add streamer"
   },
   "NewStreamerPage": {
-    "title": "New streamer",
-    "description": "Add a new streamer to your list."
+    "title": "New streamer"
   },
   "EditStreamerPage": {
-    "title": "Edit streamer",
-    "description": "Edit the streamer's details and settings."
+    "title": "Edit streamer"
   },
   "StreamerForm": {
     "templateDefault": "Select a template",
@@ -99,11 +104,10 @@
   },
   "SettingsPage": {
     "title": "Settings",
-    "settingsDescription": "Manage your global, platforms and appearance settings.",
     "globalSettings": "Global settings",
     "globalSettingsDescription": "This is where you can update your global settings.",
     "globalSettingsAlert": "Heads up!",
-    "globalSettingsAlertDescription": "Changing some of these settings may require a manual reboot",
+    "globalSettingsAlertDescription": "Changing this setting may require a manual reboot",
     "platformSettings": "Platform settings",
     "platformSettingsDescription": "Configure streaming platforms recording settings.",
     "themeSettings": "Appearance",
@@ -116,7 +120,6 @@
   },
   "WebSettingPage": {
     "title": "Web settings",
-    "description": "Manage your web settings.",
     "locale": "Language",
     "localeDescription": "Select the language for the web interface."
   },
@@ -395,14 +398,12 @@
   },
   "UploadsPage": {
     "title": "Upload list",
-    "description": "Here's a list of your uploaded data. Now it only supports uploads by Rclone...",
     "viewUploadDetails": "查看上传详情",
     "viewStreamDetails": "查看直播详情",
     "viewStreamerDetails": "查看主播详情"
   },
   "UploadDetails": {
-    "title": "Upload details",
-    "description": "View upload details."
+    "title": "Upload details"
   },
   "UploadData": {
     "id": "Id",
@@ -451,7 +452,6 @@
   },
   "RecordsPage": {
     "title": "Records page",
-    "description": "Here's a list of your recorded data.",
     "viewUploadDetails": "View upload details",
     "viewStreamDetails": "View stream details",
     "viewStreamerDetails": "View streamer details"
@@ -501,8 +501,7 @@
     "dateEnd": "Stream end time"
   },
   "RecordDetails": {
-    "title": "Stream details",
-    "description": "View stream details."
+    "title": "Stream details"
   },
   "TimeUnit": {
     "seconds": "seconds",

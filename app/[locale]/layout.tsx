@@ -10,7 +10,7 @@ const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
   title: "Stream-rec",
-  description: "Automatic streaming record tool using Kotlin coroutines, flow, sqldelight, and ktor. 虎牙/抖音直播自动录制",
+  description: "Automatic streaming record tool powered by Kotlin coroutines, flow, serialization, sqldelight, and ktor. 虎牙/抖音/斗鱼/Twitch/PandaTV直播，弹幕自动录制",
 };
 
 export function generateStaticParams() {
@@ -29,10 +29,10 @@ export default function LocaleLayout({
   return (
       <html lang={locale}>
       <head>
-        <link rel="icon" href="/stream-rec.png" sizes="any"/>
+        <link rel="icon" href="/stream-rec.svg" sizes="any"/>
         <link
             rel="icon"
-            href="/stream-rec.png?<generated>"
+            href="/stream-rec.svg?<generated>"
             type="image/<generated>"
             sizes="<generated>"
         />
@@ -50,7 +50,7 @@ export default function LocaleLayout({
       >
         {children}
       </ThemeProvider>
-      <Toaster richColors closeButton duration={5000}/>
+      <Toaster richColors closeButton duration={3000}/>
       </body>
       </html>
 
