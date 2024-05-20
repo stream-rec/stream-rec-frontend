@@ -23,8 +23,8 @@ export function SheetMenu({navStrings}: { navStrings: SidebarStrings }) {
                 asChild
             >
               <Link href="/dashboard" className="flex items-center gap-2">
-                <div className="w-8 h-8 mr-4">
-                  <StreamRecIcon fill="#e3e3e5"/>
+                <div className="w-8 h-8 mr-1">
+                  <StreamRecIcon/>
                 </div>
                 <h1 className="font-bold text-lg">Stream-rec</h1>
               </Link>

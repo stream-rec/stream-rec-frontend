@@ -36,9 +36,11 @@ export function UploadActionColumn({data, deleteUpload}: UploadActionColumnProps
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>{t('actions')}</DropdownMenuLabel>
-          <DropdownMenuItem><Link href={"/dashboard/uploads/" + data.id}>{u('viewUploadDetails')}</Link></DropdownMenuItem>
-          <DropdownMenuItem><Link href={"/dashboard/records/" + data.streamDataId}>{u('viewStreamDetails')}</Link></DropdownMenuItem>
-          <DropdownMenuItem><Link href={"/dashboard/streamers/" + data.streamerId + "/edit"}>{u('viewStreamerDetails')}</Link></DropdownMenuItem>
+          <DropdownMenuItem><Link href={"/uploads/" + data.id}>{u('viewUploadDetails')}</Link></DropdownMenuItem>
+          <DropdownMenuItem><Link
+              href={"/records/" + data.streamDataId}>{u('viewStreamDetails')}</Link></DropdownMenuItem>
+          <DropdownMenuItem><Link
+              href={"/streamers/" + data.streamerId + "/edit"}>{u('viewStreamerDetails')}</Link></DropdownMenuItem>
 
           {/* TODO - add re-upload functionality
           {!data.status && <div>
