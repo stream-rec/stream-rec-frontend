@@ -1,7 +1,7 @@
 'use server'
 import {fetchApi} from "@/lib/data/api";
 import {StreamerSchema} from "@/lib/data/streams/definitions";
-import {fetchAvatar, getHuyaId} from "@/lib/data/platform/huya/apis";
+import {fetchInfo, getHuyaId} from "@/lib/data/platform/huya/apis";
 import {PlatformType} from "@/lib/data/platform/definitions";
 
 export const fetchStreamers = async (filter: string) => {
@@ -38,11 +38,10 @@ export const createStreamer = async (streamer: StreamerSchema) => {
   if (!streamer.avatar || streamer.avatar !== "") {
     if (streamer.platform?.toLowerCase() === PlatformType.HUYA) {
       let urlId = getHuyaId(streamer.url)
-      await fetchAvatar(urlId).then(avatar => {
-        streamer.avatar = avatar
-      }).catch(e => {
-        console.error("Error fetching avatar: " + e)
-      })
+      const {avatar, room} = await fetchInfo(urlId)
+      streamer.avatar = avatar
+      // replace url with room
+      streamer.url = streamer.url.replace(urlId, room)
     }
   }
 
