@@ -1,6 +1,6 @@
-import {huyaAvatarRegex, huyaBaseUrl, huyaRegex} from "@/lib/data/platform/huya/constants";
+import {huyaAvatarRegex, huyaBaseUrl, huyaProfileRoomRegex, huyaRegex} from "@/lib/data/platform/huya/constants";
 
-export async function fetchAvatar(id: string) {
+export async function fetchInfo(id: string) {
 
   const respose = await fetch(huyaBaseUrl + id, {
     cache: 'no-cache',
@@ -20,7 +20,14 @@ export async function fetchAvatar(id: string) {
   if (!match) {
     throw new Error("Error parsing avatar")
   }
-  return match[1]
+  let roomMatch = text.match(huyaProfileRoomRegex)
+  if (!roomMatch) {
+    throw new Error("Error parsing room")
+  }
+  return {
+    avatar: match[1],
+    room: roomMatch[1]
+  }
 }
 
 export const getHuyaId = (url: string) => {
