@@ -62,7 +62,7 @@ export const streamerSchema = z.object({
   lastLiveTime: z.number().nullish(),
   isActivated: z.boolean(),
   isTemplate: z.boolean(),
-  templateId: z.number().optional(),
+  templateId: z.number().min(0).optional(),
   downloadConfig: baseDownloadConfig.nullish(),
 });
 
