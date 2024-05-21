@@ -99,7 +99,7 @@ export function StreamerStatusList({
       console.log('WebSocket connection closed');
       ws.close();
     };
-  }, []);
+  }, [router, wsUrl]);
 
   const [bitratedRecordingCards, setBitratedRecordingCards] = useState<StreamerCardProps[]>([]);
 
@@ -107,11 +107,13 @@ export function StreamerStatusList({
   // update the bitrate and duration of the recording cards
   useEffect(() => {
     setBitratedRecordingCards(recordingCards.map(card => {
-      const updateData = bitrates[card.streamerId]
-      if (updateData) {
-        return {...card, bitrate: updateData.bitrate.toString(), duration: secondsToHHmmss(updateData.duration), downloadUrl: updateData.url}
-      }
-      return card
+      const updateData = bitrates[card.streamerId];
+      return updateData ? {
+        ...card,
+        bitrate: updateData.bitrate == 0 ? null : updateData.bitrate.toString(),
+        duration: secondsToHHmmss(updateData.duration),
+        downloadUrl: updateData.url
+      } : card;
     }));
   }, [recordingCards, bitrates]);
 
