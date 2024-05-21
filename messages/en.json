@@ -123,6 +123,13 @@
     "locale": "Language",
     "localeDescription": "Select the language for the web interface."
   },
+  "GlobalPlatformConfig": {
+    "part": "Part download delay",
+    "partDescription": "The delay between each part download retry.",
+    "cookieTitle": "Cookies",
+    "fetchDelayTitle": "Platform fetch delay",
+    "fetchDelayDescription": "The delay between each platform fetch request."
+  },
   "Huya": {
     "platform": "Huya",
     "cdn": "Primary CDN",
@@ -133,10 +140,7 @@
     "sourceFormatPlaceholder": "Please select a source format",
     "bitrate": "Max record bitrate",
     "bitrateDescription": "The maximum bitrate for the Huya video stream. The tool will automatically adjust the closest bitrate available for download.",
-    "part": "Part download delay",
-    "partDescription": "The delay between each part download retry. Default is 15 seconds.",
-    "cookieString": "Cookies",
-    "cookieDescription": "Cookies to be used for the Huya video stream. <important>Optional</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional</important>"
   },
   "DouyinQualities": {
     "origin": {
@@ -176,10 +180,7 @@
     "sourceFormat": "Source format",
     "sourceFormatDescription": "Select the source format of the Douyin live stream. Default is set to flv. <important>It is recommended to use flv sources as some streams has no hls streams. Please use Streamlink to download HLS sources.</important>",
     "sourceFormatPlaceholder": "Please select a source format",
-    "part": "Part download delay",
-    "partDescription": "The delay between each part download retry. Default is 3 seconds.",
-    "cookieString": "Douyin Cookies",
-    "cookiesDescription": "The cookies used to authenticate the Douyin account. Optional. <important>__ac_nonce='anything' must be included</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. Optional. <important>__ac_nonce='anything' and __ac_signature='anything' must be included</important>"
   },
   "Douyu": {
     "platform": "Douyu",
@@ -192,7 +193,7 @@
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry. Default is 30 seconds.",
     "cookieString": "Cookies",
-    "cookiesDescription": "Cookies to be used for the Douyu video stream. <important>Optional</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional</important>"
   },
   "DouyuQualities": {
     "origin": {
@@ -231,7 +232,7 @@
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry. Default is 30 seconds.",
     "cookies": "Cookies",
-    "cookiesDescription": "Cookies to be used for the Twitch video stream. <important>Optional</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional</important>"
   },
   "TwitchQualities": {
     "origin": {
@@ -271,7 +272,7 @@
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry. Default is 30 seconds.",
     "cookies": "Cookies",
-    "cookiesDescription": "Cookies to be used for the PandaTV video stream. <important>Optional, only required for 18+ streams</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional, only required for 18+ streams</important>"
   },
   "PandaliveQualities": {
     "origin": {
