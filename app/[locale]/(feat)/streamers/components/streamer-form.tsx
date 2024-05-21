@@ -14,7 +14,7 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/aler
 import {streamerSchema, StreamerSchema} from "@/lib/data/streams/definitions";
 import {huyaDownloadConfig} from "@/lib/data/platform/huya/definitions";
 import {douyinDownloadConfig} from "@/lib/data/platform/douyin/definitions";
-import {PlatformType} from "@/lib/data/platform/definitions";
+import {platformRegexes, PlatformType} from "@/lib/data/platform/definitions";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/new-york/ui/popover";
 import {cn} from "@/lib/utils";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem} from "@/components/new-york/ui/command";
@@ -31,17 +31,12 @@ import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import {DouyuPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/douyu-platform";
 import {douyuDownloadConfig} from "@/lib/data/platform/douyu/definitions";
 import {DouyuQuality, DouyuTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/douyu-tab";
-import {huyaRegex} from "@/lib/data/platform/huya/constants";
-import {douyinRegex} from "@/lib/data/platform/douyin/constants";
-import {douyuRegex} from "@/lib/data/platform/douyu/constants";
 import {twitchDownloadConfig} from "@/lib/data/platform/twitch/definitions";
 import {TwitchPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/twitch-platform";
 import {TwitchQualityItem, TwitchTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
-import {twitchRegex} from "@/lib/data/platform/twitch/constants";
 import {PandaliveQualityItem, PandaliveTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandalive-tab";
 import {pandaliveDownloadConfig} from "@/lib/data/platform/pandalive/definitions";
 import {PandalivePlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/pandalive-platform";
-import {pandaliveRegex} from "@/lib/data/platform/pandalive/constants";
 
 type StreamerConfigProps = {
   strings: {
@@ -200,13 +195,6 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
   const selectedTemplateId = form.watch("templateId")
 
   const trySetPlatform = (url: string) => {
-    const platformRegexes = [
-      {platformType: PlatformType.HUYA, regex: huyaRegex},
-      {platformType: PlatformType.DOUYIN, regex: douyinRegex},
-      {platformType: PlatformType.DOUYU, regex: douyuRegex},
-      {platformType: PlatformType.TWITCH, regex: twitchRegex},
-      {platformType: PlatformType.PANDALIVE, regex: pandaliveRegex}
-    ];
 
     for (const {platformType, regex} of platformRegexes) {
       if (url.match(regex)) {
@@ -304,9 +292,9 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                                   <Button
                                       variant="outline"
                                       role="combobox"
-                                      className={cn("w-[200px] justify-between", !field.value && field.value !== -1 && "text-muted-foreground")}
+                                      className={cn("w-[200px] justify-between", !field.value && field.value !== 0 && "text-muted-foreground")}
                                   >
-                                    {field.value ? field.value === -1 ? strings.streamerForm.templateDefault
+                                    {field.value ? field.value === 0 ? strings.streamerForm.templateDefault
                                             : templateUsers.find((language) => language.id === field.value)?.name
                                         : strings.streamerForm.templateDefault}
                                     <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
@@ -321,12 +309,12 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                                   />
                                   <CommandEmpty>{strings.streamerForm.noTemplate}</CommandEmpty>
                                   <CommandGroup>
-                                    <CommandItem value={"-1"} key={"No template"} onSelect={() => {
-                                      form.setValue("templateId", -1)
+                                    <CommandItem value={"0"} key={"No template"} onSelect={() => {
+                                      form.setValue("templateId", 0)
                                     }}>
                                       {strings.streamerForm.doNotUseTemplate}
                                       <CheckIcon
-                                          className={cn("ml-auto h-4 w-4", field.value === -1 ? "opacity-100" : "opacity-0")}
+                                          className={cn("ml-auto h-4 w-4", field.value === 0 ? "opacity-100" : "opacity-0")}
                                       />
                                     </CommandItem>
                                     {templateUsers.map((language) => (
@@ -360,7 +348,7 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
             )}
 
             {
-                selectedTemplateId && selectedTemplateId < 1 && (
+                selectedTemplateId === 0 && (
                     <FormField
                         control={form.control}
                         name="isTemplate"
@@ -391,8 +379,7 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
             }
 
             <div className={clsx("space-y-6",
-                {"hidden": platform === "invalid"},
-                {"hidden": selectedTemplateId && selectedTemplateId !== -1},
+                {"hidden": platform === "invalid" || selectedTemplateId && selectedTemplateId !== 0},
             )}>
               <h3 className="text-md font-semibold">{strings.streamerForm.streamerOnlyOptions}</h3>
 
