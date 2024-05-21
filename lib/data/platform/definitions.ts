@@ -7,6 +7,7 @@ import {pandaliveRegex} from "@/lib/data/platform/pandalive/constants";
 
 export const globalPlatformConfig = z.object({
   partedDownloadRetry: z.number().min(0).nullish(),
+  fetchDelay: z.number().min(0).nullish(),
 })
 
 export type GlobalPlatformConfig = z.infer<typeof globalPlatformConfig>

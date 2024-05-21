@@ -6,6 +6,8 @@ export const douyinQualityKeys = ['origin', 'uhd', 'hd', 'sd', 'ld', 'md', 'ao']
 
 export const useDouyinTranslations = () => {
   const t = useTranslations("Douyin")
+  const pt = useTranslations("GlobalPlatformConfig")
+
   return useMemo(() => ({
     platform: t("platform"),
     sourceFormat: t("sourceFormat"),
@@ -14,11 +16,13 @@ export const useDouyinTranslations = () => {
     quality: t("quality"),
     qualityDescription: t("qualityDescription"),
     qualityDefault: t("qualityDefault"),
-    part: t("part"),
-    partDescription: t.rich("partDescription"),
-    cookies: t("cookieString"),
-    cookiesDescription: t.rich("cookiesDescription"),
-  }), [t])
+    fetchDelayTitle: pt("fetchDelayTitle"),
+    fetchDelayDescription: pt.rich("fetchDelayDescription"),
+    partTitle: pt("part"),
+    partDescription: pt.rich("partDescription"),
+    cookieTitle: pt("cookieTitle"),
+    cookieDescription: t.rich("cookieDescription"),
+  }), [t, pt])
 }
 
 export const useDouyinQualityTranslations = () => {

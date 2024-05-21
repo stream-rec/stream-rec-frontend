@@ -6,6 +6,8 @@ const douyuQualityKeys = ['origin', 'uhd_8m', 'uhd', 'hd', 'sd', 'ld'] as const
 
 export const useDouyuTranslations = () => {
   const t = useTranslations("Douyu")
+  const pt = useTranslations("GlobalPlatformConfig")
+
   return useMemo(() => ({
     platform: t("platform"),
     cdn: t("cdn"),
@@ -14,11 +16,13 @@ export const useDouyuTranslations = () => {
     quality: t("quality"),
     qualityDescription: t("qualityDescription"),
     qualityDefault: t("qualityDefault"),
-    part: t("part"),
-    partDescription: t.rich("partDescription"),
-    cookies: t("cookieString"),
-    cookiesDescription: t.rich("cookiesDescription"),
-  }), [t])
+    fetchDelayTitle: pt("fetchDelayTitle"),
+    fetchDelayDescription: pt.rich("fetchDelayDescription"),
+    partTitle: pt("part"),
+    partDescription: pt.rich("partDescription"),
+    cookieTitle: pt("cookieTitle"),
+    cookieDescription: t.rich("cookieDescription"),
+  }), [t, pt])
 }
 
 export const useDouyuQualityTranslations = () => {

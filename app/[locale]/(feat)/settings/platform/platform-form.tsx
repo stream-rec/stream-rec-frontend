@@ -85,26 +85,26 @@ export default function PlatformForm({
             <div>
               <TabsContent value={PlatformType.DOUYIN}>
                 <DouyinTabContent controlPrefix={"douyinConfig"} control={form.control} showCookies
-                                  showPartedDownloadRetry douyinStrings={douyinStrings}
+                                  showPartedDownloadRetry showFetchDelay strings={douyinStrings}
                                   qualityOptions={douyinQualityOptions}/>
               </TabsContent>
               <TabsContent value={PlatformType.DOUYU}>
                 <DouyuTabContent controlPrefix={"douyuConfig"} control={form.control} showCookies
-                                 showPartedDownloadRetry strings={douyuStrings}
+                                 showPartedDownloadRetry showFetchDelay strings={douyuStrings}
                                  qualityOptions={douyuQualityOptions}/>
               </TabsContent>
               <TabsContent value={PlatformType.HUYA}>
                 <HuyaTabContent controlPrefix={"huyaConfig"} control={form.control} showCookies showMaxBitrate
-                                showPartedDownloadRetry huyaStrings={huyaStrings}/>
+                                showPartedDownloadRetry showFetchDelay strings={huyaStrings}/>
               </TabsContent>
               <TabsContent value={PlatformType.PANDALIVE}>
                 <PandaliveTabContent controlPrefix={"pandaliveConfig"} control={form.control} showCookies
-                                     showPartedDownloadRetry qualityOptions={pandaQualityOptions}
+                                     showPartedDownloadRetry showFetchDelay qualityOptions={pandaQualityOptions}
                                      strings={pandaStrings}/>
               </TabsContent>
               <TabsContent value={PlatformType.TWITCH}>
                 <TwitchTabContent controlPrefix={"twitchConfig"} control={form.control} showCookies
-                                  showPartedDownloadRetry strings={twitchStrings}
+                                  showPartedDownloadRetry showFetchDelay strings={twitchStrings}
                                   qualityOptions={twitchQualityOptions}/>
               </TabsContent>
             </div>

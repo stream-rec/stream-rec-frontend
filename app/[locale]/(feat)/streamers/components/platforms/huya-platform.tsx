@@ -12,6 +12,6 @@ export const HuyaPlatform = (({allowNone, strings}: HuyaPlatformFormProps) => {
   const form = useFormContext()
 
   return <>
-    <HuyaTabContent controlPrefix={"downloadConfig"} control={form.control} huyaStrings={strings} allowNone={allowNone}/>
+    <HuyaTabContent controlPrefix={"downloadConfig"} control={form.control} strings={strings} allowNone={allowNone}/>
   </>
 })

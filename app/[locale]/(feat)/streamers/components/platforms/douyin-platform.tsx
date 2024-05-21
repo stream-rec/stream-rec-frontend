@@ -13,7 +13,7 @@ export const DouyinPlatform = ({allowNone, strings, douyinQualityOptions}: Douyi
   const form = useFormContext()
 
   return <>
-    <DouyinTabContent controlPrefix={"downloadConfig"} allowNone={allowNone} control={form.control} douyinStrings={strings}
+    <DouyinTabContent controlPrefix={"downloadConfig"} allowNone={allowNone} control={form.control} strings={strings}
                       qualityOptions={douyinQualityOptions}/>
   </>
 }

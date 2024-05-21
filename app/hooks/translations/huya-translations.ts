@@ -4,10 +4,11 @@ import {useMemo} from "react";
 export function useHuyaTranslations() {
   // huya translations
   const t = useTranslations("Huya")
-  return useMemo(() => getHuyaTranslations(t), [t])
+  const pT = useTranslations("GlobalPlatformConfig")
+  return useMemo(() => getHuyaTranslations(t, pT), [t, pT])
 }
 
-export function getHuyaTranslations(t: any) {
+export function getHuyaTranslations(t: any, pt: any) {
   return {
     platform: t("platform"),
     cdn: t("cdn"),
@@ -18,9 +19,11 @@ export function getHuyaTranslations(t: any) {
     sourceFormatDescription: t.rich("sourceFormatDescription"),
     bitrate: t("bitrate"),
     bitrateDescription: t("bitrateDescription"),
-    part: t("part"),
-    partDescription: t.rich("partDescription"),
-    cookieString: t("cookieString"),
+    fetchDelayTitle: pt("fetchDelayTitle"),
+    fetchDelayDescription: pt.rich("fetchDelayDescription"),
+    partTitle: pt("part"),
+    partDescription: pt.rich("partDescription"),
+    cookieTitle: pt("cookieTitle"),
     cookieDescription: t.rich("cookieDescription"),
   }
 }
