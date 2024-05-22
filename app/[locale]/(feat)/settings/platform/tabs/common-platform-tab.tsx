@@ -3,6 +3,7 @@ import React from "react";
 import {CookiesFormfield} from "@/app/[locale]/(feat)/settings/components/form/cookies-formfield";
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Input} from "@/components/new-york/ui/input";
+import {Badge} from "@/components/new-york/ui/badge";
 
 export interface PlatformTabContentProps<T extends PlatformTabContentStrings> {
   controlPrefix?: string
@@ -45,7 +46,12 @@ export const PlatformTabContent = ({
                     name={controlPrefix ? `${controlPrefix}.fetchDelay` : "fetchDelay"}
                     render={({field}) => (
                         <FormItem>
-                          <FormLabel>{strings.fetchDelayTitle}</FormLabel>
+                          <FormLabel>
+                            <div className={"flex-row items-center space-x-3"}>
+                              {strings.fetchDelayTitle}
+                              <Badge>Experimental</Badge>
+                            </div>
+                          </FormLabel>
                           <FormControl>
                             <Input placeholder="10" type={"number"} step={1} value={field.value}
                                    onChange={event => {

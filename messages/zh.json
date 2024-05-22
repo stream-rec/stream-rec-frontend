@@ -128,7 +128,7 @@
     "part": "分段下载延迟",
     "partDescription": "分段下载延迟，单位秒。 <important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
     "cookieTitle": "Cookies 字符串",
-    "fetchDelayTitle": "平台检测延迟",
+    "fetchDelayTitle": "平台检测延迟（实验性）",
     "fetchDelayDescription": "平台轮询检测时间，单位秒"
   },
   "Huya": {
