@@ -1,4 +1,4 @@
-import {FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
+import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import Select from "@/app/components/empty-select";
 import {SelectItem} from "@/components/new-york/ui/select";
 import React from "react";
@@ -7,6 +7,7 @@ import {
   PlatformTabContentProps,
   PlatformTabContentStrings
 } from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {Input} from "@/components/new-york/ui/input";
 
 
 type TwitchConfigProps = {
@@ -63,6 +64,23 @@ export const TwitchTabContent = ({
           </FormDescription>
           <FormMessage/>
         </FormItem>}
+    />
+    <FormField
+        control={control}
+        name={controlPrefix ? `${controlPrefix}.authToken` : "authToken"}
+        render={({field}) => (
+            <FormItem>
+              <FormLabel>{strings.authToken}</FormLabel>
+              <FormControl>
+                <Input maxLength={30} minLength={30} placeholder={strings.authTokenPlaceholder}
+                       value={field.value} onChange={field.onChange}/>
+              </FormControl>
+              <FormDescription>
+                {strings.authTokenDescription}
+              </FormDescription>
+              <FormMessage/>
+            </FormItem>
+        )}
     />
   </PlatformTabContent>
 
