@@ -11,13 +11,13 @@ export enum PandaTvQuality {
   p160 = "160p",
 }
 
-export const pandatvGlobalConfig = globalPlatformConfig.extend({
+export const pandaTvGlobalConfig = globalPlatformConfig.extend({
   cookies: z.string().nullish(),
   quality: z.nativeEnum(PandaTvQuality).nullish(),
   partedDownloadRetry: z.number().min(0).nullish(),
 })
 
-export const pandatvDownloadConfig = pandatvGlobalConfig.merge(baseDownloadConfig)
+export const pandaTvDownloadConfig = pandaTvGlobalConfig.merge(baseDownloadConfig)
 
-export type PandaTvGlobalConfig = z.infer<typeof pandatvGlobalConfig>
-export type PandaTvDownloadConfig = z.infer<typeof pandatvDownloadConfig>
+export type PandaTvGlobalConfig = z.infer<typeof pandaTvGlobalConfig>
+export type PandaTvDownloadConfig = z.infer<typeof pandaTvDownloadConfig>

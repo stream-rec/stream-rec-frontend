@@ -98,7 +98,7 @@ export default function PlatformForm({
                                 showPartedDownloadRetry showFetchDelay strings={huyaStrings}/>
               </TabsContent>
               <TabsContent value={PlatformType.PANDATV}>
-                <PandaTvTabContent controlPrefix={"pandatvConfig"} control={form.control} showCookies
+                <PandaTvTabContent controlPrefix={"pandaTvConfig"} control={form.control} showCookies
                                    showPartedDownloadRetry showFetchDelay qualityOptions={pandaQualityOptions}
                                    strings={pandaStrings}/>
               </TabsContent>
