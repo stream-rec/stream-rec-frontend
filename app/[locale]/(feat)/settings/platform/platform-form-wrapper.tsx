@@ -6,7 +6,7 @@ import React from "react";
 import {useDouyinQualityTranslations, useDouyinTranslations} from "@/app/hooks/translations/douyin-translations";
 import {useDouyuQualityTranslations, useDouyuTranslations} from "@/app/hooks/translations/douyu-translations";
 import {useTwitchQualityTranslations, useTwitchTranslations} from "@/app/hooks/translations/twitch-translations";
-import {usePandaliveQualityTranslations, usePandaliveTranslations} from "@/app/hooks/translations/pandalive-translations";
+import {usePandaTvQualityTranslations, usePandaTvTranslations} from "@/app/hooks/translations/pandatv-translations";
 
 
 type PlatformFormSuspenseProps = {
@@ -27,8 +27,8 @@ export function PlatformFormWrapper({configPromise}: PlatformFormSuspenseProps) 
   const twitchT = useTwitchTranslations()
   const twitchQualityOptions = useTwitchQualityTranslations()
 
-  const pandaT = usePandaliveTranslations()
-  const pandaQualityOptions = usePandaliveQualityTranslations()
+  const pandaT = usePandaTvTranslations()
+  const pandaQualityOptions = usePandaTvQualityTranslations()
 
 
   const settingsT = useTranslations("SettingsPage")

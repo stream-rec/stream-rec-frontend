@@ -2,7 +2,7 @@ import {globalPlatformConfig} from "@/lib/data/platform/definitions";
 import {z} from "zod";
 import {baseDownloadConfig} from "@/lib/data/streams/definitions";
 
-export enum PandaliveQuality {
+export enum PandaTvQuality {
   source = "best",
   p1080 = "1080p",
   p720 = "720p",
@@ -11,13 +11,13 @@ export enum PandaliveQuality {
   p160 = "160p",
 }
 
-export const pandaliveGlobalConfig = globalPlatformConfig.extend({
+export const pandatvGlobalConfig = globalPlatformConfig.extend({
   cookies: z.string().nullish(),
-  quality: z.nativeEnum(PandaliveQuality).nullish(),
+  quality: z.nativeEnum(PandaTvQuality).nullish(),
   partedDownloadRetry: z.number().min(0).nullish(),
 })
 
-export const pandaliveDownloadConfig = pandaliveGlobalConfig.merge(baseDownloadConfig)
+export const pandatvDownloadConfig = pandatvGlobalConfig.merge(baseDownloadConfig)
 
-export type PandaliveGlobalConfig = z.infer<typeof pandaliveGlobalConfig>
-export type PandaliveDownloadConfig = z.infer<typeof pandaliveDownloadConfig>
+export type PandaTvGlobalConfig = z.infer<typeof pandatvGlobalConfig>
+export type PandaTvDownloadConfig = z.infer<typeof pandatvDownloadConfig>

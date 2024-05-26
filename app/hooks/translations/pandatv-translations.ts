@@ -4,8 +4,8 @@ import {useMemo} from "react";
 const qualityKeys = ['origin', '1080p', '720p', '480p', '360p', '160p'] as const
 
 
-export const usePandaliveTranslations = () => {
-  const t = useTranslations("Pandalive")
+export const usePandaTvTranslations = () => {
+  const t = useTranslations("PandaTv")
   const pt = useTranslations("GlobalPlatformConfig")
   return useMemo(() => ({
     platform: t("platform"),
@@ -21,8 +21,8 @@ export const usePandaliveTranslations = () => {
   }), [t, pt])
 }
 
-export const usePandaliveQualityTranslations = () => {
-  const t = useTranslations("PandaliveQualities")
+export const usePandaTvQualityTranslations = () => {
+  const t = useTranslations("PandaTvQualities")
   return useMemo(() => qualityKeys.map((key) => ({
     quality: t(`${key}.id`),
     description: t(`${key}.name`)

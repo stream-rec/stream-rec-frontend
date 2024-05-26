@@ -13,7 +13,7 @@ import {useRouter} from "@/i18n";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import DouyuTabContent, {DouyuQuality, DouyuTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/douyu-tab";
 import {TwitchQualityItem, TwitchTabContent, TwitchTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
-import {PandaliveQualityItem, PandaliveTabContent, PandaliveTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandalive-tab";
+import {PandaTvQualityItem, PandaTvTabContent, PandaTvTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
 
 
 export type PlatformFormValues = {
@@ -26,8 +26,8 @@ export type PlatformFormValues = {
   douyuQualityOptions: DouyuQuality[]
   twitchStrings: TwitchTabString
   twitchQualityOptions: TwitchQualityItem[]
-  pandaStrings: PandaliveTabString
-  pandaQualityOptions: PandaliveQualityItem[]
+  pandaStrings: PandaTvTabString
+  pandaQualityOptions: PandaTvQualityItem[]
 }
 
 export default function PlatformForm({
@@ -98,9 +98,9 @@ export default function PlatformForm({
                                 showPartedDownloadRetry showFetchDelay strings={huyaStrings}/>
               </TabsContent>
               <TabsContent value={PlatformType.PANDATV}>
-                <PandaliveTabContent controlPrefix={"pandaliveConfig"} control={form.control} showCookies
-                                     showPartedDownloadRetry showFetchDelay qualityOptions={pandaQualityOptions}
-                                     strings={pandaStrings}/>
+                <PandaTvTabContent controlPrefix={"pandatvConfig"} control={form.control} showCookies
+                                   showPartedDownloadRetry showFetchDelay qualityOptions={pandaQualityOptions}
+                                   strings={pandaStrings}/>
               </TabsContent>
               <TabsContent value={PlatformType.TWITCH}>
                 <TwitchTabContent controlPrefix={"twitchConfig"} control={form.control} showCookies

@@ -34,9 +34,9 @@ import {DouyuQuality, DouyuTabString} from "@/app/[locale]/(feat)/settings/platf
 import {twitchDownloadConfig} from "@/lib/data/platform/twitch/definitions";
 import {TwitchPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/twitch-platform";
 import {TwitchQualityItem, TwitchTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
-import {PandaliveQualityItem, PandaliveTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandalive-tab";
-import {pandaliveDownloadConfig} from "@/lib/data/platform/pandatv/definitions";
-import {PandalivePlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/pandalive-platform";
+import {PandaTvQualityItem, PandaTvTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
+import {pandatvDownloadConfig} from "@/lib/data/platform/pandatv/definitions";
+import {PandaTvPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/pandalive-platform";
 
 type StreamerConfigProps = {
   strings: {
@@ -76,8 +76,8 @@ type StreamerConfigProps = {
     douyuQualityOptions: DouyuQuality[],
     twitchStrings: TwitchTabString,
     twitchQualityOptions: TwitchQualityItem[],
-    pandaStrings: PandaliveTabString,
-    pandaQualityOptions: PandaliveQualityItem[],
+    pandaStrings: PandaTvTabString,
+    pandaQualityOptions: PandaTvQualityItem[],
     baseDownloadStrings: BaseDownloadTabString,
     actionTabStrings: ActionsCallbackTabStrings
   },
@@ -113,7 +113,7 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
     } else if (platform === PlatformType.TWITCH) {
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: twitchDownloadConfig});
     } else if (platform === PlatformType.PANDATV) {
-      return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: pandaliveDownloadConfig});
+      return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: pandatvDownloadConfig});
     } else {
       return streamerSchema;
     }
@@ -433,7 +433,7 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                               }
                               {
                                   platform === PlatformType.PANDATV && (
-                                      <PandalivePlatformForm strings={strings.pandaStrings} allowNone={true} qualities={strings.pandaQualityOptions}/>
+                                      <PandaTvPlatformForm strings={strings.pandaStrings} allowNone={true} qualities={strings.pandaQualityOptions}/>
                                   )
                               }
                             </TabsContent>

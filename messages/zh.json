@@ -259,14 +259,14 @@
       "name": "音频"
     }
   },
-  "Pandalive": {
+  "PandaTv": {
     "platform": "PandaTV",
     "quality": "优先录制画质",
     "qualityDescription": "选择一个画质，工具将会尝试录制低于等于这个画质的流。",
     "qualityPlaceholder": "请选择一个画质",
     "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除，用于录制18+ PandaTV直播间，非必填。 <important>请注意：为了避免风控，建议使用小号的cookies。</important>"
   },
-  "PandaliveQualities": {
+  "PandaTvQualities": {
     "origin": {
       "id": "best",
       "name": "原画"

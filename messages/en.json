@@ -264,7 +264,7 @@
       "name": "Audio only"
     }
   },
-  "Pandalive": {
+  "PandaTv": {
     "platform": "PandaTV",
     "quality": "Preferred record quality",
     "qualityDescription": "The quality of the Twitch video stream. Ordered from highest to lowest quality. The tool will look up for the closest quality available to selected.",
@@ -274,7 +274,7 @@
     "cookies": "Cookies",
     "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional, only required for 18+ streams</important>"
   },
-  "PandaliveQualities": {
+  "PandaTvQualities": {
     "origin": {
       "id": "best",
       "name": "Source"

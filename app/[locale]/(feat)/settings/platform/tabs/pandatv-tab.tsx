@@ -9,24 +9,24 @@ import {
 } from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
 
 
-type PandaliveConfigProps = {
+type PandaTvConfigProps = {
   allowNone?: boolean
-  qualityOptions: PandaliveQualityItem[]
-} & PlatformTabContentProps<PandaliveTabString>
+  qualityOptions: PandaTvQualityItem[]
+} & PlatformTabContentProps<PandaTvTabString>
 
-export type PandaliveQualityItem = {
+export type PandaTvQualityItem = {
   quality: string,
   description: string
 }
 
-export type PandaliveTabString = {
+export type PandaTvTabString = {
   quality: string,
   qualityPlaceholder: string,
   qualityDescription: string,
 } & PlatformTabContentStrings
 
 
-export const PandaliveTabContent = ({
+export const PandaTvTabContent = ({
                                       controlPrefix,
                                       control,
                                       showFetchDelay,
@@ -35,7 +35,7 @@ export const PandaliveTabContent = ({
                                       qualityOptions,
                                       allowNone = false,
                                       strings
-                                    }: PandaliveConfigProps) =>
+                                  }: PandaTvConfigProps) =>
 
 
     <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
