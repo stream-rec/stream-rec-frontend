@@ -4,7 +4,7 @@ import {twitchRegex} from "@/lib/data/platform/twitch/constants";
 import {huyaRegex} from "@/lib/data/platform/huya/constants";
 import {douyinRegex} from "@/lib/data/platform/douyin/constants";
 import {douyuRegex} from "@/lib/data/platform/douyu/constants";
-import {pandaliveRegex} from "@/lib/data/platform/pandalive/constants";
+import {pandaliveRegex} from "@/lib/data/platform/pandatv/constants";
 
 export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv", "ts"] as const;
 

@@ -3,7 +3,7 @@ import {douyuGlobalConfig} from "@/lib/data/platform/douyu/definitions";
 import {twitchGlobalConfig} from "@/lib/data/platform/twitch/definitions";
 import {huyaGlobalConfig} from "@/lib/data/platform/huya/definitions";
 import {douyinGlobalConfig} from "@/lib/data/platform/douyin/definitions";
-import {pandaliveGlobalConfig} from "@/lib/data/platform/pandalive/definitions";
+import {pandaliveGlobalConfig} from "@/lib/data/platform/pandatv/definitions";
 
 export const globalConfigSchema = z.object({
   id: z.number(),

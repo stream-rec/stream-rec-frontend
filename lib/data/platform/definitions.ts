@@ -3,7 +3,7 @@ import {huyaRegex} from "@/lib/data/platform/huya/constants";
 import {douyinRegex} from "@/lib/data/platform/douyin/constants";
 import {douyuRegex} from "@/lib/data/platform/douyu/constants";
 import {twitchRegex} from "@/lib/data/platform/twitch/constants";
-import {pandaliveRegex} from "@/lib/data/platform/pandalive/constants";
+import {pandaliveRegex} from "@/lib/data/platform/pandatv/constants";
 
 export const globalPlatformConfig = z.object({
   partedDownloadRetry: z.number().min(0).nullish(),
@@ -18,7 +18,7 @@ export enum PlatformType {
   DOUYIN = "douyin",
   DOUYU = "douyu",
   TWITCH = "twitch",
-  PANDALIVE = "pandalive",
+  PANDATV = "pandatv",
   TEMPLATE = "template"
 }
 
@@ -27,5 +27,5 @@ export const platformRegexes = [
   {platformType: PlatformType.DOUYIN, regex: douyinRegex},
   {platformType: PlatformType.DOUYU, regex: douyuRegex},
   {platformType: PlatformType.TWITCH, regex: twitchRegex},
-  {platformType: PlatformType.PANDALIVE, regex: pandaliveRegex}
+  {platformType: PlatformType.PANDATV, regex: pandaliveRegex}
 ];

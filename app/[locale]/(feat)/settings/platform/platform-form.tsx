@@ -76,7 +76,7 @@ export default function PlatformForm({
                            className="text-zinc-600 dark:text-zinc-200">{douyuStrings.platform}</TabsTrigger>
               <TabsTrigger value={PlatformType.HUYA}
                            className="text-zinc-600 dark:text-zinc-200">{huyaStrings.platform}</TabsTrigger>
-              <TabsTrigger value={PlatformType.PANDALIVE}
+              <TabsTrigger value={PlatformType.PANDATV}
                            className="text-zinc-600 dark:text-zinc-200">{pandaStrings.platform}</TabsTrigger>
               <TabsTrigger value={PlatformType.TWITCH}
                            className="text-zinc-600 dark:text-zinc-200">{twitchStrings.platform}</TabsTrigger>
@@ -97,7 +97,7 @@ export default function PlatformForm({
                 <HuyaTabContent controlPrefix={"huyaConfig"} control={form.control} showCookies showMaxBitrate
                                 showPartedDownloadRetry showFetchDelay strings={huyaStrings}/>
               </TabsContent>
-              <TabsContent value={PlatformType.PANDALIVE}>
+              <TabsContent value={PlatformType.PANDATV}>
                 <PandaliveTabContent controlPrefix={"pandaliveConfig"} control={form.control} showCookies
                                      showPartedDownloadRetry showFetchDelay qualityOptions={pandaQualityOptions}
                                      strings={pandaStrings}/>

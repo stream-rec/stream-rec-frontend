@@ -35,7 +35,7 @@ import {twitchDownloadConfig} from "@/lib/data/platform/twitch/definitions";
 import {TwitchPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/twitch-platform";
 import {TwitchQualityItem, TwitchTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
 import {PandaliveQualityItem, PandaliveTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandalive-tab";
-import {pandaliveDownloadConfig} from "@/lib/data/platform/pandalive/definitions";
+import {pandaliveDownloadConfig} from "@/lib/data/platform/pandatv/definitions";
 import {PandalivePlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/pandalive-platform";
 
 type StreamerConfigProps = {
@@ -112,7 +112,7 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: douyuDownloadConfig});
     } else if (platform === PlatformType.TWITCH) {
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: twitchDownloadConfig});
-    } else if (platform === PlatformType.PANDALIVE) {
+    } else if (platform === PlatformType.PANDATV) {
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: pandaliveDownloadConfig});
     } else {
       return streamerSchema;
@@ -432,7 +432,7 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                                   )
                               }
                               {
-                                  platform === PlatformType.PANDALIVE && (
+                                  platform === PlatformType.PANDATV && (
                                       <PandalivePlatformForm strings={strings.pandaStrings} allowNone={true} qualities={strings.pandaQualityOptions}/>
                                   )
                               }
