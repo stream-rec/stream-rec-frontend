@@ -38,7 +38,7 @@ export const globalConfigSchema = z.object({
   douyinConfig: douyinGlobalConfig.optional(),
   douyuConfig: douyuGlobalConfig.optional(),
   twitchConfig: twitchGlobalConfig.optional(),
-  pandatvConfig: pandatvGlobalConfig.optional(),
+  pandaTvConfig: pandatvGlobalConfig.optional(),
 })
 
 export type GlobalConfig = z.infer<typeof globalConfigSchema>
