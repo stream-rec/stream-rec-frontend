@@ -11,7 +11,10 @@ import {Separator} from "@/components/new-york/ui/separator";
 import {Link, useRouter} from "@/i18n";
 import {toast} from "sonner";
 import {DeleteIconDialog} from "@/app/components/dialog/delete-icon-dialog";
-import {OpenVideoContextMenu, OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
+import {
+  OpenVideoContextMenu,
+  OpenVideoContextMenuStrings
+} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
 import Marquee from "react-fast-marquee";
 
 export type StreamerCardProps = {
@@ -78,7 +81,8 @@ export function StreamerCard({
             </Link>
             <Separator orientation={"vertical"} className={"h-4"}/>
             <DeleteIconDialog
-                icon={<Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><Trash2Icon className={"w-4 h-4"}/></Button>}
+                icon={<Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><Trash2Icon
+                    className={"w-4 h-4"}/></Button>}
                 onDelete={
                   async () => {
                     toast.promise(deleteStreamer(streamerId.toString()), {
@@ -106,7 +110,7 @@ export function StreamerCard({
                 <AvatarFallback>{streamer}</AvatarFallback>
             </Avatar>
             }
-              <div className={"flex flex-col space-y-1"}>
+              <div className={"flex flex-col space-y-1 overflow-hidden text-nowrap"}>
                 <div className={"relative flex flex-row items-center space-x-2.5 gap-x-1"}>
                   <CardTitle className={clsx(cn("2xl:text-sm line-clamp-1"), {"md:self-center": description})}>
                     {streamer}
@@ -117,8 +121,9 @@ export function StreamerCard({
                         onMouseEnter={() => setIsHovered(true)}
                         onMouseLeave={() => setIsHovered(false)}
                     >
-                        <Marquee className={"text-[0.75rem] md:text-sm text-muted-foreground"} speed={55} play={isHovered}>
-                          {description.concat("   ")}
+                        <Marquee className={"text-[0.75rem] md:text-sm text-muted-foreground"} speed={55}
+                                 play={isHovered}>
+                            <p className={"pr-2"}>{description}</p>
                         </Marquee>
                     </div>
                 }
