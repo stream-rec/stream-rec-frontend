@@ -1,5 +1,11 @@
 import {Button} from "@/components/new-york/ui/button"
-import {ActionSchema, ActionType, CommandActionSchema, MoveActionSchema, RcloneActionSchema} from "@/lib/data/actions/definitions";
+import {
+  ActionSchema,
+  ActionType,
+  CommandActionSchema,
+  MoveActionSchema,
+  RcloneActionSchema
+} from "@/lib/data/actions/definitions";
 import {FormMessage} from "@/components/new-york/ui/form";
 import React, {useCallback, useRef} from "react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
@@ -120,14 +126,17 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
     };
 
     const forms = {
-      [ActionType.Command]: <CommandActionForm {...formProps} defaultValues={formProps.defaultValues as CommandActionSchema}
+      [ActionType.Command]: <CommandActionForm {...formProps}
+                                               defaultValues={formProps.defaultValues as CommandActionSchema}
                                                strings={strings.commandStrings}/>,
-      [ActionType.Rclone]: <RcloneActionForm {...formProps} defaultValues={formProps.defaultValues as RcloneActionSchema} strings={{
+      [ActionType.Rclone]: <RcloneActionForm {...formProps}
+                                             defaultValues={formProps.defaultValues as RcloneActionSchema} strings={{
         ...strings.rcloneStrings,
         addArgument: strings.commandStrings.addArgument
       }}/>,
       [ActionType.Remove]: <DeleteActionForm {...formProps} />,
-      [ActionType.Move]: <MoveActionForm {...formProps} defaultValues={formProps.defaultValues as MoveActionSchema} strings={strings.moveStrings}/>
+      [ActionType.Move]: <MoveActionForm {...formProps} defaultValues={formProps.defaultValues as MoveActionSchema}
+                                         strings={strings.moveStrings}/>
     };
 
     return forms[type] || null;
@@ -150,7 +159,7 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
           <Button onClick={() => open ? setOpen(false) : setOpen(true)}
                   variant="outline">{openIcon ?? strings.title}</Button>
         </AlertDialogTrigger>
-        <AlertDialogContent className="sm:max-w-[425px] max-h-[850px] overflow-auto">
+        <AlertDialogContent className="sm:max-w-[425px] max-h-[90%] 3xl:max-h-[850px] overflow-auto">
           <AlertDialogHeader>
             <AlertDialogTitle>{strings.title}</AlertDialogTitle>
             <AlertDialogDescription>
