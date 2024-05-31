@@ -6,7 +6,6 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {Input} from "@/components/new-york/ui/input";
 import {Switch} from "@/components/new-york/ui/switch";
 import React, {useCallback, useEffect, useState} from "react";
-import {toastData} from "@/app/utils/toast";
 import {DanmuFlagFormfield} from "@/app/[locale]/(feat)/settings/components/form/danmu-flag-formfield";
 import {OutputFolderFormField} from "@/app/[locale]/(feat)/settings/components/form/output-folder-formfield";
 import {OutputFilenameFormfield} from "@/app/[locale]/(feat)/settings/components/form/output-filename-formfield";
@@ -16,6 +15,7 @@ import {GlobalConfig, globalConfigSchema} from "@/lib/data/config/definitions";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import {BuiltInSegmenterFlagFormField} from "@/app/[locale]/(feat)/settings/components/form/built-in-segmenter-flag-form-field";
 import {RestartNeededHoverCard} from "@/app/[locale]/(feat)/settings/components/restart-needed-hover-card";
+import {toast} from "sonner";
 
 type GlobalFormProps = {
   appConfig: GlobalConfig,
@@ -109,12 +109,8 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
   }, [appConfig])
 
   async function onSubmit(data: GlobalConfig) {
-    if (data.minPartSize !== undefined) {
-      data.minPartSize = Math.round(convertToBytes(minPartSizeFormat, data.minPartSize))
-    }
-    if (data.maxPartSize !== undefined) {
-      data.maxPartSize = Math.round(convertToBytes(maxPartSizeFormat, data.maxPartSize))
-    }
+    data.minPartSize = data.minPartSize ? Math.round(convertToBytes(minPartSizeFormat, data.minPartSize)) : data.minPartSize
+    data.maxPartSize = data.maxPartSize ? Math.round(convertToBytes(maxPartSizeFormat, data.maxPartSize)) : data.maxPartSize
     if (data.maxPartDuration) {
       if (data.maxPartDuration === 0) {
         data.maxPartDuration = undefined
@@ -122,13 +118,14 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
         data.maxPartDuration = Math.round(convertToSeconds(maxPartDurationFormat, data.maxPartDuration))
       }
     }
-    try {
-      await update(data)
-      toastData(strings.submitMessage, data, "code")
-    } catch (e) {
-      console.error(e)
-      toastData(strings.submitErrorMessage, (e as Error).message, "error")
-    }
+
+    toast.promise(update(data), {
+      loading: "Updating config...",
+      success: () => {
+        return "Config updated";
+      },
+      error: (error) => toast.error(error.message)
+    })
   }
 
   const AlertCard = (children: React.ReactNode) => {
