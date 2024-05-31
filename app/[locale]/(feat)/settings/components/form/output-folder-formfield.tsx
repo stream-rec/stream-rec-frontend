@@ -13,7 +13,7 @@ export function OutputFolderFormField({control, name, description, controlPrefix
           <FormItem>
             <FormLabel>{name}</FormLabel>
             <FormControl>
-              <Input placeholder="{streamer}/%yyyy-%MM-%dd" {...field} />
+              <Input placeholder="{streamer}/%Y/%m/%d" {...field} />
             </FormControl>
             <FormDescription>
               {description}
