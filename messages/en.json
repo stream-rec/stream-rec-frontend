@@ -232,7 +232,9 @@
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry. Default is 30 seconds.",
     "cookies": "Cookies",
-    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional</important>",
+    "skipAds": "Skip ads",
+    "skipAdsDescription": "Segmentation will be used if ad is detected <important>This option only supports Source quality</important>"
   },
   "TwitchQualities": {
     "origin": {

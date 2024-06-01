@@ -17,9 +17,10 @@ export const twitchGlobalConfig = globalPlatformConfig.extend({
   quality: z.nativeEnum(TwitchQuality).nullish(),
   authToken: z.string().nullish(),
   partedDownloadRetry: z.number().min(0).nullish(),
+  skipAds: z.boolean().nullish(),
 })
 
-export const twitchDownloadConfig = twitchGlobalConfig.merge(baseDownloadConfig)
+export const twitchDownloadConfig = twitchGlobalConfig.omit({skipAds: true}).merge(baseDownloadConfig)
 
 export type TwitchGlobalConfig = z.infer<typeof twitchGlobalConfig>
 export type TwitchDownloadConfig = z.infer<typeof twitchDownloadConfig>

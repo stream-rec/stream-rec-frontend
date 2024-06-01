@@ -104,7 +104,7 @@ export default function PlatformForm({
               </TabsContent>
               <TabsContent value={PlatformType.TWITCH}>
                 <TwitchTabContent controlPrefix={"twitchConfig"} control={form.control} showCookies
-                                  showPartedDownloadRetry showFetchDelay strings={twitchStrings}
+                                  showPartedDownloadRetry showFetchDelay showSkipAds strings={twitchStrings}
                                   qualityOptions={twitchQualityOptions}/>
               </TabsContent>
             </div>

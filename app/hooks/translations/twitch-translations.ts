@@ -21,6 +21,8 @@ export const useTwitchTranslations = () => {
     partDescription: pt.rich("partDescription"),
     cookieTitle: pt("cookieTitle"),
     cookieDescription: t.rich("cookieDescription"),
+    skipAds: t("skipAds"),
+    skipAdsDescription: t.rich("skipAdsDescription"),
   }), [t, pt])
 }
 
