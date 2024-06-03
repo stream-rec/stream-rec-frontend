@@ -41,7 +41,7 @@ export const createStreamer = async (streamer: StreamerSchema) => {
       const {avatar, room} = await fetchInfo(urlId)
       streamer.avatar = avatar
       // replace url with room
-      streamer.url = streamer.url.replace(urlId, room)
+      // streamer.url = streamer.url.replace(urlId, room)
     }
   }
 
