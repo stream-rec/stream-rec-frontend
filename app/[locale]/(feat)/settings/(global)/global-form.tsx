@@ -16,60 +16,13 @@ import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import {BuiltInSegmenterFlagFormField} from "@/app/[locale]/(feat)/settings/components/form/built-in-segmenter-flag-form-field";
 import {RestartNeededHoverCard} from "@/app/[locale]/(feat)/settings/components/restart-needed-hover-card";
 import {toast} from "sonner";
+import {GlobalSettingsTranslations} from "@/app/hooks/translations/global-settings-translations";
+import {Badge} from "@/components/new-york/ui/badge";
 
 type GlobalFormProps = {
   appConfig: GlobalConfig,
   update: (config: GlobalConfig) => Promise<void>,
-  strings: GlobalFormStrings
-}
-
-export type GlobalFormStrings = {
-  alertTitle: string
-  alertDescription: string
-  submitMessage: string
-  submitErrorMessage: string
-  engine: string
-  engineDescription: string | React.ReactNode
-  danmu: string
-  danmuDescription: string | React.ReactNode
-  deleteFiles: string
-  deleteFilesDescription: any
-  outputFolder: string
-  outputFolderDescription: string | React.ReactNode
-  outputFilename: string
-  outputFilenameDescription: string | React.ReactNode
-  outputFormat: string
-  outputFormatDescription: string | React.ReactNode
-  minPart: string
-  minPartDescription: string
-  minPartDefault: string
-  maxPart: string
-  maxPartDefault: string
-  maxPartDescription: string
-  maxPartDuration: string
-  maxPartDurationDefault: string
-  maxPartDurationDescription: string | React.ReactNode
-  maxConcurrentDownload: string
-  maxConcurrentDownloadDescription: string | React.ReactNode
-  maxConcurrentUpload: string
-  maxConcurrentUploadDescription: string | React.ReactNode
-  downloadRetryDelay: string
-  downloadRetryDelayDescription: string
-  downloadCheckInterval: string
-  downloadCheckIntervalDescription: string
-  maxDownloadRetries: string
-  maxDownloadRetriesDescription: string,
-  useBuiltInSegmenter: string,
-  useBuiltInSegmenterDescription: string | React.ReactNode,
-  useBuiltInSegmenterNote: string,
-  useBuiltInSegmenterNoteDescription: string | React.ReactNode,
-  save: string,
-  timeFormats: {
-    seconds: string
-    minutes: string
-    hours: string
-    days: string
-  }
+  strings: GlobalSettingsTranslations
 }
 
 
@@ -193,6 +146,32 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
           <BuiltInSegmenterFlagFormField control={form.control} title={strings.useBuiltInSegmenter}
                                          description={strings.useBuiltInSegmenterDescription} note={strings.useBuiltInSegmenterNote}
                                          noteDescription={strings.useBuiltInSegmenterNoteDescription}/>
+
+          <FormField
+              control={form.control}
+              name="exitDownloadOnError"
+              render={({field}) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <div className="space-y-0.5">
+                      <div className={"flex-row items-center space-x-3"}>
+                        {strings.exitOnErrorTitle}
+                        <Badge>Experimental</Badge>
+                      </div>
+
+                      <FormDescription>
+                        {strings.exitOnErrorDescription}
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                          arial-label="Exit on download error switch"
+                      />
+                    </FormControl>
+                  </FormItem>
+              )}
+          />
 
           <OutputFolderFormField control={form.control} name={strings.outputFolder}
                                  description={strings.outputFolderDescription}/>
