@@ -5,7 +5,6 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Input} from "@/components/new-york/ui/input";
 import React, {useCallback, useEffect} from "react";
-import {Switch} from "@/components/new-york/ui/switch";
 import {Button} from "@/components/new-york/ui/button";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui/tabs";
 import {clsx} from "clsx";
@@ -37,6 +36,7 @@ import {TwitchQualityItem, TwitchTabString} from "@/app/[locale]/(feat)/settings
 import {PandaTvQualityItem, PandaTvTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
 import {pandaTvDownloadConfig} from "@/lib/data/platform/pandatv/definitions";
 import {PandaTvPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/pandalive-platform";
+import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
 
 type StreamerConfigProps = {
   strings: {
@@ -257,28 +257,9 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                       )}
                   />
 
-                  <FormField
-                      control={form.control}
-                      name="isActivated"
-                      render={({field}) => (
-                          <FormItem
-                              className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                            <div className="space-y-0.5">
-                              <FormLabel>{strings.streamerForm.enabledRecording}</FormLabel>
-                              <FormDescription>
-                                {strings.streamerForm.enabledRecordingDescription}
-                              </FormDescription>
-                            </div>
-                            <FormControl>
-                              <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                  arial-label="Record switch"
-                              />
-                            </FormControl>
-                          </FormItem>
-                      )}
-                  />
+                  <FlagFormField control={form.control} fieldName={"isActivated"} title={strings.streamerForm.enabledRecording}
+                                 description={strings.streamerForm.enabledRecordingDescription}
+                                 ariaLabel={"Should record switch"}/>
 
                   <FormField
                       control={form.control}
@@ -349,33 +330,15 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
 
             {
                 selectedTemplateId === 0 && (
-                    <FormField
-                        control={form.control}
-                        name="isTemplate"
-                        render={({field}) => (
-                            <FormItem
-                                className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                              <div className="space-y-0.5">
-                                <FormLabel>{strings.streamerForm.asTemplate}</FormLabel>
-                                <FormDescription>
-                                  {strings.streamerForm.asTemplateDescription}
-                                </FormDescription>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                    checked={field.value}
-                                    onCheckedChange={
-                                      (e) => {
-                                        field.onChange(e);
-                                        setIsTemplate(e)
-                                      }
-                                    }
-                                    arial-label="Template streamer switch"
-                                />
-                              </FormControl>
-                            </FormItem>
-                        )}
-                    />)
+                    <FlagFormField control={form.control} fieldName={"isTemplate"} title={strings.streamerForm.asTemplate}
+                                   description={strings.streamerForm.asTemplateDescription}
+                                   ariaLabel={"Template streamer switch"}
+
+                                   onChange={(value) => {
+                                     setIsTemplate(value)
+                                   }}
+                    />
+                )
             }
 
             <div className={clsx("space-y-6",

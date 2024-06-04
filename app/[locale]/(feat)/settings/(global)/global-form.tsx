@@ -4,7 +4,6 @@ import {useForm, useFormState} from "react-hook-form"
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
 import {Input} from "@/components/new-york/ui/input";
-import {Switch} from "@/components/new-york/ui/switch";
 import React, {useCallback, useEffect, useState} from "react";
 import {DanmuFlagFormfield} from "@/app/[locale]/(feat)/settings/components/form/danmu-flag-formfield";
 import {OutputFolderFormField} from "@/app/[locale]/(feat)/settings/components/form/output-folder-formfield";
@@ -13,11 +12,11 @@ import {OutputFileFormatFormfield} from "@/app/[locale]/(feat)/settings/componen
 import {convertToBytes, convertToSeconds, DurationUnit, FileSizeUnit, formatBytes, formatSeconds} from "@/app/utils/conversions";
 import {GlobalConfig, globalConfigSchema} from "@/lib/data/config/definitions";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
-import {BuiltInSegmenterFlagFormField} from "@/app/[locale]/(feat)/settings/components/form/built-in-segmenter-flag-form-field";
 import {RestartNeededHoverCard} from "@/app/[locale]/(feat)/settings/components/restart-needed-hover-card";
 import {toast} from "sonner";
 import {GlobalSettingsTranslations} from "@/app/hooks/translations/global-settings-translations";
-import {Badge} from "@/components/new-york/ui/badge";
+import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/new-york/ui/accordion";
 
 type GlobalFormProps = {
   appConfig: GlobalConfig,
@@ -121,57 +120,27 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
 
           <DanmuFlagFormfield control={form.control} title={strings.danmu} description={strings.danmuDescription}/>
 
-          <FormField
-              control={form.control}
-              name="deleteFilesAfterUpload"
-              render={({field}) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                    <div className="space-y-0.5">
-                      <FormLabel>{strings.deleteFiles}</FormLabel>
-                      <FormDescription>
-                        {strings.deleteFilesDescription}
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          arial-label="File deletion switch"
-                      />
-                    </FormControl>
-                  </FormItem>
-              )}
-          />
 
-          <BuiltInSegmenterFlagFormField control={form.control} title={strings.useBuiltInSegmenter}
-                                         description={strings.useBuiltInSegmenterDescription} note={strings.useBuiltInSegmenterNote}
-                                         noteDescription={strings.useBuiltInSegmenterNoteDescription}/>
+          <FlagFormField control={form.control} fieldName={"deleteFilesAfterUpload"} title={strings.deleteFiles}
+                         description={strings.deleteFilesDescription}
+                         ariaLabel={"File deletion switch"}/>
 
-          <FormField
-              control={form.control}
-              name="exitDownloadOnError"
-              render={({field}) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                    <div className="space-y-0.5">
-                      <div className={"flex-row items-center space-x-3"}>
-                        {strings.exitOnErrorTitle}
-                        <Badge>Experimental</Badge>
-                      </div>
+          <FlagFormField control={form.control} fieldName={"useBuiltInSegmenter"} title={strings.useBuiltInSegmenter}
+                         description={strings.useBuiltInSegmenterDescription} showExperimentalBadge
+                         ariaLabel={"FFMPEG use segmenter switch"}>
+            <Accordion type="single" collapsible asChild={true}>
+              <AccordionItem value="item-1" className={"border-none"}>
+                <AccordionTrigger className={"text-[0.8rem] text-muted-foreground"}>{strings.useBuiltInSegmenterNote}</AccordionTrigger>
+                <AccordionContent className={"text-[0.8rem] text-muted-foreground whitespace-pre-wrap"}>
+                  {strings.useBuiltInSegmenterNoteDescription}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </FlagFormField>
 
-                      <FormDescription>
-                        {strings.exitOnErrorDescription}
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          arial-label="Exit on download error switch"
-                      />
-                    </FormControl>
-                  </FormItem>
-              )}
-          />
+          <FlagFormField control={form.control} fieldName={"exitDownloadOnError"} title={strings.exitOnErrorTitle}
+                         description={strings.exitOnErrorDescription} showExperimentalBadge
+                         ariaLabel={"FFMPEG Exit on download error switch"}/>
 
           <OutputFolderFormField control={form.control} name={strings.outputFolder}
                                  description={strings.outputFolderDescription}/>
