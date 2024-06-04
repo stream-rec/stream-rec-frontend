@@ -92,7 +92,7 @@ export const HuyaTabContent = ({
               render={({field}) => (
                   <FormItem>
                     <FormLabel>
-                      <div className={"flex-row items-center space-x-3"}>
+                      <div className={"flex flex-row items-center gap-x-3"}>
                         {strings.sourceFormat}
                         <Badge>Experimental</Badge>
                       </div>
