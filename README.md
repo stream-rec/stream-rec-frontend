@@ -17,7 +17,7 @@ This is the frontend service for [Stream-rec](https://github.com/hua0512/stream-
   <tr>
     <td><img src="docs/en/records.png" alt="records"></td>
     <td><img src="docs/en/uploads.png" alt="uploads"></td>
-    <td><img src="docs/en/global_settings.png" alt="global_settings"></td>
+    <td><img src="docs/en/platform_settings.png" alt="global_settings"></td>
   </tr>
 </table>
 
