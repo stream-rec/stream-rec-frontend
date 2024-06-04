@@ -10,7 +10,7 @@ export function OutputFilenameFormfield({control, name, description, controlPref
           <FormItem>
             <FormLabel>{name}</FormLabel>
             <FormControl>
-              <Input placeholder="%HH_%mm_%ss-{title}" {...field} />
+              <Input placeholder="%H_%M_%S-{title}" {...field} />
             </FormControl>
             <FormDescription>
               {description}

@@ -1,23 +1,24 @@
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
-import {Control} from "react-hook-form";
 import React from "react";
 import {Input} from "@/components/new-york/ui/input";
 import {Badge} from "@/components/new-york/ui/badge";
 import Select from "@/app/components/empty-select";
 import {huyaCDNs} from "@/lib/data/platform/huya/constants";
 import {SelectItem} from "@/components/new-york/ui/select";
-import {CookiesFormfield} from "@/app/[locale]/(feat)/settings/components/form/cookies-formfield";
+import {
+  PlatformTabContent,
+  PlatformTabContentProps,
+  PlatformTabContentStrings
+} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
 
 
-interface HuyaConfigProps {
-  controlPrefix?: string
-  control: Control<any>;
-  showMaxBitrate?: boolean
-  showCookies?: boolean
-  showPartedDownloadRetry?: boolean,
+type HuyaConfigProps = {
   allowNone?: boolean
-  huyaStrings: HuyaTabString
-}
+  showMaxBitrate?: boolean
+  showForceOrigin?: boolean
+  showMobileApi?: boolean
+} & PlatformTabContentProps<HuyaTabString>
 
 export type HuyaTabString = {
   platform: string,
@@ -29,33 +30,46 @@ export type HuyaTabString = {
   sourceFormatDescription: string,
   bitrate: string,
   bitrateDescription: string,
-  part: string,
-  partDescription: any,
-  cookieString: string,
-  cookieDescription: any,
-}
+  forceOrigin: string,
+  forceOriginDescription: string,
+  mobileApi: string,
+  mobileApiDescription: string,
+} & PlatformTabContentStrings
 
 export const HuyaTabContent = ({
                                  controlPrefix,
                                  control,
+                                 showFetchDelay,
                                  showMaxBitrate,
                                  showCookies,
                                  showPartedDownloadRetry,
+                                 showForceOrigin,
+                                 showMobileApi,
                                  allowNone = false,
-                                 huyaStrings
+                                 strings
                                }: HuyaConfigProps) => {
   {
     return (
-        <div className="mt-6 space-y-6 fade-in">
+        <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
+                            showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}>
+
+          {showMobileApi && (<FlagFormField control={control} fieldName={"useMobileApi"} controlPrefix={controlPrefix} title={strings.mobileApi}
+                                            description={strings.mobileApiDescription}
+                                            ariaLabel={"Huya use mobile api switch"}/>)}
+
+          {showForceOrigin && (<FlagFormField control={control} fieldName={"forceOrigin"} controlPrefix={controlPrefix} title={strings.forceOrigin}
+                                              description={strings.forceOriginDescription} showExperimentalBadge
+                                              ariaLabel={"Huya force origin switch"}/>)}
+
           <FormField
               control={control}
               name={controlPrefix ? `${controlPrefix}.primaryCdn` : "primaryCdn"}
               render={({field}) => (
                   <FormItem>
-                    <FormLabel>{huyaStrings.cdn}</FormLabel>
+                    <FormLabel>{strings.cdn}</FormLabel>
                     <Select defaultValue={field.value}
                             onValueChange={field.onChange}
-                            placeholder={huyaStrings.cdnDefault}
+                            placeholder={strings.cdnDefault}
                             allowNone={allowNone}
                             options={
                               huyaCDNs.map((cdn) => (
@@ -65,7 +79,7 @@ export const HuyaTabContent = ({
                               ))
                             }/>
                     <FormDescription>
-                      {huyaStrings.cdnDescription}
+                      {strings.cdnDescription}
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>
@@ -78,15 +92,15 @@ export const HuyaTabContent = ({
               render={({field}) => (
                   <FormItem>
                     <FormLabel>
-                      <div className={"flex-row items-center space-x-3"}>
-                        {huyaStrings.sourceFormat}
+                      <div className={"flex flex-row items-center gap-x-3"}>
+                        {strings.sourceFormat}
                         <Badge>Experimental</Badge>
                       </div>
                     </FormLabel>
                     <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
-                        placeholder={huyaStrings.sourceFormatPlaceholder}
+                        placeholder={strings.sourceFormatPlaceholder}
                         options={
                           ["flv", "hls"].map((format) => (
                               <SelectItem key={format} value={format}>
@@ -97,7 +111,7 @@ export const HuyaTabContent = ({
                         allowNone={allowNone}
                     />
                     <FormDescription>
-                      {huyaStrings.sourceFormatDescription}
+                      {strings.sourceFormatDescription}
                     </FormDescription>
                     <FormMessage/>
                   </FormItem>
@@ -110,7 +124,7 @@ export const HuyaTabContent = ({
                   name={controlPrefix ? `${controlPrefix}.maxBitRate` : "maxBitRate"}
                   render={({field}) => (
                       <FormItem>
-                        <FormLabel>{huyaStrings.bitrate}</FormLabel>
+                        <FormLabel>{strings.bitrate}</FormLabel>
                         <FormControl>
                           <Input placeholder="10000" type={"number"} step={100} value={field.value}
                                  onChange={event => {
@@ -123,48 +137,14 @@ export const HuyaTabContent = ({
 
                         </FormControl>
                         <FormDescription>
-                          {huyaStrings.bitrateDescription}
+                          {strings.bitrateDescription}
                         </FormDescription>
                         <FormMessage/>
                       </FormItem>
                   )}
               />)
           }
-          {
-              showPartedDownloadRetry && (
-                  <FormField
-                      control={control}
-                      name={controlPrefix ? `${controlPrefix}.partedDownloadRetry` : "partedDownloadRetry"}
-                      render={({field}) => (
-                          <FormItem>
-                            <FormLabel>{huyaStrings.part}</FormLabel>
-                            <FormControl>
-                              <Input placeholder="10" type={"number"} step={1} value={field.value}
-                                     onChange={event => {
-                                       if (event.target.value === "") {
-                                         field.onChange(null);
-                                       } else {
-                                         field.onChange(parseInt(event.target.value));
-                                       }
-                                     }}/>
-
-                            </FormControl>
-                            <FormDescription>
-                              {huyaStrings.partDescription}
-                            </FormDescription>
-                            <FormMessage/>
-                          </FormItem>
-                      )}
-                  />)
-          }
-          {
-              showCookies && (
-                  <CookiesFormfield title={huyaStrings.cookieString} description={huyaStrings.cookieDescription}
-                                    name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"} control={control}
-                  />
-              )
-          }
-        </div>
+        </PlatformTabContent>
     )
   }
 }

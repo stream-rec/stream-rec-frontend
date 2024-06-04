@@ -1,11 +1,13 @@
-import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
-import {Control} from "react-hook-form";
+import {FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {SelectItem} from "@/components/new-york/ui/select";
 import React from "react";
-import {Input} from "@/components/new-york/ui/input";
 import {Badge} from "@/components/new-york/ui/badge";
 import Select from "@/app/components/empty-select";
-import {CookiesFormfield} from "@/app/[locale]/(feat)/settings/components/form/cookies-formfield";
+import {
+  PlatformTabContent,
+  PlatformTabContentProps,
+  PlatformTabContentStrings
+} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
 
 export type DouyinQuality = {
   quality: string,
@@ -13,48 +15,43 @@ export type DouyinQuality = {
 }
 
 export type DouyinTabString = {
-  platform: string,
   quality: string,
   qualityDescription: string,
   qualityDefault: string,
   sourceFormat: string,
   sourceFormatPlaceholder: string,
   sourceFormatDescription: string | React.ReactNode,
-  part: string,
-  partDescription: any,
-  cookies: string,
-  cookiesDescription: any
-}
+} & PlatformTabContentStrings
 
-interface DouyinTabContentProps {
-  controlPrefix?: string;
-  control: Control<any>;
+type DouyinTabContentProps = {
   qualityOptions: DouyinQuality[]
-  showCookies?: boolean
-  showPartedDownloadRetry?: boolean
   allowNone?: boolean
-  douyinStrings: DouyinTabString
-}
+} & PlatformTabContentProps<DouyinTabString>
 
 export const DouyinTabContent = ({
                                    controlPrefix,
                                    control,
+                                   showFetchDelay,
                                    showCookies,
                                    showPartedDownloadRetry,
                                    qualityOptions,
                                    allowNone = false,
-                                   douyinStrings
+                                   strings
                                  }: DouyinTabContentProps) => {
+
+
   return (
-      <div className="mt-6 space-y-6">
+      <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
+                          showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}>
+
         <FormField
             control={control}
             name={controlPrefix ? `${controlPrefix}.quality` : "quality"}
             render={({field}) => (
                 <FormItem>
-                  <FormLabel>{douyinStrings.quality}</FormLabel>
+                  <FormLabel>{strings.quality}</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}
-                          placeholder={douyinStrings.qualityDefault} allowNone={allowNone}
+                          placeholder={strings.qualityDefault} allowNone={allowNone}
                           options={
                             qualityOptions.map((quality) => (
                                 <SelectItem key={quality.quality} value={quality.quality}>
@@ -63,7 +60,7 @@ export const DouyinTabContent = ({
                             ))}
                   />
                   <FormDescription>
-                    {douyinStrings.qualityDescription}
+                    {strings.qualityDescription}
                   </FormDescription>
                   <FormMessage/>
                 </FormItem>
@@ -77,15 +74,15 @@ export const DouyinTabContent = ({
             render={({field}) => (
                 <FormItem>
                   <FormLabel>
-                    <div className={"flex-row items-center space-x-3"}>
-                      {douyinStrings.sourceFormat}
+                    <div className={"flex flex-row items-center gap-x-3"}>
+                      {strings.sourceFormat}
                       <Badge>Experimental</Badge>
                     </div>
                   </FormLabel>
                   <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      placeholder={douyinStrings.sourceFormatPlaceholder}
+                      placeholder={strings.sourceFormatPlaceholder}
                       options={
                         ["flv", "hls"].map((format) => (
                             <SelectItem key={format} value={format}>
@@ -96,47 +93,13 @@ export const DouyinTabContent = ({
                       allowNone={allowNone}
                   />
                   <FormDescription>
-                    {douyinStrings.sourceFormatDescription}
+                    {strings.sourceFormatDescription}
                   </FormDescription>
                   <FormMessage/>
                 </FormItem>
             )}
         />
 
-        {
-            showPartedDownloadRetry && (
-                <FormField
-                    control={control}
-                    name={controlPrefix ? `${controlPrefix}.partedDownloadRetry` : "partedDownloadRetry"}
-                    render={({field}) => (
-                        <FormItem>
-                          <FormLabel>{douyinStrings.part}</FormLabel>
-                          <FormControl>
-                            <Input placeholder="10" type={"number"} step={1} value={field.value}
-                                   onChange={event => {
-                                     if (event.target.value === "") {
-                                       field.onChange(null);
-                                     } else {
-                                       field.onChange(parseInt(event.target.value));
-                                     }
-                                   }}/>
-
-                          </FormControl>
-                          <FormDescription>
-                            {douyinStrings.partDescription}
-                          </FormDescription>
-                          <FormMessage/>
-                        </FormItem>
-                    )}
-                />)
-        }
-
-        {
-            showCookies && (
-                <CookiesFormfield title={douyinStrings.cookies} description={douyinStrings.cookiesDescription}
-                                  name={controlPrefix ? `${controlPrefix}.cookies` : "cookies"} control={control}
-                />)
-        }
-      </div>
+      </PlatformTabContent>
   );
 };

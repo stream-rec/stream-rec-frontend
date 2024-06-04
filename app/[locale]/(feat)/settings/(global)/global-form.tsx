@@ -4,9 +4,7 @@ import {useForm, useFormState} from "react-hook-form"
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
 import {Input} from "@/components/new-york/ui/input";
-import {Switch} from "@/components/new-york/ui/switch";
 import React, {useCallback, useEffect, useState} from "react";
-import {toastData} from "@/app/utils/toast";
 import {DanmuFlagFormfield} from "@/app/[locale]/(feat)/settings/components/form/danmu-flag-formfield";
 import {OutputFolderFormField} from "@/app/[locale]/(feat)/settings/components/form/output-folder-formfield";
 import {OutputFilenameFormfield} from "@/app/[locale]/(feat)/settings/components/form/output-filename-formfield";
@@ -14,62 +12,16 @@ import {OutputFileFormatFormfield} from "@/app/[locale]/(feat)/settings/componen
 import {convertToBytes, convertToSeconds, DurationUnit, FileSizeUnit, formatBytes, formatSeconds} from "@/app/utils/conversions";
 import {GlobalConfig, globalConfigSchema} from "@/lib/data/config/definitions";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
-import {BuiltInSegmenterFlagFormField} from "@/app/[locale]/(feat)/settings/components/form/built-in-segmenter-flag-form-field";
 import {RestartNeededHoverCard} from "@/app/[locale]/(feat)/settings/components/restart-needed-hover-card";
+import {toast} from "sonner";
+import {GlobalSettingsTranslations} from "@/app/hooks/translations/global-settings-translations";
+import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/new-york/ui/accordion";
 
 type GlobalFormProps = {
   appConfig: GlobalConfig,
   update: (config: GlobalConfig) => Promise<void>,
-  strings: GlobalFormStrings
-}
-
-export type GlobalFormStrings = {
-  alertTitle: string
-  alertDescription: string
-  submitMessage: string
-  submitErrorMessage: string
-  engine: string
-  engineDescription: string | React.ReactNode
-  danmu: string
-  danmuDescription: string | React.ReactNode
-  deleteFiles: string
-  deleteFilesDescription: any
-  outputFolder: string
-  outputFolderDescription: string | React.ReactNode
-  outputFilename: string
-  outputFilenameDescription: string | React.ReactNode
-  outputFormat: string
-  outputFormatDescription: string | React.ReactNode
-  minPart: string
-  minPartDescription: string
-  minPartDefault: string
-  maxPart: string
-  maxPartDefault: string
-  maxPartDescription: string
-  maxPartDuration: string
-  maxPartDurationDefault: string
-  maxPartDurationDescription: string | React.ReactNode
-  maxConcurrentDownload: string
-  maxConcurrentDownloadDescription: string | React.ReactNode
-  maxConcurrentUpload: string
-  maxConcurrentUploadDescription: string | React.ReactNode
-  downloadRetryDelay: string
-  downloadRetryDelayDescription: string
-  downloadCheckInterval: string
-  downloadCheckIntervalDescription: string
-  maxDownloadRetries: string
-  maxDownloadRetriesDescription: string,
-  useBuiltInSegmenter: string,
-  useBuiltInSegmenterDescription: string | React.ReactNode,
-  useBuiltInSegmenterNote: string,
-  useBuiltInSegmenterNoteDescription: string | React.ReactNode,
-  save: string,
-  timeFormats: {
-    seconds: string
-    minutes: string
-    hours: string
-    days: string
-  }
+  strings: GlobalSettingsTranslations
 }
 
 
@@ -109,12 +61,8 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
   }, [appConfig])
 
   async function onSubmit(data: GlobalConfig) {
-    if (data.minPartSize !== undefined) {
-      data.minPartSize = Math.round(convertToBytes(minPartSizeFormat, data.minPartSize))
-    }
-    if (data.maxPartSize !== undefined) {
-      data.maxPartSize = Math.round(convertToBytes(maxPartSizeFormat, data.maxPartSize))
-    }
+    data.minPartSize = data.minPartSize ? Math.round(convertToBytes(minPartSizeFormat, data.minPartSize)) : data.minPartSize
+    data.maxPartSize = data.maxPartSize ? Math.round(convertToBytes(maxPartSizeFormat, data.maxPartSize)) : data.maxPartSize
     if (data.maxPartDuration) {
       if (data.maxPartDuration === 0) {
         data.maxPartDuration = undefined
@@ -122,13 +70,14 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
         data.maxPartDuration = Math.round(convertToSeconds(maxPartDurationFormat, data.maxPartDuration))
       }
     }
-    try {
-      await update(data)
-      toastData(strings.submitMessage, data, "code")
-    } catch (e) {
-      console.error(e)
-      toastData(strings.submitErrorMessage, (e as Error).message, "error")
-    }
+
+    toast.promise(update(data), {
+      loading: "Updating config...",
+      success: () => {
+        return "Config updated";
+      },
+      error: (error) => toast.error(error.message)
+    })
   }
 
   const AlertCard = (children: React.ReactNode) => {
@@ -171,31 +120,27 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
 
           <DanmuFlagFormfield control={form.control} title={strings.danmu} description={strings.danmuDescription}/>
 
-          <FormField
-              control={form.control}
-              name="deleteFilesAfterUpload"
-              render={({field}) => (
-                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                    <div className="space-y-0.5">
-                      <FormLabel>{strings.deleteFiles}</FormLabel>
-                      <FormDescription>
-                        {strings.deleteFilesDescription}
-                      </FormDescription>
-                    </div>
-                    <FormControl>
-                      <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                          arial-label="File deletion switch"
-                      />
-                    </FormControl>
-                  </FormItem>
-              )}
-          />
 
-          <BuiltInSegmenterFlagFormField control={form.control} title={strings.useBuiltInSegmenter}
-                                         description={strings.useBuiltInSegmenterDescription} note={strings.useBuiltInSegmenterNote}
-                                         noteDescription={strings.useBuiltInSegmenterNoteDescription}/>
+          <FlagFormField control={form.control} fieldName={"deleteFilesAfterUpload"} title={strings.deleteFiles}
+                         description={strings.deleteFilesDescription}
+                         ariaLabel={"File deletion switch"}/>
+
+          <FlagFormField control={form.control} fieldName={"useBuiltInSegmenter"} title={strings.useBuiltInSegmenter}
+                         description={strings.useBuiltInSegmenterDescription} showExperimentalBadge
+                         ariaLabel={"FFMPEG use segmenter switch"}>
+            <Accordion type="single" collapsible asChild={true}>
+              <AccordionItem value="item-1" className={"border-none"}>
+                <AccordionTrigger className={"text-[0.8rem] text-muted-foreground"}>{strings.useBuiltInSegmenterNote}</AccordionTrigger>
+                <AccordionContent className={"text-[0.8rem] text-muted-foreground whitespace-pre-wrap"}>
+                  {strings.useBuiltInSegmenterNoteDescription}
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </FlagFormField>
+
+          <FlagFormField control={form.control} fieldName={"exitDownloadOnError"} title={strings.exitOnErrorTitle}
+                         description={strings.exitOnErrorDescription} showExperimentalBadge
+                         ariaLabel={"FFMPEG Exit on download error switch"}/>
 
           <OutputFolderFormField control={form.control} name={strings.outputFolder}
                                  description={strings.outputFolderDescription}/>

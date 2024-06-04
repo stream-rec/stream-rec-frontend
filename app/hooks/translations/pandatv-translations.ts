@@ -1,21 +1,17 @@
 import {useTranslations} from "next-intl";
 import {useMemo} from "react";
 
-const douyuQualityKeys = ['origin', 'uhd_8m', 'uhd', 'hd', 'sd', 'ld'] as const
+const qualityKeys = ['origin', '1080p', '720p', '480p', '360p', '160p'] as const
 
 
-export const useDouyuTranslations = () => {
-  const t = useTranslations("Douyu")
+export const usePandaTvTranslations = () => {
+  const t = useTranslations("PandaTv")
   const pt = useTranslations("GlobalPlatformConfig")
-
   return useMemo(() => ({
     platform: t("platform"),
-    cdn: t("cdn"),
-    cdnDescription: t("cdnDescription"),
-    cdnDefault: t("cdnDefault"),
     quality: t("quality"),
     qualityDescription: t("qualityDescription"),
-    qualityDefault: t("qualityDefault"),
+    qualityPlaceholder: t("qualityPlaceholder"),
     fetchDelayTitle: pt("fetchDelayTitle"),
     fetchDelayDescription: pt.rich("fetchDelayDescription"),
     partTitle: pt("part"),
@@ -25,9 +21,9 @@ export const useDouyuTranslations = () => {
   }), [t, pt])
 }
 
-export const useDouyuQualityTranslations = () => {
-  const t = useTranslations("DouyuQualities")
-  return useMemo(() => douyuQualityKeys.map((key) => ({
+export const usePandaTvQualityTranslations = () => {
+  const t = useTranslations("PandaTvQualities")
+  return useMemo(() => qualityKeys.map((key) => ({
     quality: t(`${key}.id`),
     description: t(`${key}.name`)
   })), [t])

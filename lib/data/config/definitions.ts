@@ -3,7 +3,7 @@ import {douyuGlobalConfig} from "@/lib/data/platform/douyu/definitions";
 import {twitchGlobalConfig} from "@/lib/data/platform/twitch/definitions";
 import {huyaGlobalConfig} from "@/lib/data/platform/huya/definitions";
 import {douyinGlobalConfig} from "@/lib/data/platform/douyin/definitions";
-import {pandaliveGlobalConfig} from "@/lib/data/platform/pandalive/definitions";
+import {pandaTvGlobalConfig} from "@/lib/data/platform/pandatv/definitions";
 
 export const globalConfigSchema = z.object({
   id: z.number(),
@@ -34,11 +34,12 @@ export const globalConfigSchema = z.object({
   downloadRetryDelay: z.number().min(1).optional(),
   downloadCheckInterval: z.number().min(30).optional(),
   useBuiltInSegmenter: z.boolean().optional(),
+  exitDownloadOnError: z.boolean().optional(),
   huyaConfig: huyaGlobalConfig.optional(),
   douyinConfig: douyinGlobalConfig.optional(),
   douyuConfig: douyuGlobalConfig.optional(),
   twitchConfig: twitchGlobalConfig.optional(),
-  pandaliveConfig: pandaliveGlobalConfig.optional(),
+  pandaTvConfig: pandaTvGlobalConfig.optional(),
 })
 
 export type GlobalConfig = z.infer<typeof globalConfigSchema>

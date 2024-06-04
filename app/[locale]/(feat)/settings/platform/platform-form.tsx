@@ -13,7 +13,7 @@ import {useRouter} from "@/i18n";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import DouyuTabContent, {DouyuQuality, DouyuTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/douyu-tab";
 import {TwitchQualityItem, TwitchTabContent, TwitchTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
-import {PandaliveQualityItem, PandaliveTabContent, PandaliveTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandalive-tab";
+import {PandaTvQualityItem, PandaTvTabContent, PandaTvTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
 
 
 export type PlatformFormValues = {
@@ -26,8 +26,8 @@ export type PlatformFormValues = {
   douyuQualityOptions: DouyuQuality[]
   twitchStrings: TwitchTabString
   twitchQualityOptions: TwitchQualityItem[]
-  pandaStrings: PandaliveTabString
-  pandaQualityOptions: PandaliveQualityItem[]
+  pandaStrings: PandaTvTabString
+  pandaQualityOptions: PandaTvQualityItem[]
 }
 
 export default function PlatformForm({
@@ -76,7 +76,7 @@ export default function PlatformForm({
                            className="text-zinc-600 dark:text-zinc-200">{douyuStrings.platform}</TabsTrigger>
               <TabsTrigger value={PlatformType.HUYA}
                            className="text-zinc-600 dark:text-zinc-200">{huyaStrings.platform}</TabsTrigger>
-              <TabsTrigger value={PlatformType.PANDALIVE}
+              <TabsTrigger value={PlatformType.PANDATV}
                            className="text-zinc-600 dark:text-zinc-200">{pandaStrings.platform}</TabsTrigger>
               <TabsTrigger value={PlatformType.TWITCH}
                            className="text-zinc-600 dark:text-zinc-200">{twitchStrings.platform}</TabsTrigger>
@@ -85,26 +85,26 @@ export default function PlatformForm({
             <div>
               <TabsContent value={PlatformType.DOUYIN}>
                 <DouyinTabContent controlPrefix={"douyinConfig"} control={form.control} showCookies
-                                  showPartedDownloadRetry douyinStrings={douyinStrings}
+                                  showPartedDownloadRetry showFetchDelay strings={douyinStrings}
                                   qualityOptions={douyinQualityOptions}/>
               </TabsContent>
               <TabsContent value={PlatformType.DOUYU}>
                 <DouyuTabContent controlPrefix={"douyuConfig"} control={form.control} showCookies
-                                 showPartedDownloadRetry strings={douyuStrings}
+                                 showPartedDownloadRetry showFetchDelay strings={douyuStrings}
                                  qualityOptions={douyuQualityOptions}/>
               </TabsContent>
               <TabsContent value={PlatformType.HUYA}>
                 <HuyaTabContent controlPrefix={"huyaConfig"} control={form.control} showCookies showMaxBitrate
-                                showPartedDownloadRetry huyaStrings={huyaStrings}/>
+                                showPartedDownloadRetry showFetchDelay showForceOrigin showMobileApi strings={huyaStrings}/>
               </TabsContent>
-              <TabsContent value={PlatformType.PANDALIVE}>
-                <PandaliveTabContent controlPrefix={"pandaliveConfig"} control={form.control} showCookies
-                                     showPartedDownloadRetry qualityOptions={pandaQualityOptions}
-                                     strings={pandaStrings}/>
+              <TabsContent value={PlatformType.PANDATV}>
+                <PandaTvTabContent controlPrefix={"pandaTvConfig"} control={form.control} showCookies
+                                   showPartedDownloadRetry showFetchDelay qualityOptions={pandaQualityOptions}
+                                   strings={pandaStrings}/>
               </TabsContent>
               <TabsContent value={PlatformType.TWITCH}>
                 <TwitchTabContent controlPrefix={"twitchConfig"} control={form.control} showCookies
-                                  showPartedDownloadRetry strings={twitchStrings}
+                                  showPartedDownloadRetry showFetchDelay showSkipAds strings={twitchStrings}
                                   qualityOptions={twitchQualityOptions}/>
               </TabsContent>
             </div>

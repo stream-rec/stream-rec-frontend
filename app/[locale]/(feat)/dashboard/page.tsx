@@ -33,6 +33,8 @@ export default function DashboardPage({params: {locale}}: { params: { locale: st
     }
   }
 
+  const getTitleTranslation = (status: string) => t("status", {status: status});
+
   return <ContentLayout title={t("title")}>
     <div className="flex flex-col space-y-8">
       <div className="grid gap-4 md:grids-col-2 lg:grid-cols-2 lg:gap-6 xl:grid-cols-2 xl:gap-x-16">
@@ -41,10 +43,12 @@ export default function DashboardPage({params: {locale}}: { params: { locale: st
 
       <div
           className="grid gap-4 grid-cols-1 md:grids-col-3 lg:grid-cols-3 lg:space-x-8">
-        <Suspense fallback={<StreamerWrapperSkeleton/>}>
-          <StreamerWrapper disabledString={t("status", {status: "disabled"})}
-                           inactiveString={t("status", {status: "notRecording"})}
-                           recordingString={t("status", {status: "recording"})}/>
+        <Suspense fallback={<StreamerWrapperSkeleton recording={getTitleTranslation("recording")}
+                                                     inactive={getTitleTranslation("notRecording")}
+                                                     disabled={getTitleTranslation("disabled")}/>}>
+          <StreamerWrapper disabledString={getTitleTranslation("disabled")}
+                           inactiveString={getTitleTranslation("notRecording")}
+                           recordingString={getTitleTranslation("recording")}/>
         </Suspense>
       </div>
 

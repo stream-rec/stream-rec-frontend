@@ -124,20 +124,28 @@
     "locale": "语言",
     "localeDescription": "选择一个语言"
   },
+  "GlobalPlatformConfig": {
+    "part": "分段下载延迟",
+    "partDescription": "分段下载延迟，单位秒。 <important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
+    "cookieTitle": "Cookies 字符串",
+    "fetchDelayTitle": "平台检测延迟（实验性）",
+    "fetchDelayDescription": "平台轮询检测时间，单位秒"
+  },
   "Huya": {
     "platform": "虎牙",
     "cdn": "优先CDN线路",
-    "cdnDescription": "选择一个优先CDN线路，默认为AL、 可选以下线路：AL（阿里云 - 直播线路3）, TX（腾讯云 - 直播线路5）, HW（华为云 - 直播线路6）, WS（网宿）, HS（火山引擎 - 直播线路14）, AL13（阿里云）, HW16（华为云）, HY(星域云 - 直播线路66) ",
+    "cdnDescription": "选择一个优先CDN线路，默认为AL、 可选以下线路：AL（阿里云 - 直播线路3、13）, TX（腾讯云 - 直播线路5、15）, HW（华为云 - 直播线路6、16）, WS（网宿）, HS（火山引擎 - 直播线路14）, HY(星域云 - 直播线路66) ",
     "cdnDefault": "请选择一个CDN线路",
     "sourceFormat": "源格式 (实验性）",
     "sourceFormatDescription": "选择一个源格式，工具将会尝试录制这个格式的流。默认为flv。 <important> 建议使用flv流，hls稳定断流。HLS流请使用Streamlink下载引擎。</important>",
     "sourceFormatPlaceholder": "请选择一个源格式",
     "bitrate": "最大录制码率",
     "bitrateDescription": "选择一个码率，工具将会尝试录制低于等于这个码率的流。参考：20000（蓝光20M）, 10000（蓝光10M）, 8000（蓝光8M）, 2000（超清）, 500（流畅）",
-    "part": "分段下载延迟",
-    "partDescription": "分段下载延迟，单位秒，默认为15秒。 <important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
-    "cookieString": "Cookies 字符串",
-    "cookieDescription": "虎牙Cookie字符串，用于录制虎牙直播间。 <important>请注意：Cookie字符串不是必须的</important>"
+    "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除。<important>请注意：Cookie字符串不是必须的</important>",
+    "forceOrigin": "强制原画（实验性）",
+    "forceOriginDescription": "强制使用源流，无视二压流",
+    "mobileApi": "使用移动API",
+    "mobileApiDescription": "提取速度更快，更稳定 <important>请注意：移动API最高码率为10000（蓝光10M）</important>"
   },
   "DouyinQualities": {
     "origin": {
@@ -177,10 +185,7 @@
     "sourceFormat": "源格式 (实验性）",
     "sourceFormatDescription": "选择一个源格式，工具将会尝试录制这个格式的流。默认为flv。 <important>请注意：抖音部分画质无hls流，或无声音。建议使用flv。HLS流请使用Streamlink下载引擎。</important>",
     "sourceFormatPlaceholder": "请选择一个源格式",
-    "part": "分段下载延迟",
-    "partDescription": "分段下载延迟，单位秒，默认为3秒。<important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
-    "cookieString": "Cookies 字符串",
-    "cookiesDescription": "抖音Cookie字符串，用于录制抖音直播间，非必填。 <important>请注意：Cookie字符串必须存在 __ac_nonce。为了避免风控，建议使用小号的cookies。</important>"
+    "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除，非必填。 <important>请注意：Cookie字符串必须存在 __ac_nonce, __ac_signature。为了避免风控，建议使用小号的cookies。</important>"
   },
   "Douyu": {
     "platform": "斗鱼",
@@ -190,10 +195,7 @@
     "quality": "优先录制画质",
     "qualityDescription": "选择一个画质，工具将会尝试录制低于等于这个画质的流。",
     "qualityDefault": "请选择一个画质",
-    "part": "分段下载延迟",
-    "partDescription": "分段下载延迟，单位秒，默认为30秒。<important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
-    "cookieString": "Cookies 字符串",
-    "cookiesDescription": "斗鱼Cookie字符串，用于录制斗鱼直播间，非必填。 <important>请注意：为了避免风控，建议使用小号的cookies。</important>"
+    "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除，非必填。 <important>请注意：为了避免风控，建议使用小号的cookies。</important>"
   },
   "DouyuQualities": {
     "origin": {
@@ -229,10 +231,9 @@
     "authToken": "OAuth Token",
     "authTokenPlaceholder": "请填写Cookies auth-token值",
     "authTokenDescription": "Twitch Auth Token，用于录制Twitch直播间。 <important>请注意：Auth Token必须存在，否则录制失败</important>",
-    "part": "分段下载延迟",
-    "partDescription": "分段下载延迟，单位秒，默认为30秒。<important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
-    "cookies": "Cookies",
-    "cookiesDescription": "Twitch Cookies字符串，用于录制Twitch直播间，非必填。 <important>请注意：为了避免风控，建议使用小号的cookies。</important>"
+    "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除，非必填。 <important>请注意：为了避免风控，建议使用小号的cookies。</important>",
+    "skipAds": "跳过广告(实验性)",
+    "skipAdsDescription": "使用Streamlink --twitch-disable-ads参数<important>请注意：请将下载引擎更改为Streamlink， 该功能只支持原画设置</important>"
   },
   "TwitchQualities": {
     "origin": {
@@ -264,17 +265,14 @@
       "name": "音频"
     }
   },
-  "Pandalive": {
+  "PandaTv": {
     "platform": "PandaTV",
     "quality": "优先录制画质",
     "qualityDescription": "选择一个画质，工具将会尝试录制低于等于这个画质的流。",
     "qualityPlaceholder": "请选择一个画质",
-    "part": "分段下载延迟",
-    "partDescription": "分段下载延迟，单位秒，默认为30秒。<important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
-    "cookies": "Cookies",
-    "cookiesDescription": "PandaTV Cookies字符串，用于录制18+ PandaTV直播间，非必填。 <important>请注意：为了避免风控，建议使用小号的cookies。</important>"
+    "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除，用于录制18+ PandaTV直播间，非必填。 <important>请注意：为了避免风控，建议使用小号的cookies。</important>"
   },
-  "PandaliveQualities": {
+  "PandaTvQualities": {
     "origin": {
       "id": "best",
       "name": "原画"
@@ -366,7 +364,9 @@
     "useBuiltInSegmenter": "使用FFmpeg分段（实验性）",
     "useBuiltInSegmenterDescription": "开启此选项将使用FFmpeg分段， 减少直播平台API调用，实现无损分段。",
     "useBuiltInSegmenterNote": "注意事件：",
-    "useBuiltInSegmenterNoteDescription": "* 开启后只能使用时长分段，无法使用大小分段\n* 开启后无法及时更新主播标题\n* 开启后无法查看主播当前下载码率\n* 使用FLV格式下载时会出现颜色错误\n* 使用该选项时请使用时间戳文件名格式"
+    "useBuiltInSegmenterNoteDescription": "* 开启后只能使用时长分段，无法使用大小分段\n* 开启后无法及时更新主播标题\n* 开启后无法查看主播当前下载码率\n* 使用FLV格式下载时会出现颜色错误\n* 使用该选项时请使用时间戳文件名格式",
+    "exitOnDownloadError": "下载错误时退出（实验性）",
+    "exitOnDownloadErrorDescription": "开启后FFMPEG遇到解码错误将抛出错误<important>解码错误指主播流参数遇到更改（PK时，断网，等各种不正常的操作）</important>"
   },
   "TableToolbar": {
     "searchPlaceholder": "搜索{search}...",

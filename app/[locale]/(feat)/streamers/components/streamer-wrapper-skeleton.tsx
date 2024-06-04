@@ -1,12 +1,16 @@
 import RecordListSkeleton from "@/app/[locale]/(feat)/streamers/components/record-list-skeleton";
 
 
-export function StreamerWrapperSkeleton() {
+export function StreamerWrapperSkeleton({recording, inactive, disabled}: {
+  recording: string;
+  inactive: string;
+  disabled: string;
+}) {
   return (
       <>
-        <RecordListSkeleton title={"Recording"}/>
-        <RecordListSkeleton title={"Inactive"}/>
-        <RecordListSkeleton title={"Disabled"}/>
+        <RecordListSkeleton title={recording}/>
+        <RecordListSkeleton title={inactive}/>
+        <RecordListSkeleton title={disabled}/>
       </>
   );
 }

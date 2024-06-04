@@ -6,7 +6,7 @@ import {useHuyaTranslations} from "@/app/hooks/translations/huya-translations";
 import {useDouyinQualityTranslations, useDouyinTranslations} from "@/app/hooks/translations/douyin-translations";
 import {useDouyuQualityTranslations, useDouyuTranslations} from "@/app/hooks/translations/douyu-translations";
 import {useTwitchQualityTranslations, useTwitchTranslations} from "@/app/hooks/translations/twitch-translations";
-import {usePandaliveQualityTranslations, usePandaliveTranslations} from "@/app/hooks/translations/pandalive-translations";
+import {usePandaTvQualityTranslations, usePandaTvTranslations} from "@/app/hooks/translations/pandatv-translations";
 
 
 type StreamerFormWrapperProps = {
@@ -38,8 +38,8 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
   const twitchQualityOptions = useTwitchQualityTranslations()
 
   // pandalive translations
-  const pandaT = usePandaliveTranslations()
-  const pandaQualityOptions = usePandaliveQualityTranslations()
+  const pandaT = usePandaTvTranslations()
+  const pandaQualityOptions = usePandaTvQualityTranslations()
 
   // action callbacks translations
   const actionsT = useTranslations("CallbacksConfigs")

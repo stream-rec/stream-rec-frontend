@@ -5,7 +5,6 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import {Input} from "@/components/new-york/ui/input";
 import React, {useCallback, useEffect} from "react";
-import {Switch} from "@/components/new-york/ui/switch";
 import {Button} from "@/components/new-york/ui/button";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui/tabs";
 import {clsx} from "clsx";
@@ -14,7 +13,7 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/new-york/ui/aler
 import {streamerSchema, StreamerSchema} from "@/lib/data/streams/definitions";
 import {huyaDownloadConfig} from "@/lib/data/platform/huya/definitions";
 import {douyinDownloadConfig} from "@/lib/data/platform/douyin/definitions";
-import {PlatformType} from "@/lib/data/platform/definitions";
+import {platformRegexes, PlatformType} from "@/lib/data/platform/definitions";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/new-york/ui/popover";
 import {cn} from "@/lib/utils";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem} from "@/components/new-york/ui/command";
@@ -31,17 +30,13 @@ import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import {DouyuPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/douyu-platform";
 import {douyuDownloadConfig} from "@/lib/data/platform/douyu/definitions";
 import {DouyuQuality, DouyuTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/douyu-tab";
-import {huyaRegex} from "@/lib/data/platform/huya/constants";
-import {douyinRegex} from "@/lib/data/platform/douyin/constants";
-import {douyuRegex} from "@/lib/data/platform/douyu/constants";
 import {twitchDownloadConfig} from "@/lib/data/platform/twitch/definitions";
 import {TwitchPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/twitch-platform";
 import {TwitchQualityItem, TwitchTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
-import {twitchRegex} from "@/lib/data/platform/twitch/constants";
-import {PandaliveQualityItem, PandaliveTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandalive-tab";
-import {pandaliveDownloadConfig} from "@/lib/data/platform/pandalive/definitions";
-import {PandalivePlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/pandalive-platform";
-import {pandaliveRegex} from "@/lib/data/platform/pandalive/constants";
+import {PandaTvQualityItem, PandaTvTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
+import {pandaTvDownloadConfig} from "@/lib/data/platform/pandatv/definitions";
+import {PandaTvPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/pandalive-platform";
+import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
 
 type StreamerConfigProps = {
   strings: {
@@ -81,8 +76,8 @@ type StreamerConfigProps = {
     douyuQualityOptions: DouyuQuality[],
     twitchStrings: TwitchTabString,
     twitchQualityOptions: TwitchQualityItem[],
-    pandaStrings: PandaliveTabString,
-    pandaQualityOptions: PandaliveQualityItem[],
+    pandaStrings: PandaTvTabString,
+    pandaQualityOptions: PandaTvQualityItem[],
     baseDownloadStrings: BaseDownloadTabString,
     actionTabStrings: ActionsCallbackTabStrings
   },
@@ -117,8 +112,8 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: douyuDownloadConfig});
     } else if (platform === PlatformType.TWITCH) {
       return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: twitchDownloadConfig});
-    } else if (platform === PlatformType.PANDALIVE) {
-      return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: pandaliveDownloadConfig});
+    } else if (platform === PlatformType.PANDATV) {
+      return streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: pandaTvDownloadConfig});
     } else {
       return streamerSchema;
     }
@@ -200,13 +195,6 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
   const selectedTemplateId = form.watch("templateId")
 
   const trySetPlatform = (url: string) => {
-    const platformRegexes = [
-      {platformType: PlatformType.HUYA, regex: huyaRegex},
-      {platformType: PlatformType.DOUYIN, regex: douyinRegex},
-      {platformType: PlatformType.DOUYU, regex: douyuRegex},
-      {platformType: PlatformType.TWITCH, regex: twitchRegex},
-      {platformType: PlatformType.PANDALIVE, regex: pandaliveRegex}
-    ];
 
     for (const {platformType, regex} of platformRegexes) {
       if (url.match(regex)) {
@@ -269,28 +257,9 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                       )}
                   />
 
-                  <FormField
-                      control={form.control}
-                      name="isActivated"
-                      render={({field}) => (
-                          <FormItem
-                              className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                            <div className="space-y-0.5">
-                              <FormLabel>{strings.streamerForm.enabledRecording}</FormLabel>
-                              <FormDescription>
-                                {strings.streamerForm.enabledRecordingDescription}
-                              </FormDescription>
-                            </div>
-                            <FormControl>
-                              <Switch
-                                  checked={field.value}
-                                  onCheckedChange={field.onChange}
-                                  arial-label="Record switch"
-                              />
-                            </FormControl>
-                          </FormItem>
-                      )}
-                  />
+                  <FlagFormField control={form.control} fieldName={"isActivated"} title={strings.streamerForm.enabledRecording}
+                                 description={strings.streamerForm.enabledRecordingDescription}
+                                 ariaLabel={"Should record switch"}/>
 
                   <FormField
                       control={form.control}
@@ -304,9 +273,9 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                                   <Button
                                       variant="outline"
                                       role="combobox"
-                                      className={cn("w-[200px] justify-between", !field.value && field.value !== -1 && "text-muted-foreground")}
+                                      className={cn("w-[200px] justify-between", !field.value && field.value !== 0 && "text-muted-foreground")}
                                   >
-                                    {field.value ? field.value === -1 ? strings.streamerForm.templateDefault
+                                    {field.value ? field.value === 0 ? strings.streamerForm.templateDefault
                                             : templateUsers.find((language) => language.id === field.value)?.name
                                         : strings.streamerForm.templateDefault}
                                     <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50"/>
@@ -321,12 +290,12 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                                   />
                                   <CommandEmpty>{strings.streamerForm.noTemplate}</CommandEmpty>
                                   <CommandGroup>
-                                    <CommandItem value={"-1"} key={"No template"} onSelect={() => {
-                                      form.setValue("templateId", -1)
+                                    <CommandItem value={"0"} key={"No template"} onSelect={() => {
+                                      form.setValue("templateId", 0)
                                     }}>
                                       {strings.streamerForm.doNotUseTemplate}
                                       <CheckIcon
-                                          className={cn("ml-auto h-4 w-4", field.value === -1 ? "opacity-100" : "opacity-0")}
+                                          className={cn("ml-auto h-4 w-4", field.value === 0 ? "opacity-100" : "opacity-0")}
                                       />
                                     </CommandItem>
                                     {templateUsers.map((language) => (
@@ -360,39 +329,20 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
             )}
 
             {
-                selectedTemplateId && selectedTemplateId < 1 && (
-                    <FormField
-                        control={form.control}
-                        name="isTemplate"
-                        render={({field}) => (
-                            <FormItem
-                                className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                              <div className="space-y-0.5">
-                                <FormLabel>{strings.streamerForm.asTemplate}</FormLabel>
-                                <FormDescription>
-                                  {strings.streamerForm.asTemplateDescription}
-                                </FormDescription>
-                              </div>
-                              <FormControl>
-                                <Switch
-                                    checked={field.value}
-                                    onCheckedChange={
-                                      (e) => {
-                                        field.onChange(e);
-                                        setIsTemplate(e)
-                                      }
-                                    }
-                                    arial-label="Template streamer switch"
-                                />
-                              </FormControl>
-                            </FormItem>
-                        )}
-                    />)
+                selectedTemplateId === 0 && (
+                    <FlagFormField control={form.control} fieldName={"isTemplate"} title={strings.streamerForm.asTemplate}
+                                   description={strings.streamerForm.asTemplateDescription}
+                                   ariaLabel={"Template streamer switch"}
+
+                                   onChange={(value) => {
+                                     setIsTemplate(value)
+                                   }}
+                    />
+                )
             }
 
             <div className={clsx("space-y-6",
-                {"hidden": platform === "invalid"},
-                {"hidden": selectedTemplateId && selectedTemplateId !== -1},
+                {"hidden": platform === "invalid" || selectedTemplateId && selectedTemplateId !== 0},
             )}>
               <h3 className="text-md font-semibold">{strings.streamerForm.streamerOnlyOptions}</h3>
 
@@ -445,8 +395,8 @@ export function StreamerForm({strings, defaultValues, templateUsers, onSubmit}: 
                                   )
                               }
                               {
-                                  platform === PlatformType.PANDALIVE && (
-                                      <PandalivePlatformForm strings={strings.pandaStrings} allowNone={true} qualities={strings.pandaQualityOptions}/>
+                                  platform === PlatformType.PANDATV && (
+                                      <PandaTvPlatformForm strings={strings.pandaStrings} allowNone={true} qualities={strings.pandaQualityOptions}/>
                                   )
                               }
                             </TabsContent>

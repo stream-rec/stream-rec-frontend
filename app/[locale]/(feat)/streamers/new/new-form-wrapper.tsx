@@ -8,7 +8,7 @@ const defaultStreamerValues: StreamerSchema = {
   url: "",
   isActivated: true,
   isTemplate: false,
-  templateId: -1
+  templateId: 0
 }
 
 export default function NewFormWrapper({templateData}: { templateData: StreamerSchema[] }) {

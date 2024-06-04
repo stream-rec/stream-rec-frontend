@@ -45,9 +45,6 @@ export function StreamerStatusList({
 
 
   useEffect(() => {
-    // vercel does not support ws websockets
-    if (process.env.VERCEL_ENV !== undefined) return
-
     let ws: WebSocket;
     try {
       ws = new WebSocket(wsUrl);

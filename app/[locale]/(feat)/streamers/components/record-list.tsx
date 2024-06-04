@@ -4,7 +4,7 @@ import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/
 import {Button} from "@/components/new-york/ui/button";
 
 import {StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer";
-import {CaretSortIcon} from "@radix-ui/react-icons";
+import {CaretDownIcon, CaretUpIcon} from "@radix-ui/react-icons";
 import {toStreamerCard} from "@/app/[locale]/(feat)/streamers/components/streamer-list-wrapper";
 import {OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
 
@@ -28,7 +28,7 @@ export function RecordList({cards, title, contextMenuStrings, deleteStreamerActi
           <div className={"flex-1"}>
             <CollapsibleTrigger className={"float-end"} asChild>
               <Button variant="ghost" size="sm">
-                <CaretSortIcon className="h-4 w-4"/>
+                {isOpen ? <CaretDownIcon/> : <CaretUpIcon/>}
                 <span className="sr-only">Toggle</span>
               </Button>
             </CollapsibleTrigger>

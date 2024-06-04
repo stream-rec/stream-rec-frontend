@@ -123,20 +123,28 @@
     "locale": "Language",
     "localeDescription": "Select the language for the web interface."
   },
+  "GlobalPlatformConfig": {
+    "part": "Part download delay",
+    "partDescription": "The delay between each part download retry.",
+    "cookieTitle": "Cookies",
+    "fetchDelayTitle": "Platform fetch delay",
+    "fetchDelayDescription": "The delay between each platform fetch request."
+  },
   "Huya": {
     "platform": "Huya",
     "cdn": "Primary CDN",
-    "cdnDescription": "Huya primary CDN used to fetch the video stream. By default, it is set to AL. Possible values are AL, TX, HW, WS, HS, AL13, HW16, HY.",
+    "cdnDescription": "Huya primary CDN used to fetch the video stream. By default, it is set to AL. Possible values are AL, TX, HW, WS, HS, HY.",
     "cdnDefault": "Select a CDN",
     "sourceFormat": "Source format",
     "sourceFormatDescription": "Select the source format of the Huya live stream. Default is set to flv. <important> Huya HLS stream is not available for all streams. It is recommended to use flv sources as some streams has no hls streams. Please use Streamlink to download HLS sources.</important>",
     "sourceFormatPlaceholder": "Please select a source format",
     "bitrate": "Max record bitrate",
     "bitrateDescription": "The maximum bitrate for the Huya video stream. The tool will automatically adjust the closest bitrate available for download.",
-    "part": "Part download delay",
-    "partDescription": "The delay between each part download retry. Default is 15 seconds.",
-    "cookieString": "Cookies",
-    "cookieDescription": "Cookies to be used for the Huya video stream. <important>Optional</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional</important>",
+    "forceOrigin": "Force origin",
+    "forceOriginDescription": "Enable this option to force original quality and not the compressed one.",
+    "mobileApi": "Use mobile API",
+    "mobileApiDescription": "Enable this option to use mobile API for fetching the stream. <important>Mobile API max quality bitrate is capped at 10000 (UHD 10M)</important>"
   },
   "DouyinQualities": {
     "origin": {
@@ -176,10 +184,7 @@
     "sourceFormat": "Source format",
     "sourceFormatDescription": "Select the source format of the Douyin live stream. Default is set to flv. <important>It is recommended to use flv sources as some streams has no hls streams. Please use Streamlink to download HLS sources.</important>",
     "sourceFormatPlaceholder": "Please select a source format",
-    "part": "Part download delay",
-    "partDescription": "The delay between each part download retry. Default is 3 seconds.",
-    "cookieString": "Douyin Cookies",
-    "cookiesDescription": "The cookies used to authenticate the Douyin account. Optional. <important>__ac_nonce='anything' must be included</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. Optional. <important>__ac_nonce='anything' and __ac_signature='anything' must be included</important>"
   },
   "Douyu": {
     "platform": "Douyu",
@@ -192,7 +197,7 @@
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry. Default is 30 seconds.",
     "cookieString": "Cookies",
-    "cookiesDescription": "Cookies to be used for the Douyu video stream. <important>Optional</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional</important>"
   },
   "DouyuQualities": {
     "origin": {
@@ -231,7 +236,9 @@
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry. Default is 30 seconds.",
     "cookies": "Cookies",
-    "cookiesDescription": "Cookies to be used for the Twitch video stream. <important>Optional</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional</important>",
+    "skipAds": "Skip ads",
+    "skipAdsDescription": "Use streamlink's --twitch-disable-ads arg <important>Please use Streamlink as download engine, and this option only supports Source quality</important>"
   },
   "TwitchQualities": {
     "origin": {
@@ -263,7 +270,7 @@
       "name": "Audio only"
     }
   },
-  "Pandalive": {
+  "PandaTv": {
     "platform": "PandaTV",
     "quality": "Preferred record quality",
     "qualityDescription": "The quality of the Twitch video stream. Ordered from highest to lowest quality. The tool will look up for the closest quality available to selected.",
@@ -271,9 +278,9 @@
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry. Default is 30 seconds.",
     "cookies": "Cookies",
-    "cookiesDescription": "Cookies to be used for the PandaTV video stream. <important>Optional, only required for 18+ streams</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional, only required for 18+ streams</important>"
   },
-  "PandaliveQualities": {
+  "PandaTvQualities": {
     "origin": {
       "id": "best",
       "name": "Source"
@@ -365,7 +372,9 @@
     "useBuiltInSegmenter": "Use FFmpeg built-in segmenter",
     "useBuiltInSegmenterDescription": "Whether to use FFmpeg built-in segmenter for parting downloads. Default is set to false. <important>Enabling this feature will reduce platform API calls.</important>",
     "useBuiltInSegmenterNote": "Notes:",
-    "useBuiltInSegmenterNoteDescription": "* Only works with time-based parting\n* Streamer's title won't be updated during download\n* Dashboard streamers real time bitrate updating will be disabled\n* Using FLV format will cause color issues in the output video\n* Please use time placeholders in the filename"
+    "useBuiltInSegmenterNoteDescription": "* Only works with time-based parting\n* Streamer's title won't be updated during download\n* Dashboard streamers real time bitrate updating will be disabled\n* Using FLV format will cause color issues in the output video\n* Please use time placeholders in the filename",
+    "exitOnDownloadError": "Exit on download error",
+    "exitOnDownloadErrorDescription": "If a input stream returns an error, ffmpeg will exit immediately. Default is set to false."
   },
   "TableToolbar": {
     "searchPlaceholder": "Filter by {search}...",

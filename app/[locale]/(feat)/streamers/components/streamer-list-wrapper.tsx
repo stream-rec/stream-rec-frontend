@@ -23,7 +23,7 @@ export default async function StreamerListWrapper({templateStreamers, streamers,
   const streamerCards = await toStreamerCards(streamers, t, format)
 
   return (
-      <div className={"grid gap-3 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-7"}>
+      <div className={"grid gap-3 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7"}>
         {
           <>
             {templateCards.map(e => toResponsiveCard(e, contextMenuStrings, deleteStreamer))}

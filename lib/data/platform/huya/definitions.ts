@@ -10,7 +10,9 @@ export const huyaGlobalConfig = globalPlatformConfig.extend({
   maxBitRate: z.number().min(1000).nullish(),
   partedDownloadRetry: z.number().min(0).nullish(),
   sourceFormat: z.enum(["flv", "hls"]).nullish(),
+  forceOrigin: z.boolean().nullish(),
+  useMobileApi: z.boolean().nullish(),
 })
-export const huyaDownloadConfig = baseDownloadConfig.merge(huyaGlobalConfig)
+export const huyaDownloadConfig = baseDownloadConfig.merge(huyaGlobalConfig).omit({forceOrigin: true, useMobileApi: true})
 export type HuyaGlobalConfig = z.infer<typeof huyaGlobalConfig>
 export type HuyaDownloadConfig = z.infer<typeof huyaDownloadConfig>

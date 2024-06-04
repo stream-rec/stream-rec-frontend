@@ -15,7 +15,7 @@ export function RestartNeededHoverCard({title, description}: RestartNeededHoverC
         <HoverCardTrigger asChild>
           <TriangleAlert className="h-4 w-4 text-destructive dark:border-destructive [&>svg]:text-destructive"/>
         </HoverCardTrigger>
-        <HoverCardContent className="w-100">
+        <HoverCardContent className="w-100 border-none">
           <Alert variant={"destructive"} className={""}>
             <AlertTriangleIcon className="h-4 w-4"/>
             <AlertTitle>{title}</AlertTitle>
