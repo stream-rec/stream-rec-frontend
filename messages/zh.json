@@ -233,7 +233,7 @@
     "authTokenDescription": "Twitch Auth Token，用于录制Twitch直播间。 <important>请注意：Auth Token必须存在，否则录制失败</important>",
     "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除，非必填。 <important>请注意：为了避免风控，建议使用小号的cookies。</important>",
     "skipAds": "跳过广告(实验性)",
-    "skipAdsDescription": "开启后遇到广告将自动分段 <important>请注意：该功能只支持原画设置</important>"
+    "skipAdsDescription": "使用Streamlink --twitch-disable-ads参数<important>请注意：请将下载引擎更改为Streamlink， 该功能只支持原画设置</important>"
   },
   "TwitchQualities": {
     "origin": {
