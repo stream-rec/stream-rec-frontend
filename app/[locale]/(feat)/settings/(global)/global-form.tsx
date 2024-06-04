@@ -126,7 +126,7 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
                          ariaLabel={"File deletion switch"}/>
 
           <FlagFormField control={form.control} fieldName={"useBuiltInSegmenter"} title={strings.useBuiltInSegmenter}
-                         description={strings.useBuiltInSegmenterDescription} showExperimentalBadge
+                         description={strings.useBuiltInSegmenterDescription}
                          ariaLabel={"FFMPEG use segmenter switch"}>
             <Accordion type="single" collapsible asChild={true}>
               <AccordionItem value="item-1" className={"border-none"}>
