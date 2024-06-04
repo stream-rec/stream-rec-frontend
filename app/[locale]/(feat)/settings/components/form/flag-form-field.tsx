@@ -12,6 +12,7 @@ type FlagFlagFormField = {
   title?: string;
   description?: string | React.ReactNode;
   ariaLabel?: string;
+  onChange?: (value: boolean) => void;
   showExperimentalBadge?: boolean;
   children?: React.ReactNode;
 }
@@ -23,6 +24,7 @@ export function FlagFormField({
                                 title,
                                 description,
                                 ariaLabel,
+                                onChange,
                                 showExperimentalBadge,
                                 children
                               }: FlagFlagFormField) {
@@ -33,7 +35,7 @@ export function FlagFormField({
           <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
             <div className="space-y-1.5">
               <FormLabel>
-                <div className={"flex-row items-center space-x-3"}>
+                <div className={"flex flex-row items-center gap-x-2"}>
                   {title}
                   {showExperimentalBadge && <Badge>Experimental</Badge>}
                 </div>
@@ -46,7 +48,12 @@ export function FlagFormField({
             <FormControl>
               <Switch
                   checked={field.value}
-                  onCheckedChange={field.onChange}
+                  onCheckedChange={(value) => {
+                    field.onChange(value)
+                    if (onChange) {
+                      onChange(value)
+                    }
+                  }}
                   arial-label={ariaLabel}
               />
             </FormControl>

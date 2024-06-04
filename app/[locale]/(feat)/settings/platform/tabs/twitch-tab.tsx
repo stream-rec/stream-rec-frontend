@@ -1,15 +1,15 @@
 import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/components/new-york/ui/form";
 import Select from "@/app/components/empty-select";
 import {SelectItem} from "@/components/new-york/ui/select";
-import React, {useState} from "react";
+import React from "react";
 import {
   PlatformTabContent,
   PlatformTabContentProps,
   PlatformTabContentStrings
 } from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
 import {Input} from "@/components/new-york/ui/input";
-import {Switch} from "@/components/new-york/ui/switch";
-import {Badge} from "@/components/new-york/ui/badge";
+import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
+import {useFormContext} from "react-hook-form";
 
 
 type TwitchConfigProps = {
@@ -47,41 +47,18 @@ export const TwitchTabContent = ({
                                    strings
                                  }: TwitchConfigProps) => {
 
+  const {watch} = useFormContext()
 
-  const [skipAds, setSkipAds] = useState(control._defaultValues?.twitchConfig?.skipAds || false)
+  const skipAds = watch(`${controlPrefix}.skipAds`, false)
 
   return <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
                              showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}>
 
-    {showSkipAds && <FormField
-        control={control}
-        name={controlPrefix ? `${controlPrefix}.skipAds` : "skipAds"}
-        render={({field}) => (
-            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-              <div className="space-y-0.5">
-                <FormLabel>
-                  <div className={"flex flex-row items-center gap-x-2"}>
-                    {strings.skipAds}
-                    <Badge>Experimental</Badge>
-                  </div>
-                </FormLabel>
-                <FormDescription>
-                  {strings.skipAdsDescription}
-                </FormDescription>
-              </div>
-              <FormControl>
-                <Switch
-                    checked={field.value}
-                    onCheckedChange={(value) => {
-                      field.onChange(value)
-                      setSkipAds(value)
-                    }}
-                    arial-label="Twitch skip ads switch"
-                />
-              </FormControl>
-            </FormItem>
-        )}
-    />}
+    {showSkipAds && (
+        <FlagFormField control={control} fieldName={"skipAds"} controlPrefix={controlPrefix} title={strings.skipAds}
+                       description={strings.skipAdsDescription} showExperimentalBadge
+                       ariaLabel={"Twitch skip ads switch"}/>
+    )}
 
     <FormField
         control={control}
