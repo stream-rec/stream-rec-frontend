@@ -10,11 +10,14 @@ import {
   PlatformTabContentProps,
   PlatformTabContentStrings
 } from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
 
 
 type HuyaConfigProps = {
   allowNone?: boolean
   showMaxBitrate?: boolean
+  showForceOrigin?: boolean
+  showMobileApi?: boolean
 } & PlatformTabContentProps<HuyaTabString>
 
 export type HuyaTabString = {
@@ -27,6 +30,10 @@ export type HuyaTabString = {
   sourceFormatDescription: string,
   bitrate: string,
   bitrateDescription: string,
+  forceOrigin: string,
+  forceOriginDescription: string,
+  mobileApi: string,
+  mobileApiDescription: string,
 } & PlatformTabContentStrings
 
 export const HuyaTabContent = ({
@@ -36,6 +43,8 @@ export const HuyaTabContent = ({
                                  showMaxBitrate,
                                  showCookies,
                                  showPartedDownloadRetry,
+                                 showForceOrigin,
+                                 showMobileApi,
                                  allowNone = false,
                                  strings
                                }: HuyaConfigProps) => {
@@ -43,6 +52,14 @@ export const HuyaTabContent = ({
     return (
         <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
                             showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}>
+
+          {showMobileApi && (<FlagFormField control={control} fieldName={"useMobileApi"} controlPrefix={controlPrefix} title={strings.mobileApi}
+                                            description={strings.mobileApiDescription}
+                                            ariaLabel={"Huya use mobile api switch"}/>)}
+
+          {showForceOrigin && (<FlagFormField control={control} fieldName={"forceOrigin"} controlPrefix={controlPrefix} title={strings.forceOrigin}
+                                              description={strings.forceOriginDescription} showExperimentalBadge
+                                              ariaLabel={"Huya force origin switch"}/>)}
 
           <FormField
               control={control}

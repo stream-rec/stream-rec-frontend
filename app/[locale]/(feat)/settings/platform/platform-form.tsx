@@ -95,7 +95,7 @@ export default function PlatformForm({
               </TabsContent>
               <TabsContent value={PlatformType.HUYA}>
                 <HuyaTabContent controlPrefix={"huyaConfig"} control={form.control} showCookies showMaxBitrate
-                                showPartedDownloadRetry showFetchDelay strings={huyaStrings}/>
+                                showPartedDownloadRetry showFetchDelay showForceOrigin showMobileApi strings={huyaStrings}/>
               </TabsContent>
               <TabsContent value={PlatformType.PANDATV}>
                 <PandaTvTabContent controlPrefix={"pandaTvConfig"} control={form.control} showCookies

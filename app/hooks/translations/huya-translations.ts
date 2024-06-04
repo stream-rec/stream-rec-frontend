@@ -25,5 +25,9 @@ export function getHuyaTranslations(t: any, pt: any) {
     partDescription: pt.rich("partDescription"),
     cookieTitle: pt("cookieTitle"),
     cookieDescription: t.rich("cookieDescription"),
+    forceOrigin: t("forceOrigin"),
+    forceOriginDescription: t.rich("forceOriginDescription"),
+    mobileApi: t("mobileApi"),
+    mobileApiDescription: t.rich("mobileApiDescription"),
   }
 }

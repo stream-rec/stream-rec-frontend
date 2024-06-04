@@ -141,7 +141,11 @@
     "sourceFormatPlaceholder": "请选择一个源格式",
     "bitrate": "最大录制码率",
     "bitrateDescription": "选择一个码率，工具将会尝试录制低于等于这个码率的流。参考：20000（蓝光20M）, 10000（蓝光10M）, 8000（蓝光8M）, 2000（超清）, 500（流畅）",
-    "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除。<important>请注意：Cookie字符串不是必须的</important>"
+    "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除。<important>请注意：Cookie字符串不是必须的</important>",
+    "forceOrigin": "强制原画（实验性）",
+    "forceOriginDescription": "强制使用源流，无视二压流",
+    "mobileApi": "使用移动API",
+    "mobileApiDescription": "提取速度更快，更稳定 <important>请注意：移动API最高码率为10000（蓝光10M）</important>"
   },
   "DouyinQualities": {
     "origin": {

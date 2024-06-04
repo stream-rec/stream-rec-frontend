@@ -140,7 +140,11 @@
     "sourceFormatPlaceholder": "Please select a source format",
     "bitrate": "Max record bitrate",
     "bitrateDescription": "The maximum bitrate for the Huya video stream. The tool will automatically adjust the closest bitrate available for download.",
-    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional</important>"
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional</important>",
+    "forceOrigin": "Force origin",
+    "forceOriginDescription": "Enable this option to force original quality and not the compressed one.",
+    "mobileApi": "Use mobile API",
+    "mobileApiDescription": "Enable this option to use mobile API for fetching the stream. <important>Mobile API max quality bitrate is capped at 10000 (UHD 10M)</important>"
   },
   "DouyinQualities": {
     "origin": {
