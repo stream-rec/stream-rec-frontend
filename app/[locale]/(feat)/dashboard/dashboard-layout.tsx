@@ -33,6 +33,8 @@ export function DashboardLayout(
 
   const sidebar = useStore(useSidebarToggle, (state) => state);
 
+  if (!sidebar) return null;
+
   return (
       <>
         <Sidebar navStrings={
