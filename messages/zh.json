@@ -145,7 +145,7 @@
     "forceOrigin": "强制原画（实验性）",
     "forceOriginDescription": "强制使用源流，无视二压流",
     "mobileApi": "使用移动API",
-    "mobileApiDescription": "提取速度更快，更稳定</important>"
+    "mobileApiDescription": "提取速度更快，更稳定"
   },
   "DouyinQualities": {
     "origin": {
