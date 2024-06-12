@@ -144,7 +144,7 @@
     "forceOrigin": "Force origin",
     "forceOriginDescription": "Enable this option to force original quality and not the compressed one.",
     "mobileApi": "Use mobile API",
-    "mobileApiDescription": "Enable this option to use mobile API for fetching the stream. <important>Mobile API max quality bitrate is capped at 10000 (UHD 10M)</important>"
+    "mobileApiDescription": "Enable this option to use mobile API for fetching the stream. Mobile API is faster.</important>"
   },
   "DouyinQualities": {
     "origin": {
