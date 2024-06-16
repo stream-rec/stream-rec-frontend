@@ -403,7 +403,11 @@
     "delete": "Delete",
     "deleting": "Deleting...",
     "deleted": "Deleted successfully",
-    "deleteError": "Delete error"
+    "deleteError": "Delete error",
+    "retry": "Retry",
+    "retrying": "Retrying...",
+    "retried": "Retried successfully",
+    "retryError": "Retry error"
   },
   "UploadsPage": {
     "title": "Upload list",

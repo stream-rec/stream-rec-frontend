@@ -4,7 +4,7 @@ import {ColumnDef} from "@tanstack/react-table"
 
 import {Badge} from "@/components/new-york/ui/badge";
 import {UploadData} from "@/lib/data/uploads/definitions";
-import {deleteUpload} from "@/lib/data/uploads/upload-apis";
+import {deleteUpload, retryUpload} from "@/lib/data/uploads/upload-apis";
 import {UploadActionColumn} from "@/app/[locale]/(feat)/uploads/components/upload-action-column";
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import * as React from "react";
@@ -188,7 +188,7 @@ export const useUploadsTableColumns = (streamers: StreamerSchema[]) => {
           id: "actions",
           cell: ({row}) => {
             const uploadData = row.original
-            return <UploadActionColumn data={uploadData} deleteUpload={deleteUpload}/>
+            return <UploadActionColumn data={uploadData} retryUpload={retryUpload} deleteUpload={deleteUpload}/>
           },
         },
       ]

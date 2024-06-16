@@ -63,6 +63,15 @@ export const fetchUploadResults = async (id: string) => {
   return await response.json() as UploadResult[]
 }
 
+export const retryUpload = async (id: string) => {
+  const response = await fetchApi(`/uploads/${id}/retry`, {
+    method: 'POST'
+  })
+  if (!response.ok) {
+    throw new Error("Error retrying upload, status: " + response.status + " " + response.statusText)
+  }
+}
+
 
 export const deleteUpload = async (id: string) => {
   const response = await fetchApi('/uploads/' + id, {

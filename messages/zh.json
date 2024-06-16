@@ -395,7 +395,11 @@
     "delete": "删除",
     "deleting": "删除中...",
     "deleted": "已删除！",
-    "deleteError": "删除失败"
+    "deleteError": "删除失败",
+    "retry": "重试",
+    "retrying": "重试中...",
+    "retried": "已重试！",
+    "retryError": "重试失败"
   },
   "UploadsPage": {
     "title": "上传列表",
