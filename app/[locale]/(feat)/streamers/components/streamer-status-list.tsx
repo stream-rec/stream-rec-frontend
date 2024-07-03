@@ -57,6 +57,9 @@ export function StreamerStatusList({
       console.log('WebSocket connection established');
       // send a heartbeat message every 45 seconds to keep the connection alive
       setInterval(() => {
+        if (ws.readyState !== ws.OPEN) {
+          return
+        }
         ws.send(heartBeatDataArray)
       }, heartBeatInterval)
     };
