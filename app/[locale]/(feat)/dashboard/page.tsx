@@ -4,8 +4,8 @@ import {getServerSession} from "next-auth";
 import {ContentLayout} from "@/components/dashboard/content-layout";
 import {StreamerWrapperSkeleton} from "@/app/[locale]/(feat)/streamers/components/streamer-wrapper-skeleton";
 import StatsCardWrapper from "@/app/[locale]/(feat)/(stats)/stats-card-wrapper";
-import StreamerWrapper from "@/app/[locale]/(feat)/streamers/components/streamer-wrapper";
 import {useTranslations} from "next-intl";
+import {StreamerWrapper} from "@/app/[locale]/(feat)/streamers/components/streamer-wrapper";
 
 export async function generateMetadata({params: {locale}}: { params: { locale: string } }) {
   const t = await getTranslations({locale, namespace: 'Metadata'});
