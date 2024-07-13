@@ -1,4 +1,4 @@
-export const douyinRegex = "(?:https?://)?(?:www\\.)?live\\.douyin\\.com/([a-zA-Z0-9]+)"
+export const douyinRegex = "(?:https?://)?(?:www\\.)?live\\.douyin\\.com/([a-zA-Z0-9_]+)"
 
 export const douyinTTwidRegex = "ttwid=(.*?)(;|$)" as const
 export const douyinMsTokenRegex = "msToken=(.*?)(;|$)" as const
