@@ -33,7 +33,7 @@ This is the frontend service for [Stream-rec](https://github.com/hua0512/stream-
 
 First, set up the environment variables:
 
-- `API_URL`: The backend API URL. Default is `http://localhost:12555`.
+- `API_URL`: The backend API URL. Default is `http://localhost:12555/api`.
 - `WS_API_URL`: The backend WebSocket API URL. Default is `ws://localhost:12555/live/update`.
 - `NEXTAUTH_SECRET`: The secret key for NextAuth.
 - `NEXTAUTH_URL`: The NextAuth URL. Default is `http://localhost:15275`.
