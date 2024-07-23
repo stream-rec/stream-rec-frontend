@@ -14,35 +14,47 @@ export type OpenVideoContextMenuStrings = {
   openWithPotPlayer: string
 }
 
+type IntentSchema = {
+  url: string,
+  title: string,
+  icon: string | undefined,
+  alt: string | undefined,
+  target: string | undefined
+}
+
+
 export function OpenVideoContextMenu({children, url, string}: OpenVideoContextMenuProps) {
 
-  function potplayer() {
-    if (url) {
-      window.open(`potplayer://${url}`)
+  const intentSchemas = [
+    {
+      url: "",
+      title: string.download,
+      target: "_blank",
+    },
+    {
+      url: "potplayer://",
+      title: string.openWithPotPlayer,
+      icon: "/icons/potplayer.svg",
+      alt: "potplayer icon",
     }
-  }
+  ] as IntentSchema[]
 
-  function download() {
-    if (url) {
-      window.open(url, "_blank")
-    }
-  }
+  const openUrl = (prefixUrl: string, target: string | undefined) => window.open(prefixUrl + url, target)
 
   return (
       <ContextMenu>
-        <ContextMenuTrigger>
-          {children}
-        </ContextMenuTrigger>
+        <ContextMenuTrigger>{children}</ContextMenuTrigger>
         <ContextMenuContent className="w-64">
-          <ContextMenuItem inset onClick={download}>
-            {string.download}
-          </ContextMenuItem>
-          <ContextMenuItem inset onClick={potplayer}>
-            {string.openWithPotPlayer}
-            <ContextMenuShortcut>
-              <Image src={"/icons/potplayer.svg"} alt={"potplayer icon"} width={24} height={24}/>
-            </ContextMenuShortcut>
-          </ContextMenuItem>
+          {intentSchemas.map((intent, index) => (
+              <ContextMenuItem key={index} inset onClick={() => openUrl(intent.url, intent.target)}>
+                {intent.title}
+                {intent.icon && (
+                    <ContextMenuShortcut>
+                      <Image src={intent.icon} alt={intent.alt || ''} width={24} height={24}/>
+                    </ContextMenuShortcut>
+                )}
+              </ContextMenuItem>
+          ))}
         </ContextMenuContent>
       </ContextMenu>
   )
