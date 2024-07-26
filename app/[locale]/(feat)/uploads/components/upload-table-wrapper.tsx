@@ -21,7 +21,7 @@ export default function UploadsTableWrapper({search}: { search: UploadSearchPara
           pick(messages, ['Pagination', 'UploadColumns', 'UploadStates', 'TableToolbar', 'UploadsPage', 'Actions'])
         }
         >
-          <Suspense fallback={<DataTableSkeleton columnCount={4} filterableColumnCount={2}/>}>
+          <Suspense fallback={<DataTableSkeleton columnCount={6} filterableColumnCount={2} searchableColumnCount={1}/>}>
             <UploadTable dataPromise={dataPromise} streamersPromise={streamersPromise}/>
           </Suspense>
         </NextIntlClientProvider>

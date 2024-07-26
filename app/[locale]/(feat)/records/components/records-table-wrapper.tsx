@@ -23,7 +23,7 @@ export default function RecordTableWrapper({search}: { search: StreamsSearchPara
             pick(messages, ['Pagination', 'TableToolbar', 'Actions', 'RecordsPage', 'RecordColumns'])
           }
           >
-            <Suspense fallback={<DataTableSkeleton columnCount={8} filterableColumnCount={4} searchableColumnCount={2} shrinkZero/>}>
+            <Suspense fallback={<DataTableSkeleton columnCount={8} filterableColumnCount={2} searchableColumnCount={1} shrinkZero/>}>
               <RecordsTable dataPromise={dataPromise} streamersPromise={streamersPromise}/>
             </Suspense>
           </NextIntlClientProvider>
