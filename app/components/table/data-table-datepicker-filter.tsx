@@ -7,7 +7,7 @@ import {Popover, PopoverContent, PopoverTrigger,} from "@/components/new-york/ui
 import {DateRange} from "react-day-picker";
 import {Calendar} from "@/components/new-york/ui/calendar";
 import {CalendarIcon} from "lucide-react";
-import {Command, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandSeparator,} from "@/components/new-york/ui/command"
+import {Command, CommandGroup, CommandItem, CommandList, CommandSeparator,} from "@/components/new-york/ui/command"
 import {useFormatter, useLocale, useTranslations} from "next-intl";
 import {enUS, zhCN} from "date-fns/locale";
 
@@ -38,9 +38,17 @@ export function DataTableDatePickerFilter<TData, TValue>({
 
   useEffect(() => {
     if (date?.from && date?.to) {
+      // set date.from to the beginning
+      date.from.setHours(0, 0, 0, 0)
       // set date.to to the end of the day
       date.to.setHours(23, 59, 59, 999)
       column?.setFilterValue([date.from.getTime(), date.to.getTime()])
+    } else if (date?.from) {
+      // set date.from to the beginning
+      date.from.setHours(0, 0, 0, 0)
+      column?.setFilterValue([date.from.getTime()])
+    } else {
+      column?.setFilterValue(undefined)
     }
   }, [column, date, setDate])
 
@@ -100,7 +108,6 @@ export function DataTableDatePickerFilter<TData, TValue>({
 
           <Command>
             <CommandList>
-              <CommandEmpty>{t("noResults")}</CommandEmpty>
               {selectedValues.size > 0 && (
                   <>
                     <CommandSeparator/>

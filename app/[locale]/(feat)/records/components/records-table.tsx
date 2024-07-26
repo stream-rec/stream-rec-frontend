@@ -5,6 +5,8 @@ import {useRecordTableColumns} from "@/app/[locale]/(feat)/records/components/re
 import {fetchStreams} from "@/lib/data/streams/stream-apis";
 import {useDataTable} from "@/app/hooks/use-data-table";
 import {fetchStreamers} from "@/lib/data/streams/streamer-apis";
+import {DataTableToolbar} from "@/app/components/table/data-table-toolbar";
+import {RecordsTableToolbarActions} from "@/app/[locale]/(feat)/records/components/records-table-toolbar-actions";
 
 export function RecordsTable({dataPromise, streamersPromise}: {
   dataPromise: ReturnType<typeof fetchStreams>,
@@ -18,21 +20,22 @@ export function RecordsTable({dataPromise, streamersPromise}: {
   const tableColumns = useRecordTableColumns(streamers)
 
   const columns = tableColumns.columns
-  const searchableColumns = tableColumns.searchableColumns
-  const filterableColumns = tableColumns.filterableColumns
-
+  const filterFields = tableColumns.filterableColumns
 
   const {table} = useDataTable({
     data,
     columns,
     pageCount,
-    searchableColumns,
-    filterableColumns,
+    filterFields: filterFields,
   })
 
   return (
       <>
-        <DataTable table={table} columns={columns} searchableColumns={searchableColumns} filterableColumns={filterableColumns} idFn={tableColumns.idFn}/>
+        <DataTable table={table}>
+          <DataTableToolbar table={table} filterFields={filterFields} idFn={tableColumns.idFn}>
+            <RecordsTableToolbarActions table={table}/>
+          </DataTableToolbar>
+        </DataTable>
       </>
   )
 }

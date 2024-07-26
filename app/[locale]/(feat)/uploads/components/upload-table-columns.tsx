@@ -9,61 +9,30 @@ import {UploadActionColumn} from "@/app/[locale]/(feat)/uploads/components/uploa
 import {DataTableColumnHeader} from "@/app/components/table/data-table-column-header";
 import * as React from "react";
 import {useTranslations} from "next-intl";
-import {DataTableFilterableColumn, DataTableSearchableColumn, Option} from "@/app/components/table/data-table";
 import {CircleIcon} from "lucide-react";
 import {AvatarIcon, CheckIcon, CrossCircledIcon, QuestionMarkCircledIcon, StopwatchIcon} from "@radix-ui/react-icons";
 import {StreamerSchema} from "@/lib/data/streams/definitions";
-
-export function useUploadColumns() {
-  const uploadColumns = ["id", "streamer", "streamTitle", "filePath", "uploadPlatform", "status"] as const
-  const t = useTranslations("UploadColumns")
-  return React.useMemo(() => {
-    return uploadColumns.map((column) => ({
-      accessorKey: t(`${column}.key`),
-      uiName: t(`${column}.value`)
-    }))
-  }, [])
-}
+import {DataTableFilterField, Option} from "@/types/table";
+import {Checkbox} from "@/components/new-york/ui/checkbox";
 
 
-function getUploadFilterableColumns(streamers: StreamerSchema[], uploadStatuses: Option[], strings: {
-  streamer: string,
-  status: string
-}): DataTableFilterableColumn<UploadData>[] {
-  const streamersOptions = streamers.map((streamer) => ({
-    label: streamer.name,
-    value: streamer.id?.toString() ?? "",
-    icon: AvatarIcon
-  } as Option))
-
-  return [
-    {
-      id: "streamer",
-      title: strings.streamer,
-      options: streamersOptions,
-    },
-    {
-      id: "status",
-      title: strings.status,
-      options: uploadStatuses,
-    },
-  ]
-}
-
-
-export function searchableColumns(strings: { streamTitle: string }): DataTableSearchableColumn<UploadData>[] {
-  return [
-    {
-      id: "streamTitle",
-      title: strings.streamTitle,
-    },
-  ]
-}
+const uploadColumns = ["id", "streamer", "streamTitle", "filePath", "uploadPlatform", "status"] as const
 
 
 export const useUploadsTableColumns = (streamers: StreamerSchema[]) => {
 
-  const columns = useUploadColumns()
+  const t = useTranslations("UploadColumns")
+
+  const tableT = useTranslations("TableToolbar")
+
+
+  const columns = React.useMemo(() => {
+    return uploadColumns.map((column) => ({
+      accessorKey: t(`${column}.key`),
+      uiName: t(`${column}.value`)
+    }))
+  }, [t])
+
   const dataStatuesT = useTranslations("UploadStates")
 
   const uiNameByIndex = (index: number) => columns[index].uiName;
@@ -99,10 +68,34 @@ export const useUploadsTableColumns = (streamers: StreamerSchema[]) => {
           value: "REUPLOADING",
           icon: QuestionMarkCircledIcon
         }
-      ], [])
+      ], [dataStatuesT])
 
 
   const tableColumns: ColumnDef<UploadData>[] = React.useMemo(() => [
+        {
+          id: "select",
+          header: ({table}) => (
+              <Checkbox
+                  checked={
+                      table.getIsAllPageRowsSelected() ||
+                      (table.getIsSomePageRowsSelected() && "indeterminate")
+                  }
+                  onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                  aria-label="Select all"
+                  className="translate-y-0.5"
+              />
+          ),
+          cell: ({row}) => (
+              <Checkbox
+                  checked={row.getIsSelected()}
+                  onCheckedChange={(value) => row.toggleSelected(!!value)}
+                  aria-label="Select row"
+                  className="translate-y-0.5"
+              />
+          ),
+          enableSorting: false,
+          enableHiding: false,
+        },
         {
           accessorKey: accessorKeyByIndex(0),
           header: ({column}) => (
@@ -193,11 +186,34 @@ export const useUploadsTableColumns = (streamers: StreamerSchema[]) => {
         },
       ]
       , [columns])
+
+
+  const filterFields: DataTableFilterField<any>[] = [
+    {
+      label: uiNameByIndex(2),
+      value: accessorKeyByIndex(2),
+      placeholder: tableT("searchPlaceholder", {search: uiNameByIndex(2)}),
+    },
+    {
+      label: uiNameByIndex(1),
+      value: accessorKeyByIndex(1),
+      options: streamers.map((streamer) => ({
+        label: streamer.name,
+        value: streamer.id?.toString() ?? "",
+        icon: AvatarIcon,
+      } as Option)),
+    },
+    {
+      label: uiNameByIndex(5),
+      value: accessorKeyByIndex(5),
+      options: uploadStatuses,
+    },
+  ]
+
   return {
     columns: tableColumns,
-    filterableColumns: getUploadFilterableColumns(streamers, uploadStatuses, {streamer: uiNameByIndex(1), status: uiNameByIndex(5)}),
-    searchableColumns: searchableColumns({streamTitle: uiNameByIndex(2)}),
-    idFn: (id : string) => columns.find((props) => props.accessorKey == id)?.uiName ?? id
+    filterableColumns: filterFields,
+    idFn: (id: string) => columns.find((props) => props.accessorKey == id)?.uiName ?? id
   }
 };
 

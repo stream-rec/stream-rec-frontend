@@ -81,3 +81,13 @@ export const deleteUpload = async (id: string) => {
     throw new Error("Error deleting upload, status: " + response.status + " " + response.statusText)
   }
 }
+
+export const deleteUploads = async (ids: number[]) => {
+  const response = await fetchApi('/uploads/batch?ids=' + ids, {
+    method: 'DELETE',
+    cache: 'no-cache',
+  })
+  if (!response.ok) {
+    throw new Error("Error deleting uploads, status: " + response.status + " " + response.statusText)
+  }
+}

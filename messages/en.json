@@ -386,7 +386,8 @@
     "hide": "Hide",
     "viewOptions": "View",
     "toggleColumns": "Toogle",
-    "noResults": "No results found"
+    "noResults": "No results found",
+    "selectedItems": "{selectedCount, plural, =0 {no items selected} =1 {one selected} other {# selected}}"
   },
   "Pagination": {
     "selectedMessage": "{selectedCount, plural, =0 {no rows selected} =1 {one row selected} other {# rows selected}} {totalCount, plural, =0 {} other {of # rows}}",
@@ -400,10 +401,13 @@
   "Actions": {
     "actions": "Actions",
     "openMenu": "Open menu",
+    "cancel": "Cancel",
     "delete": "Delete",
     "deleting": "Deleting...",
     "deleted": "Deleted successfully",
     "deleteError": "Delete error",
+    "deleteConfirmation": "Are you sure?",
+    "deleteConfirmationDescription": "This action cannot be undone. This will permanently delete {count, plural, =0 {no items} =1 {one item} other {# items}}.",
     "retry": "Retry",
     "retrying": "Retrying...",
     "retried": "Retried successfully",

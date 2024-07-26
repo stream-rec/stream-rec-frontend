@@ -5,6 +5,8 @@ import {useUploadsTableColumns} from "@/app/[locale]/(feat)/uploads/components/u
 import {useDataTable} from "@/app/hooks/use-data-table";
 import {fetchUploads} from "@/lib/data/uploads/upload-apis";
 import {fetchStreamers} from "@/lib/data/streams/streamer-apis";
+import {DataTableToolbar} from "@/app/components/table/data-table-toolbar";
+import {UploadsTableToolbarActions} from "@/app/[locale]/(feat)/uploads/components/upload-table-toolbar-actions";
 
 
 export function UploadTable({dataPromise, streamersPromise}: {
@@ -16,25 +18,22 @@ export function UploadTable({dataPromise, streamersPromise}: {
 
   const streamers = React.use(streamersPromise)
 
-  const toolbarData = useUploadsTableColumns(streamers)
-
-  const filterableColumns = toolbarData.filterableColumns
-  const searchableColumns = toolbarData.searchableColumns
-  const columns = toolbarData.columns
-
+  const {columns, filterableColumns, idFn} = useUploadsTableColumns(streamers)
 
   const {table} = useDataTable({
     data,
     columns,
     pageCount,
-    searchableColumns,
-    filterableColumns,
+    filterFields: filterableColumns,
   })
 
   return (
       <>
-        <DataTable table={table} columns={columns} searchableColumns={searchableColumns} filterableColumns={filterableColumns}
-                   idFn={toolbarData.idFn}/>
+        <DataTable table={table}>
+          <DataTableToolbar table={table} filterFields={filterableColumns} idFn={idFn}>
+            <UploadsTableToolbarActions table={table}/>
+          </DataTableToolbar>
+        </DataTable>
       </>
   )
 }

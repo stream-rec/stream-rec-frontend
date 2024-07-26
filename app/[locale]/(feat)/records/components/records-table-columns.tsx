@@ -6,29 +6,28 @@ import {deleteStream} from "@/lib/data/streams/stream-apis";
 import {useFormatter, useTranslations} from "next-intl";
 import React from "react";
 import {StreamData, StreamerSchema} from "@/lib/data/streams/definitions";
-import {DataTableFilterableColumn, DataTableSearchableColumn, Option} from "@/app/components/table/data-table";
 import {ColumnDef} from "@tanstack/react-table";
 import {AvatarIcon} from "@radix-ui/react-icons";
 import {formatBytes} from "@/app/utils/conversions";
+import {Checkbox} from "@/components/new-york/ui/checkbox";
+import {DataTableFilterField, Option} from "@/types/table";
 
+const keys = ["id", "streamer", "title", "filePath", "danmuFilePath", "fileSize", "dateStart", "dateEnd"] as const
 
-export function useRecordColumns() {
-  const keys = ["id", "streamer", "title", "filePath", "danmuFilePath", "fileSize", "dateStart", "dateEnd"] as const
+export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
+
+  const format = useFormatter()
+
+  const tableT = useTranslations("TableToolbar")
+
   const t = useTranslations("RecordColumns")
-  return React.useMemo(() => {
+
+  const columns = React.useMemo(() => {
     return keys.map((column) => ({
       accessorKey: t(`${column}.key`),
       uiName: t(`${column}.value`)
     }))
-  }, [])
-}
-
-
-export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
-
-  const format = useFormatter();
-
-  const columns = useRecordColumns()
+  }, [t])
 
   const uiNameByIndex = (index: number) => columns[index].uiName;
 
@@ -57,6 +56,30 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
 
   const tableColumns: ColumnDef<StreamData>[] = React.useMemo(() => {
     return [
+      {
+        id: "select",
+        header: ({table}) => (
+            <Checkbox
+                checked={
+                    table.getIsAllPageRowsSelected() ||
+                    (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                aria-label="Select all"
+                className="translate-y-0.5"
+            />
+        ),
+        cell: ({row}) => (
+            <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Select row"
+                className="translate-y-0.5"
+            />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+      },
       {
         accessorKey: accessorKeyByIndex(0),
         header: ({column}) => (
@@ -105,7 +128,7 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
         ),
         cell: (cell) => {
           const bytes = cell.getValue() as number;
-          const {unit, size } = formatBytes(bytes)
+          const {unit, size} = formatBytes(bytes)
           return `${size} ${unit}`
         }
       },
@@ -142,45 +165,32 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
   }, [])
 
 
-  function searchableColumns(strings: { streamTitle: string }): DataTableSearchableColumn<StreamData>[] {
-    return [
-      {
-        id: "title",
-        title: strings.streamTitle,
-      },
-    ]
-  }
-
-  function getStreamerFilterableColumns(streamers: StreamerSchema[], strings: {
-    streamer: string,
-    dateRange: string
-  }): DataTableFilterableColumn<StreamData>[] {
-    const streamersOptions = streamers.map((streamer) => ({
-      label: streamer.name,
-      value: streamer.id?.toString() ?? "",
-      icon: AvatarIcon
-    } as Option))
-
-    return [
-      {
-        id: "streamerName",
-        title: strings.streamer,
-        options: streamersOptions,
-      },
-      {
-        id: "dateStart",
-        title: strings.dateRange,
-        options: [],
-        date: true
-      }
-    ]
-  }
-
+  const filterFields: DataTableFilterField<any>[] = [
+    {
+      label: uiNameByIndex(2),
+      value: accessorKeyByIndex(2),
+      placeholder: tableT("searchPlaceholder", {search: uiNameByIndex(2)}),
+    },
+    {
+      label: uiNameByIndex(1),
+      value: accessorKeyByIndex(1),
+      options: streamers.map((streamer) => ({
+        label: streamer.name,
+        value: streamer.id?.toString() ?? "",
+        icon: AvatarIcon,
+      } as Option)),
+    },
+    {
+      label: tableT("dateRange"),
+      value: accessorKeyByIndex(6),
+      options: [],
+      dateRange: true,
+    }
+  ]
 
   return {
     columns: tableColumns,
-    filterableColumns: getStreamerFilterableColumns(streamers, {streamer: uiNameByIndex(1), dateRange: uiNameByIndex(6)}),
-    searchableColumns: searchableColumns({streamTitle: uiNameByIndex(2)}),
+    filterableColumns: filterFields,
     idFn: (id: string) => columns.find((props) => props.accessorKey == id)?.uiName ?? id
   }
 }

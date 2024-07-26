@@ -378,7 +378,8 @@
     "hide": "隐藏",
     "viewOptions": "视图选项",
     "toggleColumns": "是否隐藏列",
-    "noResults": "没有找到结果"
+    "noResults": "没有找到结果",
+    "selectedItems": "已选 {count} 项"
   },
   "Pagination": {
     "selectedMessage": "已选 {selectedCount} / {totalCount}",
@@ -392,10 +393,13 @@
   "Actions": {
     "actions": "操作",
     "openMenu": "打开菜单",
+    "cancel": "取消",
     "delete": "删除",
     "deleting": "删除中...",
     "deleted": "已删除！",
     "deleteError": "删除失败",
+    "deleteConfirmation": "你确定要删除吗？",
+    "deleteConfirmationDescription": "此操作不可逆，将删除 {count} 项",
     "retry": "重试",
     "retrying": "重试中...",
     "retried": "已重试！",

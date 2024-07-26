@@ -10,7 +10,8 @@ import {DataTableSkeleton} from "@/app/components/table/data-table-skeleton";
 
 export default function RecordTableWrapper({search}: { search: StreamsSearchParams }) {
 
-  const messages = useMessages();
+  const messages = useMessages()
+
   const dataPromise = fetchStreams(search)
   const streamersPromise = fetchStreamers('non-template')
 
@@ -22,7 +23,7 @@ export default function RecordTableWrapper({search}: { search: StreamsSearchPara
             pick(messages, ['Pagination', 'TableToolbar', 'Actions', 'RecordsPage', 'RecordColumns'])
           }
           >
-            <Suspense fallback={<DataTableSkeleton columnCount={4} filterableColumnCount={2}/>}>
+            <Suspense fallback={<DataTableSkeleton columnCount={8} filterableColumnCount={4} searchableColumnCount={2} shrinkZero/>}>
               <RecordsTable dataPromise={dataPromise} streamersPromise={streamersPromise}/>
             </Suspense>
           </NextIntlClientProvider>

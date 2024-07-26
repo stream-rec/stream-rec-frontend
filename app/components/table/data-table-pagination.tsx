@@ -3,20 +3,17 @@ import {type Table} from "@tanstack/react-table"
 
 import {Button} from "@/components/new-york/ui/button"
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue,} from "@/components/new-york/ui/select"
-import {clsx} from "clsx";
 import {useTranslations} from "next-intl";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
   pageSizeOptions?: number[],
-  showSelectedRowCount?: boolean
 }
 
 
 export function DataTablePagination<TData>({
                                              table,
-                                             pageSizeOptions = [10, 20, 30, 40, 50],
-                                             showSelectedRowCount = false,
+                                             pageSizeOptions = [10, 20, 30, 40, 50, 100],
                                            }: DataTablePaginationProps<TData>) {
 
   const t = useTranslations("Pagination")
@@ -24,9 +21,7 @@ export function DataTablePagination<TData>({
   return (
       <div className="flex w-full flex-col items-center justify-between gap-4 overflow-auto px-2 py-1 sm:flex-row sm:gap-8">
         <div>
-          <div className={clsx("flex-1 text-sm text-muted-foreground",
-              showSelectedRowCount ? "md:flex" : "hidden"
-          )}>
+          <div className={"flex-1 whitespace-nowrap text-sm text-muted-foreground"}>
             {t("selectedMessage", {
               selectedCount: table.getFilteredSelectedRowModel().rows.length,
               totalCount: table.getFilteredRowModel().rows.length

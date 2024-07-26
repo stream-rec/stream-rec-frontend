@@ -16,8 +16,6 @@ export const fetchStreams = async (search: StreamsSearchParams) => {
     if (dates.length > 1) {
       let dateEndNumber = Math.floor(Number(dates[1]) / 1000)
       params.append('date_end', dateEndNumber.toString())
-    } else {
-      throw new Error("dateStart is not in the correct format")
     }
   }
 
@@ -81,5 +79,16 @@ export const deleteStream = async (id: string) => {
   if (!response.ok) {
     const errorText = await response.text()
     throw new Error("Error deleting stream, status: " + response.status + " " + errorText)
+  }
+}
+
+export const deleteStreams = async (ids: number[]) => {
+  const response = await fetchApi('/streams/batch?ids=' + ids, {
+    cache: 'no-cache',
+    method: 'DELETE',
+  })
+  if (!response.ok) {
+    const errorText = await response.text()
+    throw new Error("Error deleting streams, status: " + response.status + " " + errorText)
   }
 }
