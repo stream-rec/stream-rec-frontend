@@ -1,9 +1,9 @@
 import UploadsTableWrapper from "@/app/[locale]/(feat)/uploads/components/upload-table-wrapper";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
 import {useTranslations} from "next-intl";
-import {SearchParams} from "@/app/components/table/data-table";
 import {uploadSearchParamsSchema} from "@/lib/data/uploads/definitions";
 import {ContentLayout} from "@/components/dashboard/content-layout";
+import {SearchParams} from "@/types/table";
 
 export async function generateMetadata({params: {locale}}: { params: { locale: string } }) {
   const t = await getTranslations({locale, namespace: 'Metadata'});
