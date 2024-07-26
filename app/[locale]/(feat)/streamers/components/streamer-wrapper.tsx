@@ -66,7 +66,7 @@ export default async function StreamerWrapper({recordingString, inactiveString, 
                             recordingString={recordingString} inactiveString={inactiveString} disabledString={disabledString} wsUrl={WS_API_URL}
                             contextMenuStrings={{
                               download: contextMenuT('download'),
-                              openWithPotPlayer: contextMenuT('openWithPotPlayer')
+                              openWithPotPlayer: contextMenuT('openWith', {player: 'PotPlayer'})
                             }}/>
       </>
   )

@@ -543,6 +543,6 @@
   },
   "OpenVideoContextMenu": {
     "download": "Download",
-    "openWithPotPlayer": "Open with PotPlayer"
+    "openWith": "Open with {player}"
   }
 }

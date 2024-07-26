@@ -14,7 +14,7 @@ export default async function StreamerList() {
       <>
         <StreamerListWrapper streamers={streamers} templateStreamers={templateStreamers} deleteStreamer={deleteStreamer} contextMenuStrings={{
           download: contextMenuT('download'),
-          openWithPotPlayer: contextMenuT('openWithPotPlayer'),
+          openWithPotPlayer: contextMenuT('openWith', {player: 'PotPlayer'}),
         }}/>
       </>
   )

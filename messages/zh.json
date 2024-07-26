@@ -535,6 +535,6 @@
   },
   "OpenVideoContextMenu": {
     "download": "下载",
-    "openWithPotPlayer": "使用PotPlayer播放"
+    "openWith": "使用{player}播放"
   }
 }
