@@ -37,8 +37,8 @@ export const CookiesFormfield = React.forwardRef <CookiesFormfieldRef, CookiesFo
         cookieArray.forEach(cookie => {
           const separatorIndex = cookie.indexOf('=');
           if (separatorIndex !== -1) {
-            const key = decodeURIComponent(cookie.substring(0, separatorIndex).trim());
-            cookies[key] = decodeURIComponent(cookie.substring(separatorIndex + 1).trim());
+            const key = encodeURIComponent(cookie.substring(0, separatorIndex).trim());
+            cookies[key] = encodeURIComponent(cookie.substring(separatorIndex + 1).trim());
           }
         });
 
