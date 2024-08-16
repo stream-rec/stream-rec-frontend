@@ -35,7 +35,7 @@ First, set up the environment variables:
 
 - `API_URL`: The backend API URL. Default is `http://localhost:12555/api`.
 - `WS_API_URL`: The backend WebSocket API URL. Default is `ws://localhost:12555/live/update`.
-- `NEXTAUTH_SECRET`: The secret key for NextAuth.
+- `NEXTAUTH_SECRET`: The secret key for NextAuth, you can generate one with `openssl rand -base64 32` or just use a random string.
 - `NEXTAUTH_URL`: The NextAuth URL. Default is `http://localhost:15275`.
 
 Then, run the development server:
@@ -50,6 +50,30 @@ pnpm dev
 bun dev
 ```
 
+or build the project:
+
+```bash
+npm run build
+# or
+yarn build
+# or
+pnpm build
+# or
+bun build
+```
+
+and start the server:
+
+```bash
+npm run start
+# or
+yarn start
+# or
+pnpm start
+# or
+bun start
+```
+
 Open [http://localhost:15275](http://localhost:15275) with your browser to see the result.
 
 ## Deploy on Vercel
@@ -57,5 +81,11 @@ Open [http://localhost:15275](http://localhost:15275) with your browser to see t
 The easiest way to deploy your Next.js app is to use
 the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
 from the creators of Next.js.
+
+
+> [!IMPORTANT]\
+> Things to note:
+> - The environment variables should be set in the Vercel dashboard.
+> - Vercel will automatically set the `NEXTAUTH_URL` environment variable.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
