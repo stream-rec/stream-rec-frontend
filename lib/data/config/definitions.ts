@@ -32,7 +32,7 @@ export const globalConfigSchema = z.object({
   maxConcurrentUploads: z.number().min(1).optional(),
   maxDownloadRetries: z.number().min(1).optional(),
   downloadRetryDelay: z.number().min(1).optional(),
-  downloadCheckInterval: z.number().min(5).optional(),
+  downloadCheckInterval: z.number().min(1).optional(),
   useBuiltInSegmenter: z.boolean().optional(),
   exitDownloadOnError: z.boolean().optional(),
   huyaConfig: huyaGlobalConfig.optional(),
