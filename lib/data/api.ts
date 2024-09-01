@@ -1,11 +1,10 @@
 'use server'
 import {API_URL, jsonHeaders} from "@/lib/data/definitions";
-import {getServerSession} from "next-auth";
 import {redirect} from "@/i18n";
-import {authOptions} from "@/auth";
+import {auth} from "@/auth";
 
 export const fetchApi = async (url: string, options?: RequestInit) => {
-  const session = await getServerSession(authOptions)
+  const session = await auth()
   if (!options) {
     options = {
       headers: jsonHeaders
