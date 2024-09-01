@@ -541,6 +541,20 @@
     "loginSuccess": "Login success",
     "logout": "Logout"
   },
+  "ResetPasswordPage": {
+    "title": "Reset password",
+    "currentPassword": "Password",
+    "currentPasswordPlaceholder": "Enter your current password",
+    "newPassword": "New password",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmPassword": "Confirm password",
+    "confirmPasswordPlaceholder": "Confirm your new password",
+    "resetPassword": "Reset password",
+    "resetPasswordSuccess": "Password reset success",
+    "resetPasswordError": "Password reset error",
+    "passwordMismatch": "Passwords do not match",
+    "confirm": "Confirm"
+  },
   "OpenVideoContextMenu": {
     "download": "Download",
     "openWith": "Open with {player}"

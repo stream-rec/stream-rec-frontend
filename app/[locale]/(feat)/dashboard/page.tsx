@@ -1,11 +1,12 @@
 import React, {Suspense} from "react";
 import {getTranslations, unstable_setRequestLocale} from "next-intl/server";
-import {getServerSession} from "next-auth";
 import {ContentLayout} from "@/components/dashboard/content-layout";
 import {StreamerWrapperSkeleton} from "@/app/[locale]/(feat)/streamers/components/streamer-wrapper-skeleton";
 import StatsCardWrapper from "@/app/[locale]/(feat)/(stats)/stats-card-wrapper";
 import {useTranslations} from "next-intl";
 import {StreamerWrapper} from "@/app/[locale]/(feat)/streamers/components/streamer-wrapper";
+import {auth} from "@/auth";
+import {redirect} from "@/i18n";
 
 export async function generateMetadata({params: {locale}}: { params: { locale: string } }) {
   const t = await getTranslations({locale, namespace: 'Metadata'});
@@ -20,16 +21,15 @@ export default function DashboardPage({params: {locale}}: { params: { locale: st
 
   unstable_setRequestLocale(locale);
 
+  const user = React.use(auth());
   const t = useTranslations('Dashboard');
-  const user = React.use(getServerSession());
 
   if (!user) {
-    console.log("no user")
-    return {
-      redirect: {
-        destination: `/${locale}/login`,
-        permanent: false
-      }
+    console.error("no user!")
+    redirect("/login")
+  } else {
+    if (user.user.isFirstUsePassword) {
+      redirect("/reset-password")
     }
   }
 

@@ -533,6 +533,20 @@
     "loginSuccess": "登录成功",
     "logout": "退出登录"
   },
+  "ResetPasswordPage": {
+    "title": "重置密码",
+    "currentPassword": "当前密码",
+    "currentPasswordPlaceholder": "请输入你的当前密码",
+    "newPassword": "新密码",
+    "newPasswordPlaceholder": "请输入你的新密码",
+    "confirmPassword": "确认密码",
+    "confirmPasswordPlaceholder": "请再次输入你的新密码",
+    "resetPassword": "重置密码",
+    "resetPasswordSuccess": "密码重置成功",
+    "resetPasswordError": "密码重置失败",
+    "passwordNotMatch": "两次密码不一致",
+    "confirm": "确认"
+  },
   "OpenVideoContextMenu": {
     "download": "下载",
     "openWith": "使用{player}播放"

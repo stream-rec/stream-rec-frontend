@@ -9,8 +9,7 @@ import {useState} from "react";
 import {Checkbox} from "@/components/new-york/ui/checkbox";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import {toastData} from "@/app/utils/toast";
-import {login, recoverPassword} from "@/lib/data/user/user-apis";
-import {useLocale} from "next-intl";
+import {recoverPassword} from "@/lib/data/user/user-apis";
 import {signIn} from "next-auth/react";
 import {useRouter} from "next/navigation";
 
@@ -31,12 +30,10 @@ export type LoginFormStrings = {
 type LoginFormProps = {
   defaultValues: User
   strings: LoginFormStrings
-  submit: (username: string, password: string) => ReturnType<typeof login>,
-  recoverPassword: (username: string) => ReturnType<typeof recoverPassword>
 }
 
 
-export function LoginForm({strings, defaultValues, submit, recoverPassword}: LoginFormProps) {
+export function LoginForm({strings, defaultValues}: LoginFormProps) {
 
   const [isSave, setIsSave] = useState(defaultValues.username !== "")
 
@@ -48,7 +45,6 @@ export function LoginForm({strings, defaultValues, submit, recoverPassword}: Log
   )
 
   const {isDirty, isValid, isSubmitting} = useFormState({control: form.control})
-  const locale = useLocale();
   const router = useRouter()
 
   const onSubmit = (data: User) => {
@@ -57,12 +53,14 @@ export function LoginForm({strings, defaultValues, submit, recoverPassword}: Log
       password: data.password,
       redirect: false
     }).then((result) => {
+      console.log("result sign", result)
       if (result?.error) {
         toastData("", strings.loginFailed + "\n" + result.error, 'error')
+        console.error(result.error)
       } else {
         toastData(strings.loginSuccessful, strings.loginSuccessful, 'success')
-        router.push('/' + locale + '/dashboard');
       }
+      router.refresh()
     }).catch((e) => console.error(e))
   }
 
