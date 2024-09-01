@@ -3,7 +3,7 @@ import {Switch} from "@/components/new-york/ui/switch";
 import {Separator} from "@/components/new-york/ui/separator";
 import {DeleteIcon, EditIcon} from "lucide-react";
 import React from "react";
-import {ActionSchema, ActionType, CommandActionSchema, MoveActionSchema, RcloneActionSchema} from "@/lib/data/actions/definitions";
+import {ActionSchema, ActionType, CommandActionSchema, CopyActionSchema, MoveActionSchema, RcloneActionSchema} from "@/lib/data/actions/definitions";
 import {NewActionDialog, NewActionDialogStrings} from "@/app/[locale]/(feat)/streamers/components/actions/new-action-dialog";
 import {DeleteIconDialog} from "@/app/components/dialog/delete-icon-dialog";
 import {Button} from "@/components/new-york/ui/button";
@@ -44,13 +44,17 @@ export function ActionCard({data, onCheckedChange, onEdit, onDelete, actionStrin
           <CardContent>
             <div className={"flex flex-col justify-between space-y-1 w-full"}>
               <p className="text-sm text-slate-500">
-                {data.type === ActionType.Command ? (data as CommandActionSchema).program : data.type === ActionType.Rclone ? (data as RcloneActionSchema).rcloneOperation : ""}
+                {data.type === ActionType.Command ? (data as CommandActionSchema).program :
+                    data.type === ActionType.Rclone ? (data as RcloneActionSchema).rcloneOperation : ""}
               </p>
               <p className="text-sm text-slate-500 max-w-35 break-words">
-                {data.type === ActionType.Rclone ? (data as RcloneActionSchema).remotePath : ""}
+                {data.type === ActionType.Rclone && (data as RcloneActionSchema).remotePath}
               </p>
               <p className="text-sm text-slate-500 max-w-35 break-words">
-                {data.type === ActionType.Move ? (data as MoveActionSchema).destination : ""}
+                {data.type === ActionType.Move && (data as MoveActionSchema).destination}
+              </p>
+              <p className="text-sm text-slate-500 max-w-35 break-words">
+                {data.type === ActionType.Copy && (data as CopyActionSchema).destination}
               </p>
 
               {

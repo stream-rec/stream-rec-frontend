@@ -4,7 +4,8 @@ export enum ActionType {
   Command = "command",
   Rclone = "rclone",
   Remove = "remove",
-  Move = "move"
+  Move = "move",
+  Copy = "copy"
 }
 
 
@@ -39,9 +40,15 @@ export const moveActionSchema = baseActionSchema.extend({
   destination: z.string().min(1),
 })
 
+export const copyActionSchema = baseActionSchema.extend({
+  type: z.literal(ActionType.Copy),
+  destination: z.string().min(1),
+})
+
 export type BaseActionSchema = z.infer<typeof baseActionSchema>
 export type CommandActionSchema = z.infer<typeof commandActionSchema>
 export type RcloneActionSchema = z.infer<typeof rcloneActionSchema>
 export type RemoveActionSchema = z.infer<typeof removeActionSchema>
 export type MoveActionSchema = z.infer<typeof moveActionSchema>
-export type ActionSchema = CommandActionSchema | RcloneActionSchema | RemoveActionSchema | MoveActionSchema
+export type CopyActionSchema = z.infer<typeof copyActionSchema>
+export type ActionSchema = CommandActionSchema | RcloneActionSchema | RemoveActionSchema | MoveActionSchema | CopyActionSchema

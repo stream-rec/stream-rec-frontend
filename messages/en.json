@@ -99,6 +99,12 @@
     "destinationDescription": "Destination folder to move.",
     "destinationDefault": "Enter a destination folder"
   },
+  "CopyAction": {
+    "title": "Copy",
+    "destination": "Destination",
+    "destinationDescription": "Destination folder to copy.",
+    "destinationDefault": "Enter a destination folder"
+  },
   "RemoveAction": {
     "title": "Remove"
   },
