@@ -1,8 +1,11 @@
 import createNextIntlPlugin from 'next-intl/plugin';
-
-import packageJson from './package.json' assert {type: 'json'};
+import {readFileSync} from 'fs';
+import {join} from 'path';
 
 const withNextIntl = createNextIntlPlugin();
+
+const packageJsonPath = join(process.cwd(), 'package.json');
+const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
 
 const nextConfig = {
     async redirects() {
