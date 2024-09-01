@@ -1,17 +1,15 @@
 'use server'
 
 import {fetchApi} from "@/lib/data/api";
-import {md5} from "@/lib/utils";
 
 
 export const login = async (username: string, password: string) => {
-  const hashedPassword = md5(password)
   const response = await fetchApi('/auth/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({username, password: hashedPassword})
+    body: JSON.stringify({username, password: password})
   })
 
   if (!response.ok) {
@@ -45,20 +43,13 @@ export const recoverPassword = async (username: string) => {
 }
 
 
-export const changePassword = async (id: string, password: string | undefined, hashedPassword: string | null, newPassword: string) => {
-  const finalPassword = hashedPassword ?? (password?.trim() && md5(password.trim()));
-
-  if (!finalPassword) {
-    throw new Error("Password is required");
-  }
-
-  const hashedNewPassword = md5(newPassword)
+export const changePassword = async (id: string, password: string, newPassword: string) => {
   const response = await fetchApi(`/user/${id}/password`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({id, password: finalPassword, newPassword: hashedNewPassword})
+    body: JSON.stringify({id, password: password.trim(), newPassword: newPassword})
   })
 
   if (!response.ok) {

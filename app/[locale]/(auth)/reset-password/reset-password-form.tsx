@@ -66,7 +66,7 @@ export const ResetPasswordForm = ({strings, defaultValues}: ResetPasswordFormPro
 
 
   const submit = (data: z.infer<typeof formSchema>) => {
-    changePassword(data.id.toString(), data.password, null, data.newPassword).then((result) => {
+    changePassword(data.id.toString(), data.password, data.newPassword).then((result) => {
       toastData("", strings.resetPasswordSuccess, 'success')
       // sign out
       signOut({callbackUrl: '/login', redirect: true}).then(r => console.log("sign out", r));
