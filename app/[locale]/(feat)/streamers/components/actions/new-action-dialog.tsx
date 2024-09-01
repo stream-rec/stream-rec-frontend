@@ -1,11 +1,5 @@
 import {Button} from "@/components/new-york/ui/button"
-import {
-  ActionSchema,
-  ActionType,
-  CommandActionSchema,
-  MoveActionSchema,
-  RcloneActionSchema
-} from "@/lib/data/actions/definitions";
+import {ActionSchema, ActionType, CommandActionSchema, CopyActionSchema, MoveActionSchema, RcloneActionSchema} from "@/lib/data/actions/definitions";
 import {FormMessage} from "@/components/new-york/ui/form";
 import React, {useCallback, useRef} from "react";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/new-york/ui/select";
@@ -26,6 +20,7 @@ import {CommandActionForm} from "@/app/[locale]/(feat)/streamers/components/acti
 import {RcloneActionForm} from "@/app/[locale]/(feat)/streamers/components/actions/form/rclone-form";
 import {MoveActionForm} from "@/app/[locale]/(feat)/streamers/components/actions/form/move-form";
 import {DeleteActionForm} from "@/app/[locale]/(feat)/streamers/components/actions/form/delete-action-form";
+import {CopyActionForm} from "@/app/[locale]/(feat)/streamers/components/actions/form/copy-form";
 
 type NewActionDialogProps = {
   strings: NewActionDialogStrings
@@ -71,6 +66,14 @@ export type NewActionDialogStrings = {
     destinationDefault: string,
     destinationDescription: string
   },
+
+  copyStrings: {
+    title: string,
+    destination: string,
+    destinationDefault: string,
+    destinationDescription: string
+  },
+
   removeStrings: {
     title: string
   }
@@ -136,7 +139,9 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
       }}/>,
       [ActionType.Remove]: <DeleteActionForm {...formProps} />,
       [ActionType.Move]: <MoveActionForm {...formProps} defaultValues={formProps.defaultValues as MoveActionSchema}
-                                         strings={strings.moveStrings}/>
+                                         strings={strings.moveStrings}/>,
+      [ActionType.Copy]: <CopyActionForm {...formProps} defaultValues={formProps.defaultValues as CopyActionSchema}
+                                         strings={strings.copyStrings}/>
     };
 
     return forms[type] || null;
@@ -178,6 +183,7 @@ export function NewActionDialog({strings, openIcon, defaultValues = defaultActio
             <SelectContent>
               <SelectItem value={ActionType.Command}>{strings.commandStrings.title}</SelectItem>
               <SelectItem value={ActionType.Rclone}>{strings.rcloneStrings.title}</SelectItem>
+              <SelectItem value={ActionType.Copy}>{strings.copyStrings.title}</SelectItem>
               <SelectItem value={ActionType.Move}>{strings.moveStrings.title}</SelectItem>
               <SelectItem value={ActionType.Remove}>{strings.removeStrings.title}</SelectItem>
             </SelectContent>

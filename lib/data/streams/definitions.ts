@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {commandActionSchema, moveActionSchema, rcloneActionSchema, removeActionSchema} from "@/lib/data/actions/definitions";
+import {commandActionSchema, copyActionSchema, moveActionSchema, rcloneActionSchema, removeActionSchema} from "@/lib/data/actions/definitions";
 import {twitchRegex} from "@/lib/data/platform/twitch/constants";
 import {huyaRegex} from "@/lib/data/platform/huya/constants";
 import {douyinRegex} from "@/lib/data/platform/douyin/constants";
@@ -7,6 +7,8 @@ import {douyuRegex} from "@/lib/data/platform/douyu/constants";
 import {pandatvRegex} from "@/lib/data/platform/pandatv/constants";
 
 export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv", "ts"] as const;
+
+const actionSchema = rcloneActionSchema.or(commandActionSchema).or(removeActionSchema).or(moveActionSchema).or(copyActionSchema);
 
 export const baseDownloadConfig = z.object({
   type: z.string().nullish(),
@@ -17,9 +19,10 @@ export const baseDownloadConfig = z.object({
   outputFileName: z.string().nullish(),
   outputFileExtension: z.enum(videoFormats).nullish(),
   outputFileFormat: z.string().nullish(),
-  onPartedDownload: rcloneActionSchema.or(commandActionSchema).or(removeActionSchema).or(moveActionSchema).array().nullish(),
-  onStreamingFinished: rcloneActionSchema.or(commandActionSchema).or(removeActionSchema).or(moveActionSchema).array().nullish(),
+  onPartedDownload: actionSchema.array().nullish(),
+  onStreamingFinished: actionSchema.array().nullish(),
 })
+
 export type DownloadConfig = z.infer<typeof baseDownloadConfig>
 
 export const streamDataSchema = z.object({

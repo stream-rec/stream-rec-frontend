@@ -47,6 +47,7 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
   const commandT = useTranslations("Command")
   const removeT = useTranslations("RemoveAction")
   const moveT = useTranslations("MoveAction")
+  const copyT = useTranslations("CopyAction")
 
 
   return <>
@@ -155,7 +156,13 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
               destination: moveT("destination"),
               destinationDefault: moveT("destinationDefault"),
               destinationDescription: moveT("destinationDescription")
-            }
+            },
+            copyStrings: {
+              title: copyT("title"),
+              destination: copyT("destination"),
+              destinationDefault: copyT("destinationDefault"),
+              destinationDescription: copyT("destinationDescription")
+            },
           }
         }
       }
