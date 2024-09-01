@@ -100,7 +100,7 @@
     "destinationDescription": "目标文件路径",
     "destinationDefault": "请输入目标文件路径"
   },
-  "copyAction": {
+  "CopyAction": {
     "title": "复制文件",
     "destination": "目标文件",
     "destinationDescription": "目标文件路径",
