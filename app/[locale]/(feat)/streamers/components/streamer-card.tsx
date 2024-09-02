@@ -6,15 +6,12 @@ import {cn} from "@/lib/utils";
 import {clsx} from "clsx";
 import {Badge} from "@/components/new-york/ui/badge";
 import {Button} from "@/components/new-york/ui/button";
-import {SettingsIcon, Trash2Icon} from "lucide-react";
+import {SettingsIcon, Trash2Icon, UserCog, UserRoundCog} from "lucide-react";
 import {Separator} from "@/components/new-york/ui/separator";
 import {Link, useRouter} from "@/i18n";
 import {toast} from "sonner";
 import {DeleteIconDialog} from "@/app/components/dialog/delete-icon-dialog";
-import {
-  OpenVideoContextMenu,
-  OpenVideoContextMenuStrings
-} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
+import {OpenVideoContextMenu, OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
 import Marquee from "react-fast-marquee";
 
 export type StreamerCardProps = {
@@ -102,12 +99,12 @@ export function StreamerCard({
                   downloadUrl && <OpenVideoContextMenu url={downloadUrl} string={contextMenuStrings}>
                       <Avatar onClick={openUrl(liveUrl)} className={"cursor-pointer"}>
                           <AvatarImage src={streamerAvatar ?? ""} alt={streamer}></AvatarImage>
-                          <AvatarFallback>{streamer}</AvatarFallback>
+                          <AvatarFallback><UserRoundCog/></AvatarFallback>
                       </Avatar>
                   </OpenVideoContextMenu>
               } {!downloadUrl && <Avatar>
                 <AvatarImage src={streamerAvatar ?? ""} alt={streamer}></AvatarImage>
-                <AvatarFallback>{streamer}</AvatarFallback>
+                <AvatarFallback><UserRoundCog/></AvatarFallback>
             </Avatar>
             }
               <div className={"flex flex-col space-y-1 overflow-hidden text-nowrap"}>

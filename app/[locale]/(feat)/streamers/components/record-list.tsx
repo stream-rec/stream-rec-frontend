@@ -3,7 +3,7 @@ import React from "react";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/new-york/ui/collapsible";
 import {Button} from "@/components/new-york/ui/button";
 
-import {StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer";
+import {StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer-card";
 import {CaretDownIcon, CaretUpIcon} from "@radix-ui/react-icons";
 import {toStreamerCard} from "@/app/[locale]/(feat)/streamers/components/streamer-list-wrapper";
 import {OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";

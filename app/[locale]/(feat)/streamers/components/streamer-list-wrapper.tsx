@@ -1,7 +1,7 @@
 import React from "react";
 import {StreamerSchema} from "@/lib/data/streams/definitions";
 import {deleteStreamer} from "@/lib/data/streams/streamer-apis";
-import {StreamerCard, StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer";
+import {StreamerCard, StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer-card";
 import {toStreamerCards} from "@/app/[locale]/(feat)/streamers/components/streamer-wrapper";
 import {getFormatter, getTranslations} from "next-intl/server";
 import {OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";

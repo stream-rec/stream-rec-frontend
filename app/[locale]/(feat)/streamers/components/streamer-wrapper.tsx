@@ -1,6 +1,6 @@
 import React, {useMemo} from "react";
 import {deleteStreamer, fetchStreamers} from "@/lib/data/streams/streamer-apis";
-import {StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer";
+import {StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer-card";
 import {StreamerSchema} from "@/lib/data/streams/definitions";
 import {StreamerStatusList} from "@/app/[locale]/(feat)/streamers/components/streamer-status-list";
 import {WS_API_URL} from "@/lib/data/events/events-api";

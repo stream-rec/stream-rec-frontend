@@ -1,6 +1,6 @@
 'use client'
 import React, {useEffect, useState} from "react";
-import {StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer";
+import {StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer-card";
 import {RecordList} from "@/app/[locale]/(feat)/streamers/components/record-list";
 import {deleteStreamer} from "@/lib/data/streams/streamer-apis";
 import {UpdateSchema} from "@/lib/data/events/definitions";
