@@ -378,7 +378,7 @@
     "useBuiltInSegmenter": "Use FFmpeg built-in segmenter",
     "useBuiltInSegmenterDescription": "Whether to use FFmpeg built-in segmenter for parting downloads. Default is set to false. <important>Enabling this feature will reduce platform API calls.</important>",
     "useBuiltInSegmenterNote": "Notes:",
-    "useBuiltInSegmenterNoteDescription": "* Only works with time-based parting\n* Streamer's title won't be updated during download\n* Dashboard streamers real time bitrate updating will be disabled\n* Using FLV format will cause color issues in the output video\n* Please use time placeholders in the filename",
+    "useBuiltInSegmenterNoteDescription": "* Only works with time-based parting\n* Streamer's title won't be updated during download\n* Dashboard streamers real time bitrate updating will be disabled\n* Please use time placeholders in the filename",
     "exitOnDownloadError": "Exit on download error",
     "exitOnDownloadErrorDescription": "If a input stream returns an error, ffmpeg will exit immediately. Default is set to false."
   },

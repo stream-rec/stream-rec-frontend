@@ -24,6 +24,7 @@ type GlobalFormProps = {
   strings: GlobalSettingsTranslations
 }
 
+const engines = ["kotlin", "ffmpeg", "streamlink"]
 
 export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
   const [minPartSizeFormat, setMinPartSizeFormat] = useState(FileSizeUnit.B)
@@ -106,8 +107,11 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="ffmpeg">ffmpeg</SelectItem>
-                        <SelectItem value="streamlink">streamlink</SelectItem>
+                        {
+                          engines.map((engine, index) => (
+                              <SelectItem key={index} value={engine}>{engine}</SelectItem>
+                          ))
+                        }
                       </SelectContent>
                     </Select>
                     <FormDescription>

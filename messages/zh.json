@@ -370,7 +370,7 @@
     "useBuiltInSegmenter": "使用FFmpeg分段",
     "useBuiltInSegmenterDescription": "开启此选项将使用FFmpeg -f segment分段， 减少直播平台API调用，实现无损分段。",
     "useBuiltInSegmenterNote": "注意事件：",
-    "useBuiltInSegmenterNoteDescription": "* 开启后只能使用时长分段，无法使用大小分段\n* 开启后无法及时更新主播标题\n* 开启后无法查看主播当前下载码率\n* 使用FLV格式下载时会出现颜色错误\n* 使用该选项时请使用时间戳文件名格式",
+    "useBuiltInSegmenterNoteDescription": "* 开启后只能使用时长分段，无法使用大小分段\n* 开启后无法及时更新主播标题\n* 开启后无法查看主播当前下载码率\n* 使用该选项时请使用时间戳文件名格式",
     "exitOnDownloadError": "下载错误时退出（实验性）",
     "exitOnDownloadErrorDescription": "开启后FFMPEG遇到解码错误将抛出错误<important>解码错误指主播流参数遇到更改（PK时，断网，等各种不正常的操作）</important>"
   },
