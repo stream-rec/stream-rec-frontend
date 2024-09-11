@@ -42,7 +42,7 @@ jobs:
             prefix=
             suffix=
           tags: |
-            type=edge,enable=true,priority=700,prefix=,suffix=,branch=$repo.default_branch
+            type=raw,value=latest,priority=700,enable={{is_default_branch}}
             type=ref,enable=true,priority=600,prefix=,suffix=,event=branch
             type=ref,enable=true,priority=600,prefix=,suffix=,event=tag
             type=ref,enable=true,priority=600,prefix=pr-,suffix=,event=pr     
@@ -106,7 +106,11 @@ jobs:
             prefix=
             suffix=
           tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest,priority=700,enable={{is_default_branch}}
+            type=ref,enable=true,priority=600,prefix=,suffix=,event=branch
+            type=ref,enable=true,priority=600,prefix=,suffix=,event=tag
+            type=ref,enable=true,priority=600,prefix=pr-,suffix=,event=pr     
+
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
