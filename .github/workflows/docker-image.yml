@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - 'master'
+      - 'dev'
     tags:
       - 'v*'
   pull_request:
@@ -36,6 +37,15 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
+          flavor: |
+            latest=auto
+            prefix=
+            suffix=
+          tags: |
+            type=edge,enable=true,priority=700,prefix=,suffix=,branch=$repo.default_branch
+            type=ref,enable=true,priority=600,prefix=,suffix=,event=branch
+            type=ref,enable=true,priority=600,prefix=,suffix=,event=tag
+            type=ref,enable=true,priority=600,prefix=pr-,suffix=,event=pr     
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
