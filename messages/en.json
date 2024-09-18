@@ -380,7 +380,9 @@
     "useBuiltInSegmenterNote": "Notes:",
     "useBuiltInSegmenterNoteDescription": "* Only works with time-based parting\n* Streamer's title won't be updated during download\n* Dashboard streamers real time bitrate updating will be disabled\n* Please use time placeholders in the filename",
     "exitOnDownloadError": "Exit on download error",
-    "exitOnDownloadErrorDescription": "If a input stream returns an error, ffmpeg will exit immediately. Default is set to false."
+    "exitOnDownloadErrorDescription": "If a input stream returns an error, ffmpeg will exit immediately. Default is set to false.",
+    "enableFixFlvTitle": "Enable fix",
+    "enableFixFlvDescription": "Enable FLV AVC fix. Some streams may change video data parameters during the stream. This option will split the flv file when the video data parameters change. Default is set to false. <important>CPU and RAM usage will be increased</important>"
   },
   "TableToolbar": {
     "searchPlaceholder": "Filter by {search}...",

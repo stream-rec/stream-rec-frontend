@@ -49,6 +49,8 @@ export const useGlobalSettingsTranslations = () => {
     useBuiltInSegmenterNoteDescription: t.rich("useBuiltInSegmenterNoteDescription"),
     exitOnErrorTitle: t("exitOnDownloadError"),
     exitOnErrorDescription: t.rich("exitOnDownloadErrorDescription"),
+    enableFixFlvTitle: t("enableFixFlvTitle"),
+    enableFixFlvDescription: t.rich("enableFixFlvDescription"),
     save: settingsT("save"),
     timeFormats: {
       hours: timeUnitsT("hours"),
@@ -102,6 +104,8 @@ export interface GlobalSettingsTranslations {
   useBuiltInSegmenterNoteDescription: string | React.ReactNode,
   exitOnErrorTitle: string,
   exitOnErrorDescription: string | React.ReactNode,
+  enableFixFlvTitle: string,
+  enableFixFlvDescription: string | React.ReactNode,
   save: string,
   timeFormats: {
     seconds: string

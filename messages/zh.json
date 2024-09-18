@@ -372,7 +372,9 @@
     "useBuiltInSegmenterNote": "注意事件：",
     "useBuiltInSegmenterNoteDescription": "* 开启后只能使用时长分段，无法使用大小分段\n* 开启后无法及时更新主播标题\n* 开启后无法查看主播当前下载码率\n* 使用该选项时请使用时间戳文件名格式",
     "exitOnDownloadError": "下载错误时退出（实验性）",
-    "exitOnDownloadErrorDescription": "开启后FFMPEG遇到解码错误将抛出错误<important>解码错误指主播流参数遇到更改（PK时，断网，等各种不正常的操作）</important>"
+    "exitOnDownloadErrorDescription": "开启后FFMPEG遇到解码错误将抛出错误<important>解码错误指主播流参数遇到更改（PK时，断网，等各种不正常的操作）</important>",
+    "enableFixFlvTitle": "启用修复FLV",
+    "enableFixFlvDescription": "开启后将会尝试修复FLV文件， 在参数变化时分段FLV文件。 <important>请注意：将使用更多的CPU和RAM</important>"
   },
   "TableToolbar": {
     "searchPlaceholder": "搜索{search}...",

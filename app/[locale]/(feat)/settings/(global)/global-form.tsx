@@ -16,7 +16,8 @@ import {RestartNeededHoverCard} from "@/app/[locale]/(feat)/settings/components/
 import {toast} from "sonner";
 import {GlobalSettingsTranslations} from "@/app/hooks/translations/global-settings-translations";
 import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
-import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/new-york/ui/accordion";
+import {KotlinEngineFields} from "@/app/[locale]/(feat)/settings/(global)/kotlin-engine-fields";
+import {FfmpegBasedEngineFields} from "@/app/[locale]/(feat)/settings/(global)/ffmpeg-based-engine-fields";
 
 type GlobalFormProps = {
   appConfig: GlobalConfig,
@@ -31,6 +32,8 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
   const [maxPartSizeFormat, setMaxPartSizeFormat] = useState(FileSizeUnit.B)
 
   const [maxPartDurationFormat, setMaxPartDurationFormat] = useState(DurationUnit.SECONDS)
+
+  const [engine, setEngine] = useState(appConfig.engine)
 
   const form = useForm<GlobalConfig>({
     resolver: zodResolver(globalConfigSchema),
@@ -100,7 +103,10 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
               render={({field}) => (
                   <FormItem>
                     <FormLabel>{strings.engine}</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={(e) => {
+                      setEngine(e)
+                      field.onChange(e)
+                    }} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="{Select a download engine}"/>
@@ -122,6 +128,20 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
               )}
           />
 
+          {engine === "kotlin" && (<KotlinEngineFields form={form} strings={{
+            enableFix: strings.enableFixFlvTitle,
+            enableFixDescription: strings.enableFixFlvDescription
+          }}/>)}
+
+          {(engine === "ffmpeg" || engine === "streamlink") && (<FfmpegBasedEngineFields form={form} strings={{
+            useBuiltinSegmenterTitle: strings.useBuiltInSegmenter,
+            useBuiltInSegmenterDescription: strings.useBuiltInSegmenterDescription,
+            useBuiltInSegmenterNote: strings.useBuiltInSegmenterNote,
+            useBuiltInSegmenterNoteDescription: strings.useBuiltInSegmenterNoteDescription,
+            exitOnErrorTitle: strings.exitOnErrorTitle,
+            exitOnErrorDescription: strings.exitOnErrorDescription
+          }}/>)}
+
           <DanmuFlagFormfield control={form.control} title={strings.danmu} description={strings.danmuDescription}/>
 
 
@@ -129,22 +149,6 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
                          description={strings.deleteFilesDescription}
                          ariaLabel={"File deletion switch"}/>
 
-          <FlagFormField control={form.control} fieldName={"useBuiltInSegmenter"} title={strings.useBuiltInSegmenter}
-                         description={strings.useBuiltInSegmenterDescription}
-                         ariaLabel={"FFMPEG use segmenter switch"}>
-            <Accordion type="single" collapsible asChild={true}>
-              <AccordionItem value="item-1" className={"border-none"}>
-                <AccordionTrigger className={"text-[0.8rem] text-muted-foreground"}>{strings.useBuiltInSegmenterNote}</AccordionTrigger>
-                <AccordionContent className={"text-[0.8rem] text-muted-foreground whitespace-pre-wrap"}>
-                  {strings.useBuiltInSegmenterNoteDescription}
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </FlagFormField>
-
-          <FlagFormField control={form.control} fieldName={"exitDownloadOnError"} title={strings.exitOnErrorTitle}
-                         description={strings.exitOnErrorDescription} showExperimentalBadge
-                         ariaLabel={"FFMPEG Exit on download error switch"}/>
 
           <OutputFolderFormField control={form.control} name={strings.outputFolder}
                                  description={strings.outputFolderDescription}/>
