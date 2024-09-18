@@ -8,7 +8,7 @@ const withNextIntl = createNextIntlPlugin();
 // extract git commit hash
 let gitCommitHash;
 try {
-    gitCommitHash = execSync('git rev-parse HEAD').toString().trim();
+    gitCommitHash = execSync('git rev-parse --short HEAD').toString().trim();
 } catch (error) {
     console.error('Error while extracting git commit hash', error);
     gitCommitHash = '';
@@ -34,6 +34,9 @@ try {
     gitTagVersion = packageJson.version;
 }
 
+let appVersion = gitBranchName !== 'master' ? `${gitBranchName}-` : '';
+appVersion += gitTagVersion;
+if (gitCommitHash) appVersion += `-${gitCommitHash}`;
 
 const nextConfig = {
     async redirects() {
@@ -47,7 +50,7 @@ const nextConfig = {
     },
     output: 'standalone',
     env: {
-        APP_VERSION: `${gitBranchName}${gitTagVersion}${gitCommitHash ? '-' + gitCommitHash : ''}`,
+        APP_VERSION: appVersion,
     }
 };
 
