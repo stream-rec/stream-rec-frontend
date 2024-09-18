@@ -1,11 +1,13 @@
 import createNextIntlPlugin from 'next-intl/plugin';
-import {readFileSync} from 'fs';
-import {join} from 'path';
+import {execSync} from "node:child_process";
 
 const withNextIntl = createNextIntlPlugin();
 
-const packageJsonPath = join(process.cwd(), 'package.json');
-const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+// extract git commit hash
+const gitCommitHash = execSync('git rev-parse --short HEAD').toString().trim()
+
+// current git tag version
+const gitTagVersion = execSync('git describe --tags --abbrev=0').toString().trim()
 
 const nextConfig = {
     async redirects() {
@@ -19,7 +21,7 @@ const nextConfig = {
     },
     output: 'standalone',
     env: {
-        APP_VERSION: packageJson.version,
+        APP_VERSION: `${gitTagVersion}-${gitCommitHash}`,
     }
 };
 
