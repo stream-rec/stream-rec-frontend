@@ -37,7 +37,7 @@ export function RecordList({cards, title, contextMenuStrings, deleteStreamerActi
         </div>
 
         <CollapsibleContent className="space-y-4">
-          <div className={"grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 xl:gap-4"}>
+          <div className={"grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2"}>
             {
               cards.map(streamer => toStreamerCard(streamer, contextMenuStrings, deleteStreamerAction))
             }
