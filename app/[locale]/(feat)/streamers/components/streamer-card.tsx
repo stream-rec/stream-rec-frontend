@@ -6,7 +6,7 @@ import {cn} from "@/lib/utils";
 import {clsx} from "clsx";
 import {Badge} from "@/components/new-york/ui/badge";
 import {Button} from "@/components/new-york/ui/button";
-import {SettingsIcon, Trash2Icon, UserCog, UserRoundCog} from "lucide-react";
+import {SettingsIcon, Trash2Icon, UserRoundCog} from "lucide-react";
 import {Separator} from "@/components/new-york/ui/separator";
 import {Link, useRouter} from "@/i18n";
 import {toast} from "sonner";
@@ -68,10 +68,6 @@ export function StreamerCard({
         <Card>
           <div className={"flex flex-row items-center mr-2 justify-end space-x-0.5 md:space-x-1"}>
             {duration && <> <p className={"text-muted-foreground text-[0.70rem]"}>{duration}</p></>}
-            {bitrate && <>
-                <Separator orientation={"vertical"} className={"h-4"}/>
-                <p className={"text-muted-foreground text-[0.70rem]"}>{bitrate} kbps</p>
-            </>}
             <Link href={`/streamers/${streamerId}/edit`}>
               <Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><SettingsIcon
                   className={"w-4 h-4"}/></Button>
@@ -132,7 +128,7 @@ export function StreamerCard({
               {!template && (
                   <>
                     <Badge variant={"default"}>{platform}</Badge>
-                    <Badge variant={"secondary"} className={"line-clamp-2"}>{lastStream}</Badge>
+                    <Badge variant={"secondary"} className={"line-clamp-2"}>{bitrate ? `${bitrate} kbps` : lastStream}</Badge>
                   </>
               )}
               {
