@@ -6,13 +6,14 @@ import {cn} from "@/lib/utils";
 import {clsx} from "clsx";
 import {Badge} from "@/components/new-york/ui/badge";
 import {Button} from "@/components/new-york/ui/button";
-import {SettingsIcon, Trash2Icon, UserRoundCog} from "lucide-react";
+import {PauseIcon, PlayIcon, SettingsIcon, Trash2Icon, UserRoundCog} from "lucide-react";
 import {Separator} from "@/components/new-york/ui/separator";
 import {Link, useRouter} from "@/i18n";
 import {toast} from "sonner";
 import {DeleteIconDialog} from "@/app/components/dialog/delete-icon-dialog";
 import {OpenVideoContextMenu, OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
 import Marquee from "react-fast-marquee";
+import {updateStatus} from "@/lib/data/streams/streamer-apis";
 
 export type StreamerCardProps = {
   streamer: string;
@@ -29,6 +30,7 @@ export type StreamerCardProps = {
   liveUrl: string;
   downloadUrl?: string;
   contextMenuStrings: OpenVideoContextMenuStrings;
+  updateStatus: (id: string, status: boolean) => ReturnType<typeof updateStatus>;
   deleteStreamer: (id: string) => Promise<void>;
 }
 
@@ -48,6 +50,7 @@ export function StreamerCard({
                                downloadUrl,
                                liveUrl,
                                contextMenuStrings,
+                               updateStatus,
                                deleteStreamer,
                              }: StreamerCardProps) {
 
@@ -68,6 +71,33 @@ export function StreamerCard({
         <Card>
           <div className={"flex flex-row items-center mr-2 justify-end space-x-0.5 md:space-x-1"}>
             {duration && <> <p className={"text-muted-foreground text-[0.70rem]"}>{duration}</p></>}
+            <Button variant="ghost" size="icon" className="rounded-full p-2">
+              {isActivated ? (
+                  <PauseIcon className="w-4 h-4" onClick={async () => {
+                    toast.promise(updateStatus(streamerId.toString(), !isActivated), {
+                      loading: `Updating ${streamer}...`,
+                      success: () => {
+                        router.refresh();
+                        return "Ok";
+                      },
+                      error: (error) => `An error occurred while updating streamer: ${error}`
+                    });
+                  }}/>
+              ) : (
+                  <PlayIcon className="w-4 h-4" onClick={async () => {
+                    toast.promise(updateStatus(streamerId.toString(), !isActivated), {
+                      loading: `Updating ${streamer}...`,
+                      success: () => {
+                        router.refresh();
+                        return "Ok";
+                      },
+                      error: (error) => `An error occurred while updating streamer: ${error}`
+                    });
+                  }}/>
+              )}
+            </Button>
+            <Separator orientation={"vertical"} className={"h-4"}/>
+
             <Link href={`/streamers/${streamerId}/edit`}>
               <Button variant={"ghost"} size={"icon"} className={"rounded-full p-2"}><SettingsIcon
                   className={"w-4 h-4"}/></Button>

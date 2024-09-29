@@ -71,6 +71,21 @@ export const updateStreamer = async (streamer: StreamerSchema) => {
   return json
 }
 
+export const updateStatus = async (id: string, status: boolean) => {
+  const response = await fetchApi(`/streamers/${id}?state=${status}`, {
+    method: 'PUT',
+  })
+
+  if (!response.ok) {
+    const errorText = await response.text()
+    throw new Error("Error updating streamer status, status: " + response.status + " " + errorText)
+  }
+  return await response.json() as {
+    msg: string
+    code: number
+  }
+}
+
 export const deleteStreamer = async (id: string | number) => {
   const response = await fetchApi('/streamers/' + id, {
     method: 'DELETE',
