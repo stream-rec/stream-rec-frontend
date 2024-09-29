@@ -130,7 +130,9 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
 
           {engine === "kotlin" && (<KotlinEngineFields form={form} strings={{
             enableFix: strings.enableFixFlvTitle,
-            enableFixDescription: strings.enableFixFlvDescription
+            enableFixDescription: strings.enableFixFlvDescription,
+            combineHlsFiles: strings.combineHlsFiles,
+            combineHlsFilesDescription: strings.combineHlsFilesDescription
           }}/>)}
 
           {(engine === "ffmpeg" || engine === "streamlink") && (<FfmpegBasedEngineFields form={form} strings={{

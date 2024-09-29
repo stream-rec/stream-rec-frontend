@@ -382,7 +382,9 @@
     "exitOnDownloadError": "Exit on download error",
     "exitOnDownloadErrorDescription": "If a input stream returns an error, ffmpeg will exit immediately. Default is set to false.",
     "enableFixFlvTitle": "Enable fix",
-    "enableFixFlvDescription": "Enable FLV AVC fix. Some streams may change video data parameters during the stream. This option will split the flv file when the video data parameters change. Default is set to false. <important>CPU and RAM usage will be increased</important>"
+    "enableFixFlvDescription": "Enable FLV AVC fix. Some streams may change video data parameters during the stream. This option will split the flv file when the video data parameters change. Default is set to false. <important>CPU and RAM usage will be increased</important>",
+    "combineHlsFiles": "Combine HLS files",
+    "combineHlsFilesDescription": "Combine HLS files into one file. Default is set to false."
   },
   "TableToolbar": {
     "searchPlaceholder": "Filter by {search}...",

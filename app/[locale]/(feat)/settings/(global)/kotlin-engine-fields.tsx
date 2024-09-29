@@ -7,6 +7,8 @@ export type KotlinEngineFieldsProps = {
   strings: {
     enableFix: string
     enableFixDescription: string | React.ReactNode
+    combineHlsFiles: string
+    combineHlsFilesDescription: string | React.ReactNode
   }
 }
 
@@ -17,6 +19,10 @@ export function KotlinEngineFields({form, strings}: KotlinEngineFieldsProps) {
         <FlagFormField control={form.control} fieldName={"enableFlvFix"} title={strings.enableFix}
                        description={strings.enableFixDescription}
                        ariaLabel={"Flag to enable fix"}/>
+
+        <FlagFormField control={form.control} fieldName={"combineTsFiles"} title={strings.combineHlsFiles}
+                       description={strings.combineHlsFilesDescription}
+                       ariaLabel={"Flag to combine Hls files"}/>
       </>
   )
 }

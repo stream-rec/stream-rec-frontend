@@ -35,6 +35,7 @@ export const globalConfigSchema = z.object({
   downloadCheckInterval: z.number().min(1).optional(),
   useBuiltInSegmenter: z.boolean().optional(),
   enableFlvFix: z.boolean().optional(),
+  combineTsFiles: z.boolean().optional(),
   exitDownloadOnError: z.boolean().optional(),
   huyaConfig: huyaGlobalConfig.optional(),
   douyinConfig: douyinGlobalConfig.optional(),
