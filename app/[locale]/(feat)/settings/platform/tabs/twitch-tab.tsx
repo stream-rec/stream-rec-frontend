@@ -33,7 +33,6 @@ export type TwitchTabString = {
   authTokenDescription: string | React.ReactNode,
   skipAds: string,
   skipAdsDescription: string | React.ReactNode,
-  usettvlolWarning: string,
   ttvProxyPlaylist: string,
   ttvProxyPlaylistDescription: string,
   ttvProxyPlaylistExclude: string,
