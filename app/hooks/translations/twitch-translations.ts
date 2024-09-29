@@ -23,6 +23,12 @@ export const useTwitchTranslations = () => {
     cookieDescription: t.rich("cookieDescription"),
     skipAds: t("skipAds"),
     skipAdsDescription: t.rich("skipAdsDescription"),
+    ttvProxyPlaylist: t("ttvProxyPlaylist"),
+    ttvProxyPlaylistDescription: t("ttvProxyPlaylistDescription"),
+    ttvProxyPlaylistExclude: t("ttvProxyPlaylistExclude"),
+    ttvProxyPlaylistExcludeDescription: t("ttvProxyPlaylistExcludeDescription"),
+    ttvProxyPlaylistFallback: t("ttvProxyPlaylistFallback"),
+    ttvProxyPlaylistFallbackDescription: t("ttvProxyPlaylistFallbackDescription"),
   }), [t, pt])
 }
 

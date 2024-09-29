@@ -244,7 +244,15 @@
     "cookies": "Cookies",
     "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. <important>Optional</important>",
     "skipAds": "Skip ads",
-    "skipAdsDescription": "Use streamlink's --twitch-disable-ads arg <important>Please use Streamlink as download engine, and this option only supports Source quality</important>"
+    "skipAdsDescription": "Use streamlink's --twitch-disable-ads arg <important>This option only supports Source quality</important>",
+    "ttvProxyPlaylist": "ttvlol proxy server address",
+    "ttvProxyPlaylistDescription": "ttvlol proxy server address for proxying m3u8 files, separated by ','",
+    "ttvProxyPlaylistPlaceholder": "Enter ttvlol proxy server address",
+    "ttvProxyPlaylistExclude": "ttvlol channel exclude list",
+    "ttvProxyPlaylistExcludeDescription": "ttvlol channel exclude list for channels that do not need proxying, separated by ','",
+    "ttvProxyPlaylistExcludePlaceholder": "Enter ttvlol channel exclude list",
+    "ttvProxyPlaylistFallback": "Fallback to Twitch API",
+    "ttvProxyPlaylistFallbackDescription": "Whether to fallback to Twitch API when ttvlol proxy request fails"
   },
   "TwitchQualities": {
     "origin": {

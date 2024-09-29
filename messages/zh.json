@@ -239,7 +239,15 @@
     "authTokenDescription": "Twitch Auth Token，用于录制Twitch直播间。 <important>请注意：Auth Token必须存在，否则录制失败</important>",
     "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除，非必填。 <important>请注意：为了避免风控，建议使用小号的cookies。</important>",
     "skipAds": "跳过广告(实验性)",
-    "skipAdsDescription": "使用Streamlink --twitch-disable-ads参数<important>请注意：请将下载引擎更改为Streamlink， 该功能只支持原画设置</important>"
+    "skipAdsDescription": "使用Streamlink --twitch-disable-ads参数<important>请注意：该功能只支持原画设置</important>",
+    "ttvProxyPlaylist": "ttvlol代理服务器地址",
+    "ttvProxyPlaylistDescription": "ttvlol代理服务器地址，请使用','分开",
+    "ttvProxyPlaylistPlaceholder": "请填写ttvlol代理服务器地址",
+    "ttvProxyPlaylistExclude": "ttvlol频道排除列表",
+    "ttvProxyPlaylistExcludeDescription": "用于排除不需要代理的频道，请使用','分开",
+    "ttvProxyPlaylistExcludePlaceholder": "请填写ttvlol频道排除列表",
+    "ttvProxyPlaylistFallback": "退回Twitch服务器",
+    "ttvProxyPlaylistFallbackDescription": "ttvlol代理失败后是否退回官方服务器"
   },
   "TwitchQualities": {
     "origin": {
