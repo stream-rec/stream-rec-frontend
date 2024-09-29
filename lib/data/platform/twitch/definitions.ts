@@ -18,6 +18,9 @@ export const twitchGlobalConfig = globalPlatformConfig.extend({
   authToken: z.string().nullish(),
   partedDownloadRetry: z.number().min(0).nullish(),
   skipAds: z.boolean().nullish(),
+  twitchProxyPlaylist: z.string().nullish(),
+  twitchProxyPlaylistExclude: z.string().nullish(),
+  twitchProxyPlaylistFallback: z.boolean().optional()
 })
 
 export const twitchDownloadConfig = twitchGlobalConfig.omit({skipAds: true}).merge(baseDownloadConfig)

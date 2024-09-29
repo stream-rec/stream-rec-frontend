@@ -16,6 +16,7 @@ type TwitchConfigProps = {
   allowNone?: boolean
   qualityOptions: TwitchQualityItem[]
   showSkipAds?: boolean
+  showTtvProxyRelated?: boolean
 } & PlatformTabContentProps<TwitchTabString>
 
 export type TwitchQualityItem = {
@@ -32,6 +33,13 @@ export type TwitchTabString = {
   authTokenDescription: string | React.ReactNode,
   skipAds: string,
   skipAdsDescription: string | React.ReactNode,
+  usettvlolWarning: string,
+  ttvProxyPlaylist: string,
+  ttvProxyPlaylistDescription: string,
+  ttvProxyPlaylistExclude: string,
+  ttvProxyPlaylistExcludeDescription: string,
+  ttvProxyPlaylistFallback: string,
+  ttvProxyPlaylistFallbackDescription: string
 } & PlatformTabContentStrings
 
 
@@ -44,6 +52,7 @@ export const TwitchTabContent = ({
                                    showSkipAds,
                                    qualityOptions,
                                    allowNone = false,
+                                   showTtvProxyRelated = false,
                                    strings
                                  }: TwitchConfigProps) => {
 
@@ -101,6 +110,50 @@ export const TwitchTabContent = ({
             </FormItem>
         )}
     />
+
+    {
+        showTtvProxyRelated && (<>
+          <FlagFormField control={control} fieldName={"twitchProxyPlaylistFallback"} controlPrefix={controlPrefix}
+                         title={strings.ttvProxyPlaylistFallback}
+                         description={strings.ttvProxyPlaylistFallbackDescription}
+                         ariaLabel={"Twitch twitchProxyPlaylistFallback flag"}/>
+
+          <FormField
+              control={control}
+              name={controlPrefix ? `${controlPrefix}.twitchProxyPlaylist` : "twitchProxyPlaylist"}
+              render={({field}) => (
+                  <FormItem>
+                    <FormLabel>{strings.ttvProxyPlaylist}</FormLabel>
+                    <FormControl>
+                      <Input value={field.value} onChange={field.onChange}/>
+                    </FormControl>
+                    <FormDescription>
+                      {strings.ttvProxyPlaylistDescription}
+                    </FormDescription>
+                    <FormMessage/>
+                  </FormItem>
+              )}>
+          </FormField>
+
+          <FormField
+              control={control}
+              name={controlPrefix ? `${controlPrefix}.twitchProxyPlaylistExclude` : "twitchProxyPlaylistExclude"}
+              render={({field}) => (
+                  <FormItem>
+                    <FormLabel>{strings.ttvProxyPlaylistExclude}</FormLabel>
+                    <FormControl>
+                      <Input value={field.value} onChange={field.onChange}/>
+                    </FormControl>
+                    <FormDescription>
+                      {strings.ttvProxyPlaylistExcludeDescription}
+                    </FormDescription>
+                    <FormMessage/>
+                  </FormItem>
+              )}>
+          </FormField>
+
+        </>)
+    }
   </PlatformTabContent>
 
 }

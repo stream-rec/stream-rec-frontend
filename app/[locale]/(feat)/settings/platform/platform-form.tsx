@@ -103,7 +103,7 @@ export default function PlatformForm({
                                    strings={pandaStrings}/>
               </TabsContent>
               <TabsContent value={PlatformType.TWITCH}>
-                <TwitchTabContent controlPrefix={"twitchConfig"} control={form.control} showCookies
+                <TwitchTabContent controlPrefix={"twitchConfig"} control={form.control} showCookies showTtvProxyRelated
                                   showPartedDownloadRetry showFetchDelay showSkipAds strings={twitchStrings}
                                   qualityOptions={twitchQualityOptions}/>
               </TabsContent>
