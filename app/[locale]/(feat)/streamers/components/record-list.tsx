@@ -7,15 +7,17 @@ import {StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/stre
 import {CaretDownIcon, CaretUpIcon} from "@radix-ui/react-icons";
 import {toStreamerCard} from "@/app/[locale]/(feat)/streamers/components/streamer-list-wrapper";
 import {OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
+import {updateStatus} from "@/lib/data/streams/streamer-apis";
 
 type RecordListProps = {
   title: string,
   cards: StreamerCardProps[],
   contextMenuStrings: OpenVideoContextMenuStrings,
+  updateStatus: (id: string, status: boolean) => ReturnType<typeof updateStatus>,
   deleteStreamerAction: (id: string) => Promise<void>
 }
 
-export function RecordList({cards, title, contextMenuStrings, deleteStreamerAction}: RecordListProps) {
+export function RecordList({cards, title, contextMenuStrings, updateStatus, deleteStreamerAction}: RecordListProps) {
 
   const [isOpen, setIsOpen] = React.useState(true)
 
@@ -37,9 +39,9 @@ export function RecordList({cards, title, contextMenuStrings, deleteStreamerActi
         </div>
 
         <CollapsibleContent className="space-y-4">
-          <div className={"grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 xl:gap-4"}>
+          <div className={"grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2"}>
             {
-              cards.map(streamer => toStreamerCard(streamer, contextMenuStrings, deleteStreamerAction))
+              cards.map(streamer => toStreamerCard(streamer, contextMenuStrings, updateStatus, deleteStreamerAction))
             }
           </div>
 

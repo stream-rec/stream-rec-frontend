@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from "react";
 import {StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer-card";
 import {RecordList} from "@/app/[locale]/(feat)/streamers/components/record-list";
-import {deleteStreamer} from "@/lib/data/streams/streamer-apis";
+import {deleteStreamer, updateStatus} from "@/lib/data/streams/streamer-apis";
 import {UpdateSchema} from "@/lib/data/events/definitions";
 import {format} from "date-fns";
 import {useRouter} from "@/i18n";
@@ -120,14 +120,16 @@ export function StreamerStatusList({
 
   return <>
     <div className="space-y-4 col-span-1">
-      <RecordList cards={bitratedRecordingCards} title={recordingString} deleteStreamerAction={deleteStreamer}
+      <RecordList cards={bitratedRecordingCards} title={recordingString} deleteStreamerAction={deleteStreamer} updateStatus={updateStatus}
                   contextMenuStrings={contextMenuStrings}/>
     </div>
     <div className="space-y-4 col-span-1 ">
-      <RecordList cards={inactiveCards} title={inactiveString} deleteStreamerAction={deleteStreamer} contextMenuStrings={contextMenuStrings}/>
+      <RecordList cards={inactiveCards} title={inactiveString} deleteStreamerAction={deleteStreamer} updateStatus={updateStatus}
+                  contextMenuStrings={contextMenuStrings}/>
     </div>
     <div className="space-y-4 col-span-1">
-      <RecordList cards={disabledCards} title={disabledString} deleteStreamerAction={deleteStreamer} contextMenuStrings={contextMenuStrings}/>
+      <RecordList cards={disabledCards} title={disabledString} deleteStreamerAction={deleteStreamer} updateStatus={updateStatus}
+                  contextMenuStrings={contextMenuStrings}/>
     </div>
   </>
 }

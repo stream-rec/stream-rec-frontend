@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - 'master'
+      - 'dev'
     tags:
       - 'v*'
   pull_request:
@@ -36,6 +37,15 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
+          flavor: |
+            latest=auto
+            prefix=
+            suffix=
+          tags: |
+            type=raw,value=latest,priority=700,enable={{is_default_branch}}
+            type=ref,enable=true,priority=600,prefix=,suffix=,event=branch
+            type=ref,enable=true,priority=600,prefix=,suffix=,event=tag
+            type=ref,enable=true,priority=600,prefix=pr-,suffix=,event=pr     
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -56,6 +66,8 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          build-args: |
+            BUILDKIT_CONTEXT_KEEP_GIT_DIR=true
 
       - name: Export digest
         run: |
@@ -96,7 +108,11 @@ jobs:
             prefix=
             suffix=
           tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest,priority=700,enable={{is_default_branch}}
+            type=ref,enable=true,priority=600,prefix=,suffix=,event=branch
+            type=ref,enable=true,priority=600,prefix=,suffix=,event=tag
+            type=ref,enable=true,priority=600,prefix=pr-,suffix=,event=pr     
+
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3

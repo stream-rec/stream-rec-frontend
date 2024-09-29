@@ -1,64 +1,6 @@
 import React, {useMemo} from "react";
 import {useTranslations} from "next-intl";
 
-export const useGlobalSettingsTranslations = () => {
-  const settingsT = useTranslations("SettingsPage")
-  const toast = useTranslations("Toast")
-  const t = useTranslations("GlobalSettings")
-  const timeUnitsT = useTranslations("TimeUnit")
-
-  return useMemo(() => ({
-    alertTitle: settingsT("globalSettingsAlert"),
-    alertDescription: settingsT("globalSettingsAlertDescription"),
-    submitMessage: toast("submitMessage"),
-    submitErrorMessage: toast("submitErrorMessage"),
-    engine: t("engine"),
-    engineDescription: t.rich("engineDescription"),
-    danmu: t("danmu"),
-    danmuDescription: t.rich("danmuDescription"),
-    deleteFiles: t("deleteFiles"),
-    deleteFilesDescription: t.rich("deleteFilesDescription"),
-    outputFolder: t("outputFolder"),
-    outputFolderDescription: t.rich("outputFolderDescription"),
-    outputFilename: t("outputFilename"),
-    outputFilenameDescription: t.rich("outputFilenameDescription"),
-    outputFormat: t("outputFormat"),
-    outputFormatDescription: t.rich("outputFormatDescription"),
-    minPart: t("minPart"),
-    minPartDescription: t("minPartDescription"),
-    minPartDefault: t("minPartDefault"),
-    maxPart: t("maxPart"),
-    maxPartDescription: t("maxPartDescription"),
-    maxPartDefault: t("maxPartDefault"),
-    maxPartDuration: t("maxPartDuration"),
-    maxPartDurationDescription: t.rich("maxPartDurationDescription"),
-    maxPartDurationDefault: t("maxPartDurationDefault"),
-    maxConcurrentDownload: t("maxConcurrentDownload"),
-    maxConcurrentDownloadDescription: t.rich("maxConcurrentDownloadDescription"),
-    maxConcurrentUpload: t("maxConcurrentUpload"),
-    maxConcurrentUploadDescription: t.rich("maxConcurrentUploadDescription"),
-    downloadRetryDelay: t("downloadRetryDelay"),
-    downloadRetryDelayDescription: t("downloadRetryDelayDescription"),
-    downloadCheckInterval: t("downloadCheckInterval"),
-    downloadCheckIntervalDescription: t("downloadCheckIntervalDescription"),
-    maxDownloadRetries: t("maxDownloadRetries"),
-    maxDownloadRetriesDescription: t("maxDownloadRetriesDescription"),
-    useBuiltInSegmenter: t("useBuiltInSegmenter"),
-    useBuiltInSegmenterDescription: t.rich("useBuiltInSegmenterDescription"),
-    useBuiltInSegmenterNote: t("useBuiltInSegmenterNote"),
-    useBuiltInSegmenterNoteDescription: t.rich("useBuiltInSegmenterNoteDescription"),
-    exitOnErrorTitle: t("exitOnDownloadError"),
-    exitOnErrorDescription: t.rich("exitOnDownloadErrorDescription"),
-    save: settingsT("save"),
-    timeFormats: {
-      hours: timeUnitsT("hours"),
-      minutes: timeUnitsT("minutes"),
-      seconds: timeUnitsT("seconds"),
-      days: timeUnitsT("days"),
-    },
-  } as GlobalSettingsTranslations), [t, settingsT, toast, timeUnitsT])
-}
-
 
 export interface GlobalSettingsTranslations {
   alertTitle: string
@@ -102,6 +44,10 @@ export interface GlobalSettingsTranslations {
   useBuiltInSegmenterNoteDescription: string | React.ReactNode,
   exitOnErrorTitle: string,
   exitOnErrorDescription: string | React.ReactNode,
+  enableFixFlvTitle: string,
+  enableFixFlvDescription: string | React.ReactNode,
+  combineHlsFiles: string,
+  combineHlsFilesDescription: string | React.ReactNode,
   save: string,
   timeFormats: {
     seconds: string
@@ -109,4 +55,66 @@ export interface GlobalSettingsTranslations {
     hours: string
     days: string
   }
+}
+
+export const useGlobalSettingsTranslations = () => {
+  const settingsT = useTranslations("SettingsPage")
+  const toast = useTranslations("Toast")
+  const t = useTranslations("GlobalSettings")
+  const timeUnitsT = useTranslations("TimeUnit")
+
+  return useMemo<GlobalSettingsTranslations>(() => ({
+    alertTitle: settingsT("globalSettingsAlert"),
+    alertDescription: settingsT("globalSettingsAlertDescription"),
+    submitMessage: toast("submitMessage"),
+    submitErrorMessage: toast("submitErrorMessage"),
+    engine: t("engine"),
+    engineDescription: t.rich("engineDescription"),
+    danmu: t("danmu"),
+    danmuDescription: t.rich("danmuDescription"),
+    deleteFiles: t("deleteFiles"),
+    deleteFilesDescription: t.rich("deleteFilesDescription"),
+    outputFolder: t("outputFolder"),
+    outputFolderDescription: t.rich("outputFolderDescription"),
+    outputFilename: t("outputFilename"),
+    outputFilenameDescription: t.rich("outputFilenameDescription"),
+    outputFormat: t("outputFormat"),
+    outputFormatDescription: t.rich("outputFormatDescription"),
+    minPart: t("minPart"),
+    minPartDescription: t("minPartDescription"),
+    minPartDefault: t("minPartDefault"),
+    maxPart: t("maxPart"),
+    maxPartDescription: t("maxPartDescription"),
+    maxPartDefault: t("maxPartDefault"),
+    maxPartDuration: t("maxPartDuration"),
+    maxPartDurationDescription: t.rich("maxPartDurationDescription"),
+    maxPartDurationDefault: t("maxPartDurationDefault"),
+    maxConcurrentDownload: t("maxConcurrentDownload"),
+    maxConcurrentDownloadDescription: t.rich("maxConcurrentDownloadDescription"),
+    maxConcurrentUpload: t("maxConcurrentUpload"),
+    maxConcurrentUploadDescription: t.rich("maxConcurrentUploadDescription"),
+    downloadRetryDelay: t("downloadRetryDelay"),
+    downloadRetryDelayDescription: t("downloadRetryDelayDescription"),
+    downloadCheckInterval: t("downloadCheckInterval"),
+    downloadCheckIntervalDescription: t("downloadCheckIntervalDescription"),
+    maxDownloadRetries: t("maxDownloadRetries"),
+    maxDownloadRetriesDescription: t("maxDownloadRetriesDescription"),
+    useBuiltInSegmenter: t("useBuiltInSegmenter"),
+    useBuiltInSegmenterDescription: t.rich("useBuiltInSegmenterDescription"),
+    useBuiltInSegmenterNote: t("useBuiltInSegmenterNote"),
+    useBuiltInSegmenterNoteDescription: t.rich("useBuiltInSegmenterNoteDescription"),
+    exitOnErrorTitle: t("exitOnDownloadError"),
+    exitOnErrorDescription: t.rich("exitOnDownloadErrorDescription"),
+    enableFixFlvTitle: t("enableFixFlvTitle"),
+    enableFixFlvDescription: t.rich("enableFixFlvDescription"),
+    combineHlsFiles: t("combineHlsFiles"),
+    combineHlsFilesDescription: t.rich("combineHlsFilesDescription"),
+    save: settingsT("save"),
+    timeFormats: {
+      hours: timeUnitsT("hours"),
+      minutes: timeUnitsT("minutes"),
+      seconds: timeUnitsT("seconds"),
+      days: timeUnitsT("days"),
+    },
+  }), [t, settingsT, toast, timeUnitsT])
 }
