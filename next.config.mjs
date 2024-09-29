@@ -5,38 +5,18 @@ import {execSync} from "node:child_process";
 
 const withNextIntl = createNextIntlPlugin();
 
-// extract git commit hash
-let gitCommitHash;
-try {
-    gitCommitHash = execSync('git rev-parse --short HEAD').toString().trim();
-} catch (error) {
-    console.error('Error while extracting git commit hash', error);
-    gitCommitHash = '';
-}
-
-// extract git branch name
-let gitBranchName;
-try {
-    gitBranchName = execSync('git rev-parse --abbrev-ref HEAD').toString().trim();
-} catch (error) {
-    console.error('Error while extracting git branch name', error);
-    gitBranchName = '';
-}
-
 // current git tag version
-let gitTagVersion;
+let gitVersion;
 try {
-    gitTagVersion = execSync('git describe --tags --abbrev=0').toString().trim();
+    gitVersion = execSync('git describe --tags --always --first-parent').toString().trim();
 } catch (error) {
-    console.error('Error while extracting git tag version, parsing from package.json', error);
+    console.error('Error while extracting git version, parsing from package.json', error);
     const packageJsonPath = join(process.cwd(), 'package.json');
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
-    gitTagVersion = packageJson.version;
+    gitVersion = packageJson.version;
 }
 
-let appVersion = gitBranchName !== 'master' ? `${gitBranchName}-` : '';
-appVersion += gitTagVersion;
-if (gitCommitHash) appVersion += `-${gitCommitHash}`;
+let appVersion = gitVersion;
 
 const nextConfig = {
     async redirects() {
