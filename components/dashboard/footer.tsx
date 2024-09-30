@@ -8,7 +8,7 @@ export function Footer() {
           <p className="text-xs md:text-sm leading-loose text-muted-foreground text-left">
             Powered by {" "}
             <Link
-                href="https://github.com/hua0512/stream-rec"
+                href="https://github.com/stream-rec/stream-rec"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-medium underline underline-offset-4"
