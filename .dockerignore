@@ -1,8 +1,5 @@
 # add git-ignore syntax here of things you don't want copied into docker image
 
-!/.git/refs/heads
-!/.git/config
-!/.git/HEAD
 .results
 scripts
 *Dockerfile*
