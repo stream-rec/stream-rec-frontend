@@ -1,6 +1,6 @@
 import {ModeToggle} from "@/components/theme/mode-toggle";
 import {SheetMenu} from "@/components/dashboard/sheet-menu";
-import {SidebarStrings} from "@/components/dashboard/sidebar";
+import {SidebarStrings} from "@/app/hooks/translations/use-sidebar-translations";
 
 interface NavbarProps {
   title: string;
@@ -19,7 +19,7 @@ export function Navbar({title, navStrings}: NavbarProps) {
           <div className="flex flex-1 items-center justify-end">
             <ModeToggle/>
           </div>
-          {/*<div className="flex flex-1 items-center space-x-2 justify-end">*/}
+          {/*<div className="flex flex-1 items-center justify-end">*/}
           {/*  <ModeToggle/>*/}
           {/*  /!*<UserNav/>*!/*/}
           {/*</div>*/}

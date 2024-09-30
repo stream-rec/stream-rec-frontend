@@ -7,17 +7,9 @@ import {SidebarToggle} from "@/components/dashboard/sidebar-toggle";
 import {useStore} from "zustand";
 import {useSidebarToggle} from "@/app/hooks/use-sidebar-toggle";
 import StreamRecIcon from "@/components/Logo";
+import {SidebarStrings} from "@/app/hooks/translations/use-sidebar-translations";
 
 
-export type SidebarStrings = {
-  dashboard: string
-  streamers: string
-  records: string
-  uploads: string
-  users: string
-  settings: string
-  logout: string
-}
 
 export function Sidebar({navStrings}: { navStrings: SidebarStrings }) {
 

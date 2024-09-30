@@ -10,8 +10,8 @@ import {Button} from "@/components/new-york/ui/button";
 import {ScrollArea} from "@/components/new-york/ui/scroll-area";
 import {CollapseMenuButton} from "@/components/dashboard/collapse-menu-button";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/new-york/ui/tooltip";
-import {SidebarStrings} from "@/components/dashboard/sidebar";
 import {signOut} from "next-auth/react";
+import {SidebarStrings} from "@/app/hooks/translations/use-sidebar-translations";
 
 interface MenuProps {
   isOpen: boolean | undefined;
