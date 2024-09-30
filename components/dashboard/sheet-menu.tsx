@@ -3,9 +3,9 @@ import {MenuIcon} from "lucide-react";
 
 import {Button} from "@/components/new-york/ui/button";
 import {Menu} from "@/components/dashboard/menu";
-import {Sheet, SheetContent, SheetHeader, SheetTrigger,} from "@/components/new-york/ui/sheet";
-import {SidebarStrings} from "@/components/dashboard/sidebar";
+import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger,} from "@/components/new-york/ui/sheet";
 import StreamRecIcon from "@/components/Logo";
+import {SidebarStrings} from "@/app/hooks/translations/use-sidebar-translations";
 
 export function SheetMenu({navStrings}: { navStrings: SidebarStrings }) {
   return (
@@ -26,11 +26,11 @@ export function SheetMenu({navStrings}: { navStrings: SidebarStrings }) {
                 <div className="w-8 h-8 mr-1">
                   <StreamRecIcon/>
                 </div>
-                <h1 className="font-bold text-lg">Stream-rec</h1>
+                <SheetTitle className="font-bold text-lg">Stream-rec</SheetTitle>
               </Link>
             </Button>
           </SheetHeader>
-          <Menu navStrings={navStrings} isOpen/>
+          <Menu navStrings={navStrings} isOpen={true}/>
         </SheetContent>
       </Sheet>
   );

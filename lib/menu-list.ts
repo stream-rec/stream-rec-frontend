@@ -1,5 +1,5 @@
-import {FileVideo2, LayoutGrid, Settings, UploadCloud, Users} from "lucide-react";
-import {SidebarStrings} from "@/components/dashboard/sidebar";
+import {FileVideo2, HardDrive, LayoutGrid, Settings, UploadCloud, Users} from "lucide-react";
+import {SidebarStrings} from "@/app/hooks/translations/use-sidebar-translations";
 
 type Submenu = {
   href: string;
@@ -63,6 +63,7 @@ export function getMenuList(pathname: string, navStrings: SidebarStrings): Group
     {
       groupLabel: navStrings.settings,
       menus: [
+
         // {
         //   href: "/users",
         //   label: navStrings.users,
@@ -70,6 +71,13 @@ export function getMenuList(pathname: string, navStrings: SidebarStrings): Group
         //   icon: Users,
         //   submenus: []
         // },
+        {
+          href: "/server",
+          label: navStrings.serverInfo,
+          active: pathname.includes("/server"),
+          icon: HardDrive,
+          submenus: []
+        },
         {
           href: "/settings",
           label: navStrings.settings,

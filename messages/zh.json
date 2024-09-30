@@ -28,6 +28,7 @@
     "uploads": "上传列表",
     "records": "录播列表",
     "users": "用户",
+    "serverInfo": "服务器信息",
     "logout": "退出登录"
   },
   "StreamersPage": {
@@ -568,5 +569,22 @@
   "OpenVideoContextMenu": {
     "download": "下载",
     "openWith": "使用{player}播放"
+  },
+  "ServerInfoPage": {
+    "title": "服务器信息",
+    "currentVersionNotSupported": "应用版本过低，WebUI可能无法正常工作，请更新应用版本",
+    "operatingSystem": "操作系统",
+    "osName": "名称",
+    "osVersion": "版本",
+    "osArch": "架构",
+    "javaEnvironment": "Java 环境",
+    "javaVersion": "版本",
+    "javaVendor": "供应商",
+    "applicationVersion": "应用版本",
+    "versionName": "版本名称",
+    "versionCode": "版本号",
+    "docker": "Docker",
+    "gitInformation": "Git 信息",
+    "commitHash": "提交哈希"
   }
 }

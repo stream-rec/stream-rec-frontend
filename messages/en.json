@@ -28,6 +28,7 @@
     "uploads": "Uploads",
     "settings": "Settings",
     "users": "Users",
+    "serverInfo": "Server info",
     "logout": "Logout"
   },
   "StreamersPage": {
@@ -576,5 +577,22 @@
   "OpenVideoContextMenu": {
     "download": "Download",
     "openWith": "Open with {player}"
+  },
+  "ServerInfoPage": {
+    "title": "Server information",
+    "currentVersionNotSupported": "Current application version is not supported by this WebUI version. Please update application to the latest version.",
+    "operatingSystem": "Operating System",
+    "osName": "OS Name",
+    "osVersion": "OS Version",
+    "osArch": "OS Architecture",
+    "javaEnvironment": "Java Environment",
+    "javaVersion": "Java Version",
+    "javaVendor": "Java Vendor",
+    "applicationVersion": "Application Version",
+    "versionName": "Version Name",
+    "versionCode": "Version Code",
+    "docker": "Docker",
+    "gitInformation": "Git Information",
+    "commitHash": "Commit Hash"
   }
 }
