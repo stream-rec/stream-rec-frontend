@@ -62,6 +62,8 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
           name: streamerT("name"),
           url: streamerT("url"),
           template: streamerT("template"),
+          startTime: streamerT("startTime"),
+          endTime: streamerT("endTime"),
         },
         streamerForm: {
           nameDescription: streamerF("nameDescription"),

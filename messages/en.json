@@ -19,7 +19,9 @@
     "noStreamsYet": "no streams yet",
     "template": "Template",
     "name": "Name",
-    "url": "Url"
+    "url": "Url",
+    "startTime": "Recording start time",
+    "endTime": "Recording end time"
   },
   "Sidebar": {
     "dashboard": "Dashboard",

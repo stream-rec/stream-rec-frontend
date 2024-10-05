@@ -19,7 +19,9 @@
     "noStreamsYet": "暂无直播",
     "template": "模板",
     "name": "名称",
-    "url": "直播链接"
+    "url": "直播链接",
+    "startTime": "录制开始时间",
+    "endTime": "录制结束时间"
   },
   "Sidebar": {
     "dashboard": "控制面板",
