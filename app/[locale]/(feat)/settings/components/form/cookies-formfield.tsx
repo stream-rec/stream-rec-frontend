@@ -64,7 +64,7 @@ export const CookiesFormfield = React.forwardRef <CookiesFormfieldRef, CookiesFo
                                         } else {
                                           const cookies = extractCookies(value);
                                           // transform the cookies into a string
-                                          const cookieString = Object.entries(cookies).map(([key, value]) => `${key}=${value}`).join('; ');
+                                          const cookieString = Object.entries(cookies).map(([key, value]) => `${key}=${value}`).join('; ').concat(';');
                                           field.onChange(cookieString);
                                           onChange?.(cookieString);
                                         }
