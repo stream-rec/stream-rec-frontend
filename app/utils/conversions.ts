@@ -71,3 +71,7 @@ export const formatSeconds = (seconds: number): Duration => {
 
   return {value, unit}
 }
+
+export function secondsToHHmmss(seconds: number) {
+  return new Date(seconds * 1000).toISOString().slice(11, 19);
+}

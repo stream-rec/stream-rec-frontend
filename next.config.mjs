@@ -31,7 +31,7 @@ const nextConfig = {
     output: 'standalone',
     env: {
         APP_VERSION: appVersion,
-        MIN_SERVER_VERSION: "10368",
+        MIN_SERVER_VERSION: "10386",
     }
 };
 
