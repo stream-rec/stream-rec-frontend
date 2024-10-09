@@ -155,7 +155,7 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
 
 
           <OutputFolderFormField control={form.control} name={strings.outputFolder}
-                                 description={strings.outputFolderDescription}/>
+                                 description={strings.outputFolderDescription} placeholderDescription={strings.outputFolderPlaceholderDescription}/>
           <OutputFilenameFormfield control={form.control} name={strings.outputFilename}
                                    description={strings.outputFilenameDescription}/>
           <OutputFileFormatFormfield control={form.control} name={strings.outputFormat}

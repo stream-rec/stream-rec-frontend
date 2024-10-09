@@ -27,6 +27,7 @@ export type BaseDownloadTabString = {
   maxBitrateDescription: string,
   outputFolder: string,
   outputFolderDescription: string | React.ReactNode,
+  outputFolderPlaceholderDescription: string | React.ReactNode,
   outputFilename: string,
   outputFilenameDescription: string | React.ReactNode,
   outputFileFormat: string,
@@ -113,7 +114,7 @@ export function BaseDownloadTab({
 
 
           <OutputFolderFormField control={control} controlPrefix={controlPrefix} name={strings.outputFolder}
-                                 description={strings.outputFolderDescription}/>
+                                 description={strings.outputFolderDescription} placeholderDescription={strings.outputFolderPlaceholderDescription}/>
           <OutputFilenameFormfield control={control} controlPrefix={controlPrefix} name={strings.outputFilename}
                                    description={strings.outputFilenameDescription}/>
           <OutputFileFormatFormfield control={control} controlPrefix={controlPrefix} name={strings.outputFileFormat}

@@ -15,6 +15,7 @@ export interface GlobalSettingsTranslations {
   deleteFilesDescription: any
   outputFolder: string
   outputFolderDescription: string | React.ReactNode
+  outputFolderPlaceholderDescription: string | React.ReactNode
   outputFilename: string
   outputFilenameDescription: string | React.ReactNode
   outputFormat: string
@@ -78,6 +79,7 @@ export const useGlobalSettingsTranslations = () => {
     deleteFilesDescription: t.rich("deleteFilesDescription"),
     outputFolder: t("outputFolder"),
     outputFolderDescription: t.rich("outputFolderDescription"),
+    outputFolderPlaceholderDescription: t.rich("outputFolderPlaceholderDescription"),
     outputFilename: t("outputFilename"),
     outputFilenameDescription: t.rich("outputFilenameDescription"),
     outputFormat: t("outputFormat"),

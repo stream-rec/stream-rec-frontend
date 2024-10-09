@@ -2,9 +2,15 @@ import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessag
 import {Input} from "@/components/new-york/ui/input";
 import React from "react";
 import {FormFieldProps} from "@/app/[locale]/(feat)/settings/components/form/form-field";
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/new-york/ui/accordion";
 
 
-export function OutputFolderFormField({control, name, description, controlPrefix}: FormFieldProps) {
+export type OutputFolderFormFieldProps = {
+  placeholderDescription: string | React.ReactNode
+} & FormFieldProps
+
+
+export function OutputFolderFormField({control, name, description, controlPrefix, placeholderDescription}: OutputFolderFormFieldProps) {
 
   return <FormField
       control={control}
@@ -16,7 +22,14 @@ export function OutputFolderFormField({control, name, description, controlPrefix
               <Input placeholder="{streamer}/%Y/%m/%d" {...field} />
             </FormControl>
             <FormDescription>
-              {description}
+              <Accordion type="single" collapsible asChild={true}>
+                <AccordionItem value="item-1" className={"border-none"}>
+                  <AccordionTrigger className={"text-[0.8rem] text-muted-foreground py-2"}>{description}</AccordionTrigger>
+                  <AccordionContent className={"text-[0.8rem] text-muted-foreground whitespace-pre-wrap"}>
+                    {placeholderDescription}
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </FormDescription>
             <FormMessage/>
           </FormItem>

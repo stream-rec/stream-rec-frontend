@@ -107,6 +107,7 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
           outputFilenameDescription: baseT.rich("outputFilenameDescription"),
           outputFileFormat: baseT("outputFormat"),
           outputFileFormatDescription: baseT.rich("outputFormatDescription"),
+          outputFolderPlaceholderDescription: baseT.rich("outputFolderPlaceholderDescription"),
         },
         actionTabStrings: {
           alert: actionsT("alert"),
