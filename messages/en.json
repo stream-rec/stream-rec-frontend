@@ -394,6 +394,8 @@
     "exitOnDownloadErrorDescription": "Once enabled, FFmpeg will throw an error when encountering a resolution change.<important>Enabling this will double the usage of network, CPU, and RAM resources.</important>",
     "enableFixFlvTitle": "Enable fix",
     "enableFixFlvDescription": "Enable FLV AVC fix. Some streams may change video data parameters during the stream. This option will split the flv file when the video data parameters change. Default is set to false. <important>CPU and RAM usage will be increased</important>",
+    "enableFlvDuplicateTagFilteringTitle": "Enable duplicate tag filtering",
+    "enableFlvDuplicateTagFilteringDescription": "Enable FLV duplicate tag filtering. Some streams may have duplicate tags in the flv file. This option will remove duplicate tags. Default is set to false.",
     "combineHlsFiles": "Combine HLS files",
     "combineHlsFilesDescription": "Combine HLS files into one file. Default is set to false."
   },

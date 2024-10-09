@@ -131,6 +131,8 @@ export function GlobalForm({appConfig, update, strings}: GlobalFormProps) {
           {engine === "kotlin" && (<KotlinEngineFields form={form} strings={{
             enableFix: strings.enableFixFlvTitle,
             enableFixDescription: strings.enableFixFlvDescription,
+            enableFlvDuplicateTagFilteringTitle: strings.enableFlvDuplicateTagFilteringTitle,
+            enableFlvDuplicateTagFilteringDescription: strings.enableFlvDuplicateTagFilteringDescription,
             combineHlsFiles: strings.combineHlsFiles,
             combineHlsFilesDescription: strings.combineHlsFilesDescription
           }}/>)}
