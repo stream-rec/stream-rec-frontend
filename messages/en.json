@@ -153,7 +153,7 @@
     "forceOrigin": "Force origin",
     "forceOriginDescription": "Enable this option to force original quality and not the compressed one.",
     "mobileApi": "Use mobile API",
-    "mobileApiDescription": "Enable this option to use mobile API for fetching the stream. Mobile API is faster.</important>"
+    "mobileApiDescription": "Enable this option to use mobile API for fetching the stream. Mobile API is faster."
   },
   "DouyinQualities": {
     "origin": {
