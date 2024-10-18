@@ -11,7 +11,10 @@ import {Separator} from "@/components/new-york/ui/separator";
 import {Link, useRouter} from "@/i18n";
 import {toast} from "sonner";
 import {DeleteIconDialog} from "@/app/components/dialog/delete-icon-dialog";
-import {OpenVideoContextMenu, OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
+import {
+  OpenVideoContextMenu,
+  OpenVideoContextMenuStrings
+} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
 import Marquee from "react-fast-marquee";
 import {updateStatus} from "@/lib/data/streams/streamer-apis";
 
@@ -158,7 +161,8 @@ export function StreamerCard({
               {!template && (
                   <>
                     <Badge variant={"default"}>{platform}</Badge>
-                    <Badge variant={"secondary"} className={"line-clamp-2"}>{bitrate ? `${bitrate} kbps` : lastStream}</Badge>
+                    <Badge variant={"secondary"}
+                           className={"line-clamp-1"}>{bitrate ? `${bitrate} kbps` : lastStream}</Badge>
                   </>
               )}
               {

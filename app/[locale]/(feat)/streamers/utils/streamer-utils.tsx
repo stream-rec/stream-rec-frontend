@@ -3,8 +3,9 @@ import {deleteStreamer, updateStatus} from "@/lib/data/streams/streamer-apis";
 import {StreamerCard, StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer-card";
 import {OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
 import React from "react";
+import {useFormatter, useTranslations} from "next-intl";
 
-export const toStreamerCards = (streamers: StreamerSchema[], t: any, format: any) => {
+export const toStreamerCards = (streamers: StreamerSchema[], t: ReturnType<typeof useTranslations>, format: ReturnType<typeof useFormatter>) => {
   const formatLastStream = (streamer: StreamerSchema) => {
     if (streamer.isActivated && streamer.isLive) {
       return t('liveNow')
@@ -13,7 +14,9 @@ export const toStreamerCards = (streamers: StreamerSchema[], t: any, format: any
     const lastStream = streamer.lastLiveTime
     if (!lastStream || lastStream == 0) return t("noStreamsYet")
     let lastStreamDate = new Date(lastStream * 1000)
-    return format.relativeTime(lastStreamDate)
+    return format.relativeTime(lastStreamDate, {
+      style: "short"
+    })
   }
 
   return streamers.map(streamer => {
