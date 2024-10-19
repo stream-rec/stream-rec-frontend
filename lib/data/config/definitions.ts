@@ -25,8 +25,8 @@ export const globalConfigSchema = z.object({
       .string({
         required_error: "Please select a output video extension.",
       }).optional(),
-  minPartSize: z.number().positive(),
-  maxPartSize: z.number().positive(),
+  minPartSize: z.number().nonnegative(),
+  maxPartSize: z.number().nonnegative(),
   maxPartDuration: z.number().min(0).nullish(),
   maxConcurrentDownloads: z.number().min(1).optional(),
   maxConcurrentUploads: z.number().min(1).optional(),
