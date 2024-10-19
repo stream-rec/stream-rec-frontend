@@ -14,7 +14,7 @@
     "relativeMessage": "相对于上一{date, select, 0 {周} 2 {年} 1 {月} other {日}}"
   },
   "StreamerData": {
-    "liveNow": "正在直播",
+    "liveNow": "直播中",
     "notLive": "未直播",
     "noStreamsYet": "暂无直播",
     "template": "模板",
