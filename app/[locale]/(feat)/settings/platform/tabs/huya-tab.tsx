@@ -21,7 +21,6 @@ type HuyaConfigProps = {
 } & PlatformTabContentProps<HuyaTabString>
 
 export type HuyaTabString = {
-  platform: string,
   cdn: string,
   cdnDescription: string,
   cdnDefault: string,
@@ -51,13 +50,16 @@ export const HuyaTabContent = ({
   {
     return (
         <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
-                            showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}>
+                            showPartedDownloadRetry={showPartedDownloadRetry} strings={strings}
+                            showFetchDelay={showFetchDelay}>
 
-          {showMobileApi && (<FlagFormField control={control} fieldName={"useMobileApi"} controlPrefix={controlPrefix} title={strings.mobileApi}
+          {showMobileApi && (<FlagFormField control={control} fieldName={"useMobileApi"} controlPrefix={controlPrefix}
+                                            title={strings.mobileApi}
                                             description={strings.mobileApiDescription}
                                             ariaLabel={"Huya use mobile api switch"}/>)}
 
-          {showForceOrigin && (<FlagFormField control={control} fieldName={"forceOrigin"} controlPrefix={controlPrefix} title={strings.forceOrigin}
+          {showForceOrigin && (<FlagFormField control={control} fieldName={"forceOrigin"} controlPrefix={controlPrefix}
+                                              title={strings.forceOrigin}
                                               description={strings.forceOriginDescription} showExperimentalBadge
                                               ariaLabel={"Huya force origin switch"}/>)}
 

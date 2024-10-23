@@ -52,7 +52,7 @@
     "asTemplate": "As template",
     "asTemplateDescription": "Whether to use this streamer as a template for other streamers.",
     "nameDescription": "The name of the streamer.",
-    "urlDescription": "Streamer`s streaming url, with following format: <code>'{`https://www.huya.com/{name}`}'</code> - Huya <code>'{`https://live.douyin.com/{id}`}'</code> - Douyin <code>'{`https://www.douyu.com/{id}`}'</code> - Douyu <code>'{`https://www.twitch.tv/{name}`}'</code> - Twitch <code>'{`https://www.pandalive.co.kr/live/play/{id}`}'</code> - PandaTV",
+    "urlDescription": "Streamer`s streaming url",
     "enabledRecording": "Enabled recording",
     "enabledRecordingDescription": "Whether to enable recording for this streamer.",
     "streamerOnlyOptions": "Streamer only options",
@@ -322,6 +322,13 @@
       "id": "160p",
       "name": "160p"
     }
+  },
+  "Weibo": {
+    "platform": "Weibo",
+    "sourceFormat": "Source format",
+    "sourceFormatDescription": "Select the source format of the live stream. Default is set to flv.",
+    "sourceFormatPlaceholder": "Please select a source format",
+    "cookieDescription": "Please copy and paste, invalid cookies will be discarded automatically. Optional."
   },
   "BaseDownloadConfigs": {
     "danmu": "Danmu",

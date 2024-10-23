@@ -4,6 +4,7 @@ import {douyinRegex} from "@/lib/data/platform/douyin/constants";
 import {douyuRegex} from "@/lib/data/platform/douyu/constants";
 import {twitchRegex} from "@/lib/data/platform/twitch/constants";
 import {pandatvRegex} from "@/lib/data/platform/pandatv/constants";
+import {weiboRegex} from "@/lib/data/platform/weibo/constants";
 
 export const globalPlatformConfig = z.object({
   partedDownloadRetry: z.number().min(0).nullish(),
@@ -19,6 +20,7 @@ export enum PlatformType {
   DOUYU = "douyu",
   TWITCH = "twitch",
   PANDATV = "pandatv",
+  WEIBO = "weibo",
   TEMPLATE = "template"
 }
 
@@ -27,5 +29,6 @@ export const platformRegexes = [
   {platformType: PlatformType.DOUYIN, regex: douyinRegex},
   {platformType: PlatformType.DOUYU, regex: douyuRegex},
   {platformType: PlatformType.TWITCH, regex: twitchRegex},
-  {platformType: PlatformType.PANDATV, regex: pandatvRegex}
+  {platformType: PlatformType.PANDATV, regex: pandatvRegex},
+  {platformType: PlatformType.WEIBO, regex: weiboRegex}
 ];

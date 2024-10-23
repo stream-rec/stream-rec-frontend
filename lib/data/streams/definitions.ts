@@ -1,10 +1,17 @@
 import {z} from "zod";
-import {commandActionSchema, copyActionSchema, moveActionSchema, rcloneActionSchema, removeActionSchema} from "@/lib/data/actions/definitions";
+import {
+  commandActionSchema,
+  copyActionSchema,
+  moveActionSchema,
+  rcloneActionSchema,
+  removeActionSchema
+} from "@/lib/data/actions/definitions";
 import {twitchRegex} from "@/lib/data/platform/twitch/constants";
 import {huyaRegex} from "@/lib/data/platform/huya/constants";
 import {douyinRegex} from "@/lib/data/platform/douyin/constants";
 import {douyuRegex} from "@/lib/data/platform/douyu/constants";
 import {pandatvRegex} from "@/lib/data/platform/pandatv/constants";
+import {weiboRegex} from "@/lib/data/platform/weibo/constants";
 
 export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv", "ts"] as const;
 
@@ -53,6 +60,7 @@ export const streamerSchema = z.object({
       douyuRegex,
       twitchRegex,
       pandatvRegex,
+      weiboRegex,
     ];
     return regexps.some((regex) => new RegExp(regex).test(url));
   }, {

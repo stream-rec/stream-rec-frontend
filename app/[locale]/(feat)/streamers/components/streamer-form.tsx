@@ -2,7 +2,15 @@
 
 import {useFieldArray, useForm, useFormState} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/new-york/ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/new-york/ui/form";
 import {Input} from "@/components/new-york/ui/input";
 import React, {useCallback, useEffect} from "react";
 import {Button} from "@/components/new-york/ui/button";
@@ -20,7 +28,10 @@ import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem,} from "@
 import {toastData} from "@/app/utils/toast";
 import {DouyinQuality, DouyinTabString,} from "@/app/[locale]/(feat)/settings/platform/tabs/douyin-tab";
 import {HuyaTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/huya-tab";
-import {ActionsCallbackTab, ActionsCallbackTabStrings,} from "@/app/[locale]/(feat)/streamers/components/actions/actions-callback-tab";
+import {
+  ActionsCallbackTab,
+  ActionsCallbackTabStrings,
+} from "@/app/[locale]/(feat)/streamers/components/actions/actions-callback-tab";
 import {useRouter} from "@/i18n";
 import {BaseDownloadConfig} from "@/app/[locale]/(feat)/streamers/components/platforms/base-download-config";
 import {BaseDownloadTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/base-download-tab";
@@ -38,6 +49,9 @@ import {pandaTvDownloadConfig} from "@/lib/data/platform/pandatv/definitions";
 import {PandaTvPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/pandalive-platform";
 import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
 import {TimePickerDemo} from "./timer-picker";
+import {WeiboPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/weibo-platform";
+import {WeiboTabString} from "@/app/hooks/translations/weibo-translations";
+import {weiboDownloadConfig} from "@/lib/data/platform/weibo/definitions";
 
 type StreamerConfigProps = {
   strings: {
@@ -81,6 +95,7 @@ type StreamerConfigProps = {
     twitchQualityOptions: TwitchQualityItem[];
     pandaStrings: PandaTvTabString;
     pandaQualityOptions: PandaTvQualityItem[];
+    weiboStrings: WeiboTabString;
     baseDownloadStrings: BaseDownloadTabString;
     actionTabStrings: ActionsCallbackTabStrings;
   };
@@ -146,6 +161,10 @@ export function StreamerForm({
       return streamerSchema
           .omit({downloadConfig: true})
           .extend({downloadConfig: pandaTvDownloadConfig});
+    } else if (platform === PlatformType.WEIBO) {
+      return streamerSchema
+          .omit({downloadConfig: true})
+          .extend({downloadConfig: weiboDownloadConfig});
     } else {
       return streamerSchema;
     }
@@ -538,6 +557,11 @@ export function StreamerForm({
                                   qualities={strings.pandaQualityOptions}
                               />
                           )}
+                          {
+                              platform == PlatformType.WEIBO && (
+                                  <WeiboPlatformForm strings={strings.weiboStrings} allowNone={true}/>)
+
+                          }
                         </TabsContent>
                       </>
                   )}
