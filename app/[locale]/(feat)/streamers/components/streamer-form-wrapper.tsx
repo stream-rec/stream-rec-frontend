@@ -7,6 +7,7 @@ import {useDouyinQualityTranslations, useDouyinTranslations} from "@/app/hooks/t
 import {useDouyuQualityTranslations, useDouyuTranslations} from "@/app/hooks/translations/douyu-translations";
 import {useTwitchQualityTranslations, useTwitchTranslations} from "@/app/hooks/translations/twitch-translations";
 import {usePandaTvQualityTranslations, usePandaTvTranslations} from "@/app/hooks/translations/pandatv-translations";
+import {useWeiboTranslations} from "@/app/hooks/translations/weibo-translations";
 
 
 type StreamerFormWrapperProps = {
@@ -40,6 +41,9 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
   // pandalive translations
   const pandaT = usePandaTvTranslations()
   const pandaQualityOptions = usePandaTvQualityTranslations()
+
+  // weibo translations
+  const weiboT = useWeiboTranslations()
 
   // action callbacks translations
   const actionsT = useTranslations("CallbacksConfigs")
@@ -94,6 +98,7 @@ export function StreamerFormWrapper({templateData, defaultStreamerValues, onSubm
         twitchQualityOptions: twitchQualityOptions,
         pandaStrings: pandaT,
         pandaQualityOptions: pandaQualityOptions,
+        weiboStrings: weiboT,
         baseDownloadStrings: {
           danmu: baseT("danmu"),
           danmuDescription: baseT("danmuDescription"),

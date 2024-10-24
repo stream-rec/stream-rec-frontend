@@ -7,6 +7,7 @@ import {useDouyinQualityTranslations, useDouyinTranslations} from "@/app/hooks/t
 import {useDouyuQualityTranslations, useDouyuTranslations} from "@/app/hooks/translations/douyu-translations";
 import {useTwitchQualityTranslations, useTwitchTranslations} from "@/app/hooks/translations/twitch-translations";
 import {usePandaTvQualityTranslations, usePandaTvTranslations} from "@/app/hooks/translations/pandatv-translations";
+import {useWeiboTranslations} from "@/app/hooks/translations/weibo-translations";
 
 
 type PlatformFormSuspenseProps = {
@@ -30,14 +31,17 @@ export function PlatformFormWrapper({configPromise}: PlatformFormSuspenseProps) 
   const pandaT = usePandaTvTranslations()
   const pandaQualityOptions = usePandaTvQualityTranslations()
 
+  const weiboT = useWeiboTranslations()
 
   const settingsT = useTranslations("SettingsPage")
   return (
       <>
-        <PlatformForm defaultValues={config} huyaStrings={huyaT} douyinQualityOptions={douyinQualityOptions} douyinStrings={douyinT}
+        <PlatformForm defaultValues={config} huyaStrings={huyaT} douyinQualityOptions={douyinQualityOptions}
+                      douyinStrings={douyinT}
                       douyuStrings={douyuT} douyuQualityOptions={douyuQualityOptions}
                       twitchStrings={twitchT} twitchQualityOptions={twitchQualityOptions}
                       pandaStrings={pandaT} pandaQualityOptions={pandaQualityOptions}
+                      weiboStrings={weiboT}
                       save={settingsT("save")}/>
       </>
   )

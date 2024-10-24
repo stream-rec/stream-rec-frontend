@@ -4,6 +4,7 @@ import {twitchGlobalConfig} from "@/lib/data/platform/twitch/definitions";
 import {huyaGlobalConfig} from "@/lib/data/platform/huya/definitions";
 import {douyinGlobalConfig} from "@/lib/data/platform/douyin/definitions";
 import {pandaTvGlobalConfig} from "@/lib/data/platform/pandatv/definitions";
+import {weiboGlobalConfig} from "@/lib/data/platform/weibo/definitions";
 
 export const globalConfigSchema = z.object({
   id: z.number(),
@@ -43,6 +44,7 @@ export const globalConfigSchema = z.object({
   douyuConfig: douyuGlobalConfig.optional(),
   twitchConfig: twitchGlobalConfig.optional(),
   pandaTvConfig: pandaTvGlobalConfig.optional(),
+  weiboConfig: weiboGlobalConfig.optional(),
 })
 
 export type GlobalConfig = z.infer<typeof globalConfigSchema>

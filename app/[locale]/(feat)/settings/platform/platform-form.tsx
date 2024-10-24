@@ -6,14 +6,28 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui
 import {PlatformType} from "@/lib/data/platform/definitions";
 import {GlobalConfig, globalConfigSchema} from "@/lib/data/config/definitions";
 import {HuyaTabContent, HuyaTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/huya-tab";
-import {DouyinQuality, DouyinTabContent, DouyinTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/douyin-tab";
+import {
+  DouyinQuality,
+  DouyinTabContent,
+  DouyinTabString
+} from "@/app/[locale]/(feat)/settings/platform/tabs/douyin-tab";
 import {toast} from "sonner";
 import {updateConfig} from "@/lib/data/config/apis";
 import {useRouter} from "@/i18n";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import DouyuTabContent, {DouyuQuality, DouyuTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/douyu-tab";
-import {TwitchQualityItem, TwitchTabContent, TwitchTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
-import {PandaTvQualityItem, PandaTvTabContent, PandaTvTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
+import {
+  TwitchQualityItem,
+  TwitchTabContent,
+  TwitchTabString
+} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
+import {
+  PandaTvQualityItem,
+  PandaTvTabContent,
+  PandaTvTabString
+} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
+import {WeiboTabString} from "@/app/hooks/translations/weibo-translations";
+import {WeiboTabContent} from "@/app/[locale]/(feat)/settings/platform/tabs/weibo-tab";
 
 
 export type PlatformFormValues = {
@@ -28,6 +42,7 @@ export type PlatformFormValues = {
   twitchQualityOptions: TwitchQualityItem[]
   pandaStrings: PandaTvTabString
   pandaQualityOptions: PandaTvQualityItem[]
+  weiboStrings: WeiboTabString
 }
 
 export default function PlatformForm({
@@ -41,7 +56,8 @@ export default function PlatformForm({
                                        twitchStrings,
                                        twitchQualityOptions,
                                        pandaStrings,
-                                       pandaQualityOptions
+                                       pandaQualityOptions,
+                                       weiboStrings
                                      }: PlatformFormValues) {
 
   const form = useForm<GlobalConfig>({
@@ -80,6 +96,8 @@ export default function PlatformForm({
                            className="text-zinc-600 dark:text-zinc-200">{pandaStrings.platform}</TabsTrigger>
               <TabsTrigger value={PlatformType.TWITCH}
                            className="text-zinc-600 dark:text-zinc-200">{twitchStrings.platform}</TabsTrigger>
+              <TabsTrigger value={PlatformType.WEIBO}
+                           className="text-zinc-600 dark:text-zinc-200">{weiboStrings.platform}</TabsTrigger>
             </TabsList>
 
             <div>
@@ -95,7 +113,8 @@ export default function PlatformForm({
               </TabsContent>
               <TabsContent value={PlatformType.HUYA}>
                 <HuyaTabContent controlPrefix={"huyaConfig"} control={form.control} showCookies showMaxBitrate
-                                showPartedDownloadRetry showFetchDelay showForceOrigin showMobileApi strings={huyaStrings}/>
+                                showPartedDownloadRetry showFetchDelay showForceOrigin showMobileApi
+                                strings={huyaStrings}/>
               </TabsContent>
               <TabsContent value={PlatformType.PANDATV}>
                 <PandaTvTabContent controlPrefix={"pandaTvConfig"} control={form.control} showCookies
@@ -106,6 +125,10 @@ export default function PlatformForm({
                 <TwitchTabContent controlPrefix={"twitchConfig"} control={form.control} showCookies showTtvProxyRelated
                                   showPartedDownloadRetry showFetchDelay showSkipAds strings={twitchStrings}
                                   qualityOptions={twitchQualityOptions}/>
+              </TabsContent>
+              <TabsContent value={PlatformType.WEIBO}>
+                <WeiboTabContent controlPrefix={"weiboConfig"} control={form.control} showCookies
+                                 showPartedDownloadRetry showFetchDelay strings={weiboStrings}/>
               </TabsContent>
             </div>
           </Tabs>

@@ -53,7 +53,7 @@
     "asTemplate": "作为模板",
     "asTemplateDescription": "是否作为模板",
     "nameDescription": "主播名称",
-    "urlDescription": "直播链接格式为：<code>'{`https://www.huya.com/{直播间}`}'</code> - 虎牙 <code>'{`https://live.douyin.com/{抖音id}`}'</code> - 抖音 <code>'{`https://www.douyu.com/{直播间}`}'</code> - 斗鱼 <code>'{`https://www.twitch.tv/{直播间}`}'</code> - Twitch <code>'{`https://www.pandalive.co.kr/live/play/{直播间}`}'</code> - PandaTv",
+    "urlDescription": "直播链接格式",
     "enabledRecording": "启用录制",
     "enabledRecordingDescription": "是否启用录制",
     "streamerOnlyOptions": "主播专属选项",
@@ -314,6 +314,13 @@
       "id": "160p",
       "name": "160p"
     }
+  },
+  "Weibo": {
+    "platform": "微博",
+    "sourceFormat": "源格式 (实验性）",
+    "sourceFormatDescription": "选择一个源格式，工具将会尝试录制这个格式的流。默认为flv。",
+    "sourceFormatPlaceholder": "请选择一个源格式",
+    "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除，非必填。"
   },
   "BaseDownloadConfigs": {
     "danmu": "下载弹幕",
