@@ -6,20 +6,21 @@ import {Button} from "@/components/new-york/ui/button";
 import {StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer-card";
 import {CaretDownIcon, CaretUpIcon} from "@radix-ui/react-icons";
 import {OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
-import {deleteStreamer, updateStatus} from "@/lib/data/streams/streamer-apis";
+import {deleteStreamer, updateState} from "@/lib/data/streams/streamer-apis";
 import {toastData} from "@/app/utils/toast";
 import {UpdateSchema} from "@/lib/data/events/definitions";
 import {useRouter} from "@/i18n";
 import {secondsToHHmmss} from "@/app/utils/conversions";
 import {wsHeartbeatArray, wsHeartbeatInterval} from "@/lib/data/websocket/definitions";
 import {toStreamerCard} from "@/app/[locale]/(feat)/streamers/utils/streamer-utils";
+import {StreamerState} from "@/lib/data/streams/definitions";
 
 type RecordListProps = {
   title: string,
   cards: StreamerCardProps[],
   contextMenuStrings: OpenVideoContextMenuStrings,
   wsUrl: string | undefined,
-  updateStatus: (id: string, status: boolean) => ReturnType<typeof updateStatus>,
+  updateStatus: (id: string, status: StreamerState) => ReturnType<typeof updateState>,
   deleteStreamerAction: (id: string) => ReturnType<typeof deleteStreamer>
 }
 

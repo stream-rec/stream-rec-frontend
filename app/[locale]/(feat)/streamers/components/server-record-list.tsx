@@ -1,4 +1,4 @@
-import {deleteStreamer, fetchStreamers, updateStatus} from "@/lib/data/streams/streamer-apis";
+import {deleteStreamer, fetchStreamers, updateState} from "@/lib/data/streams/streamer-apis";
 import React, {useCallback, useMemo} from "react";
 import {RecordList} from "@/app/[locale]/(feat)/streamers/components/record-list";
 import {StreamerSchema} from "@/lib/data/streams/definitions";
@@ -32,6 +32,6 @@ export function ServerRecordList({title, filter}: ServerRecordListProps) {
     return toCards(data)
   }, [data, toCards])
 
-  return <RecordList title={title} cards={cards} contextMenuStrings={contextMenuStrings} updateStatus={updateStatus}
+  return <RecordList title={title} cards={cards} contextMenuStrings={contextMenuStrings} updateStatus={updateState}
                      deleteStreamerAction={deleteStreamer} wsUrl={filter === "live" ? WS_API_URL : undefined}/>
 }

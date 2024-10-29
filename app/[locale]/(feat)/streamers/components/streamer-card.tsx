@@ -16,15 +16,15 @@ import {
   OpenVideoContextMenuStrings
 } from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
 import Marquee from "react-fast-marquee";
-import {updateStatus} from "@/lib/data/streams/streamer-apis";
+import {updateState} from "@/lib/data/streams/streamer-apis";
+import {StreamerState} from "@/lib/data/streams/definitions";
 
 export type StreamerCardProps = {
   streamer: string;
   description?: string | null;
   streamerId: number;
   streamerAvatar?: string | null;
-  isLive?: boolean | null;
-  isActivated: boolean;
+  state: StreamerState;
   lastStream?: string | null;
   platform: string;
   template?: string | null;
@@ -33,7 +33,7 @@ export type StreamerCardProps = {
   liveUrl: string;
   downloadUrl?: string;
   contextMenuStrings: OpenVideoContextMenuStrings;
-  updateStatus: (id: string, status: boolean) => ReturnType<typeof updateStatus>;
+  updateStatus: (id: string, status: StreamerState) => ReturnType<typeof updateState>;
   deleteStreamer: (id: string) => Promise<void>;
 }
 
@@ -43,8 +43,7 @@ export function StreamerCard({
                                description,
                                streamerId,
                                streamerAvatar,
-                               isLive,
-                               isActivated,
+                               state,
                                lastStream,
                                platform,
                                template,
@@ -75,9 +74,9 @@ export function StreamerCard({
           <div className={"flex flex-row items-center mr-2 justify-end space-x-0.5 md:space-x-1"}>
             {duration && <> <p className={"text-muted-foreground text-[0.70rem]"}>{duration}</p></>}
             <Button variant="ghost" size="icon" className="rounded-full p-2">
-              {isActivated ? (
+              {state !== StreamerState.CANCELLED ? (
                   <PauseIcon className="w-4 h-4" onClick={async () => {
-                    toast.promise(updateStatus(streamerId.toString(), !isActivated), {
+                    toast.promise(updateStatus(streamerId.toString(), StreamerState.CANCELLED), {
                       loading: `Updating ${streamer}...`,
                       success: () => {
                         router.refresh();
@@ -88,7 +87,7 @@ export function StreamerCard({
                   }}/>
               ) : (
                   <PlayIcon className="w-4 h-4" onClick={async () => {
-                    toast.promise(updateStatus(streamerId.toString(), !isActivated), {
+                    toast.promise(updateStatus(streamerId.toString(), StreamerState.NOT_LIVE), {
                       loading: `Updating ${streamer}...`,
                       success: () => {
                         router.refresh();

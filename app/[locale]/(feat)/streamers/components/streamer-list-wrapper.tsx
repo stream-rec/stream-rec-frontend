@@ -1,6 +1,6 @@
 import React from "react";
 import {StreamerSchema} from "@/lib/data/streams/definitions";
-import {deleteStreamer, updateStatus} from "@/lib/data/streams/streamer-apis";
+import {deleteStreamer, updateState} from "@/lib/data/streams/streamer-apis";
 import {OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
 import {toResponsiveCard, toStreamerCards} from "@/app/[locale]/(feat)/streamers/utils/streamer-utils";
 import {useFormatter, useTranslations} from "next-intl";
@@ -25,8 +25,8 @@ export default function StreamerListWrapper({templateStreamers, streamers, conte
       <div className={"grid gap-3 grid-cols-2 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-6 3xl:grid-cols-7"}>
         {
           <>
-            {templateCards.map(e => toResponsiveCard(e, contextMenuStrings, updateStatus, deleteStreamer))}
-            {streamerCards.map(e => toResponsiveCard(e, contextMenuStrings, updateStatus, deleteStreamer))}
+            {templateCards.map(e => toResponsiveCard(e, contextMenuStrings, updateState, deleteStreamer))}
+            {streamerCards.map(e => toResponsiveCard(e, contextMenuStrings, updateState, deleteStreamer))}
           </>
         }
       </div>

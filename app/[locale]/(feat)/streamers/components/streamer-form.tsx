@@ -18,7 +18,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger,} from "@/components/new-york/u
 import {clsx} from "clsx";
 import {CaretSortIcon, CheckIcon, RocketIcon} from "@radix-ui/react-icons";
 import {Alert, AlertDescription, AlertTitle,} from "@/components/new-york/ui/alert";
-import {streamerSchema, StreamerSchema} from "@/lib/data/streams/definitions";
+import {streamerSchema, StreamerSchema, StreamerState} from "@/lib/data/streams/definitions";
 import {huyaDownloadConfig} from "@/lib/data/platform/huya/definitions";
 import {douyinDownloadConfig} from "@/lib/data/platform/douyin/definitions";
 import {platformRegexes, PlatformType} from "@/lib/data/platform/definitions";
@@ -141,33 +141,19 @@ export function StreamerForm({
   }, [isTemplate]);
 
   const platformStreamerSchema = useCallback(() => {
-    if (platform === PlatformType.HUYA) {
-      return streamerSchema
-          .omit({downloadConfig: true})
-          .extend({downloadConfig: huyaDownloadConfig});
-    } else if (platform === PlatformType.DOUYIN) {
-      return streamerSchema
-          .omit({downloadConfig: true})
-          .extend({downloadConfig: douyinDownloadConfig});
-    } else if (platform === PlatformType.DOUYU) {
-      return streamerSchema
-          .omit({downloadConfig: true})
-          .extend({downloadConfig: douyuDownloadConfig});
-    } else if (platform === PlatformType.TWITCH) {
-      return streamerSchema
-          .omit({downloadConfig: true})
-          .extend({downloadConfig: twitchDownloadConfig});
-    } else if (platform === PlatformType.PANDATV) {
-      return streamerSchema
-          .omit({downloadConfig: true})
-          .extend({downloadConfig: pandaTvDownloadConfig});
-    } else if (platform === PlatformType.WEIBO) {
-      return streamerSchema
-          .omit({downloadConfig: true})
-          .extend({downloadConfig: weiboDownloadConfig});
-    } else {
-      return streamerSchema;
-    }
+    const schemaMap: Record<PlatformType, any> = {
+      [PlatformType.HUYA]: huyaDownloadConfig,
+      [PlatformType.DOUYIN]: douyinDownloadConfig,
+      [PlatformType.DOUYU]: douyuDownloadConfig,
+      [PlatformType.TWITCH]: twitchDownloadConfig,
+      [PlatformType.PANDATV]: pandaTvDownloadConfig,
+      [PlatformType.WEIBO]: weiboDownloadConfig,
+      [PlatformType.TEMPLATE]: streamerSchema.pick({downloadConfig: true}),
+    };
+
+    return platform in schemaMap
+        ? streamerSchema.omit({downloadConfig: true}).extend({downloadConfig: schemaMap[platform as PlatformType]})
+        : streamerSchema;
   }, [platform]);
 
   const form = useForm<StreamerSchema>({
@@ -228,10 +214,6 @@ export function StreamerForm({
       let isCreated = !data.id;
       let submitData = {...data};
       submitData.platform = platform.toUpperCase();
-      // make streamer offline if streamer is not activated
-      if (!submitData.isActivated) {
-        submitData.isLive = false;
-      }
       // if some of the times are set, set the other to 00:00:00
       if (submitData.startTime && !submitData.endTime) {
         submitData.endTime = "00:00:00";
@@ -324,9 +306,13 @@ export function StreamerForm({
 
                   <FlagFormField
                       control={form.control}
-                      fieldName={"isActivated"}
+                      fieldName={"state"}
                       title={strings.streamerForm.enabledRecording}
                       description={strings.streamerForm.enabledRecordingDescription}
+                      checked={state => state !== StreamerState.CANCELLED}
+                      onChange={(value) => {
+                        form.setValue("state", value ? StreamerState.NOT_LIVE : StreamerState.CANCELLED);
+                      }}
                       ariaLabel={"Should record switch"}
                   />
 
