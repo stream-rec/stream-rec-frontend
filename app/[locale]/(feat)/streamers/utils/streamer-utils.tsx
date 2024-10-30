@@ -8,7 +8,7 @@ import {useFormatter, useTranslations} from "next-intl";
 export const toStreamerCards = (streamers: StreamerSchema[], t: ReturnType<typeof useTranslations>, format: ReturnType<typeof useFormatter>) => {
   const formatLastStream = (streamer: StreamerSchema) => {
 
-    if (streamer.state !== StreamerState.CANCELLED) {
+    if (streamer.state !== StreamerState.CANCELLED && streamer.state !== StreamerState.NOT_LIVE) {
       return t("state", {state: streamer.state});
     }
 
