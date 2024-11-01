@@ -1,5 +1,5 @@
-import {StreamerSchema} from "@/lib/data/streams/definitions";
-import {deleteStreamer, updateStatus} from "@/lib/data/streams/streamer-apis";
+import {StreamerSchema, StreamerState} from "@/lib/data/streams/definitions";
+import {deleteStreamer, updateState} from "@/lib/data/streams/streamer-apis";
 import {StreamerCard, StreamerCardProps} from "@/app/[locale]/(feat)/streamers/components/streamer-card";
 import {OpenVideoContextMenuStrings} from "@/app/[locale]/(feat)/streamers/components/open-video-context-menu";
 import React from "react";
@@ -7,8 +7,9 @@ import {useFormatter, useTranslations} from "next-intl";
 
 export const toStreamerCards = (streamers: StreamerSchema[], t: ReturnType<typeof useTranslations>, format: ReturnType<typeof useFormatter>) => {
   const formatLastStream = (streamer: StreamerSchema) => {
-    if (streamer.isActivated && streamer.isLive) {
-      return t('liveNow')
+
+    if (streamer.state !== StreamerState.CANCELLED && streamer.state !== StreamerState.NOT_LIVE) {
+      return t("state", {state: streamer.state});
     }
 
     const lastStream = streamer.lastLiveTime
@@ -25,8 +26,7 @@ export const toStreamerCards = (streamers: StreamerSchema[], t: ReturnType<typeo
       description: streamer.streamTitle,
       streamerId: streamer.id,
       streamerAvatar: streamer.avatar,
-      isLive: streamer.isLive,
-      isActivated: streamer.isActivated,
+      state: streamer.state,
       lastStream: formatLastStream(streamer),
       platform: streamer.platform,
       template: streamer.isTemplate ? t('template') : null,
@@ -39,14 +39,13 @@ export const toStreamerCards = (streamers: StreamerSchema[], t: ReturnType<typeo
 export const toStreamerCard = (
     streamer: StreamerCardProps,
     contextMenuStrings: OpenVideoContextMenuStrings,
-    updateStatusAction: (id: string, status: boolean) => ReturnType<typeof updateStatus>,
+    updateStatusAction: (id: string, status: StreamerState) => ReturnType<typeof updateState>,
     deleteStreamerAction: (id: string) => ReturnType<typeof deleteStreamer>
 ) => <StreamerCard
     key={streamer.streamerId}
     streamer={streamer.streamer}
-    isActivated={streamer.isActivated}
     streamerId={streamer.streamerId}
-    isLive={streamer.isLive}
+    state={streamer.state}
     streamerAvatar={streamer.streamerAvatar}
     lastStream={streamer.lastStream}
     description={streamer.description}
@@ -65,7 +64,7 @@ export const toStreamerCard = (
 export function toResponsiveCard(
     streamer: StreamerCardProps,
     contextMenuStrings: OpenVideoContextMenuStrings,
-    updateStatusAction: (id: string, status: boolean) => ReturnType<typeof updateStatus>,
+    updateStatusAction: (id: string, status: StreamerState) => ReturnType<typeof updateState>,
     deleteStreamerAction: (id: string) => ReturnType<typeof deleteStreamer>
 ) {
   return (

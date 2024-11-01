@@ -7,6 +7,7 @@ import {Label} from "@/components/new-york/ui/label";
 import {Input} from "@/components/new-york/ui/input";
 import {fetchStreamer} from "@/lib/data/streams/streamer-apis";
 import {getFormatter, getTranslations} from "next-intl/server";
+import {StreamerState} from "@/lib/data/streams/definitions";
 
 type StreamCardProps = {
   streamerId: string,
@@ -23,8 +24,8 @@ export async function StreamerHoverCard({streamerId, streamerName}: StreamCardPr
   const t = await getTranslations('StreamerData')
 
   const getLastStream = () => {
-    if (streamer.isLive) {
-      return t('liveNow')
+    if (streamer.state !== StreamerState.CANCELLED) {
+      return t("state", {state: streamer.state});
     }
     if (!streamer.lastLiveTime) {
       return t('noStreamsYet')

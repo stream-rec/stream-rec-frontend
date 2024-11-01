@@ -1,4 +1,4 @@
-import {StreamerSchema} from "@/lib/data/streams/definitions";
+import {StreamerSchema, StreamerState} from "@/lib/data/streams/definitions";
 import React from "react";
 import {StreamerFormWrapper} from "@/app/[locale]/(feat)/streamers/components/streamer-form-wrapper";
 import {createStreamer} from "@/lib/data/streams/streamer-apis";
@@ -6,7 +6,7 @@ import {createStreamer} from "@/lib/data/streams/streamer-apis";
 const defaultStreamerValues: StreamerSchema = {
   name: "",
   url: "",
-  isActivated: true,
+  state: StreamerState.NOT_LIVE,
   isTemplate: false,
   templateId: 0
 }

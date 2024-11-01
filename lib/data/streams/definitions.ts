@@ -47,6 +47,16 @@ export const streamDataSchema = z.object({
 export type StreamData = z.infer<typeof streamDataSchema>
 
 
+export enum StreamerState {
+  NOT_LIVE = 0,
+  LIVE = 1,
+  OUT_OF_SCHEDULE = 2,
+  INSPECTING_LIVE = 3,
+  FATAL_ERROR = 4,
+  CANCELLED = 5,
+  UNKNOWN = 6,
+}
+
 export const streamerSchema = z.object({
   id: z.number().optional(),
   name: z.string().min(1),
@@ -69,9 +79,8 @@ export const streamerSchema = z.object({
   avatar: z.string().url().nullish(),
   streamTitle: z.string().nullish(),
   platform: z.string().optional(),
-  isLive: z.boolean().nullish(),
+  state: z.nativeEnum(StreamerState),
   lastLiveTime: z.number().nullish(),
-  isActivated: z.boolean(),
   isTemplate: z.boolean(),
   startTime: z.string().max(8).nullish(),
   endTime: z.string().max(8).nullish(),

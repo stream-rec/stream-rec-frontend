@@ -12,6 +12,7 @@ type FlagFlagFormField = {
   title?: string;
   description?: string | React.ReactNode;
   ariaLabel?: string;
+  checked?: (value: any) => boolean;
   onChange?: (value: boolean) => void;
   showExperimentalBadge?: boolean;
   children?: React.ReactNode;
@@ -24,6 +25,7 @@ export function FlagFormField({
                                 title,
                                 description,
                                 ariaLabel,
+                                checked,
                                 onChange,
                                 showExperimentalBadge,
                                 children
@@ -47,7 +49,7 @@ export function FlagFormField({
             </div>
             <FormControl>
               <Switch
-                  checked={field.value}
+                  checked={checked ? checked(field.value) : field.value}
                   onCheckedChange={(value) => {
                     field.onChange(value)
                     if (onChange) {

@@ -1,6 +1,6 @@
 'use server'
 import {fetchApi} from "@/lib/data/api";
-import {StreamerSchema} from "@/lib/data/streams/definitions";
+import {StreamerSchema, StreamerState} from "@/lib/data/streams/definitions";
 import {fetchInfo, getHuyaId} from "@/lib/data/platform/huya/apis";
 import {PlatformType} from "@/lib/data/platform/definitions";
 
@@ -71,14 +71,14 @@ export const updateStreamer = async (streamer: StreamerSchema) => {
   return json
 }
 
-export const updateStatus = async (id: string, status: boolean) => {
-  const response = await fetchApi(`/streamers/${id}?state=${status}`, {
+export const updateState = async (id: string, state: StreamerState) => {
+  const response = await fetchApi(`/streamers/${id}?state=${state}`, {
     method: 'PUT',
   })
 
   if (!response.ok) {
     const errorText = await response.text()
-    throw new Error("Error updating streamer status, status: " + response.status + " " + errorText)
+    throw new Error("Error updating streamer state, state: " + response.status + " " + errorText)
   }
   return await response.json() as {
     msg: string
