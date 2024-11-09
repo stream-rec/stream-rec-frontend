@@ -416,7 +416,7 @@
     "desc": "Desc",
     "hide": "Hide",
     "viewOptions": "View",
-    "toggleColumns": "Toogle",
+    "toggleColumns": "Toggle",
     "noResults": "No results found",
     "selectedItems": "{selectedCount, plural, =0 {no items selected} =1 {one selected} other {# selected}}"
   },
