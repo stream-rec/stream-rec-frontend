@@ -1,6 +1,7 @@
 import React from "react";
 import {useFormContext} from "react-hook-form";
-import DouyuTabContent, {DouyuQuality, DouyuTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/douyu-tab";
+import DouyuTabContent from "@/app/[locale]/(feat)/settings/platform/tabs/douyu-tab";
+import {DouyuQuality, DouyuTabString} from "@/app/hooks/translations/douyu-translations";
 
 export type DouyuPlatformFormProps = {
   allowNone?: boolean

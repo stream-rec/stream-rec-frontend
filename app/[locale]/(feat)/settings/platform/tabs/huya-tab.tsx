@@ -5,12 +5,9 @@ import {Badge} from "@/components/new-york/ui/badge";
 import Select from "@/app/components/empty-select";
 import {huyaCDNs} from "@/lib/data/platform/huya/constants";
 import {SelectItem} from "@/components/new-york/ui/select";
-import {
-  PlatformTabContent,
-  PlatformTabContentProps,
-  PlatformTabContentStrings
-} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {PlatformTabContent, PlatformTabContentProps} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
 import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
+import {HuyaTabString} from "@/app/hooks/translations/huya-translations";
 
 
 type HuyaConfigProps = {
@@ -20,20 +17,6 @@ type HuyaConfigProps = {
   showMobileApi?: boolean
 } & PlatformTabContentProps<HuyaTabString>
 
-export type HuyaTabString = {
-  cdn: string,
-  cdnDescription: string,
-  cdnDefault: string,
-  sourceFormat: string,
-  sourceFormatPlaceholder: string,
-  sourceFormatDescription: string,
-  bitrate: string,
-  bitrateDescription: string,
-  forceOrigin: string,
-  forceOriginDescription: string,
-  mobileApi: string,
-  mobileApiDescription: string,
-} & PlatformTabContentStrings
 
 export const HuyaTabContent = ({
                                  controlPrefix,
@@ -42,6 +25,7 @@ export const HuyaTabContent = ({
                                  showMaxBitrate,
                                  showCookies,
                                  showPartedDownloadRetry,
+                                 showDownloadCheckInterval,
                                  showForceOrigin,
                                  showMobileApi,
                                  allowNone = false,
@@ -51,7 +35,7 @@ export const HuyaTabContent = ({
     return (
         <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
                             showPartedDownloadRetry={showPartedDownloadRetry} strings={strings}
-                            showFetchDelay={showFetchDelay}>
+                            showFetchDelay={showFetchDelay} showDownloadCheckInterval={showDownloadCheckInterval}>
 
           {showMobileApi && (<FlagFormField control={control} fieldName={"useMobileApi"} controlPrefix={controlPrefix}
                                             title={strings.mobileApi}

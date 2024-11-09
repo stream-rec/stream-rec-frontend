@@ -1,9 +1,10 @@
 import {useFormContext} from "react-hook-form";
 import React from "react";
-import {PandaTvQualityItem, PandaTvTabContent, PandaTvTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
+import {PandaTvTabContent} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
+import {PandaTvQualityItem, PandaTvTabString} from "@/app/hooks/translations/pandatv-translations";
 
 
-export type PandaTvPlatformFormProps = {
+type PandaTvPlatformFormProps = {
   allowNone?: boolean
   strings: PandaTvTabString,
   qualities: PandaTvQualityItem[]

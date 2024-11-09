@@ -136,6 +136,9 @@
     "part": "分段下载延迟",
     "partDescription": "分段下载延迟，单位秒。 <important>请注意：分段下载延迟过低可能导致录制失败/被平台ban</important>",
     "cookieTitle": "Cookies 字符串",
+    "cookieDescription": "请直接复制粘贴，无效cookies将自动剔除。",
+    "downloadCheckIntervalTitle": "平台开播检查间隔",
+    "downloadCheckIntervalDescription": "开播检查间隔，单位秒。留空则使用全局设置",
     "fetchDelayTitle": "平台检测延迟（实验性）",
     "fetchDelayDescription": "平台轮询检测时间，单位秒"
   },

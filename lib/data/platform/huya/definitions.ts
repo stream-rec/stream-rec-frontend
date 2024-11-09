@@ -6,9 +6,7 @@ import {huyaCDNs} from "@/lib/data/platform/huya/constants";
 
 export const huyaGlobalConfig = globalPlatformConfig.extend({
   primaryCdn: z.enum(huyaCDNs).nullish(),
-  cookies: z.string().nullish(),
   maxBitRate: z.number().min(1000).nullish(),
-  partedDownloadRetry: z.number().min(0).nullish(),
   sourceFormat: z.enum(["flv", "hls"]).nullish(),
   forceOrigin: z.boolean().nullish(),
   useMobileApi: z.boolean().nullish(),

@@ -2,11 +2,8 @@ import {FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/co
 import Select from "@/app/components/empty-select";
 import {SelectItem} from "@/components/new-york/ui/select";
 import React from "react";
-import {
-  PlatformTabContent,
-  PlatformTabContentProps,
-  PlatformTabContentStrings
-} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {PlatformTabContent, PlatformTabContentProps} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {PandaTvQualityItem, PandaTvTabString} from "@/app/hooks/translations/pandatv-translations";
 
 
 type PandaTvConfigProps = {
@@ -14,32 +11,22 @@ type PandaTvConfigProps = {
   qualityOptions: PandaTvQualityItem[]
 } & PlatformTabContentProps<PandaTvTabString>
 
-export type PandaTvQualityItem = {
-  quality: string,
-  description: string
-}
-
-export type PandaTvTabString = {
-  quality: string,
-  qualityPlaceholder: string,
-  qualityDescription: string,
-} & PlatformTabContentStrings
-
-
 export const PandaTvTabContent = ({
-                                      controlPrefix,
-                                      control,
-                                      showFetchDelay,
-                                      showCookies,
-                                      showPartedDownloadRetry,
-                                      qualityOptions,
-                                      allowNone = false,
-                                      strings
+                                    controlPrefix,
+                                    control,
+                                    showFetchDelay,
+                                    showCookies,
+                                    showPartedDownloadRetry,
+                                    showDownloadCheckInterval,
+                                    qualityOptions,
+                                    allowNone = false,
+                                    strings
                                   }: PandaTvConfigProps) =>
 
 
     <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
-                        showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}>
+                        showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}
+                        showDownloadCheckInterval={showDownloadCheckInterval}>
       <FormField
           control={control}
           name={controlPrefix ? `${controlPrefix}.quality` : "quality"}

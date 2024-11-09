@@ -2,15 +2,7 @@
 
 import {useFieldArray, useForm, useFormState} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/new-york/ui/form";
+import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/new-york/ui/form";
 import {Input} from "@/components/new-york/ui/input";
 import React, {useCallback, useEffect} from "react";
 import {Button} from "@/components/new-york/ui/button";
@@ -26,12 +18,7 @@ import {Popover, PopoverContent, PopoverTrigger,} from "@/components/new-york/ui
 import {cn} from "@/lib/utils";
 import {Command, CommandEmpty, CommandGroup, CommandInput, CommandItem,} from "@/components/new-york/ui/command";
 import {toastData} from "@/app/utils/toast";
-import {DouyinQuality, DouyinTabString,} from "@/app/[locale]/(feat)/settings/platform/tabs/douyin-tab";
-import {HuyaTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/huya-tab";
-import {
-  ActionsCallbackTab,
-  ActionsCallbackTabStrings,
-} from "@/app/[locale]/(feat)/streamers/components/actions/actions-callback-tab";
+import {ActionsCallbackTab, ActionsCallbackTabStrings,} from "@/app/[locale]/(feat)/streamers/components/actions/actions-callback-tab";
 import {useRouter} from "@/i18n";
 import {BaseDownloadConfig} from "@/app/[locale]/(feat)/streamers/components/platforms/base-download-config";
 import {BaseDownloadTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/base-download-tab";
@@ -40,11 +27,8 @@ import {HuyaPlatform} from "@/app/[locale]/(feat)/streamers/components/platforms
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
 import {DouyuPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/douyu-platform";
 import {douyuDownloadConfig} from "@/lib/data/platform/douyu/definitions";
-import {DouyuQuality, DouyuTabString,} from "@/app/[locale]/(feat)/settings/platform/tabs/douyu-tab";
 import {twitchDownloadConfig} from "@/lib/data/platform/twitch/definitions";
 import {TwitchPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/twitch-platform";
-import {TwitchQualityItem, TwitchTabString,} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
-import {PandaTvQualityItem, PandaTvTabString,} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
 import {pandaTvDownloadConfig} from "@/lib/data/platform/pandatv/definitions";
 import {PandaTvPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/pandalive-platform";
 import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
@@ -52,6 +36,11 @@ import {TimePickerDemo} from "./timer-picker";
 import {WeiboPlatformForm} from "@/app/[locale]/(feat)/streamers/components/platforms/weibo-platform";
 import {WeiboTabString} from "@/app/hooks/translations/weibo-translations";
 import {weiboDownloadConfig} from "@/lib/data/platform/weibo/definitions";
+import {DouyinQuality, DouyinTabString} from "@/app/hooks/translations/douyin-translations";
+import {HuyaTabString} from "@/app/hooks/translations/huya-translations";
+import {DouyuQuality, DouyuTabString} from "@/app/hooks/translations/douyu-translations";
+import {TwitchQualityItem, TwitchTabString} from "@/app/hooks/translations/twitch-translations";
+import {PandaTvQualityItem, PandaTvTabString} from "@/app/hooks/translations/pandatv-translations";
 
 type StreamerConfigProps = {
   strings: {

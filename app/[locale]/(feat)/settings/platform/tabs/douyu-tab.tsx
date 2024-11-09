@@ -3,31 +3,13 @@ import {Select as OriginalSelect, SelectContent, SelectItem, SelectTrigger, Sele
 import React from "react";
 import {douyuCdns} from "@/lib/data/platform/douyu/constants";
 import Select from "@/app/components/empty-select";
-import {
-  PlatformTabContent,
-  PlatformTabContentProps,
-  PlatformTabContentStrings
-} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
-
-
-export type DouyuQuality = {
-  quality: string,
-  description: string
-}
+import {PlatformTabContent, PlatformTabContentProps} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {DouyuQuality, DouyuTabString} from "@/app/hooks/translations/douyu-translations";
 
 export type DouyuTabProps = {
   qualityOptions: DouyuQuality[]
   allowNone?: boolean
 } & PlatformTabContentProps<DouyuTabString>
-
-export type DouyuTabString = {
-  cdn: string,
-  cdnDescription: string,
-  cdnDefault: string,
-  quality: string,
-  qualityDescription: string,
-  qualityDefault: string,
-} & PlatformTabContentStrings
 
 
 export default function DouyuTabContent({
@@ -36,13 +18,15 @@ export default function DouyuTabContent({
                                           showFetchDelay,
                                           showCookies,
                                           showPartedDownloadRetry,
+                                          showDownloadCheckInterval,
                                           strings,
                                           qualityOptions,
                                           allowNone = false
                                         }: DouyuTabProps) {
 
   return <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
-                             showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}>
+                             showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}
+                             showDownloadCheckInterval={showDownloadCheckInterval}>
     <FormField
         control={control}
         name={controlPrefix ? `${controlPrefix}.cdn` : "cdn"}

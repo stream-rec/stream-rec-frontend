@@ -11,6 +11,7 @@ export interface PlatformTabContentProps<T extends PlatformTabContentStrings> {
   showFetchDelay?: boolean
   showPartedDownloadRetry?: boolean
   showCookies?: boolean
+  showDownloadCheckInterval?: boolean
   strings: T
   children?: React.ReactNode
 }
@@ -23,6 +24,8 @@ export interface PlatformTabContentStrings {
   partDescription: string | React.ReactNode
   cookieTitle: string
   cookieDescription: string | React.ReactNode
+  downloadIntervalCheckTitle: string
+  downloadIntervalCheckDescription: string | React.ReactNode
 }
 
 
@@ -32,12 +35,46 @@ export const PlatformTabContent = ({
                                      showFetchDelay,
                                      showPartedDownloadRetry,
                                      showCookies,
+                                     showDownloadCheckInterval = false,
                                      strings,
                                      children,
                                    }: PlatformTabContentProps<any>) => {
+
+  console.log("PlatformTabContentProps", showDownloadCheckInterval);
+
   return (
       <div className="mt-6 space-y-6 fade-in">
         {children}
+
+        {
+            showDownloadCheckInterval && (
+                <FormField
+                    control={control}
+                    name={controlPrefix ? `${controlPrefix}.downloadCheckInterval` : "downloadCheckInterval"}
+                    render={({field}) => (
+                        <FormItem>
+                          <FormLabel>
+                            {strings.downloadIntervalCheckTitle}
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="60" type={"number"} step={1} value={field.value}
+                                   onChange={event => {
+                                     if (event.target.value === "") {
+                                       field.onChange(null);
+                                     } else {
+                                       field.onChange(parseInt(event.target.value));
+                                     }
+                                   }}/>
+
+                          </FormControl>
+                          <FormDescription>
+                            {strings.downloadIntervalCheckDescription}
+                          </FormDescription>
+                          <FormMessage/>
+                        </FormItem>
+                    )}
+                />)
+        }
 
         {
             showFetchDelay && (

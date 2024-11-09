@@ -3,27 +3,10 @@ import {SelectItem} from "@/components/new-york/ui/select";
 import React from "react";
 import {Badge} from "@/components/new-york/ui/badge";
 import Select from "@/app/components/empty-select";
-import {
-  PlatformTabContent,
-  PlatformTabContentProps,
-  PlatformTabContentStrings
-} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {PlatformTabContent, PlatformTabContentProps} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {DouyinQuality, DouyinTabString} from "@/app/hooks/translations/douyin-translations";
 
-export type DouyinQuality = {
-  quality: string,
-  description: string
-}
-
-export type DouyinTabString = {
-  quality: string,
-  qualityDescription: string,
-  qualityDefault: string,
-  sourceFormat: string,
-  sourceFormatPlaceholder: string,
-  sourceFormatDescription: string | React.ReactNode,
-} & PlatformTabContentStrings
-
-type DouyinTabContentProps = {
+export type DouyinTabContentProps = {
   qualityOptions: DouyinQuality[]
   allowNone?: boolean
 } & PlatformTabContentProps<DouyinTabString>
@@ -34,6 +17,7 @@ export const DouyinTabContent = ({
                                    showFetchDelay,
                                    showCookies,
                                    showPartedDownloadRetry,
+                                   showDownloadCheckInterval,
                                    qualityOptions,
                                    allowNone = false,
                                    strings
@@ -42,7 +26,8 @@ export const DouyinTabContent = ({
 
   return (
       <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
-                          showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}>
+                          showPartedDownloadRetry={showPartedDownloadRetry} strings={strings}
+                          showFetchDelay={showFetchDelay} showDownloadCheckInterval={showDownloadCheckInterval}>
 
         <FormField
             control={control}

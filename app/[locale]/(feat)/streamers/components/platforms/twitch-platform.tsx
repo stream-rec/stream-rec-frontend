@@ -1,9 +1,10 @@
-import {TwitchQualityItem, TwitchTabContent, TwitchTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
+import {TwitchTabContent} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
 import {useFormContext} from "react-hook-form";
 import React from "react";
+import {TwitchQualityItem, TwitchTabString} from "@/app/hooks/translations/twitch-translations";
 
 
-export type TwitchPlatformFormProps = {
+type TwitchPlatformFormProps = {
   allowNone?: boolean
   strings: TwitchTabString,
   qualities: TwitchQualityItem[]
