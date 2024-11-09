@@ -12,9 +12,7 @@ export enum PandaTvQuality {
 }
 
 export const pandaTvGlobalConfig = globalPlatformConfig.extend({
-  cookies: z.string().nullish(),
   quality: z.nativeEnum(PandaTvQuality).nullish(),
-  partedDownloadRetry: z.number().min(0).nullish(),
 })
 
 export const pandaTvDownloadConfig = pandaTvGlobalConfig.merge(baseDownloadConfig)

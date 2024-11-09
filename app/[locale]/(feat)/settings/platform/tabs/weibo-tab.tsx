@@ -2,10 +2,7 @@ import {FormDescription, FormField, FormItem, FormLabel, FormMessage} from "@/co
 import Select from "@/app/components/empty-select";
 import {SelectItem} from "@/components/new-york/ui/select";
 import React from "react";
-import {
-  PlatformTabContent,
-  PlatformTabContentProps
-} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {PlatformTabContent, PlatformTabContentProps} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
 import {Badge} from "@/components/new-york/ui/badge";
 import {WeiboTabString} from "@/app/hooks/translations/weibo-translations";
 
@@ -21,13 +18,15 @@ export const WeiboTabContent = ({
                                   showFetchDelay,
                                   showCookies,
                                   showPartedDownloadRetry,
+                                  showDownloadCheckInterval,
                                   allowNone = false,
                                   strings
                                 }: WeiboConfigProps) => {
 
   return <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
                              showPartedDownloadRetry={showPartedDownloadRetry} strings={strings}
-                             showFetchDelay={showFetchDelay}>
+                             showFetchDelay={showFetchDelay}
+                             showDownloadCheckInterval={showDownloadCheckInterval}>
 
     <FormField
         control={control}

@@ -4,7 +4,6 @@ import {globalPlatformConfig} from "@/lib/data/platform/definitions";
 
 
 export const weiboGlobalConfig = globalPlatformConfig.extend({
-  cookies: z.string().nullish(),
   sourceFormat: z.enum(["flv", "hls"]).nullish(),
 });
 

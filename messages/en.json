@@ -135,6 +135,8 @@
     "part": "Part download delay",
     "partDescription": "The delay between each part download retry.",
     "cookieTitle": "Cookies",
+    "downloadCheckIntervalTitle": "Download check interval",
+    "downloadCheckIntervalDescription": "The interval (in seconds) used to check if a streamer is live or not. Global interval is used if not set.",
     "fetchDelayTitle": "Platform fetch delay",
     "fetchDelayDescription": "The delay between each platform fetch request."
   },

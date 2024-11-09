@@ -25,7 +25,6 @@ export const douyinGlobalConfig = globalPlatformConfig.extend({
     return acNonce && acSignature
   }).nullish(),
   quality: z.nativeEnum(DouyinQuality).nullish(),
-  partedDownloadRetry: z.number().min(0).nullish(),
   sourceFormat: z.enum(["flv", "hls"]).nullish(),
 });
 

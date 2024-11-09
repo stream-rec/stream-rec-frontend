@@ -1,14 +1,33 @@
 import {useTranslations} from "next-intl";
 import {useMemo} from "react";
+import {PlatformTabContentStrings} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {useBaseGlobalPlatformTranslations} from "@/app/hooks/translations/base-global-platform-translation";
 
 const douyuQualityKeys = ['origin', 'uhd_8m', 'uhd', 'hd', 'sd', 'ld'] as const
 
 
+export type DouyuQuality = {
+  quality: string,
+  description: string
+}
+
+
+export type DouyuTabString = {
+  cdn: string,
+  cdnDescription: string,
+  cdnDefault: string,
+  quality: string,
+  qualityDescription: string,
+  qualityDefault: string,
+} & PlatformTabContentStrings
+
+
 export const useDouyuTranslations = () => {
   const t = useTranslations("Douyu")
-  const pt = useTranslations("GlobalPlatformConfig")
+  const baseTranslations = useBaseGlobalPlatformTranslations()
 
-  return useMemo(() => ({
+  return useMemo<DouyuTabString>(() => ({
+    ...baseTranslations,
     platform: t("platform"),
     cdn: t("cdn"),
     cdnDescription: t("cdnDescription"),
@@ -16,13 +35,8 @@ export const useDouyuTranslations = () => {
     quality: t("quality"),
     qualityDescription: t("qualityDescription"),
     qualityDefault: t("qualityDefault"),
-    fetchDelayTitle: pt("fetchDelayTitle"),
-    fetchDelayDescription: pt.rich("fetchDelayDescription"),
-    partTitle: pt("part"),
-    partDescription: pt.rich("partDescription"),
-    cookieTitle: pt("cookieTitle"),
     cookieDescription: t.rich("cookieDescription"),
-  }), [t, pt])
+  }), [t, baseTranslations])
 }
 
 export const useDouyuQualityTranslations = () => {

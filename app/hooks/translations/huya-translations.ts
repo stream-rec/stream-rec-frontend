@@ -1,15 +1,34 @@
 import {useTranslations} from "next-intl";
 import {useMemo} from "react";
+import {PlatformTabContentStrings} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {useBaseGlobalPlatformTranslations} from "@/app/hooks/translations/base-global-platform-translation";
+
+
+export type HuyaTabString = {
+  cdn: string,
+  cdnDescription: string,
+  cdnDefault: string,
+  sourceFormat: string,
+  sourceFormatPlaceholder: string,
+  sourceFormatDescription: string,
+  bitrate: string,
+  bitrateDescription: string,
+  forceOrigin: string,
+  forceOriginDescription: string,
+  mobileApi: string,
+  mobileApiDescription: string,
+} & PlatformTabContentStrings
 
 export function useHuyaTranslations() {
   // huya translations
   const t = useTranslations("Huya")
-  const pT = useTranslations("GlobalPlatformConfig")
-  return useMemo(() => getHuyaTranslations(t, pT), [t, pT])
+  const baseTranslations = useBaseGlobalPlatformTranslations()
+  return useMemo<HuyaTabString>(() => getHuyaTranslations(t, baseTranslations), [t, baseTranslations])
 }
 
-export function getHuyaTranslations(t: any, pt: any) {
+function getHuyaTranslations(t: any, baseTranslations: PlatformTabContentStrings): HuyaTabString {
   return {
+    ...baseTranslations,
     platform: t("platform"),
     cdn: t("cdn"),
     cdnDescription: t("cdnDescription"),
@@ -19,11 +38,6 @@ export function getHuyaTranslations(t: any, pt: any) {
     sourceFormatDescription: t.rich("sourceFormatDescription"),
     bitrate: t("bitrate"),
     bitrateDescription: t("bitrateDescription"),
-    fetchDelayTitle: pt("fetchDelayTitle"),
-    fetchDelayDescription: pt.rich("fetchDelayDescription"),
-    partTitle: pt("part"),
-    partDescription: pt.rich("partDescription"),
-    cookieTitle: pt("cookieTitle"),
     cookieDescription: t.rich("cookieDescription"),
     forceOrigin: t("forceOrigin"),
     forceOriginDescription: t.rich("forceOriginDescription"),

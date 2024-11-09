@@ -7,8 +7,10 @@ import {pandatvRegex} from "@/lib/data/platform/pandatv/constants";
 import {weiboRegex} from "@/lib/data/platform/weibo/constants";
 
 export const globalPlatformConfig = z.object({
+  cookies: z.string().nullish(),
   partedDownloadRetry: z.number().min(0).nullish(),
   fetchDelay: z.number().min(0).nullish(),
+  downloadCheckInterval: z.number().min(0).nullish(),
 })
 
 export type GlobalPlatformConfig = z.infer<typeof globalPlatformConfig>

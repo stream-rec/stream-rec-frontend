@@ -2,14 +2,11 @@ import {FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessag
 import Select from "@/app/components/empty-select";
 import {SelectItem} from "@/components/new-york/ui/select";
 import React from "react";
-import {
-  PlatformTabContent,
-  PlatformTabContentProps,
-  PlatformTabContentStrings
-} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {PlatformTabContent, PlatformTabContentProps} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
 import {Input} from "@/components/new-york/ui/input";
 import {FlagFormField} from "@/app/[locale]/(feat)/settings/components/form/flag-form-field";
 import {useFormContext} from "react-hook-form";
+import {TwitchQualityItem, TwitchTabString} from "@/app/hooks/translations/twitch-translations";
 
 
 type TwitchConfigProps = {
@@ -19,29 +16,6 @@ type TwitchConfigProps = {
   showTtvProxyRelated?: boolean
 } & PlatformTabContentProps<TwitchTabString>
 
-export type TwitchQualityItem = {
-  quality: string,
-  description: string
-}
-
-export type TwitchTabString = {
-  quality: string,
-  qualityPlaceholder: string,
-  qualityDescription: string,
-  authToken: string,
-  authTokenPlaceholder: string,
-  authTokenDescription: string | React.ReactNode,
-  skipAds: string,
-  skipAdsDescription: string | React.ReactNode,
-  ttvProxyPlaylist: string,
-  ttvProxyPlaylistDescription: string,
-  ttvProxyPlaylistExclude: string,
-  ttvProxyPlaylistExcludeDescription: string,
-  ttvProxyPlaylistFallback: string,
-  ttvProxyPlaylistFallbackDescription: string
-} & PlatformTabContentStrings
-
-
 export const TwitchTabContent = ({
                                    controlPrefix,
                                    control,
@@ -49,6 +23,7 @@ export const TwitchTabContent = ({
                                    showCookies,
                                    showPartedDownloadRetry,
                                    showSkipAds,
+                                   showDownloadCheckInterval,
                                    qualityOptions,
                                    allowNone = false,
                                    showTtvProxyRelated = false,
@@ -60,7 +35,8 @@ export const TwitchTabContent = ({
   const skipAds = watch(`${controlPrefix}.skipAds`, false)
 
   return <PlatformTabContent control={control} controlPrefix={controlPrefix} showCookies={showCookies}
-                             showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}>
+                             showPartedDownloadRetry={showPartedDownloadRetry} strings={strings} showFetchDelay={showFetchDelay}
+                             showDownloadCheckInterval={showDownloadCheckInterval}>
 
     {showSkipAds && (
         <FlagFormField control={control} fieldName={"skipAds"} controlPrefix={controlPrefix} title={strings.skipAds}

@@ -1,8 +1,9 @@
 import React from "react";
-import {DouyinQuality, DouyinTabContent, DouyinTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/douyin-tab";
+import {DouyinTabContent} from "@/app/[locale]/(feat)/settings/platform/tabs/douyin-tab";
 import {useFormContext} from "react-hook-form";
+import {DouyinQuality, DouyinTabString} from "@/app/hooks/translations/douyin-translations";
 
-export type DouyinPlatformFormProps = {
+type DouyinPlatformFormProps = {
   allowNone?: boolean
   strings: DouyinTabString,
   douyinQualityOptions: DouyinQuality[]

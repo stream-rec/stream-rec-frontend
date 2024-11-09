@@ -1,6 +1,7 @@
 import React from "react";
 import {useFormContext} from "react-hook-form";
-import {HuyaTabContent, HuyaTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/huya-tab";
+import {HuyaTabContent} from "@/app/[locale]/(feat)/settings/platform/tabs/huya-tab";
+import {HuyaTabString} from "@/app/hooks/translations/huya-translations";
 
 
 type HuyaPlatformFormProps = {

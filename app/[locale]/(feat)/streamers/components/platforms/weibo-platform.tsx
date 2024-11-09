@@ -3,8 +3,7 @@ import React from "react";
 import {WeiboTabContent} from "@/app/[locale]/(feat)/settings/platform/tabs/weibo-tab";
 import {WeiboTabString} from "@/app/hooks/translations/weibo-translations";
 
-
-export type WeiboPlatformFormProps = {
+type WeiboPlatformFormProps = {
   allowNone?: boolean
   strings: WeiboTabString,
 }

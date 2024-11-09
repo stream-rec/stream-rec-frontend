@@ -5,29 +5,22 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/new-york/ui/tabs";
 import {PlatformType} from "@/lib/data/platform/definitions";
 import {GlobalConfig, globalConfigSchema} from "@/lib/data/config/definitions";
-import {HuyaTabContent, HuyaTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/huya-tab";
-import {
-  DouyinQuality,
-  DouyinTabContent,
-  DouyinTabString
-} from "@/app/[locale]/(feat)/settings/platform/tabs/douyin-tab";
+import {HuyaTabContent} from "@/app/[locale]/(feat)/settings/platform/tabs/huya-tab";
+import {DouyinTabContent,} from "@/app/[locale]/(feat)/settings/platform/tabs/douyin-tab";
 import {toast} from "sonner";
 import {updateConfig} from "@/lib/data/config/apis";
 import {useRouter} from "@/i18n";
 import {LoadingButton} from "@/components/new-york/ui/loading-button";
-import DouyuTabContent, {DouyuQuality, DouyuTabString} from "@/app/[locale]/(feat)/settings/platform/tabs/douyu-tab";
-import {
-  TwitchQualityItem,
-  TwitchTabContent,
-  TwitchTabString
-} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
-import {
-  PandaTvQualityItem,
-  PandaTvTabContent,
-  PandaTvTabString
-} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
+import DouyuTabContent from "@/app/[locale]/(feat)/settings/platform/tabs/douyu-tab";
+import {TwitchTabContent,} from "@/app/[locale]/(feat)/settings/platform/tabs/twitch-tab";
+import {PandaTvTabContent} from "@/app/[locale]/(feat)/settings/platform/tabs/pandatv-tab";
 import {WeiboTabString} from "@/app/hooks/translations/weibo-translations";
 import {WeiboTabContent} from "@/app/[locale]/(feat)/settings/platform/tabs/weibo-tab";
+import {HuyaTabString} from "@/app/hooks/translations/huya-translations";
+import {DouyinQuality, DouyinTabString} from "@/app/hooks/translations/douyin-translations";
+import {DouyuQuality, DouyuTabString} from "@/app/hooks/translations/douyu-translations";
+import {TwitchQualityItem, TwitchTabString} from "@/app/hooks/translations/twitch-translations";
+import {PandaTvQualityItem, PandaTvTabString} from "@/app/hooks/translations/pandatv-translations";
 
 
 export type PlatformFormValues = {
@@ -103,32 +96,32 @@ export default function PlatformForm({
             <div>
               <TabsContent value={PlatformType.DOUYIN}>
                 <DouyinTabContent controlPrefix={"douyinConfig"} control={form.control} showCookies
-                                  showPartedDownloadRetry showFetchDelay strings={douyinStrings}
+                                  showPartedDownloadRetry showFetchDelay showDownloadCheckInterval strings={douyinStrings}
                                   qualityOptions={douyinQualityOptions}/>
               </TabsContent>
               <TabsContent value={PlatformType.DOUYU}>
                 <DouyuTabContent controlPrefix={"douyuConfig"} control={form.control} showCookies
-                                 showPartedDownloadRetry showFetchDelay strings={douyuStrings}
+                                 showPartedDownloadRetry showFetchDelay showDownloadCheckInterval={true} strings={douyuStrings}
                                  qualityOptions={douyuQualityOptions}/>
               </TabsContent>
               <TabsContent value={PlatformType.HUYA}>
                 <HuyaTabContent controlPrefix={"huyaConfig"} control={form.control} showCookies showMaxBitrate
-                                showPartedDownloadRetry showFetchDelay showForceOrigin showMobileApi
+                                showPartedDownloadRetry showFetchDelay showForceOrigin showMobileApi showDownloadCheckInterval={true}
                                 strings={huyaStrings}/>
               </TabsContent>
               <TabsContent value={PlatformType.PANDATV}>
                 <PandaTvTabContent controlPrefix={"pandaTvConfig"} control={form.control} showCookies
-                                   showPartedDownloadRetry showFetchDelay qualityOptions={pandaQualityOptions}
+                                   showPartedDownloadRetry showFetchDelay showDownloadCheckInterval={true} qualityOptions={pandaQualityOptions}
                                    strings={pandaStrings}/>
               </TabsContent>
               <TabsContent value={PlatformType.TWITCH}>
                 <TwitchTabContent controlPrefix={"twitchConfig"} control={form.control} showCookies showTtvProxyRelated
-                                  showPartedDownloadRetry showFetchDelay showSkipAds strings={twitchStrings}
+                                  showPartedDownloadRetry showFetchDelay showSkipAds showDownloadCheckInterval={true} strings={twitchStrings}
                                   qualityOptions={twitchQualityOptions}/>
               </TabsContent>
               <TabsContent value={PlatformType.WEIBO}>
                 <WeiboTabContent controlPrefix={"weiboConfig"} control={form.control} showCookies
-                                 showPartedDownloadRetry showFetchDelay strings={weiboStrings}/>
+                                 showPartedDownloadRetry showFetchDelay showDownloadCheckInterval={true} strings={weiboStrings}/>
               </TabsContent>
             </div>
           </Tabs>

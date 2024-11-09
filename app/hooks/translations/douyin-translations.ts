@@ -1,14 +1,31 @@
 import {useTranslations} from "next-intl";
-import {useMemo} from "react";
+import React, {useMemo} from "react";
+import {PlatformTabContentStrings} from "@/app/[locale]/(feat)/settings/platform/tabs/common-platform-tab";
+import {useBaseGlobalPlatformTranslations} from "@/app/hooks/translations/base-global-platform-translation";
 
 export const douyinQualityKeys = ['origin', 'uhd', 'hd', 'sd', 'ld', 'md', 'ao'] as const
 
 
+export type DouyinQuality = {
+  quality: string,
+  description: string
+}
+
+export type DouyinTabString = {
+  quality: string,
+  qualityDescription: string,
+  qualityDefault: string,
+  sourceFormat: string,
+  sourceFormatPlaceholder: string,
+  sourceFormatDescription: string | React.ReactNode,
+} & PlatformTabContentStrings
+
 export const useDouyinTranslations = () => {
   const t = useTranslations("Douyin")
-  const pt = useTranslations("GlobalPlatformConfig")
+  const baseTranslations = useBaseGlobalPlatformTranslations()
 
-  return useMemo(() => ({
+  return useMemo<DouyinTabString>(() => ({
+    ...baseTranslations,
     platform: t("platform"),
     sourceFormat: t("sourceFormat"),
     sourceFormatPlaceholder: t("sourceFormatPlaceholder"),
@@ -16,13 +33,8 @@ export const useDouyinTranslations = () => {
     quality: t("quality"),
     qualityDescription: t("qualityDescription"),
     qualityDefault: t("qualityDefault"),
-    fetchDelayTitle: pt("fetchDelayTitle"),
-    fetchDelayDescription: pt.rich("fetchDelayDescription"),
-    partTitle: pt("part"),
-    partDescription: pt.rich("partDescription"),
-    cookieTitle: pt("cookieTitle"),
     cookieDescription: t.rich("cookieDescription"),
-  }), [t, pt])
+  }), [t, baseTranslations])
 }
 
 export const useDouyinQualityTranslations = () => {
