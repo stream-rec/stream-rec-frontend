@@ -13,7 +13,7 @@ interface DataTablePaginationProps<TData> {
 
 export function DataTablePagination<TData>({
                                              table,
-                                             pageSizeOptions = [10, 20, 30, 40, 50, 100],
+                                             pageSizeOptions = [10, 20, 30, 40, 50, 100, 500],
                                            }: DataTablePaginationProps<TData>) {
 
   const t = useTranslations("Pagination")
