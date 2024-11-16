@@ -1,11 +1,5 @@
 import {z} from "zod";
-import {
-  commandActionSchema,
-  copyActionSchema,
-  moveActionSchema,
-  rcloneActionSchema,
-  removeActionSchema
-} from "@/lib/data/actions/definitions";
+import {commandActionSchema, copyActionSchema, moveActionSchema, rcloneActionSchema, removeActionSchema} from "@/lib/data/actions/definitions";
 import {twitchRegex} from "@/lib/data/platform/twitch/constants";
 import {huyaRegex} from "@/lib/data/platform/huya/constants";
 import {douyinRegex} from "@/lib/data/platform/douyin/constants";
@@ -54,7 +48,8 @@ export enum StreamerState {
   INSPECTING_LIVE = 3,
   FATAL_ERROR = 4,
   CANCELLED = 5,
-  UNKNOWN = 6,
+  NOT_FOUND = 6,
+  UNKNOWN = 99,
 }
 
 export const streamerSchema = z.object({
