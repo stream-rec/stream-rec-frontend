@@ -18,6 +18,7 @@ try {
 
 let appVersion = gitVersion;
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
     async redirects() {
         return [
@@ -31,7 +32,7 @@ const nextConfig = {
     output: 'standalone',
     env: {
         APP_VERSION: appVersion,
-        MIN_SERVER_VERSION: "10438",
+        MIN_SERVER_VERSION: "10455",
     }
 };
 
