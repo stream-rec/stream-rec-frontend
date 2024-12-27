@@ -15,15 +15,7 @@ export enum DouyinQuality {
 }
 
 export const douyinGlobalConfig = globalPlatformConfig.extend({
-  cookies: z.string().refine((v) => {
-    // check if it`s a valid cookie
-    // a valid cookie must include `ac_nonce` and `__ac_signature`
-    // /__ac_nonce=.*; __ac_signature=.*;/
-    if (!v) return true
-    const acNonce = v.match(douyinAcNonceRegex)
-    const acSignature = v.match(douyinAcSignatureRegex)
-    return acNonce && acSignature
-  }).nullish(),
+  cookies: z.string().nullish(),
   quality: z.nativeEnum(DouyinQuality).nullish(),
   sourceFormat: z.enum(["flv", "hls"]).nullish(),
 });
