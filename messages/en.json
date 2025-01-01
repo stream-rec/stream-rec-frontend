@@ -585,7 +585,7 @@
     "resetPassword": "Reset password",
     "resetPasswordSuccess": "Password reset success",
     "resetPasswordError": "Password reset error",
-    "passwordMismatch": "Passwords do not match",
+    "passwordNotMatch": "Passwords do not match",
     "confirm": "Confirm"
   },
   "OpenVideoContextMenu": {
