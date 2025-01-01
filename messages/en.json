@@ -448,9 +448,9 @@
   },
   "UploadsPage": {
     "title": "Upload list",
-    "viewUploadDetails": "查看上传详情",
-    "viewStreamDetails": "查看直播详情",
-    "viewStreamerDetails": "查看主播详情"
+    "viewUploadDetails": "View upload details",
+    "viewStreamDetails": "View stream details",
+    "viewStreamerDetails": "View streamer details"
   },
   "UploadDetails": {
     "title": "Upload details"
