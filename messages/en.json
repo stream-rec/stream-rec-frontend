@@ -30,6 +30,7 @@
     "settings": "Settings",
     "users": "Users",
     "serverInfo": "Server info",
+    "playground": "Parser",
     "logout": "Logout"
   },
   "StreamersPage": {
@@ -609,5 +610,10 @@
     "docker": "Docker",
     "gitInformation": "Git Information",
     "commitHash": "Commit Hash"
+  },
+  "PlaygroundPage": {
+    "title": "Parser",
+    "enterUrl": "Please enter the URL",
+    "submit": "Submit"
   }
 }

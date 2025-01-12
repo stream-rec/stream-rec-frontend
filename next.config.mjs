@@ -33,6 +33,7 @@ const nextConfig = {
     env: {
         APP_VERSION: appVersion,
         MIN_SERVER_VERSION: "10455",
+        NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     }
 };
 
