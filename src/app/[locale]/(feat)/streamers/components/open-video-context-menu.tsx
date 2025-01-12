@@ -54,7 +54,6 @@ export function OpenVideoContextMenu({
       title: string.openWithPotPlayer.replace("PotPlayer", "Parser"),
       target: "_blank",
       alt: "Playground icon",
-      icon: MonitorPlay,
       ShowOnDesktop: true,
       showOnMobile: true,
     },
