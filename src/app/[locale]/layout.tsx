@@ -3,12 +3,12 @@ import {Inter} from "next/font/google";
 import type {Metadata} from "next";
 import {ThemeProvider} from "@/src/components/theme/theme-provider";
 import {Toaster} from "@/src/components/new-york/ui/sonner";
-import {getServerSession} from "next-auth";
 import {routing} from "@/src/i18n/routing";
 import {notFound} from "next/navigation";
 import {getMessages, setRequestLocale} from "next-intl/server";
 import {NextIntlClientProvider} from "next-intl";
 import SessionProvider from "@/src/components/session/SessionProvider";
+import { auth } from "@/auth";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -37,7 +37,7 @@ export default async function LocaleLayout({
   // Enable static rendering
   setRequestLocale(locale);
 
-  const session = await getServerSession();
+  const session = await auth();
 
   let s = process.env['APP_CONTEXT'] ?? '';
   s = s.trim();

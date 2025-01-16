@@ -5,7 +5,8 @@ import StatsCardGrid from "@/src/app/[locale]/(feat)/(stats)/stats-card-grid";
 import {useTranslations} from "next-intl";
 import {StreamerGridList} from "@/src/app/[locale]/(feat)/streamers/components/streamer-grid-list";
 import {redirect} from "@/src/i18n/routing";
-import {auth} from "@/src/providers/auth";
+import { auth } from "@/auth";
+
 
 export async function generateMetadata({params: {locale}}: { params: { locale: string } }) {
   const t = await getTranslations({locale, namespace: 'Metadata'});

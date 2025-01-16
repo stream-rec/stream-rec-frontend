@@ -1,10 +1,10 @@
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/src/components/new-york/ui/card";
 import {getTranslations} from "next-intl/server";
-import {auth} from "@/src/providers/auth";
 import {redirect} from "next/navigation";
 import {cookies} from "next/headers";
 import {useMemo} from "react";
 import {LoginForm} from "@/src/app/[locale]/(auth)/login/login-form";
+import { auth } from "@/auth";
 
 
 export default async function LoginPage() {

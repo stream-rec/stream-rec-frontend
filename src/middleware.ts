@@ -1,7 +1,6 @@
 import createMiddleware from 'next-intl/middleware';
-import {NextRequest} from "next/server";
-import {withAuth} from "next-auth/middleware";
-import {localePrefix, routing} from "@/src/i18n/routing";
+import { localePrefix, routing } from "@/src/i18n/routing";
+import { auth } from "@/auth"
 
 const publicPages = ['/', '/login'];
 
@@ -13,38 +12,30 @@ const intlMiddleware = createMiddleware({
   defaultLocale: 'en',
 })
 
-const authMiddleware = withAuth(
-    // Note that this callback is only invoked if
-    // the `authorized` callback has returned `true`
-    // and not for pages listed in `pages`.
-    (req) => intlMiddleware(req),
-    {
-      callbacks: {
-        authorized: ({token}) => token != null
-      },
-      pages: {
-        signIn: '/login'
-      }
-    }
-);
+export default auth((req) => {
 
-export default function middleware(req: NextRequest) {
   const publicPathnameRegex = RegExp(
-      `^(/(${routing.locales.join('|')}))?(${publicPages
-          .flatMap((p) => (p === '/' ? ['', '/'] : p))
-          .join('|')})/?$`,
-      'i'
+    `^(/(${routing.locales.join('|')}))?(${publicPages
+      .flatMap((p) => (p === '/' ? ['', '/'] : p))
+      .join('|')})/?$`,
+    'i'
   );
   const isPublicPage = publicPathnameRegex.test(req.nextUrl.pathname);
 
+  // for public pages, pass through intlMiddleware
   if (isPublicPage) {
     return intlMiddleware(req);
-  } else {
-    return (authMiddleware as any)(req);
   }
-}
+  // for protected pages, redirect to login page
+  else if (!req.auth && req.nextUrl.pathname !== "/login") {
+    const newUrl = new URL("/login", req.nextUrl.origin)
+    return Response.redirect(newUrl)
+  }
+  // pass through intlMiddleware for logged in users
+  return intlMiddleware(req);
+})
+
 
 export const config = {
-  // Skip all paths that should not be internationalized
-  matcher: ['/((?!api|_next|.*\\..*).*)']
-};
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+}

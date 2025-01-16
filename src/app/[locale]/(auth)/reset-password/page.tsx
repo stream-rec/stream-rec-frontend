@@ -2,8 +2,7 @@ import {getTranslations} from "next-intl/server";
 import {Card, CardContent, CardHeader, CardTitle} from "@/src/components/new-york/ui/card";
 import {ResetPasswordForm} from "@/src/app/[locale]/(auth)/reset-password/reset-password-form";
 import {cookies} from "next/headers";
-import {auth} from "@/src/providers/auth";
-
+import { auth } from "@/auth";
 
 export default async function ResetPage() {
 
