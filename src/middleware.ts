@@ -31,6 +31,10 @@ export default auth((req) => {
   // for protected pages, redirect to login page if not logged
   else if (!req.auth && req.nextUrl.pathname !== "/login") {
     // console.log("req:", req)
+    // if the user is already on the login page, pass through intlMiddleware
+    if (req.nextUrl.pathname === BASE_PATH + '/login') { 
+      return intlMiddleware(req);
+    }
     // find locale from pathname
     const locale = routing.locales.find(l => req.nextUrl.pathname.startsWith(`/${l}`));
     const loginPath = locale ? `/${locale}/login` : '/login';
