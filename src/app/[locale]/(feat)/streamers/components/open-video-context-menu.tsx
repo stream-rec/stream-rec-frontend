@@ -8,7 +8,8 @@ import {
 import React from "react";
 import Image from "next/image";
 import { useMediaQuery } from "@/src/app/hooks/use-media-query";
-import { MonitorPlay } from "lucide-react";
+import { useRouter } from "@/src/i18n/routing";
+import { BASE_PATH } from "@/src/lib/routes";
 
 type OpenVideoContextMenuProps = {
   children: React.ReactNode;
@@ -40,6 +41,12 @@ export function OpenVideoContextMenu({
 }: OpenVideoContextMenuProps) {
   const isMobile = useMediaQuery("(max-width: 640px)");
 
+  const router = useRouter();
+
+  const getIconPath = (path: string) => {
+    return `${BASE_PATH}${path}`;
+  }
+
   const intentSchemas = [
     {
       url: "",
@@ -60,7 +67,7 @@ export function OpenVideoContextMenu({
     {
       url: "potplayer://$durl",
       title: string.openWithPotPlayer,
-      icon: "/icons/potplayer.svg",
+      icon: getIconPath("/icons/potplayer.svg"),
       alt: "potplayer icon",
       ShowOnDesktop: true,
       showOnMobile: false,
@@ -68,7 +75,7 @@ export function OpenVideoContextMenu({
     {
       url: "intent:$durl#Intent;package=com.mxtech.videoplayer.ad;S.title=$name;end",
       title: string.openWithPotPlayer.replace("PotPlayer", "MxPlayer"),
-      icon: "/icons/mxplayer.svg",
+      icon: getIconPath("/icons/mxplayer.svg"),
       alt: "MX Player icon",
       ShowOnDesktop: false,
       showOnMobile: true,
@@ -76,15 +83,20 @@ export function OpenVideoContextMenu({
     {
       url: "intent:$durl#Intent;package=com.mxtech.videoplayer.pro;S.title=$name;end",
       title: string.openWithPotPlayer.replace("PotPlayer", "MxPlayer Pro"),
-      icon: "/icons/mxplayer.svg",
+      icon: getIconPath("/icons/mxplayer.svg"),
       alt: "MX Player icon",
       ShowOnDesktop: false,
       showOnMobile: true,
     },
   ] as IntentSchema[];
 
-  const openUrl = (prefixUrl: string, target: string | undefined) =>
-    window.open(prefixUrl.replace("$durl", url), target);
+  function openUrl(prefixUrl: string, target: string | undefined) {
+    // use router.push for playground
+    if (prefixUrl.includes("playground")) {
+      return router.push(prefixUrl);
+    }
+    return window.open(prefixUrl.replace("$durl", url), target);
+  }
 
   const filteredIntents = React.useMemo(() => {
     return intentSchemas.filter((intent) => {

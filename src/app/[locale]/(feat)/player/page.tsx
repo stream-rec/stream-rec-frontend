@@ -9,6 +9,7 @@ import { ContentLayout } from "@/src/components/dashboard/content-layout";
 import { StreamInfo } from "@/src/lib/data/mediainfo/definitions";
 import { encodeParams } from "@/src/lib/utils/proxy";
 import { getTrueUrl } from "@/src/lib/data/mediainfo/extractor-apis";
+import { BASE_PATH } from "@/src/lib/routes";
 
 export default function PlayerPage() {
   const { streamerUrl, mediaInfo, headers } = usePlayerStore();
@@ -25,10 +26,11 @@ export default function PlayerPage() {
     streamInfo: null as StreamInfo | null,
   });
 
+
   const buildProxyUrl = useCallback(
     (url: string) => {
       const encodedParams = encodeParams(url, headers);
-      return `/api/proxy?data=${encodedParams}`;
+      return `${BASE_PATH}/api/proxy?data=${encodedParams}`;
     },
     [headers]
   );
@@ -380,7 +382,7 @@ export default function PlayerPage() {
 
   return (
     <ContentLayout title="Player">
-      <div ref={artRef} className="w-full aspect-video" />
+      <div ref={artRef} className="w-[80%] aspect-video" />
     </ContentLayout>
   );
 }
