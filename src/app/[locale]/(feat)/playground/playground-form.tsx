@@ -28,7 +28,6 @@ export default function PlaygroundForm({submitText, urlPlaceholder }: Playground
 
   
   const defaultUrl = useSearchParams().get("url") ?? undefined;
-  
 
   const extractorSchema = z.object({
     url: z.string().url(),
@@ -97,7 +96,7 @@ export default function PlaygroundForm({submitText, urlPlaceholder }: Playground
         <LoadingButton
           type="submit"
           loading={isSubmitting}
-          disabled={!isValid}
+          disabled={!isValid || isSubmitting}
           className="flex h-12 w-full items-center justify-center rounded-lg p-3 text-sm font-medium"
         >
           {submitText}
