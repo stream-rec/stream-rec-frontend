@@ -1,6 +1,7 @@
 "use client";
 
 import { z } from "zod";
+import { useEffect } from "react";
 
 import {
   Form,
@@ -76,6 +77,17 @@ export default function PlaygroundForm({submitText, urlPlaceholder }: Playground
     // Navigate to player page
     router.push("/player");
   };
+
+  useEffect(() => {
+    if (defaultUrl && !isSubmitting) {
+      const isValidUrl = extractorSchema.safeParse({ url: defaultUrl }).success;
+      if (isValidUrl) {
+        form.handleSubmit(onSubmit)();
+      }
+    }
+  // We only want this to run once on initialization
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Form {...form}>
