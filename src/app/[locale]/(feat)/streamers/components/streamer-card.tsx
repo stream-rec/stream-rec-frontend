@@ -121,7 +121,7 @@ export function StreamerCard({
           <CardHeader className={"pt-0 pb-3 lg:pb-6"}>
             <div className={"space-y-4 md:flex md:flex-row md:space-x-2.5 items-center md:space-y-0"}>
               {
-                  downloadUrl && <OpenVideoContextMenu url={downloadUrl} string={contextMenuStrings}>
+                  downloadUrl && <OpenVideoContextMenu url={downloadUrl} streamerUrl = {liveUrl}string={contextMenuStrings}>
                       <Avatar onClick={openUrl(liveUrl)} className={"cursor-pointer"}>
                           <AvatarImage src={streamerAvatar ?? ""} alt={streamer}></AvatarImage>
                           <AvatarFallback><UserRoundCog/></AvatarFallback>

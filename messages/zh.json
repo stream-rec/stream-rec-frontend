@@ -30,7 +30,8 @@
     "records": "录播列表",
     "users": "用户",
     "serverInfo": "服务器信息",
-    "logout": "退出登录"
+    "logout": "退出登录",
+    "playground": "解析器"
   },
   "StreamersPage": {
     "title": "主播列表",
@@ -437,7 +438,9 @@
     "retry": "重试",
     "retrying": "重试中...",
     "retried": "已重试！",
-    "retryError": "重试失败"
+    "retryError": "重试失败",
+    "watch": "观看",
+    "download": "下载"
   },
   "UploadsPage": {
     "title": "上传列表",
@@ -601,5 +604,10 @@
     "docker": "Docker",
     "gitInformation": "Git 信息",
     "commitHash": "提交哈希"
+  },
+  "PlaygroundPage": {
+    "title": "解析器",
+    "enterUrl": "请输入链接",
+    "submit": "提交"
   }
 }

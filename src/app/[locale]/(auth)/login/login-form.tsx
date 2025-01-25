@@ -58,6 +58,11 @@ export function LoginForm({strings, defaultValues}: LoginFormProps) {
         toastData("", strings.loginFailed + "\n" + result.error, 'error')
         console.error(result.error)
       } else {
+        if (isSave) {
+          document.cookie = `username=${data.username}; path=/; max-age=2592000`; // 30 days
+        } else {
+          document.cookie = `username=; path=/; max-age=0`;
+        }
         toastData(strings.loginSuccessful, strings.loginSuccessful, 'success')
       }
       router.refresh()

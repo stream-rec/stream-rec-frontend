@@ -29,10 +29,13 @@ const nextConfig = {
             },
         ]
     },
+    basePath : process.env.NEXT_PUBLIC_BASE_PATH,
     output: 'standalone',
     env: {
         APP_VERSION: appVersion,
-        MIN_SERVER_VERSION: "10455",
+        MIN_SERVER_VERSION: "10532",
+        // NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+        AUTH_TRUST_HOST: process.env.AUTH_TRUST_HOST,
     }
 };
 

@@ -1,12 +1,12 @@
-import {cookies} from "next/headers";
+import { cookies } from "next/headers";
 import Image from "next/image";
-import {DashboardLayout} from "@/src/app/[locale]/(feat)/dashboard/dashboard-layout";
+import { DashboardLayout } from "@/src/app/[locale]/(feat)/dashboard/dashboard-layout";
 import React from "react";
-import {useSidebarTranslations} from "@/src/app/hooks/translations/use-sidebar-translations";
+import { useSidebarTranslations } from "@/src/app/hooks/translations/use-sidebar-translations";
+import { BASE_PATH } from "@/src/lib/routes";
 
 
-export default function Layout({children}: { children: Readonly<React.ReactNode> }) {
-
+export default function Layout({ children }: { children: Readonly<React.ReactNode> }) {
 
   const sidebarT = useSidebarTranslations()
 
@@ -14,12 +14,12 @@ export default function Layout({children}: { children: Readonly<React.ReactNode>
     {
       label: cookies().get('username')?.value || "stream-rec",
       email: cookies().get('username')?.value || "stream-rec",
-      icon: <Image src={"/stream-rec.svg"} width={40} height={40} alt={"Stream rec icon"}/>,
+      icon: <Image src={`${BASE_PATH}/stream-rec.svg`} width={40} height={40} alt={"Stream rec icon"} />,
     },
   ]
 
   return (
-      <DashboardLayout accounts={accounts} strings={sidebarT}>{children}
-      </DashboardLayout>
+    <DashboardLayout accounts={accounts} strings={sidebarT}>{children}
+    </DashboardLayout>
   );
 }

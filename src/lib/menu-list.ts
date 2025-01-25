@@ -1,4 +1,4 @@
-import {FileVideo2, HardDrive, LayoutGrid, Settings, UploadCloud, Users} from "lucide-react";
+import {FileVideo2, HardDrive, LayoutGrid, MonitorPlay, Settings, UploadCloud, Users} from "lucide-react";
 import {SidebarStrings} from "@/src/app/hooks/translations/use-sidebar-translations";
 
 type Submenu = {
@@ -71,6 +71,13 @@ export function getMenuList(pathname: string, navStrings: SidebarStrings): Group
         //   icon: Users,
         //   submenus: []
         // },
+        {
+          href: "/playground",
+          label: navStrings.playground,
+          active: pathname.includes("/playground"),
+          icon: MonitorPlay,
+          submenus: []
+        },
         {
           href: "/server",
           label: navStrings.serverInfo,

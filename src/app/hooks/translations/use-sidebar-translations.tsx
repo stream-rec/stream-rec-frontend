@@ -8,6 +8,7 @@ export type SidebarStrings = {
   uploads: string
   users: string
   settings: string
+  playground: string
   serverInfo: string
   logout: string
 }
@@ -20,6 +21,7 @@ export const useSidebarTranslations = () => {
     records: t("records"),
     settings: t("settings"),
     uploads: t("uploads"),
+    playground: t("playground"),
     serverInfo: t("serverInfo"),
     logout: t("logout"),
   } as SidebarStrings
