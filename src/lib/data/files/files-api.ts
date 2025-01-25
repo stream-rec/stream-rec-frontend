@@ -33,9 +33,9 @@ export const getServerFile = async (streamDataId: string, fileName: string) => {
         throw new Error(`Failed to fetch file: ${response.statusText}`)
     }
 
-    response.headers.forEach((value, key) => {
-        console.log("response header", key, value)
-    })
+    // response.headers.forEach((value, key) => {
+    //     console.log("response header", key, value)
+    // })
 
     return {
         stream: response.body,
