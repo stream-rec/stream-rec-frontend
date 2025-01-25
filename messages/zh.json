@@ -438,7 +438,9 @@
     "retry": "重试",
     "retrying": "重试中...",
     "retried": "已重试！",
-    "retryError": "重试失败"
+    "retryError": "重试失败",
+    "watch": "观看",
+    "download": "下载"
   },
   "UploadsPage": {
     "title": "上传列表",

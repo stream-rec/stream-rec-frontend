@@ -435,6 +435,8 @@
   },
   "Actions": {
     "actions": "Actions",
+    "watch": "Watch",
+    "download": "Download",
     "openMenu": "Open menu",
     "cancel": "Cancel",
     "delete": "Delete",

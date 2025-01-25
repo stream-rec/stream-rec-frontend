@@ -25,9 +25,9 @@ type PlaygroundFormProps = {
   urlPlaceholder?: string;
 };
 
-export default function PlaygroundForm({submitText, urlPlaceholder }: PlaygroundFormProps) {
+export default function PlaygroundForm({ submitText, urlPlaceholder }: PlaygroundFormProps) {
 
-  
+
   const defaultUrl = useSearchParams().get("url") ?? undefined;
 
   const extractorSchema = z.object({
@@ -46,7 +46,7 @@ export default function PlaygroundForm({submitText, urlPlaceholder }: Playground
   const router = useRouter();
   const setMediaInfo = usePlayerStore((state) => state.setMediaInfo);
 
-  const setStreamerUrl = usePlayerStore((state) => state.setStreamerUrl);
+  const setSource = usePlayerStore((state) => state.setSource);
 
   const onSubmit = async (values: z.infer<typeof extractorSchema>) => {
     const url = values.url;
@@ -72,7 +72,10 @@ export default function PlaygroundForm({submitText, urlPlaceholder }: Playground
 
     // Store the data in Zustand
     setMediaInfo(mediaInfo, headers);
-    setStreamerUrl(url);
+    setSource({
+      type: 'stream',
+      url: url,
+    });
 
     // Navigate to player page
     router.push("/player");
@@ -85,8 +88,8 @@ export default function PlaygroundForm({submitText, urlPlaceholder }: Playground
         form.handleSubmit(onSubmit)();
       }
     }
-  // We only want this to run once on initialization
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // We only want this to run once on initialization
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
