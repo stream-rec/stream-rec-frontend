@@ -25,9 +25,10 @@ type PlaygroundFormProps = {
   urlPlaceholder?: string;
 };
 
-export default function PlaygroundForm({ submitText, urlPlaceholder }: PlaygroundFormProps) {
-
-
+export default function PlaygroundForm({
+  submitText,
+  urlPlaceholder,
+}: PlaygroundFormProps) {
   const defaultUrl = useSearchParams().get("url") ?? undefined;
 
   const extractorSchema = z.object({
@@ -49,7 +50,7 @@ export default function PlaygroundForm({ submitText, urlPlaceholder }: Playgroun
   const setSource = usePlayerStore((state) => state.setSource);
 
   const onSubmit = async (values: z.infer<typeof extractorSchema>) => {
-    const url = values.url;
+    const { url } = values;
 
     const t = toast.promise(extractMediaInfo(url), {
       loading: "Extracting media info...",
@@ -73,7 +74,7 @@ export default function PlaygroundForm({ submitText, urlPlaceholder }: Playgroun
     // Store the data in Zustand
     setMediaInfo(mediaInfo, headers);
     setSource({
-      type: 'stream',
+      type: "stream",
       url: url,
     });
 

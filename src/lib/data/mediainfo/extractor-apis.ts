@@ -15,11 +15,10 @@ export const extractMediaInfo = async (
 ) => {
   // Construct URL with params
   let apiUrl = `/extract?url=${url}`;
-  if (params) {
-    if (Object.keys(params).length > 0) {
-      const queryString = new URLSearchParams(params).toString();
-      apiUrl += `&${queryString}`;
-    }
+  
+  if (params && Object.keys(params).length > 0) {
+    const queryString = new URLSearchParams(params).toString();
+    apiUrl += `&${queryString}`;
   }
 
   const response = await fetchApi(apiUrl, {
@@ -38,7 +37,7 @@ export const extractMediaInfo = async (
 
   const data = await response.json();
 
-  console.log(data)
+  console.log(data);
 
   if (data.code !== 200) {
     throw new Error(data.msg);
@@ -79,7 +78,7 @@ export const getTrueUrl = async (url: string, data: StreamInfo) => {
     throw new Error(responseData.msg);
   }
 
-  streamInfoSchema.parse(responseData.data)
+  streamInfoSchema.parse(responseData.data);
   // console.log(responseData.data)
 
   return responseData.data;

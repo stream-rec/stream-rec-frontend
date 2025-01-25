@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession, User } from "next-auth"
+import NextAuth, { AuthError, DefaultSession, User } from "next-auth"
 import credentials from "next-auth/providers/credentials"
 import { login } from "@/src/lib/data/user/user-apis"
 
@@ -41,23 +41,26 @@ const credentialsProvider = credentials({
   },
   authorize: async (credentials, req) => {
     if (typeof credentials === "undefined") {
-      return null
+      throw new Error("No credentials provided");
     }
 
-    let user: User | null = null
+    try {
+      const res = await login(credentials.username as string, credentials.password as string)
+      
+      const validTo = new Date(res.validTo)
+      const now = new Date()
+      if (validTo < now) {
+        throw new Error("Session expired");
+      }
 
-    const res = await login(credentials.username as string, credentials.password as string)
-    const validTo = new Date(res.validTo)
-    const now = new Date()
-    if (validTo < now) {
-      return null
-    }
+      const role = res.role ?? 'USER'
+      const isFirstUsePassword = res.isFirstUsePassword ?? false
 
-    const role = res.role ?? 'USER'
-    const isFirstUsePassword = res.isFirstUsePassword ?? false
+      if (!res.token) {
+        throw new Error("Invalid credentials");
+      }
 
-    if (res.token) {
-      user = {
+      return {
         id: res.id.toString(),
         name: credentials.username as string,
         email: '',
@@ -65,8 +68,11 @@ const credentialsProvider = credentials({
         role: role,
         isFirstUsePassword: isFirstUsePassword
       }
+    } catch (error) {
+      // Convert any error to a string message
+      const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred";
+      throw new AuthError(errorMessage);
     }
-    return user
   }
 })
 

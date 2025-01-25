@@ -1,4 +1,4 @@
-'use server'
+"use server";
 import { encodeParams } from "@/src/lib/utils/proxy";
 import { getServerFile } from "@/src/lib/data/files/files-api";
 
@@ -12,7 +12,7 @@ export async function GET(request: Request) {
 
   const decodedData = JSON.parse(atob(data));
   const targetUrl = decodedData.url;
-  const headers = decodedData.headers;
+  const { headers } = decodedData;
 
   try {
     if (!targetUrl) {
@@ -20,24 +20,24 @@ export async function GET(request: Request) {
     }
 
     // Handle server files differently
-    if (targetUrl.startsWith('/files/')) {
-      const parts = targetUrl.split('/')
-      const streamDataId = parts[2]
-      const fileName = parts[3]
+    if (targetUrl.startsWith("/files/")) {
+      const parts = targetUrl.split("/");
+      const streamDataId = parts[2];
+      const fileName = parts[3];
 
       // request.headers.forEach((value, key) => {
       //   console.log("request header", key, value)
       // })
 
-      const { stream, contentType, contentLength, contentDisposition } = await getServerFile(streamDataId, fileName)
-
+      const { stream, contentType, contentLength, contentDisposition } =
+        await getServerFile(streamDataId, fileName);
 
       return new Response(stream, {
         headers: {
           "Content-Type": contentType,
           "Content-Length": contentLength || "",
           "Accept-Ranges": "bytes",
-          "Connection": "keep-alive",
+          Connection: "keep-alive",
           "Content-Disposition": contentDisposition || "",
         },
       });
@@ -50,8 +50,8 @@ export async function GET(request: Request) {
 
     const response = await fetch(targetUrl, {
       headers: {
-        'Accept': '*/*',
-        'Connection': 'keep-alive',
+        Accept: "*/*",
+        Connection: "keep-alive",
         ...customHeaders,
       },
     });

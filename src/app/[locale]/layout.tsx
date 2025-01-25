@@ -52,7 +52,7 @@ export default async function LocaleLayout({
         <link rel="icon" href={iconLink} sizes="any" />
         <link
           rel="icon"
-          href={iconLink + "?<generated>"}
+          href={`${iconLink}?<generated>`}
           type="image/<generated>"
           sizes="<generated>"
         />
