@@ -259,55 +259,51 @@ export default function PlayerPage() {
   );
 
 
-  const playM3U8 = useCallback(
-    async (
-      video: HTMLVideoElement,
-      streamInfo: StreamInfo | null,
-      url: string,
-      art: Artplayer
-    ) => {
-      if (Hls.isSupported()) {
-        destroyFlvPlayer(art);
-        destroyTsPlayer(art);
-        if (art.hls) art.hls.destroy();
+  const playM3U8 = async (
+    video: HTMLVideoElement,
+    streamInfo: StreamInfo | null,
+    url: string,
+    art: Artplayer
+  ) => {
+    if (Hls.isSupported()) {
+      destroyFlvPlayer(art);
+      destroyTsPlayer(art);
+      if (art.hls) art.hls.destroy();
 
-        if (!streamInfo) {
-          art.notice.show = "No stream info";
-          return;
-        }
-
-        // fix cases when switching quality
-        if (streamInfo.url !== url) {
-          const stream = mediaInfo!.streams?.find(
-            (stream) => stream.url === url
-          );
-          if (stream) {
-            streamInfo = stream;
-          }
-        }
-
-        const proxyUrl = await getUrlAndSwitch(streamInfo, art);
-        if (!proxyUrl) {
-          art.notice.show = "Error getting true url";
-          return;
-        }
-
-        const hls = new Hls();
-        hls.loadSource(proxyUrl);
-        hls.attachMedia(video);
-        art.hls = hls;
-        art.on("destroy", () => hls.destroy());
-      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        destroyFlvPlayer(art);
-        destroyTsPlayer(art);
-        video.src = url;
-      } else {
-        art.notice.show = "Unsupported playback format : m3u8";
+      if (!streamInfo) {
+        art.notice.show = "No stream info";
+        return;
       }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
+
+      // fix cases when switching quality
+      if (streamInfo.url !== url) {
+        const stream = mediaInfo!.streams?.find(
+          (stream) => stream.url === url
+        );
+        if (stream) {
+          streamInfo = stream;
+        }
+      }
+
+      const proxyUrl = await getUrlAndSwitch(streamInfo, art);
+      if (!proxyUrl) {
+        art.notice.show = "Error getting true url";
+        return;
+      }
+
+      const hls = new Hls();
+      hls.loadSource(proxyUrl);
+      hls.attachMedia(video);
+      art.hls = hls;
+      art.on("destroy", () => hls.destroy());
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      destroyFlvPlayer(art);
+      destroyTsPlayer(art);
+      video.src = url;
+    } else {
+      art.notice.show = "Unsupported playback format : m3u8";
+    }
+  }
 
   const initializePlayer = useCallback(() => {
     if (!source || !artRef.current) return null;
@@ -405,6 +401,13 @@ export default function PlayerPage() {
               // clear qualities
               art.quality = [];
 
+              let finalFormat = newStream.format
+              if (finalFormat === "hls") {
+                finalFormat = "m3u8"
+              }
+
+              art.type = finalFormat
+
               art
                 .switchQuality(newStream.url)
                 .then(() => {
@@ -485,12 +488,17 @@ export default function PlayerPage() {
       console.log("proxy url", proxyUrl)
     }
 
+    let finalFormat: string = state.format
+
+    if (finalFormat === "hls") {
+      finalFormat = "m3u8"
+    }
 
     const art = new Artplayer({
       container: artRef.current,
       url: proxyUrl,
       customType: customTypeHandlers,
-      type: state.format,
+      type: finalFormat,
       volume: 0.3,
       isLive: source.type === 'stream',
       muted: false,
