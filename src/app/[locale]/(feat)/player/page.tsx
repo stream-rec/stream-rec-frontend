@@ -107,27 +107,29 @@ export default function PlayerPage() {
     [source, buildProxyUrl]
   );
 
-  const destroyFlvPlayer = useCallback((art: Artplayer) => {
+  const destroyFlvPlayer = (art: Artplayer) => {
     try {
       if (art.flv) {
         art.flv.destroy();
         art.flv = null;
+        console.log("flv player destroyed")
       }
     } catch (error) {
       console.error("Error destroying FLV player:", error);
     }
-  }, []);
+  }
 
-  const destroyTsPlayer = useCallback((art: Artplayer) => {
+  const destroyTsPlayer = (art: Artplayer) => {
     try {
       if (art.ts) {
         art.ts.destroy();
         art.ts = null;
+        console.log("ts player destroyed")
       }
     } catch (error) {
       console.error("Error destroying TS player:", error);
     }
-  }, []);
+  }
 
 
   const getQualities = useCallback(
@@ -208,56 +210,51 @@ export default function PlayerPage() {
   }
 
 
-  const playTs = useCallback(
-    async (
-      video: HTMLVideoElement,
-      streamInfo: StreamInfo | null,
-      url: string,
-      art: Artplayer
-    ) => {
-      if (!mpegts.current.isSupported()) {
-        art.notice.show = "Unsupported playback format : ts";
-        return;
-      }
+  const playTs = async (
+    video: HTMLVideoElement,
+    streamInfo: StreamInfo | null,
+    url: string,
+    art: Artplayer
+  ) => {
+    if (!mpegts.current.isSupported()) {
+      art.notice.show = "Unsupported playback format : ts";
+      return;
+    }
 
-      destroyTsPlayer(art);
+    destroyTsPlayer(art);
 
-      if (!streamInfo) {
-        art.notice.show = "No stream info";
-        return;
-      }
+    if (!streamInfo) {
+      art.notice.show = "No stream info";
+      return;
+    }
 
-      const updatedStreamInfo = await handleStreamSwitch(streamInfo, url, mediaInfo);
-      if (!updatedStreamInfo) return;
+    const updatedStreamInfo = await handleStreamSwitch(streamInfo, url, mediaInfo);
+    if (!updatedStreamInfo) return;
 
-      const proxyUrl = await getProxyUrlForStream(
-        updatedStreamInfo,
-        source,
-        buildProxyUrl,
-        getUrlAndSwitch,
-        art
-      );
-      if (!proxyUrl) return;
+    const proxyUrl = await getProxyUrlForStream(
+      updatedStreamInfo,
+      source,
+      buildProxyUrl,
+      getUrlAndSwitch,
+      art
+    );
+    if (!proxyUrl) return;
 
-      const ts = mpegts.current.createPlayer({
-        type: "mpegts",
-        url: proxyUrl,
-        isLive: source!.type === 'stream',
-        cors: true,
-      }, {
-        ...getCommonPlayerConfig(source!.type === 'stream')
-      });
+    const ts = mpegts.current.createPlayer({
+      type: "mpegts",
+      url: proxyUrl,
+      isLive: source!.type === 'stream',
+      cors: true,
+    }, {
+      ...getCommonPlayerConfig(source!.type === 'stream')
+    });
 
-      ts.attachMediaElement(video);
-      ts.load();
-      ts.play();
-      art.ts = ts;
-      art.on("destroy", () => destroyTsPlayer(art));
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  );
-
+    ts.attachMediaElement(video);
+    ts.load();
+    ts.play();
+    art.ts = ts;
+    art.on("destroy", () => destroyTsPlayer(art));
+  }
 
   const playM3U8 = async (
     video: HTMLVideoElement,
@@ -295,7 +292,11 @@ export default function PlayerPage() {
       hls.loadSource(proxyUrl);
       hls.attachMedia(video);
       art.hls = hls;
-      art.on("destroy", () => hls.destroy());
+      art.on("destroy", () => {
+        hls.destroy();
+        art.hls = null;
+        console.log("hls player destroyed")
+      });
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
       destroyFlvPlayer(art);
       destroyTsPlayer(art);
@@ -548,8 +549,10 @@ export default function PlayerPage() {
 
     return () => {
       if (playerRef.current) {
+        console.log("destroying player...")
         playerRef.current.destroy(false);
         playerRef.current = null;
+        console.log("player destroyed")
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps

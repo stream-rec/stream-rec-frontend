@@ -3,18 +3,20 @@ import { encodeParams } from "@/src/lib/utils/proxy";
 import { getServerFile } from "@/src/lib/data/files/files-api";
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const data = searchParams.get("data");
-
-  if (!data) {
-    return new Response("Missing data parameter", { status: 400 });
-  }
-
-  const decodedData = JSON.parse(atob(data));
-  const targetUrl = decodedData.url;
-  const { headers } = decodedData;
+  let responseStream: ReadableStream | null = null;
 
   try {
+    const { searchParams } = new URL(request.url);
+    const data = searchParams.get("data");
+
+    if (!data) {
+      return new Response("Missing data parameter", { status: 400 });
+    }
+
+    const decodedData = JSON.parse(atob(data));
+    const targetUrl = decodedData.url;
+    const { headers } = decodedData;
+
     if (!targetUrl) {
       return new Response("Missing URL parameter", { status: 400 });
     }
@@ -25,19 +27,16 @@ export async function GET(request: Request) {
       const streamDataId = parts[2];
       const fileName = parts[3];
 
-      // request.headers.forEach((value, key) => {
-      //   console.log("request header", key, value)
-      // })
-
       const { stream, contentType, contentLength, contentDisposition } =
         await getServerFile(streamDataId, fileName);
 
-      return new Response(stream, {
+      responseStream = stream;
+
+      return new Response(responseStream, {
         headers: {
           "Content-Type": contentType,
           "Content-Length": contentLength || "",
           "Accept-Ranges": "bytes",
-          Connection: "keep-alive",
           "Content-Disposition": contentDisposition || "",
         },
       });
@@ -50,8 +49,7 @@ export async function GET(request: Request) {
 
     const response = await fetch(targetUrl, {
       headers: {
-        Accept: "*/*",
-        Connection: "keep-alive",
+        "Accept": "*/*",
         ...customHeaders,
       },
     });
@@ -84,8 +82,10 @@ export async function GET(request: Request) {
       });
     }
 
-    // For other responses, stream them directly
-    return new Response(response.body, {
+    // For other responses, store the stream for cleanup
+    responseStream = response.body;
+
+    return new Response(responseStream, {
       headers: {
         "Content-Type": contentType || "application/octet-stream",
         "Content-Length": response.headers.get("Content-Length") || "",
@@ -95,5 +95,17 @@ export async function GET(request: Request) {
   } catch (error: any) {
     console.error("Proxy Error:", error);
     return new Response("Proxy Error: " + error.message, { status: 500 });
+  } finally {
+    // Ensure proper cleanup of streams if something goes wrong after stream creation
+    // but before returning the Response
+    if (responseStream && !Response) {
+      try {
+        if (responseStream.cancel) {
+          await responseStream.cancel();
+        }
+      } catch (cleanupError) {
+        console.error("Error during stream cleanup:", cleanupError);
+      }
+    }
   }
 }
