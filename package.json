@@ -34,6 +34,7 @@
     "@tanstack/react-table": "^8.12.0",
     "@tanstack/react-virtual": "^3.11.3",
     "artplayer": "^5.2.1",
+    "axios": "^1.7.9",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",

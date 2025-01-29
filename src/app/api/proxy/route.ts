@@ -1,24 +1,31 @@
-"use server";
-import { encodeParams } from "@/src/lib/utils/proxy";
+import { decodeParams, encodeParams } from "@/src/lib/utils/proxy";
 import { getServerFile } from "@/src/lib/data/files/files-api";
-import { NextRequest } from 'next/server';
+import axios from "axios";
 
+export const config = {
+  api: {
+    bodyParser: false,
+    responseLimit: false,
+  },
+};
 
-export async function GET(request: NextRequest) {
-  let responseStream: ReadableStream | null = null;
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const data = searchParams.get("data");
+
+  if (!data) {
+    return new Response("Missing data parameter", { status: 400 });
+  }
+
+  const decodedData = decodeParams(data);
+  if (!decodedData) {
+    return new Response("Invalid data parameter", { status: 400 });
+  }
+
+  const targetUrl = decodedData.url;
+  const { headers } = decodedData;
 
   try {
-    const { searchParams } = new URL(request.url);
-    const data = searchParams.get("data");
-
-    if (!data) {
-      return new Response("Missing data parameter", { status: 400 });
-    }
-
-    const decodedData = JSON.parse(atob(data));
-    const targetUrl = decodedData.url;
-    const { headers } = decodedData;
-
     if (!targetUrl) {
       return new Response("Missing URL parameter", { status: 400 });
     }
@@ -29,18 +36,14 @@ export async function GET(request: NextRequest) {
       const streamDataId = parts[2];
       const fileName = parts[3];
 
-      const { stream, contentType, contentLength, contentDisposition } =
-        await getServerFile(streamDataId, fileName);
+      const response = await getServerFile(streamDataId, fileName);
 
-      responseStream = stream;
-
-      return new Response(responseStream, {
+      return new Response(response.data, {
         headers: {
-          "Content-Type": contentType,
-          "Content-Length": contentLength || "",
-          "Accept-Ranges": "bytes",
-          "Content-Disposition": contentDisposition || "",
+          ...(response.headers as any),
         },
+        status: response.status,
+        statusText: response.statusText,
       });
     }
 
@@ -49,20 +52,30 @@ export async function GET(request: NextRequest) {
       ? JSON.parse(decodeURIComponent(headers))
       : {};
 
-    const response = await fetch(targetUrl, {
+    // fetch client caches the response and makes memory increase indefinitely. I can't find a way to clear the cache.
+    // so we use axios to get the stream and return it as a response
+    const response = await axios.get(targetUrl, {
       headers: {
-        "Accept": "*/*",
+        Accept: "*/*",
+        Connection: "keep-alive",
         ...customHeaders,
       },
+      responseType: "stream",
     });
 
-    const contentType = response.headers.get("Content-Type");
+    const contentType = response.headers["content-type"];
 
     if (
       contentType?.includes("application/vnd.apple.mpegurl") ||
       targetUrl.endsWith(".m3u8")
     ) {
-      const text = await response.text();
+      // Convert stream to text for m3u8 files
+      const chunks: Buffer[] = [];
+      for await (const chunk of response.data) {
+        chunks.push(Buffer.from(chunk));
+      }
+      const text = Buffer.concat(chunks).toString("utf-8");
+
       const rewrittenText = text.replace(
         /(^https?:\/\/[^\s]*|^[^#][^\s]*)/gm,
         (match) => {
@@ -79,35 +92,39 @@ export async function GET(request: NextRequest) {
 
       return new Response(rewrittenText, {
         headers: {
-          "Content-Type": "application/vnd.apple.mpegurl",
+          ...(response.headers as any),
         },
+        status: response.status,
+        statusText: response.statusText,
       });
     }
 
-    // For other responses, store the stream for cleanup
-    responseStream = response.body;
-
-    return new Response(responseStream, {
-      headers: {
-        "Content-Type": contentType || "application/octet-stream",
-        "Content-Length": response.headers.get("Content-Length") || "",
-        "Accept-Ranges": "bytes",
+    // For other responses, stream them directly
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of response.data) {
+            controller.enqueue(chunk);
+          }
+          controller.close();
+        } catch (error) {
+          controller.error(error);
+        }
       },
+    });
+
+    return new Response(stream, {
+      headers: {
+        ...(response.headers as any),
+      },
+      status: response.status,
+      statusText: response.statusText,
     });
   } catch (error: any) {
     console.error("Proxy Error:", error);
-    return new Response("Proxy Error: " + error.message, { status: 500 });
-  } finally {
-    // Ensure proper cleanup of streams if something goes wrong after stream creation
-    // but before returning the Response
-    if (responseStream && !Response) {
-      try {
-        if (responseStream.cancel) {
-          await responseStream.cancel();
-        }
-      } catch (cleanupError) {
-        console.error("Error during stream cleanup:", cleanupError);
-      }
-    }
+    return new Response(
+      "Proxy Error: " + (error.response?.data || error.message),
+      { status: error.response?.status || 500 }
+    );
   }
 }
