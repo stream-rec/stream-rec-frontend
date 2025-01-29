@@ -1,5 +1,5 @@
-import {useTranslations} from "next-intl";
-
+import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 export type SidebarStrings = {
   dashboard: string
@@ -13,16 +13,32 @@ export type SidebarStrings = {
   logout: string
 }
 
-export const useSidebarTranslations = () => {
-  const t = useTranslations("Sidebar")
+export async function getSidebarTranslations() {
+  const t = await getTranslations('Sidebar');
+  
   return {
-    dashboard: t("dashboard"),
-    streamers: t("streamers"),
-    records: t("records"),
-    settings: t("settings"),
-    uploads: t("uploads"),
-    playground: t("playground"),
-    serverInfo: t("serverInfo"),
-    logout: t("logout"),
-  } as SidebarStrings
+    dashboard: t('dashboard'),
+    streamers: t('streamers'),
+    records: t('records'),
+    settings: t('settings'),
+    uploads: t('uploads'),
+    playground: t('playground'),
+    serverInfo: t('serverInfo'),
+    logout: t('logout'),
+  } as SidebarStrings;
 }
+
+export function useSidebarTranslations() {
+  const t = useTranslations('Sidebar');
+  return {
+    dashboard: t('dashboard'),
+    streamers: t('streamers'),
+    records: t('records'),
+    settings: t('settings'),
+    uploads: t('uploads'),
+    playground: t('playground'),
+    serverInfo: t('serverInfo'),
+    logout: t('logout'),
+  } as SidebarStrings;
+}
+

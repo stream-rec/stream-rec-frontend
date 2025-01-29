@@ -3,8 +3,6 @@ import { encodeParams } from "@/src/lib/utils/proxy";
 import { getServerFile } from "@/src/lib/data/files/files-api";
 import { NextRequest } from 'next/server';
 
-// Add this export to mark the route as dynamic
-export const dynamic = 'force-dynamic';
 
 export async function GET(request: NextRequest) {
   let responseStream: ReadableStream | null = null;

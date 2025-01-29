@@ -1,7 +1,7 @@
-import {getTranslations} from "next-intl/server";
-import {Card, CardContent, CardHeader, CardTitle} from "@/src/components/new-york/ui/card";
-import {ResetPasswordForm} from "@/src/app/[locale]/(auth)/reset-password/reset-password-form";
-import {cookies} from "next/headers";
+import { getTranslations } from "next-intl/server";
+import { Card, CardContent, CardHeader, CardTitle } from "@/src/components/new-york/ui/card";
+import { ResetPasswordForm } from "@/src/app/[locale]/(auth)/reset-password/reset-password-form";
+import { cookies } from "next/headers";
 import { auth } from "@/auth";
 
 export default async function ResetPage() {
@@ -25,9 +25,11 @@ export default async function ResetPage() {
 
   const id = session?.user?.id
 
+  const cookieStore = await cookies()
+
   const defaultValues = {
     id: id ? Number(id) : 0,
-    username: cookies().get("username")?.value || "",
+    username: cookieStore.get("username")?.value || "",
     password: "",
     newPassword: "",
   }
@@ -40,7 +42,7 @@ export default async function ResetPage() {
           <CardTitle className={"text-lg"}>{t("title")}</CardTitle>
         </CardHeader>
         <CardContent>
-          <ResetPasswordForm strings={strings} defaultValues={defaultValues}/>
+          <ResetPasswordForm strings={strings} defaultValues={defaultValues} />
         </CardContent>
       </Card>
     </div>

@@ -1,9 +1,9 @@
-import {fetchStreamer, fetchStreamers} from "@/src/lib/data/streams/streamer-apis";
+import { fetchStreamer, fetchStreamers } from "@/src/lib/data/streams/streamer-apis";
 import EditFormWrapper from "@/src/app/[locale]/(feat)/streamers/[id]/edit/edit-form-wrapper";
 
-export default async function Page({params}: { params: { id: string } }) {
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
 
-  const {id} = params
+  const { id } = await params
 
   const streamerData = fetchStreamer(id)
 
@@ -11,5 +11,5 @@ export default async function Page({params}: { params: { id: string } }) {
 
   const [streamer, templates] = await Promise.all([streamerData, templateDatas])
 
-  return <EditFormWrapper streamer={streamer} templateData={templates}/>
+  return <EditFormWrapper streamer={streamer} templateData={templates} />
 }

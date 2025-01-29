@@ -24,11 +24,14 @@ export function generateStaticParams() {
 
 export default async function LocaleLayout({
   children,
-  params: { locale }
+  params
 }: {
   children: Readonly<React.ReactNode>;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+
+  const { locale } = await params
+
 
   // Ensure that the incoming `locale` is valid
   if (!routing.locales.includes(locale as any)) {
@@ -47,7 +50,7 @@ export default async function LocaleLayout({
   const iconLink = `${BASE_PATH}/stream-rec.svg`;
   return (
 
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         <link rel="icon" href={iconLink} sizes="any" />
         <link

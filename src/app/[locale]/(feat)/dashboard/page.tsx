@@ -1,15 +1,18 @@
-import React from "react";
-import {getTranslations} from "next-intl/server";
-import {ContentLayout} from "@/src/components/dashboard/content-layout";
+import React, { use } from "react";
+import { getTranslations } from "next-intl/server";
+import { ContentLayout } from "@/src/components/dashboard/content-layout";
 import StatsCardGrid from "@/src/app/[locale]/(feat)/(stats)/stats-card-grid";
-import {useTranslations} from "next-intl";
-import {StreamerGridList} from "@/src/app/[locale]/(feat)/streamers/components/streamer-grid-list";
-import {redirect} from "@/src/i18n/routing";
+import { useTranslations } from "next-intl";
+import { StreamerGridList } from "@/src/app/[locale]/(feat)/streamers/components/streamer-grid-list";
+import { redirect } from "@/src/i18n/routing";
 import { auth } from "@/auth";
 
 
-export async function generateMetadata({params: {locale}}: { params: { locale: string } }) {
-  const t = await getTranslations({locale, namespace: 'Metadata'});
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+
+  const { locale } = await params
+
+  const t = await getTranslations({ locale, namespace: 'Metadata' });
 
   return {
     title: t('title')
@@ -17,10 +20,12 @@ export async function generateMetadata({params: {locale}}: { params: { locale: s
 }
 
 
-export default function DashboardPage({params: {locale}}: { params: { locale: string } }) {
+export default function DashboardPage({ params }: { params: Promise<{ locale: string }> }) {
 
-  const user = React.use(auth());
+  const { locale } = use(params)
+  const user = use(auth());
   const t = useTranslations('Dashboard');
+
 
   if (!user) {
     console.error("no user!")
@@ -37,14 +42,14 @@ export default function DashboardPage({params: {locale}}: { params: { locale: st
     }
   }
 
-  const getTitleTranslation = (status: string) => t("status", {status: status});
+  const getTitleTranslation = (status: string) => t("status", { status: status });
 
   return <ContentLayout title={t("title")}>
     <div className="flex flex-col space-y-8">
-      <StatsCardGrid/>
+      <StatsCardGrid />
       <StreamerGridList disabledString={getTitleTranslation("disabled")}
-                        inactiveString={getTitleTranslation("notRecording")}
-                        recordingString={getTitleTranslation("recording")}/>
+        inactiveString={getTitleTranslation("notRecording")}
+        recordingString={getTitleTranslation("recording")} />
     </div>
   </ContentLayout>
 }

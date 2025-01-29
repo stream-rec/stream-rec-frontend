@@ -22,7 +22,7 @@ export default async function LoginPage() {
   }
 
   // Get the username from cookie
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const savedUsername = cookieStore.get("username")?.value || ""
 
   const defaultValues = {

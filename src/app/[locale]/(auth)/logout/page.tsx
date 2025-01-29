@@ -1,10 +1,13 @@
 'use client'
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { signOut } from "next-auth/react";
 import { BASE_PATH } from "@/src/lib/routes";
 import { Loader2 } from "lucide-react";
 
-export default function LogoutPage({ params: { locale } }: { params: { locale: string } }) {
+export default function LogoutPage({ params }: { params: Promise<{ locale: string }> }) {
+
+  const { locale } = use(params)
+
   useEffect(() => {
     // Sign out
     signOut({ callbackUrl: `${BASE_PATH}/${locale}/login`, redirect: true });
