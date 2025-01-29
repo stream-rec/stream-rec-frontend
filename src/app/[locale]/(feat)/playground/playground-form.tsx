@@ -54,9 +54,6 @@ export default function PlaygroundForm({
 
     const t = toast.promise(extractMediaInfo(url), {
       loading: "Extracting media info...",
-      success: () => {
-        return "Media info extracted successfully";
-      },
       error: (error) => toast.error(error.message),
     });
 
