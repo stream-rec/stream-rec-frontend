@@ -36,30 +36,22 @@ export const toStreamerCards = (streamers: StreamerSchema[], t: ReturnType<typeo
   }) as StreamerCardProps[]
 }
 
-export const toStreamerCard = (
+export function toStreamerCard(
   streamer: StreamerCardProps,
   contextMenuStrings: OpenVideoContextMenuStrings,
-  updateStatusAction: (id: string, status: StreamerState) => ReturnType<typeof updateState>,
+  updateStatus: (id: string, status: StreamerState) => ReturnType<typeof updateState>,
   deleteStreamerAction: (id: string) => ReturnType<typeof deleteStreamer>
-) => <StreamerCard
-    key={streamer.streamerId}
-    streamer={streamer.streamer}
-    streamerId={streamer.streamerId}
-    state={streamer.state}
-    streamerAvatar={streamer.streamerAvatar}
-    lastStream={streamer.lastStream}
-    description={streamer.description}
-    platform={streamer.platform}
-    deleteStreamer={deleteStreamerAction}
-    updateStatus={updateStatusAction}
-    template={streamer.template}
-    bitrate={streamer.bitrate}
-    duration={streamer.duration}
-    downloadUrl={processDownloadUrl(streamer.downloadUrl)}
-    liveUrl={streamer.liveUrl}
-    contextMenuStrings={contextMenuStrings}
-  />;
-
+) {
+  return (
+    <StreamerCard
+      key={streamer.streamerId}
+      {...streamer}
+      contextMenuStrings={contextMenuStrings}
+      updateStatus={updateStatus}
+      deleteStreamer={deleteStreamerAction}
+    />
+  );
+}
 
 export function toResponsiveCard(
   streamer: StreamerCardProps,
