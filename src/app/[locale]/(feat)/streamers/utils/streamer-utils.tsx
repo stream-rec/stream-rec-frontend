@@ -46,6 +46,7 @@ export function toStreamerCard(
     <StreamerCard
       key={streamer.streamerId}
       {...streamer}
+      downloadUrl={processDownloadUrl(streamer.downloadUrl)}
       contextMenuStrings={contextMenuStrings}
       updateStatus={updateStatus}
       deleteStreamer={deleteStreamerAction}
