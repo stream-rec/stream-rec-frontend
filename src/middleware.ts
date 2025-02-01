@@ -35,7 +35,7 @@ export default auth((req) => {
   else if (!req.auth && req.nextUrl.pathname !== "/login") {
     console.log("not logged in, protected page:", req.nextUrl.pathname)
     // if the user is already on the login page, pass through intlMiddleware
-    if (req.nextUrl.pathname === BASE_PATH + '/login') { 
+    if (req.nextUrl.pathname === BASE_PATH + '/login') {
       console.log("inside login page")
       return intlMiddleware(req);
     }
@@ -53,7 +53,5 @@ export default auth((req) => {
 
 
 export const config = {
-  matcher: [
-    "/((?!api|icons|_next/static|_next/image|favicon.ico|.*\\.svg).*)"
-  ]
-}
+  matcher: ['/((?!api|_next|.*\\..*).*)']
+};
