@@ -14,7 +14,7 @@ import type { PlayerSource } from "@/src/lib/stores/player-store";
 
 // Utility function to find stream by URL
 const findStreamByUrl = (streams: StreamInfo[], url: string) => {
-  return streams.find(stream => stream.url === url);
+  return streams.find((stream) => stream.url === url);
 };
 
 // Utility function to handle stream switching
@@ -40,12 +40,15 @@ const getProxyUrlForStream = async (
   streamInfo: StreamInfo,
   source: PlayerSource | null,
   buildProxyUrl: (url: string) => string,
-  getUrlAndSwitch: (streamInfo: StreamInfo, art: Artplayer) => Promise<string | null>,
+  getUrlAndSwitch: (
+    streamInfo: StreamInfo,
+    art: Artplayer
+  ) => Promise<string | null>,
   art: Artplayer
 ) => {
   let proxyUrl: string | null = streamInfo.url;
 
-  if (source?.type === 'server-file') {
+  if (source?.type === "server-file") {
     // check if the url is already a proxy url
     if (!streamInfo.url.startsWith("/api/proxy")) {
       proxyUrl = buildProxyUrl(streamInfo.url);
@@ -85,7 +88,6 @@ export default function PlayerPage() {
     streamInfo: null as StreamInfo | null,
   });
 
-
   const buildProxyUrl = useCallback(
     (url: string) => {
       const encodedParams = encodeParams(url, headers);
@@ -112,36 +114,37 @@ export default function PlayerPage() {
       if (art.flv) {
         art.flv.destroy();
         art.flv = null;
-        console.log("flv player destroyed")
+        console.log("flv player destroyed");
       }
     } catch (error) {
       console.error("Error destroying FLV player:", error);
     }
-  }
+  };
 
   const destroyTsPlayer = (art: Artplayer) => {
     try {
       if (art.ts) {
         art.ts.destroy();
         art.ts = null;
-        console.log("ts player destroyed")
+        console.log("ts player destroyed");
       }
     } catch (error) {
       console.error("Error destroying TS player:", error);
     }
-  }
-
+  };
 
   const getQualities = useCallback(
     (format: string, cdn: string | undefined) => {
       if (!mediaInfo?.streams) return undefined;
 
       if (mediaInfo.streams.length === 1) {
-        return [{
-          default: true,
-          html: `${mediaInfo.streams[0].quality || "Default"}`,
-          url: mediaInfo.streams[0].url,
-        }]
+        return [
+          {
+            default: true,
+            html: `${mediaInfo.streams[0].quality || "Default"}`,
+            url: mediaInfo.streams[0].url,
+          },
+        ];
       }
 
       return mediaInfo.streams
@@ -177,7 +180,11 @@ export default function PlayerPage() {
       return;
     }
 
-    const updatedStreamInfo = await handleStreamSwitch(streamInfo, url, mediaInfo);
+    const updatedStreamInfo = await handleStreamSwitch(
+      streamInfo,
+      url,
+      mediaInfo
+    );
     if (!updatedStreamInfo) return;
 
     const proxyUrl = await getProxyUrlForStream(
@@ -189,26 +196,28 @@ export default function PlayerPage() {
     );
     if (!proxyUrl) return;
 
-    const flv = mpegts.current.createPlayer({
-      type: "flv",
-      url: proxyUrl,
-      isLive: true,
-      cors: true,
-    }, {
-      ...getCommonPlayerConfig(source!.type === 'stream')
-    });
+    const flv = mpegts.current.createPlayer(
+      {
+        type: "flv",
+        url: proxyUrl,
+        isLive: true,
+        cors: true,
+      },
+      {
+        ...getCommonPlayerConfig(source!.type === "stream"),
+      }
+    );
 
     flv.attachMediaElement(video);
     flv.load();
     flv.play();
     art.flv = flv;
     flv.on("error", function () {
-      console.log("error", flv.error)
-      art.notice.show = "Error playing flv"
-    })
+      console.log("error", flv.error);
+      art.notice.show = "Error playing flv";
+    });
     art.on("destroy", () => destroyFlvPlayer(art));
-  }
-
+  };
 
   const playTs = async (
     video: HTMLVideoElement,
@@ -228,7 +237,11 @@ export default function PlayerPage() {
       return;
     }
 
-    const updatedStreamInfo = await handleStreamSwitch(streamInfo, url, mediaInfo);
+    const updatedStreamInfo = await handleStreamSwitch(
+      streamInfo,
+      url,
+      mediaInfo
+    );
     if (!updatedStreamInfo) return;
 
     const proxyUrl = await getProxyUrlForStream(
@@ -240,21 +253,24 @@ export default function PlayerPage() {
     );
     if (!proxyUrl) return;
 
-    const ts = mpegts.current.createPlayer({
-      type: "mpegts",
-      url: proxyUrl,
-      isLive: source!.type === 'stream',
-      cors: true,
-    }, {
-      ...getCommonPlayerConfig(source!.type === 'stream')
-    });
+    const ts = mpegts.current.createPlayer(
+      {
+        type: "mpegts",
+        url: proxyUrl,
+        isLive: source!.type === "stream",
+        cors: true,
+      },
+      {
+        ...getCommonPlayerConfig(source!.type === "stream"),
+      }
+    );
 
     ts.attachMediaElement(video);
     ts.load();
     ts.play();
     art.ts = ts;
     art.on("destroy", () => destroyTsPlayer(art));
-  }
+  };
 
   const playM3U8 = async (
     video: HTMLVideoElement,
@@ -274,9 +290,7 @@ export default function PlayerPage() {
 
       // fix cases when switching quality
       if (streamInfo.url !== url) {
-        const stream = mediaInfo!.streams?.find(
-          (stream) => stream.url === url
-        );
+        const stream = mediaInfo!.streams?.find((stream) => stream.url === url);
         if (stream) {
           streamInfo = stream;
         }
@@ -295,7 +309,7 @@ export default function PlayerPage() {
       art.on("destroy", () => {
         hls.destroy();
         art.hls = null;
-        console.log("hls player destroyed")
+        console.log("hls player destroyed");
       });
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
       destroyFlvPlayer(art);
@@ -304,7 +318,7 @@ export default function PlayerPage() {
     } else {
       art.notice.show = "Unsupported playback format : m3u8";
     }
-  }
+  };
 
   const initializePlayer = useCallback(() => {
     if (!source || !artRef.current) return null;
@@ -325,13 +339,15 @@ export default function PlayerPage() {
         video.src = url;
       },
       ts: function (video: HTMLVideoElement, url: string, art: any) {
-        playTs(video, playerState.current.streamInfo, url, art)
+        playTs(video, playerState.current.streamInfo, url, art);
       },
     };
 
-    if (source.type === 'stream' && mediaInfo?.streams) {
-      initialStream = mediaInfo.streams.find((stream) => stream.extras?.cdn) || mediaInfo.streams[0];
-    } else if (source.type === 'server-file') {
+    if (source.type === "stream" && mediaInfo?.streams) {
+      initialStream =
+        mediaInfo.streams.find((stream) => stream.extras?.cdn) ||
+        mediaInfo.streams[0];
+    } else if (source.type === "server-file") {
       initialStream = mediaInfo!.streams![0];
     }
 
@@ -348,8 +364,8 @@ export default function PlayerPage() {
 
     let controls: any[] = [];
 
-    if (source.type === 'server-file') {
-      controls = []
+    if (source.type === "server-file") {
+      controls = [];
     } else {
       controls = [
         {
@@ -402,12 +418,12 @@ export default function PlayerPage() {
               // clear qualities
               art.quality = [];
 
-              let finalFormat = newStream.format
+              let finalFormat = newStream.format;
               if (finalFormat === "hls") {
-                finalFormat = "m3u8"
+                finalFormat = "m3u8";
               }
 
-              art.type = finalFormat
+              art.type = finalFormat;
 
               art
                 .switchQuality(newStream.url)
@@ -424,7 +440,7 @@ export default function PlayerPage() {
             return item.html;
           },
         },
-      ]
+      ];
 
       // Only add CDN control if there are streams with CDNs
       if (mediaInfo!.streams!.some((stream) => stream.extras?.cdn)) {
@@ -437,8 +453,8 @@ export default function PlayerPage() {
           },
           selector: [
             ...new Set(
-              mediaInfo!.streams!
-                .filter((stream) => stream.format === state.format)
+              mediaInfo!
+                .streams!.filter((stream) => stream.format === state.format)
                 .map((stream) => stream.extras?.cdn || "Default")
             ),
           ].map((cdn: string) => ({
@@ -482,17 +498,17 @@ export default function PlayerPage() {
       }
     }
 
-    let proxyUrl = initialStream.url
-    if (source.type === 'server-file') {
-      console.log("building proxy url for server file", initialStream.url)
-      proxyUrl = buildProxyUrl(initialStream.url)
-      console.log("proxy url", proxyUrl)
+    let proxyUrl = initialStream.url;
+    if (source.type === "server-file") {
+      console.log("building proxy url for server file", initialStream.url);
+      proxyUrl = buildProxyUrl(initialStream.url);
+      console.log("proxy url", proxyUrl);
     }
 
-    let finalFormat: string = state.format
+    let finalFormat: string = state.format;
 
     if (finalFormat === "hls") {
-      finalFormat = "m3u8"
+      finalFormat = "m3u8";
     }
 
     const art = new Artplayer({
@@ -501,7 +517,7 @@ export default function PlayerPage() {
       customType: customTypeHandlers,
       type: finalFormat,
       volume: 0.3,
-      isLive: source.type === 'stream',
+      isLive: source.type === "stream",
       muted: false,
       autoplay: false,
       pip: true,
@@ -540,7 +556,7 @@ export default function PlayerPage() {
     }
 
     // Only require mediaInfo for streaming sources
-    if (source.type === 'stream' && (!mediaInfo?.streams || !headers)) {
+    if (source.type === "stream" && (!mediaInfo?.streams || !headers)) {
       router.back();
       return;
     }
@@ -549,22 +565,28 @@ export default function PlayerPage() {
 
     return () => {
       if (playerRef.current) {
-        console.log("destroying player...")
+        console.log("destroying player...");
         playerRef.current.destroy(false);
         playerRef.current = null;
-        console.log("player destroyed")
+        console.log("player destroyed");
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!source || (source.type === 'stream' && (!mediaInfo?.streams || !headers))) {
+  if (
+    !source ||
+    (source.type === "stream" && (!mediaInfo?.streams || !headers))
+  ) {
     return null;
   }
 
   return (
     <ContentLayout title="Player">
-      <div ref={artRef} className="w-[80%] aspect-video" />
+      <div
+        ref={artRef}
+        className="w-full max-w-[1280px] mx-auto aspect-video lg:w-[90%] md:w-[95%] sm:w-[98%]"
+      />
     </ContentLayout>
   );
 }
