@@ -2,7 +2,7 @@ import { cookies, } from "next/headers";
 import Image from "next/image";
 import { DashboardLayout } from "@/src/app/[locale]/(feat)/dashboard/dashboard-layout";
 import React, { use } from "react";
-import { getSidebarTranslations, useSidebarTranslations } from '@/src/app/hooks/translations/use-sidebar-translations';
+import { useSidebarTranslations } from '@/src/app/hooks/translations/use-sidebar-translations';
 import { BASE_PATH } from "@/src/lib/routes";
 
 
