@@ -1,6 +1,6 @@
 {
   "Locales": {
-    "zh": "中文",
+    "zh": "简体中文",
     "en": "英语"
   },
   "Dashboard": {
@@ -609,5 +609,12 @@
     "title": "解析器",
     "enterUrl": "请输入链接",
     "submit": "提交"
+  },
+  "Errors": {
+    "error": "错误",
+    "serviceUnavailable": "服务暂时不可用，请稍后再试。",
+    "networkError": "无法连接到服务器，请检查网络连接。",
+    "serverError": "发生错误（错误代码：{code}）。{message}",
+    "goBack": "返回"
   }
 }

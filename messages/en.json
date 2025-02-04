@@ -617,5 +617,12 @@
     "title": "Parser",
     "enterUrl": "Please enter the URL",
     "submit": "Submit"
+  },
+  "Errors": {
+    "error": "Error",
+    "serviceUnavailable": "The service is currently unavailable. Please try again later.",
+    "networkError": "Failed to connect to the server. Please check your internet connection.",
+    "serverError": "An error occurred (Code: {code}). {message}",
+    "goBack": "Go Back"
   }
 }
