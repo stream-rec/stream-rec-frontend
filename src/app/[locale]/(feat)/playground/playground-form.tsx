@@ -79,17 +79,6 @@ export default function PlaygroundForm({
     router.push("/player");
   };
 
-  useEffect(() => {
-    if (defaultUrl && !isSubmitting) {
-      const isValidUrl = extractorSchema.safeParse({ url: defaultUrl }).success;
-      if (isValidUrl) {
-        form.handleSubmit(onSubmit)();
-      }
-    }
-    // We only want this to run once on initialization
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
