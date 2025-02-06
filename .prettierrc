@@ -1,0 +1,14 @@
+{
+	"semi": false,
+	"trailingComma": "es5",
+	"singleQuote": false,
+	"tabWidth": 2,
+	"useTabs": true,
+	"printWidth": 120,
+	"bracketSpacing": true,
+	"arrowParens": "avoid",
+	"endOfLine": "lf",
+	"bracketSameLine": false,
+	"jsxSingleQuote": true,
+	"plugins": ["prettier-plugin-tailwindcss"]
+}
