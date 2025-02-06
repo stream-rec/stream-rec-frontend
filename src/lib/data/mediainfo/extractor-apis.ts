@@ -1,85 +1,72 @@
-"use server";
-import { fetchApi } from "../api";
+"use server"
+import { fetchApi } from "../api"
 import {
-  ExtractorApiResponse,
-  extractorApiResponseSchema,
-  MediaInfo,
-  mediaInfoSchema,
-  StreamInfo,
-  streamInfoSchema,
-} from "./definitions";
+	ExtractorApiResponse,
+	extractorApiResponseSchema,
+	MediaInfo,
+	mediaInfoSchema,
+	StreamInfo,
+	streamInfoSchema,
+} from "./definitions"
 
-export const extractMediaInfo = async (
-  url: string,
-  params: Record<string, string> = {}
-) => {
-  // Construct URL with params
-  let apiUrl = `/extract?url=${url}`;
-  
-  if (params && Object.keys(params).length > 0) {
-    const queryString = new URLSearchParams(params).toString();
-    apiUrl += `&${queryString}`;
-  }
+export const extractMediaInfo = async (url: string, params: Record<string, string> = {}) => {
+	// Construct URL with params
+	let apiUrl = `/extract?url=${url}`
 
-  const response = await fetchApi(apiUrl, {
-    cache: "no-cache",
-  });
+	if (params && Object.keys(params).length > 0) {
+		const queryString = new URLSearchParams(params).toString()
+		apiUrl += `&${queryString}`
+	}
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(
-      "Error extracting media info, status: " +
-        response.status +
-        " " +
-        errorText
-    );
-  }
+	const response = await fetchApi(apiUrl, {
+		cache: "no-cache",
+	})
 
-  const data = await response.json();
+	if (!response.ok) {
+		const errorText = await response.text()
+		throw new Error("Error extracting media info, status: " + response.status + " " + errorText)
+	}
 
-  console.log(data);
+	const data = await response.json()
 
-  if (data.code !== 200) {
-    throw new Error(data.msg);
-  }
+	console.log(data)
 
-  extractorApiResponseSchema.parse(data);
-  // parse headers
-  const headers = data.headers ? JSON.parse(data.headers) : {};
+	if (data.code !== 200) {
+		throw new Error(data.msg)
+	}
 
-  return {
-    ...data,
-    headers: headers,
-  };
-};
+	extractorApiResponseSchema.parse(data)
+	// parse headers
+	const headers = data.headers ? JSON.parse(data.headers) : {}
+
+	return {
+		...data,
+		headers: headers,
+	}
+}
 
 export const getTrueUrl = async (url: string, data: StreamInfo) => {
-  const response = await fetchApi(`/extract/getTrueUrl`, {
-    method: "POST",
-    body: JSON.stringify({
-      url,
-      data,
-    }),
-  });
+	const response = await fetchApi(`/extract/getTrueUrl`, {
+		method: "POST",
+		body: JSON.stringify({
+			url,
+			data,
+		}),
+	})
 
-  if (!response.ok) {
-    throw new Error(
-      "Error getting true url, status: " +
-        response.status +
-        " " +
-        response.text()
-    );
-  }
+	if (!response.ok) {
+		throw new Error("Error getting true url, status: " + response.status + " " + response.text())
+	}
 
-  const responseData = await response.json();
-  // console.log("responseData", responseData)
+	const responseData = await response.json()
+	// console.log("responseData", responseData)
 
-  if (responseData.code !== 200) {
-    throw new Error(responseData.msg);
-  }
+	if (responseData.code !== 200) {
+		throw new Error(responseData.msg)
+	}
 
-  streamInfoSchema.parse(responseData.data);
-  // console.log(responseData.data)
+	streamInfoSchema.parse(responseData.data)
+	// console.log(responseData.data)
 
-  return responseData.data;
-};
+	return responseData.data
+}

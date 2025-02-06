@@ -1,15 +1,13 @@
-import React from "react";
+import React from "react"
 
 type SettingsPageProps = {
-  children: React.ReactNode,
+	children: React.ReactNode
 }
 
-export function SettingsPage({children}: SettingsPageProps) {
-  return (
-      <>
-        <div className="space-y-6">
-          {children}
-        </div>
-      </>
-  )
+export function SettingsPage({ children }: SettingsPageProps) {
+	return (
+		<>
+			<div className='space-y-6'>{children}</div>
+		</>
+	)
 }

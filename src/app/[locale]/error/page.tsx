@@ -1,34 +1,34 @@
-'use client'
+"use client"
 
-import { useSearchParams } from 'next/navigation'
-import { ErrorDialog } from '@/src/components/dialog/error-dialog'
-import { useEffect, useState } from 'react'
+import { useSearchParams } from "next/navigation"
+import { ErrorDialog } from "@/src/components/dialog/error-dialog"
+import { useEffect, useState } from "react"
 
 export default function ErrorPage() {
-  const searchParams = useSearchParams()
-  const [mounted, setMounted] = useState(false)
-  
-  const code = searchParams.get('code')
-  const message = searchParams.get('message')
+	const searchParams = useSearchParams()
+	const [mounted, setMounted] = useState(false)
 
-  // Only show the dialog after initial mount to prevent hydration issues
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+	const code = searchParams.get("code")
+	const message = searchParams.get("message")
 
-  if (!mounted) {
-    return null
-  }
+	// Only show the dialog after initial mount to prevent hydration issues
+	useEffect(() => {
+		setMounted(true)
+	}, [])
 
-  return (
-    <ErrorDialog 
-      code={code} 
-      message={message} 
-      open={true}
-      onOpenChange={() => {
-        // Dialog can't be closed by clicking outside or pressing escape
-        return
-      }}
-    />
-  )
-} 
+	if (!mounted) {
+		return null
+	}
+
+	return (
+		<ErrorDialog
+			code={code}
+			message={message}
+			open={true}
+			onOpenChange={() => {
+				// Dialog can't be closed by clicking outside or pressing escape
+				return
+			}}
+		/>
+	)
+}
