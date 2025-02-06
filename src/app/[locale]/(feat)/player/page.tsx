@@ -363,18 +363,14 @@ export default function PlayerPage() {
     console.log("state", state);
 
     let controls: any[] = [];
+    let settings: any[] = [];
 
     if (source.type === "server-file") {
       controls = [];
     } else {
-      controls = [
+      settings = [
         {
-          position: "right",
-          html: mediaInfo!.streams![0].format.toUpperCase(),
-          index: 2,
-          style: {
-            marginRight: "20px",
-          },
+          html: "CDN",
           selector: [
             ...new Set(mediaInfo!.streams!.map((stream) => stream.format)),
           ].map((format: string) => ({
@@ -525,6 +521,7 @@ export default function PlayerPage() {
       autoMini: true,
       screenshot: false,
       setting: true,
+      settings: settings,
       loop: true,
       flip: true,
       playbackRate: true,
