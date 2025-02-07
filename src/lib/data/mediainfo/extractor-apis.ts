@@ -1,13 +1,6 @@
 "use server"
 import { fetchApi } from "../api"
-import {
-	ExtractorApiResponse,
-	extractorApiResponseSchema,
-	MediaInfo,
-	mediaInfoSchema,
-	StreamInfo,
-	streamInfoSchema,
-} from "./definitions"
+import { extractorApiResponseSchema, StreamInfo, streamInfoSchema } from "./definitions"
 
 export const extractMediaInfo = async (url: string, params: Record<string, string> = {}) => {
 	// Construct URL with params

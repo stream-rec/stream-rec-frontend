@@ -1,18 +1,16 @@
 "use client"
 
 import { z } from "zod"
-import { useEffect } from "react"
 
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/src/components/new-york/ui/form"
 import { Input } from "@/src/components/new-york/ui/input"
 import { LoadingButton } from "@/src/components/new-york/ui/loading-button"
-import { extractMediaInfo } from "@/src/lib/data/mediainfo/extractor-apis"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFormState } from "react-hook-form"
 import { useRouter } from "@/src/i18n/routing"
 import { usePlayerStore } from "@/src/lib/stores/player-store"
-import { toast } from "sonner"
 import { useSearchParams } from "next/navigation"
+import { handleStreamPlay } from "@/src/lib/utils/stream-player"
 
 type PlaygroundFormProps = {
 	submitText?: string
@@ -41,33 +39,7 @@ export default function PlaygroundForm({ submitText, urlPlaceholder }: Playgroun
 	const setSource = usePlayerStore(state => state.setSource)
 
 	const onSubmit = async (values: z.infer<typeof extractorSchema>) => {
-		const { url } = values
-
-		const t = toast.promise(extractMediaInfo(url), {
-			loading: "Extracting media info...",
-			error: error => toast.error(error.message),
-		})
-
-		const response = await t.unwrap()
-
-		const mediaInfo = response.data
-
-		if (!mediaInfo.live) {
-			toast.error("Stream is not live")
-			return
-		}
-
-		const headers = response.headers ?? {}
-
-		// Store the data in Zustand
-		setMediaInfo(mediaInfo, headers)
-		setSource({
-			type: "stream",
-			url: url,
-		})
-
-		// Navigate to player page
-		router.push("/player")
+		await handleStreamPlay(values.url, router, { setMediaInfo, setSource })
 	}
 
 	return (
