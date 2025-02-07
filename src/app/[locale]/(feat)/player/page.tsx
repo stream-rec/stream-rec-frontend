@@ -322,7 +322,7 @@ export default function PlayerPage() {
 		} else {
 			settings = [
 				{
-					html: "CDN",
+					html: "Format",
 					selector: [...new Set(mediaInfo!.streams!.map(stream => stream.format))].map((format: string) => ({
 						html: format.toUpperCase(),
 						value: format,
