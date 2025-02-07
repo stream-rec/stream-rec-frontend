@@ -1,7 +1,3 @@
 {
-	"extends": ["next/core-web-vitals", "next", "prettier"],
-	"scripts": {
-		"format": "prettier --write .",
-		"format:check": "prettier --check ."
-	}
+	"extends": ["next/core-web-vitals", "next", "prettier"]
 }
