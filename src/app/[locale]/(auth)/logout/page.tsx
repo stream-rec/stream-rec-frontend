@@ -10,6 +10,7 @@ export default function LogoutPage({ params }: { params: Promise<{ locale: strin
 	useEffect(() => {
 		// Sign out
 		signOut({ callbackUrl: `${BASE_PATH}/${locale}/login`, redirect: true })
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	return (
