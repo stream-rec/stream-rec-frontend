@@ -35,37 +35,28 @@ export const fetchApi = async (url: string, options?: RequestInit): Promise<Resp
 		}
 	}
 
-	try {
-		const response = await fetch(API_URL + url, options)
+	const response = await fetch(API_URL + url, options)
 
-		// Handle unauthorized access
-		if (response.status === 401) {
-			console.error("Unauthorized, logging out")
-			const locale = await getLocale()
-			redirect({
-				href: "/logout",
-				locale: locale,
-			})
-		}
-
-		// Handle server errors (500+)
-		if (response.status >= 500) {
-			console.error("Server error:", response.status, response.statusText)
-			await handleError(response.status.toString(), response.statusText)
-		}
-
-		// Handle service unavailable
-		if (response.status === 503 || response.status === 504) {
-			console.error("Service unavailable")
-			await handleError("503", "service_unavailable")
-		}
-
-		return response
-	} catch (error) {
-		// Handle network errors
-		console.error("Network error:", error)
-		await handleError("network_error", (error as Error).message || "failed_to_connect")
-		// This line will never be reached due to redirect, but TypeScript needs it
-		throw error
+	// Handle unauthorized access
+	if (response.status === 401) {
+		const locale = await getLocale()
+		redirect({
+			href: "/logout",
+			locale: locale,
+		})
 	}
+
+	// Handle service unavailable
+	if (response.status === 503 || response.status === 504) {
+		// console.error("Service unavailable")
+		await handleError(response.status.toString(), response.statusText)
+	}
+
+	// Handle server errors (500+)
+	if (response.status >= 500) {
+		// console.error("Server error:", response.status, response.statusText)
+		await handleError("server_error", "server_error")
+	}
+
+	return response
 }
