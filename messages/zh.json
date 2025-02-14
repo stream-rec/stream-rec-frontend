@@ -366,7 +366,7 @@
 		"deleteFilesDescription": "录播片段下载完成后自动删除文件，默认开启。 <important>请注意：该选项只有主播回调为空时才有效</important>",
 		"outputFolder": "下载文件夹",
 		"outputFolderDescription": "录播文件的输出文件夹，可使用以下占用符:",
-		"outputFolderPlaceholderDescription": "'{title}' 直播标题\n'{streamer}' 主播名称\n%Y 年\n%m 月\n%d 天\n%H 小时\n%M 分钟\n%S 秒",
+		"outputFolderPlaceholderDescription": "'{title}' 直播标题\n'{streamer}' 主播名称\n'{platform}' 平台名称\n%Y 年\n%m 月\n%d 天\n%H 小时\n%M 分钟\n%S 秒",
 		"outputFilename": "下载文件名格式",
 		"outputFilenameDescription": "录播文件的输出文件名格式， 支持占用符。 <important>请不要填写后缀名，请保持唯一性</important>",
 		"outputFormat": "下载文件格式",

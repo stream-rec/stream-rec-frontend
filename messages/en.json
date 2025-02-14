@@ -340,7 +340,7 @@
 		"cookiesDescription": "Cookies to be used for the download. Default is set to follow the global settings.",
 		"outputFolder": "Output folder",
 		"outputFolderDescription": "This is the folder where the downloaded files will be saved. Default is set to follow the global settings. You can use placeholders like: <code>'{title}' The title of the streaming.</code><code>'{streamer}' The streamer name of the streaming.</code><code>%Y The year of the streaming.</code><code>%m The month of the streaming.</code><code>%d The day of the streaming.</code><code>%H The hour of the streaming.</code><code>%m The minute of the streaming.</code><code>%s The second of the streaming.</code>",
-		"outputFolderPlaceholderDescription": "'{title}' The title of the streaming.\n'{streamer}' The streamer name of the streaming.\n%Y The year of the streaming.\n%m The month of the streaming.\n%d The day of the streaming.\n%H The hour of the streaming.\n%M The minute of the streaming.\n%S The second of the streaming.",
+		"outputFolderPlaceholderDescription": "'{title}' The title of the streaming.\n'{streamer}' The streamer name of the streaming.\n'{platform}' The platform name of the streaming.\n%Y The year of the streaming.\n%m The month of the streaming.\n%d The day of the streaming.\n%H The hour of the streaming.\n%M The minute of the streaming.\n%S The second of the streaming.",
 		"outputFilename": "Output file format",
 		"outputFilenameDescription": "This is the file name of the downloaded file. Same placeholders as output folder are available. <important>Please do not include file extension, it will be automatically added based on the below selected format.</important>",
 		"outputFormat": "Output video extension",
