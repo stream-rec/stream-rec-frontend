@@ -3,13 +3,20 @@ import { use, useEffect } from "react"
 import { signOut } from "next-auth/react"
 import { BASE_PATH } from "@/src/lib/routes"
 import { Loader2 } from "lucide-react"
+import { useRouter } from "@/src/i18n/routing"
 
 export default function LogoutPage({ params }: { params: Promise<{ locale: string }> }) {
 	const { locale } = use(params)
 
+	const router = useRouter()
+
 	useEffect(() => {
 		// Sign out
-		signOut({ callbackUrl: `${BASE_PATH}/${locale}/login`, redirect: true })
+		signOut({ callbackUrl: `${BASE_PATH}/${locale}/login`, redirect: false })
+			.then(() => {
+				console.log("Logged out...")
+				router.push(`${BASE_PATH}/login`)
+			})
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
