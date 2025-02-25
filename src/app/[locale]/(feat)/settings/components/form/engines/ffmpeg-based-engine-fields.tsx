@@ -4,6 +4,7 @@ import React from "react"
 
 export type FfmpegBasedEngineFieldsProps = {
 	form: any
+	controlPrefix: string | undefined
 	strings: {
 		useBuiltinSegmenterTitle: string
 		useBuiltInSegmenterDescription: string | React.ReactNode
@@ -14,11 +15,12 @@ export type FfmpegBasedEngineFieldsProps = {
 	}
 }
 
-export function FfmpegBasedEngineFields({ form, strings }: FfmpegBasedEngineFieldsProps) {
+export function FfmpegBasedEngineFields({ form, controlPrefix, strings }: FfmpegBasedEngineFieldsProps) {
 	return (
 		<>
 			<FlagFormField
 				control={form.control}
+				controlPrefix={controlPrefix}
 				fieldName={"useBuiltInSegmenter"}
 				title={strings.useBuiltinSegmenterTitle}
 				description={strings.useBuiltInSegmenterDescription}
@@ -38,6 +40,7 @@ export function FfmpegBasedEngineFields({ form, strings }: FfmpegBasedEngineFiel
 
 			<FlagFormField
 				control={form.control}
+				controlPrefix={controlPrefix}
 				fieldName={"exitDownloadOnError"}
 				title={strings.exitOnErrorTitle}
 				description={strings.exitOnErrorDescription}
