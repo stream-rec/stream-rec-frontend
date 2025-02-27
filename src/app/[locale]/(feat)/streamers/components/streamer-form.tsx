@@ -52,6 +52,9 @@ import { HuyaTabString } from "@/src/app/hooks/translations/huya-translations"
 import { DouyuQuality, DouyuTabString } from "@/src/app/hooks/translations/douyu-translations"
 import { TwitchQualityItem, TwitchTabString } from "@/src/app/hooks/translations/twitch-translations"
 import { PandaTvQualityItem, PandaTvTabString } from "@/src/app/hooks/translations/pandatv-translations"
+import EngineSelector from "../../settings/components/form/engine-selector"
+import { EngineTranslations } from "@/src/app/hooks/translations/engine-translations"
+import { DownloadEngineSchema, engineConfigSchema } from "@/src/lib/data/engines/definitions"
 
 type StreamerConfigProps = {
 	strings: {
@@ -85,6 +88,7 @@ type StreamerConfigProps = {
 			platformSpecificOptions: string
 			defaultDownloadOptions: string
 			callbackOptions: string
+			engineTranslations: EngineTranslations
 		}
 		huyaStrings: HuyaTabString
 		douyinStrings: DouyinTabString
@@ -214,6 +218,9 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 				submitData.startTime = null
 				submitData.endTime = null
 			}
+
+			if (!submitData.engine || submitData.engine === null) submitData.engineConfig = undefined
+
 			await onSubmit(submitData)
 			toastData(strings.toast.submitMessage, submitData, "code")
 			if (isCreated) {
@@ -242,6 +249,24 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 		form.setValue("downloadConfig.type", "invalid")
 		setPlatform("invalid")
 		return false
+	}
+
+	function getEngineConfig(entityId: number, engineName: string): Promise<DownloadEngineSchema | undefined> {
+		// do not handle default engine
+		if (engineName === "default") {
+			form.setValue("engineConfig", undefined)
+			return Promise.resolve(undefined)
+		}
+		const data = {
+			type: engineName,
+		} as DownloadEngineSchema
+		console.log("fetching engine config", entityId, engineName, data)
+		// make a promise to return data
+		return new Promise((resolve, reject) => {
+			// safe parse to skip null values
+			const engineSchema = engineConfigSchema.safeParse({ type: engineName })
+			resolve(engineSchema.data)
+		})
 	}
 
 	return (
@@ -421,6 +446,17 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 							}}
 						/>
 					)}
+
+					<EngineSelector
+						form={form}
+						entityId={0}
+						showNullable={true}
+						initialEngine={defaultValues?.engine ?? "default"}
+						getEngineConfig={getEngineConfig}
+						strings={strings.streamerForm.engineTranslations}
+						className='space-y-6'
+					/>
+
 					<div
 						className={clsx("space-y-6", {
 							hidden: platform === "invalid" || (selectedTemplateId && selectedTemplateId !== 0),

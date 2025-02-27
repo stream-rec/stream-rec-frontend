@@ -12,6 +12,7 @@ import {
 } from "@/src/app/hooks/translations/pandatv-translations"
 import { useWeiboTranslations } from "@/src/app/hooks/translations/weibo-translations"
 import RichText from "@/src/components/i18n/RichText"
+import { useEngineTranslations } from "@/src/app/hooks/translations/engine-translations"
 
 type StreamerFormWrapperProps = {
 	templateData: StreamerSchema[]
@@ -55,6 +56,8 @@ export function StreamerFormWrapper({ templateData, defaultStreamerValues, onSub
 	const moveT = useTranslations("MoveAction")
 	const copyT = useTranslations("CopyAction")
 
+	const engineTranslations = useEngineTranslations()
+
 	return (
 		<>
 			<StreamerForm
@@ -92,6 +95,7 @@ export function StreamerFormWrapper({ templateData, defaultStreamerValues, onSub
 						defaultDownloadOptions: streamerF("defaultDownloadOptions"),
 						callbackOptions: streamerF("callbackOptions"),
 						save: streamerF("save"),
+						engineTranslations: engineTranslations,
 					},
 					huyaStrings: huyaT,
 					douyinStrings: douyinT,

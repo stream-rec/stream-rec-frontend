@@ -2,9 +2,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFormState } from "react-hook-form"
 import { Form, FormControl, FormDescription, FormItem, FormLabel, FormMessage } from "@/src/components/new-york/ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/new-york/ui/select"
 import { Input } from "@/src/components/new-york/ui/input"
-import React, { useCallback, useEffect, useState, useMemo, memo } from "react"
+import React, { useCallback, useState, useMemo } from "react"
 import { DanmuFlagFormfield } from "@/src/app/[locale]/(feat)/settings/components/form/danmu-flag-formfield"
 import { OutputFolderFormField } from "@/src/app/[locale]/(feat)/settings/components/form/output-folder-formfield"
 import { OutputFilenameFormfield } from "@/src/app/[locale]/(feat)/settings/components/form/output-filename-formfield"
@@ -15,22 +14,17 @@ import { RestartNeededHoverCard } from "@/src/app/[locale]/(feat)/settings/compo
 import { toast } from "sonner"
 import { GlobalSettingsTranslations } from "@/src/app/hooks/translations/global-settings-translations"
 import { FlagFormField } from "@/src/app/[locale]/(feat)/settings/components/form/flag-form-field"
-import { KotlinEngineFields } from "@/src/app/[locale]/(feat)/settings/components/form/engines/kotlin-engine-fields"
-import { FfmpegBasedEngineFields } from "@/src/app/[locale]/(feat)/settings/components/form/engines/ffmpeg-based-engine-fields"
 import { DownloadEngineSchema } from "@/src/lib/data/engines/definitions"
 import { fetchEngineConfig, updateEngineConfig } from "@/src/lib/data/engines/engines-apis"
 import FormFieldWrapper from "@/src/app/[locale]/(feat)/settings/components/form-field-wrapper"
 import SizeInputField from "@/src/app/[locale]/(feat)/settings/components/form/size-input-field"
 import DurationInputField from "@/src/app/[locale]/(feat)/settings/components/form/duration-input-field"
-
-// Memoize the sub-components
-const MemoizedKotlinEngineFields = memo(KotlinEngineFields)
-const MemoizedFfmpegBasedEngineFields = memo(FfmpegBasedEngineFields)
+import EngineSelector from "@/src/app/[locale]/(feat)/settings/components/form/engine-selector"
 
 type GlobalFormProps = {
 	appConfig: GlobalConfig
 	update: (config: GlobalConfig) => Promise<void>
-	getEngineConfig(globalId: number, engineName: string): ReturnType<typeof fetchEngineConfig>
+	getEngineConfig(globalId: number, engineName: string): Promise<DownloadEngineSchema>
 	updateEngineConfig(
 		globalId: number,
 		engineName: string,
@@ -39,11 +33,8 @@ type GlobalFormProps = {
 	strings: GlobalSettingsTranslations
 }
 
-const engines = ["kotlin", "ffmpeg", "streamlink"]
-
 export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineConfig, strings }: GlobalFormProps) {
 	const [engine, setEngine] = useState(appConfig.engine)
-	const [isEngineConfigLoading, setIsEngineConfigLoading] = useState(false)
 
 	const form = useForm<GlobalConfig>({
 		resolver: zodResolver(globalConfigSchema, {
@@ -70,6 +61,11 @@ export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineCon
 		return AlertCardComponent
 	}, [strings.alertTitle, strings.alertDescription])
 
+	// Handle engine change from the EngineSelector component
+	const handleEngineChange = useCallback((newEngine: string, _config: DownloadEngineSchema) => {
+		setEngine(newEngine)
+	}, [])
+
 	// Memoize the onSubmit function
 	const onSubmit = useCallback(
 		async (data: GlobalConfig) => {
@@ -95,95 +91,18 @@ export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineCon
 		[engine, updateEngineConfig, update]
 	)
 
-	// Memoize the engine change handler with proper error handling
-	const handleEngineChange = useCallback(
-		async (e: string, field: any) => {
-			setIsEngineConfigLoading(true)
-			try {
-				const newEngineConf = await getEngineConfig(appConfig.id, e)
-				if (newEngineConf) {
-					form.setValue("engineConfig", newEngineConf)
-					setEngine(e)
-					field.onChange(e)
-				}
-			} catch (error: any) {
-				console.error("Failed to load engine config:", error)
-				toast.error(`Failed to load engine config: ${error.message || "Unknown error"}`)
-			} finally {
-				setIsEngineConfigLoading(false)
-			}
-		},
-		[getEngineConfig, appConfig.id, form]
-	)
-
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-				<FormFieldWrapper
-					control={form.control}
-					name='engine'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>{strings.engine}</FormLabel>
-							<Select
-								onValueChange={e => handleEngineChange(e, field)}
-								defaultValue={field.value}
-								disabled={isEngineConfigLoading}
-							>
-								<FormControl>
-									<SelectTrigger>
-										<SelectValue placeholder='{Select a download engine}' />
-									</SelectTrigger>
-								</FormControl>
-								<SelectContent>
-									{engines.map((engine, index) => (
-										<SelectItem key={index} value={engine}>
-											{engine}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-							<FormDescription className='text-[0.8rem] text-muted-foreground'>
-								{strings.engineDescription}
-							</FormDescription>
-							<FormMessage />
-						</FormItem>
-					)}
+				<EngineSelector
+					form={form}
+					entityId={appConfig.id}
+					initialEngine={appConfig.engine}
+					getEngineConfig={getEngineConfig}
+					onEngineChange={handleEngineChange}
+					strings={strings.engineTranslations}
+					className='space-y-6'
 				/>
-
-				{engine === "kotlin" && (
-					<MemoizedKotlinEngineFields
-						{...{
-							form,
-							controlPrefix: "engineConfig",
-							strings: {
-								enableFix: strings.enableFixFlvTitle,
-								enableFixDescription: strings.enableFixFlvDescription,
-								enableFlvDuplicateTagFilteringTitle: strings.enableFlvDuplicateTagFilteringTitle,
-								enableFlvDuplicateTagFilteringDescription: strings.enableFlvDuplicateTagFilteringDescription,
-								combineHlsFiles: strings.combineHlsFiles,
-								combineHlsFilesDescription: strings.combineHlsFilesDescription,
-							},
-						}}
-					/>
-				)}
-
-				{(engine === "ffmpeg" || engine === "streamlink") && (
-					<MemoizedFfmpegBasedEngineFields
-						{...{
-							form,
-							controlPrefix: "engineConfig",
-							strings: {
-								useBuiltinSegmenterTitle: strings.useBuiltInSegmenter,
-								useBuiltInSegmenterDescription: strings.useBuiltInSegmenterDescription,
-								useBuiltInSegmenterNote: strings.useBuiltInSegmenterNote,
-								useBuiltInSegmenterNoteDescription: strings.useBuiltInSegmenterNoteDescription,
-								exitOnErrorTitle: strings.exitOnErrorTitle,
-								exitOnErrorDescription: strings.exitOnErrorDescription,
-							},
-						}}
-					/>
-				)}
 
 				<DanmuFlagFormfield control={form.control} title={strings.danmu} description={strings.danmuDescription} />
 
@@ -237,6 +156,7 @@ export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineCon
 					timeFormatLabels={strings.timeFormats}
 				/>
 
+				{/* Rest of the numeric input fields with AlertCard */}
 				<FormFieldWrapper
 					control={form.control}
 					name='maxConcurrentDownloads'
@@ -256,6 +176,8 @@ export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineCon
 						</FormItem>
 					)}
 				/>
+
+				{/* ...existing code for other fields... */}
 
 				<LoadingButton type='submit' loading={isSubmitting} disabled={!isValid}>
 					{strings.save}

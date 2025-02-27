@@ -1,7 +1,7 @@
 "use server"
 
 import { fetchApi } from "../api"
-import { downloadEngineSchema, DownloadEngineSchema } from "./definitions"
+import { engineConfigSchema, DownloadEngineSchema } from "./definitions"
 
 export const fetchEngineConfig = async (globalId: number, engineName: string) => {
 	const response = await fetchApi(`/${globalId}/engines/${engineName}`)
@@ -11,7 +11,7 @@ export const fetchEngineConfig = async (globalId: number, engineName: string) =>
 	}
 	const json = await response.json()
 	// validate json as DownloadEngineSchema
-	downloadEngineSchema.parse(json)
+	engineConfigSchema.parse(json)
 	return json
 }
 
