@@ -10,7 +10,7 @@ import { OutputFilenameFormfield } from "@/src/app/[locale]/(feat)/settings/comp
 import { OutputFileFormatFormfield } from "@/src/app/[locale]/(feat)/settings/components/form/output-file-format-formfield"
 import { GlobalConfig, globalConfigSchema } from "@/src/lib/data/config/definitions"
 import { LoadingButton } from "@/src/components/new-york/ui/loading-button"
-import { RestartNeededHoverCard } from "@/src/app/[locale]/(feat)/settings/components/restart-needed-hover-card"
+import { WarningHoverCard } from "@/src/app/[locale]/(feat)/settings/components/warning-hover-card"
 import { toast } from "sonner"
 import { GlobalSettingsTranslations } from "@/src/app/hooks/translations/global-settings-translations"
 import { FlagFormField } from "@/src/app/[locale]/(feat)/settings/components/form/flag-form-field"
@@ -54,7 +54,7 @@ export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineCon
 		const AlertCardComponent = (children: React.ReactNode) => (
 			<div className='flex flex-row items-center gap-x-2'>
 				{children}
-				<RestartNeededHoverCard title={strings.alertTitle} description={strings.alertDescription} />
+				<WarningHoverCard title={strings.alertTitle} description={strings.alertDescription} />
 			</div>
 		)
 		AlertCardComponent.displayName = "AlertCard"
@@ -156,7 +156,6 @@ export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineCon
 					timeFormatLabels={strings.timeFormats}
 				/>
 
-				{/* Rest of the numeric input fields with AlertCard */}
 				<FormFieldWrapper
 					control={form.control}
 					name='maxConcurrentDownloads'
@@ -176,8 +175,6 @@ export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineCon
 						</FormItem>
 					)}
 				/>
-
-				{/* ...existing code for other fields... */}
 
 				<LoadingButton type='submit' loading={isSubmitting} disabled={!isValid}>
 					{strings.save}

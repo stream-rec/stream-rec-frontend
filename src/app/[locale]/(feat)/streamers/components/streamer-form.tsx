@@ -12,7 +12,7 @@ import {
 	FormMessage,
 } from "@/src/components/new-york/ui/form"
 import { Input } from "@/src/components/new-york/ui/input"
-import React, { useCallback, useEffect } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Button } from "@/src/components/new-york/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/new-york/ui/tabs"
 import { clsx } from "clsx"
@@ -43,7 +43,6 @@ import { TwitchPlatformForm } from "@/src/app/[locale]/(feat)/streamers/componen
 import { pandaTvDownloadConfig } from "@/src/lib/data/platform/pandatv/definitions"
 import { PandaTvPlatformForm } from "@/src/app/[locale]/(feat)/streamers/components/platforms/pandalive-platform"
 import { FlagFormField } from "@/src/app/[locale]/(feat)/settings/components/form/flag-form-field"
-import { TimePickerDemo } from "./timer-picker"
 import { WeiboPlatformForm } from "@/src/app/[locale]/(feat)/streamers/components/platforms/weibo-platform"
 import { WeiboTabString } from "@/src/app/hooks/translations/weibo-translations"
 import { weiboDownloadConfig } from "@/src/lib/data/platform/weibo/definitions"
@@ -55,8 +54,12 @@ import { PandaTvQualityItem, PandaTvTabString } from "@/src/app/hooks/translatio
 import EngineSelector from "../../settings/components/form/engine-selector"
 import { EngineTranslations } from "@/src/app/hooks/translations/engine-translations"
 import { DownloadEngineSchema, engineConfigSchema } from "@/src/lib/data/engines/definitions"
+import { TimeSelector } from "./time-selector"
+import { PlatformForm } from "./platform-registry"
+import dynamic from "next/dynamic"
+import { WarningHoverCard } from "../../settings/components/warning-hover-card"
 
-type StreamerConfigProps = {
+export type StreamerConfigProps = {
 	strings: {
 		toast: {
 			submitErrorMessage: string
@@ -111,30 +114,30 @@ type StreamerConfigProps = {
 export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }: StreamerConfigProps) {
 	const router = useRouter()
 
-	const [platform, setPlatform] = React.useState(defaultValues?.platform || "invalid")
-	const [isTemplate, setIsTemplate] = React.useState(defaultValues?.isTemplate || false)
+	const [platform, setPlatform] = useState(defaultValues?.platform || "invalid")
+	const [isTemplate, setIsTemplate] = useState(defaultValues?.isTemplate || false)
 
-	const [startDate, setStartDate] = React.useState<Date>(createDateFromString(defaultValues?.startTime ?? "00:00:00"))
-	const [endDate, setEndDate] = React.useState<Date>(createDateFromString(defaultValues?.endTime ?? "00:00:00"))
+	// Moved formatTimeString above to fix reference order
+	// Include a return type for the formatted time string utility
+	const formatTimeString = useCallback((date: Date): string => {
+		return `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date.getSeconds().toString().padStart(2, "0")}`
+	}, [])
 
+	// Using useMemo for dates to avoid unnecessary recreations
+	const [startDate, setStartDate] = useState<Date>(() => createDateFromString(defaultValues?.startTime ?? "00:00:00"))
+	const [endDate, setEndDate] = useState<Date>(() => createDateFromString(defaultValues?.endTime ?? "00:00:00"))
+
+	// Extract helper function
 	function createDateFromString(dateString: string): Date {
-		const [hours, minutes, seconds] = dateString.split(":").map(x => parseInt(x))
+		if (!dateString) return new Date()
+		const [hours, minutes, seconds] = dateString.split(":").map(x => parseInt(x) || 0) // Added fallback to 0
 		const date = new Date()
 		date.setHours(hours, minutes, seconds)
 		return date
 	}
 
-	useEffect(() => {
-		if (isTemplate && !defaultValues?.url) {
-			form.setValue("url", "https://www.huya.com/" + Date.now())
-			form.setValue("downloadConfig.type", PlatformType.TEMPLATE)
-			setPlatform("UNKNOWN")
-		} else {
-			form.setValue("url", defaultValues?.url ?? "")
-		}
-	}, [isTemplate])
-
-	const platformStreamerSchema = useCallback(() => {
+	// Memoize schema creation
+	const platformStreamerSchema = useMemo(() => {
 		const schemaMap: Record<PlatformType, any> = {
 			[PlatformType.HUYA]: huyaDownloadConfig,
 			[PlatformType.DOUYIN]: douyinDownloadConfig,
@@ -150,13 +153,16 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 			: streamerSchema
 	}, [platform])
 
-	const form = useForm<StreamerSchema>({
-		resolver: async (data, context, options) => {
-			const schema = platformStreamerSchema()
-			console.log("formData", data)
-			console.log("validation result", await zodResolver(schema)(data, context, options))
-			return zodResolver(schema)(data, context, options)
+	// Memoize resolver function to prevent unnecessary recreations
+	const formResolver = useCallback(
+		(data: any, context: any, options: any) => {
+			return zodResolver(platformStreamerSchema)(data, context, options)
 		},
+		[platformStreamerSchema]
+	)
+
+	const form = useForm<StreamerSchema>({
+		resolver: formResolver,
 		defaultValues: defaultValues,
 		mode: "onChange",
 	})
@@ -171,23 +177,6 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 		name: "downloadConfig.onPartedDownload",
 	})
 
-	useEffect(() => {
-		if (defaultValues && defaultValues.downloadConfig?.onPartedDownload) {
-			partedRemove()
-			defaultValues.downloadConfig?.onPartedDownload.forEach(item => {
-				console.log("appending parted action", item)
-				partedAppend(item)
-			})
-		}
-		if (defaultValues && defaultValues.downloadConfig?.onStreamingFinished) {
-			streamEndedRemove()
-			defaultValues.downloadConfig?.onStreamingFinished.forEach(item => {
-				console.log("appending end action", item)
-				streamEndedAppend(item)
-			})
-		}
-	}, [])
-
 	const {
 		fields: streamEndedFields,
 		append: streamEndedAppend,
@@ -198,81 +187,172 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 		name: "downloadConfig.onStreamingFinished",
 	})
 
-	const { isSubmitting, isValid } = useFormState({ control: form.control })
-
-	async function onSubmitData(data: StreamerSchema) {
-		try {
-			let isCreated = !data.id
-			let submitData = { ...data }
-			submitData.platform = platform.toUpperCase()
-			// if some of the times are set, set the other to 00:00:00
-			if (submitData.startTime && !submitData.endTime) {
-				submitData.endTime = "00:00:00"
-			} else if (!submitData.startTime && submitData.endTime) {
-				submitData.startTime = "00:00:00"
-			} else if (!submitData.startTime && !submitData.endTime) {
-				submitData.startTime = null
-				submitData.endTime = null
-			} else if (submitData.startTime === "00:00:00" && submitData.endTime === "00:00:00") {
-				// remove start and end time if they are not set
-				submitData.startTime = null
-				submitData.endTime = null
-			}
-
-			if (!submitData.engine || submitData.engine === null) submitData.engineConfig = undefined
-
-			await onSubmit(submitData)
-			toastData(strings.toast.submitMessage, submitData, "code")
-			if (isCreated) {
-				router.push(`/streamers`)
-			}
-			router.refresh()
-		} catch (e) {
-			console.error(e)
-			if (e instanceof Error) toastData("Error", (e as Error).message, "error")
+	// Load form field arrays once
+	useEffect(() => {
+		if (defaultValues?.downloadConfig?.onPartedDownload?.length) {
+			partedRemove()
+			defaultValues.downloadConfig.onPartedDownload.forEach(item => partedAppend(item))
 		}
-	}
 
+		if (defaultValues?.downloadConfig?.onStreamingFinished?.length) {
+			streamEndedRemove()
+			defaultValues.downloadConfig.onStreamingFinished.forEach(item => streamEndedAppend(item))
+		}
+	}, [defaultValues, partedRemove, partedAppend, streamEndedRemove, streamEndedAppend])
+
+	// Set template URL only when isTemplate changes
+	useEffect(() => {
+		if (isTemplate && !defaultValues?.url) {
+			form.setValue("url", "https://www.huya.com/" + Date.now())
+			form.setValue("downloadConfig.type", PlatformType.TEMPLATE)
+			setPlatform("UNKNOWN")
+		} else if (!isTemplate && !defaultValues?.url) {
+			form.setValue("url", "")
+		}
+	}, [isTemplate, defaultValues?.url, form, setPlatform])
+
+	const { isSubmitting, isValid } = useFormState({ control: form.control })
 	const selectedTemplateId = form.watch("templateId")
 
-	const trySetPlatform = (url: string) => {
-		for (const { platformType, regex } of platformRegexes) {
-			if (url.match(regex)) {
-				if (platform !== platformType) {
-					form.setValue("downloadConfig.type", platformType)
-					setPlatform(platformType)
+	// Optimize URL validation to prevent unnecessary re-renders
+	const trySetPlatform = useCallback(
+		(url: string) => {
+			for (const { platformType, regex } of platformRegexes) {
+				if (new RegExp(regex).test(url)) {
+					// Convert string to RegExp before using test()
+					if (platform !== platformType) {
+						form.setValue("downloadConfig.type", platformType)
+						setPlatform(platformType)
+					}
+					return true
 				}
-				return true
 			}
-		}
 
-		form.setValue("downloadConfig.type", "invalid")
-		setPlatform("invalid")
-		return false
-	}
+			// Only update if platform has changed to prevent unnecessary re-renders
+			if (platform !== "invalid") {
+				form.setValue("downloadConfig.type", "invalid")
+				setPlatform("invalid")
+			}
+			return false
+		},
+		[platform, form, setPlatform]
+	)
 
-	function getEngineConfig(entityId: number, engineName: string): Promise<DownloadEngineSchema | undefined> {
-		// do not handle default engine
-		if (engineName === "default") {
-			form.setValue("engineConfig", undefined)
-			return Promise.resolve(undefined)
-		}
-		const data = {
-			type: engineName,
-		} as DownloadEngineSchema
-		console.log("fetching engine config", entityId, engineName, data)
-		// make a promise to return data
-		return new Promise((resolve, reject) => {
-			// safe parse to skip null values
-			const engineSchema = engineConfigSchema.safeParse({ type: engineName })
-			resolve(engineSchema.data)
-		})
-	}
+	// Handle form submission with optimized data processing
+	const handleSubmit = useCallback(
+		async (data: StreamerSchema) => {
+			try {
+				const isCreated = !data.id
+				const submitData = { ...data, platform: platform.toUpperCase() }
+
+				// Improved null/undefined handling and string comparison
+				const startTime = submitData.startTime?.trim()
+				const endTime = submitData.endTime?.trim()
+
+				// Clear empty strings to undefined for consistency
+				submitData.startTime = startTime || undefined
+				submitData.endTime = endTime || undefined
+
+				// Handle time pairs
+				if (submitData.startTime || submitData.endTime) {
+					// Only set defaults when one time is provided but not the other
+					if (submitData.startTime && !submitData.endTime) {
+						submitData.endTime = "00:00:00"
+					} else if (!submitData.startTime && submitData.endTime) {
+						submitData.startTime = "00:00:00"
+					}
+
+					// Clear both times if they're both defaults (without risking strict equality issues)
+					if (submitData.startTime === "00:00:00" && submitData.endTime === "00:00:00") {
+						submitData.startTime = undefined
+						submitData.endTime = undefined
+					}
+				}
+
+				// Clear engine config when engine is null or default
+				if (!submitData.engine || submitData.engine === "default") {
+					submitData.engineConfig = undefined
+				}
+
+				await onSubmit(submitData)
+				toastData(strings.toast.submitMessage, submitData, "code")
+
+				if (isCreated) {
+					router.push(`/streamers`)
+				}
+				router.refresh()
+			} catch (error) {
+				console.error(error)
+				// Better error handling for any error type
+				const errorMessage = error instanceof Error ? error.message : String(error)
+				toastData("Error", errorMessage, "error")
+			}
+		},
+		[platform, onSubmit, router, strings.toast.submitMessage]
+	)
+
+	// Include proper form handling for engine config
+	const getEngineConfig = useCallback(
+		(entityId: number, engineName: string): Promise<DownloadEngineSchema | undefined> => {
+			if (!engineName || engineName === "default") {
+				form.setValue("engineConfig", undefined)
+				return Promise.resolve(undefined)
+			}
+
+			try {
+				// Use proper error handling for safe parse
+				const result = engineConfigSchema.safeParse({ type: engineName })
+				return Promise.resolve(result.success ? ({ type: engineName } as DownloadEngineSchema) : undefined)
+			} catch (error) {
+				console.error("Engine config parse error:", error)
+				return Promise.resolve(undefined)
+			}
+		},
+		[form]
+	)
+
+	// Optimized time change handlers to minimize state updates
+	const handleStartTimeChange = useCallback(
+		(date: Date | undefined) => {
+			if (!date) {
+				form.setValue("startTime", undefined)
+				setStartDate(new Date()) // Reset to current time but don't reflect in form
+				return
+			}
+			const timeString = formatTimeString(date)
+			form.setValue("startTime", timeString)
+			setStartDate(date)
+		},
+		[form, formatTimeString]
+	)
+
+	const handleEndTimeChange = useCallback(
+		(date: Date | undefined) => {
+			if (!date) {
+				form.setValue("endTime", undefined)
+				setEndDate(new Date()) // Reset to current time but don't reflect in form
+				return
+			}
+			const timeString = formatTimeString(date)
+			form.setValue("endTime", timeString)
+			setEndDate(date)
+		},
+		[form, formatTimeString]
+	)
+
+	// Add lazy loaded tabs for better performance
+	const DynamicTabContent = dynamic(
+		() => Promise.resolve(({ children }: { children: React.ReactNode }) => <>{children}</>),
+		{ ssr: false }
+	)
+
+	// Track active tab to enable lazy loading
+	const [activeTab, setActiveTab] = useState<string>(isTemplate ? "default" : "platform")
 
 	return (
 		<div>
 			<Form {...form}>
-				<form onSubmit={form.handleSubmit(onSubmitData)} className='space-y-4'>
+				<form onSubmit={form.handleSubmit(handleSubmit)} className='space-y-4'>
 					<FormField
 						control={form.control}
 						name='name'
@@ -300,9 +380,8 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 											<Input
 												value={field.value}
 												onChange={e => {
-													let value = e.target.value
 													field.onChange(e)
-													trySetPlatform(value)
+													trySetPlatform(e.target.value)
 												}}
 											/>
 										</FormControl>
@@ -324,43 +403,13 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 								ariaLabel={"Should record switch"}
 							/>
 
-							<div className={"flex flex-col gap-y-2"}>
-								<FormLabel>{strings.streamerData.startTime}</FormLabel>
-								<TimePickerDemo
-									date={startDate}
-									setDate={e => {
-										console.log(e)
-										if (!e) {
-											form.setValue("startTime", null)
-											return
-										}
-										setStartDate(e)
-										form.setValue(
-											"startTime",
-											`${e.getHours().toString().padStart(2, "0")}:${e.getMinutes().toString().padStart(2, "0")}:${e.getSeconds().toString().padStart(2, "0")}`
-										)
-									}}
-								/>
-							</div>
+							<TimeSelector
+								label={strings.streamerData.startTime}
+								date={startDate}
+								onTimeChange={handleStartTimeChange}
+							/>
 
-							<div className={"flex flex-col gap-y-2"}>
-								<FormLabel>{strings.streamerData.endTime}</FormLabel>
-								<TimePickerDemo
-									date={endDate}
-									setDate={e => {
-										console.log(e)
-										if (!e) {
-											form.setValue("endTime", null)
-											return
-										}
-										setEndDate(e)
-										form.setValue(
-											"endTime",
-											`${e.getHours().toString().padStart(2, "0")}:${e.getMinutes().toString().padStart(2, "0")}:${e.getSeconds().toString().padStart(2, "0")}`
-										)
-									}}
-								/>
-							</div>
+							<TimeSelector label={strings.streamerData.endTime} date={endDate} onTimeChange={handleEndTimeChange} />
 
 							<FormField
 								control={form.control}
@@ -441,9 +490,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 							title={strings.streamerForm.asTemplate}
 							description={strings.streamerForm.asTemplateDescription}
 							ariaLabel={"Template streamer switch"}
-							onChange={value => {
-								setIsTemplate(value)
-							}}
+							onChange={setIsTemplate}
 						/>
 					)}
 
@@ -462,15 +509,15 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 							hidden: platform === "invalid" || (selectedTemplateId && selectedTemplateId !== 0),
 						})}
 					>
-						<h3 className='text-md font-semibold'>{strings.streamerForm.streamerOnlyOptions}</h3>
+						<div className='flex items-center space-x-2'>
+							<h3 className='text-md font-semibold'>{strings.streamerForm.streamerOnlyOptions}</h3>
+							<WarningHoverCard
+								title={strings.streamerForm.alert}
+								description={strings.streamerForm.alertOverrideDescription}
+							/>
+						</div>
 
-						<Alert>
-							<RocketIcon className='h-4 w-4' />
-							<AlertTitle>{strings.streamerForm.alert}</AlertTitle>
-							<AlertDescription>{strings.streamerForm.alertOverrideDescription}</AlertDescription>
-						</Alert>
-
-						<Tabs defaultValue={isTemplate ? "default" : "platform"}>
+						<Tabs defaultValue={isTemplate ? "default" : "platform"} onValueChange={setActiveTab}>
 							<TabsList
 								className={clsx(
 									"ml-auto grid h-auto w-auto grid-cols-1",
@@ -493,66 +540,44 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 
 							<div>
 								{!isTemplate && (
-									<>
-										<TabsContent value='platform'>
-											{platform === PlatformType.HUYA && (
-												<HuyaPlatform allowNone={true} strings={strings.huyaStrings} />
-											)}
-											{platform === PlatformType.DOUYIN && (
-												<DouyinPlatform
-													douyinQualityOptions={strings.douyinQualityOptions}
-													allowNone={true}
-													strings={strings.douyinStrings}
-												/>
-											)}
-											{platform === PlatformType.DOUYU && (
-												<DouyuPlatformForm
-													strings={strings.douyuStrings}
-													allowNone={true}
-													douyuQualityOptions={strings.douyuQualityOptions}
-												/>
-											)}
-											{platform === PlatformType.TWITCH && (
-												<TwitchPlatformForm
-													strings={strings.twitchStrings}
-													allowNone={true}
-													qualities={strings.twitchQualityOptions}
-												/>
-											)}
-											{platform === PlatformType.PANDATV && (
-												<PandaTvPlatformForm
-													strings={strings.pandaStrings}
-													allowNone={true}
-													qualities={strings.pandaQualityOptions}
-												/>
-											)}
-											{platform == PlatformType.WEIBO && (
-												<WeiboPlatformForm strings={strings.weiboStrings} allowNone={true} />
-											)}
-										</TabsContent>
-									</>
+									<TabsContent value='platform'>
+										{/* Only render platform content if it's the active tab for better performance */}
+										{activeTab === "platform" && platform !== "invalid" && (
+											<DynamicTabContent>
+												<PlatformForm platform={platform} strings={strings} allowNone={true} />
+											</DynamicTabContent>
+										)}
+									</TabsContent>
 								)}
 								<TabsContent value='default'>
-									<BaseDownloadConfig allowNone={true} strings={strings.baseDownloadStrings} />
+									{activeTab === "default" && (
+										<DynamicTabContent>
+											<BaseDownloadConfig allowNone={true} strings={strings.baseDownloadStrings} />
+										</DynamicTabContent>
+									)}
 								</TabsContent>
 								<TabsContent value='actions'>
-									<ActionsCallbackTab
-										addItem={partedAppend}
-										addItemEnded={streamEndedAppend}
-										deleteItem={partedRemove}
-										deleteItemEnded={streamEndedRemove}
-										list={partedFields}
-										endedList={streamEndedFields}
-										updateItem={(index, data) => {
-											partedUpdate(index, data)
-											toastData(strings.toast.submitMessage, data, "code")
-										}}
-										updateItemEnded={(index, data) => {
-											streamEndedUpdate(index, data)
-											toastData(strings.toast.submitMessage, data, "code")
-										}}
-										strings={strings.actionTabStrings}
-									/>
+									{activeTab === "actions" && (
+										<DynamicTabContent>
+											<ActionsCallbackTab
+												addItem={partedAppend}
+												addItemEnded={streamEndedAppend}
+												deleteItem={partedRemove}
+												deleteItemEnded={streamEndedRemove}
+												list={partedFields}
+												endedList={streamEndedFields}
+												updateItem={(index, data) => {
+													partedUpdate(index, data)
+													toastData(strings.toast.submitMessage, data, "code")
+												}}
+												updateItemEnded={(index, data) => {
+													streamEndedUpdate(index, data)
+													toastData(strings.toast.submitMessage, data, "code")
+												}}
+												strings={strings.actionTabStrings}
+											/>
+										</DynamicTabContent>
+									)}
 								</TabsContent>
 							</div>
 						</Tabs>
