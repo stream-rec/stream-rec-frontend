@@ -3,6 +3,7 @@ import React from "react"
 
 export type KotlinEngineFieldsProps = {
 	form: any
+	controlPrefix?: string
 	strings: {
 		enableFix: string
 		enableFixDescription: string | React.ReactNode
@@ -13,31 +14,34 @@ export type KotlinEngineFieldsProps = {
 	}
 }
 
-export function KotlinEngineFields({ form, strings }: KotlinEngineFieldsProps) {
+export function KotlinEngineFields({ form, controlPrefix, strings }: KotlinEngineFieldsProps) {
 	return (
 		<>
 			<FlagFormField
 				control={form.control}
+				controlPrefix={controlPrefix}
 				fieldName={"enableFlvFix"}
 				title={strings.enableFix}
 				description={strings.enableFixDescription}
-				ariaLabel={"Flag to enable fix"}
+				ariaLabel={"Flag to enable kotlin engine fix feature"}
 			/>
 
 			<FlagFormField
 				control={form.control}
+				controlPrefix={controlPrefix}
 				fieldName={"enableFlvDuplicateTagFiltering"}
 				title={strings.enableFlvDuplicateTagFilteringTitle}
 				description={strings.enableFlvDuplicateTagFilteringDescription}
-				ariaLabel={"Flag to enable duplicate tag filtering"}
+				ariaLabel={"Flag to enable kotlin engine duplicate tag filtering feature"}
 			/>
 
 			<FlagFormField
 				control={form.control}
+				controlPrefix={controlPrefix}
 				fieldName={"combineTsFiles"}
 				title={strings.combineHlsFiles}
 				description={strings.combineHlsFilesDescription}
-				ariaLabel={"Flag to combine Hls files"}
+				ariaLabel={"Flag to enable kotlin engine combine Hls files feature"}
 			/>
 		</>
 	)

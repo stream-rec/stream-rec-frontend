@@ -5,12 +5,14 @@ import { huyaGlobalConfig } from "@/src/lib/data/platform/huya/definitions"
 import { douyinGlobalConfig } from "@/src/lib/data/platform/douyin/definitions"
 import { pandaTvGlobalConfig } from "@/src/lib/data/platform/pandatv/definitions"
 import { weiboGlobalConfig } from "@/src/lib/data/platform/weibo/definitions"
+import { engineConfigSchema } from "../engines/definitions"
 
 export const globalConfigSchema = z.object({
 	id: z.number(),
 	engine: z.string({
 		required_error: "Please select a download engine.",
 	}),
+	engineConfig : engineConfigSchema.optional(),
 	danmu: z.boolean().default(true),
 	deleteFilesAfterUpload: z.boolean().default(true),
 	outputFolder: z
@@ -36,11 +38,6 @@ export const globalConfigSchema = z.object({
 	maxDownloadRetries: z.number().min(1).optional(),
 	downloadRetryDelay: z.number().min(1).optional(),
 	downloadCheckInterval: z.number().min(1).optional(),
-	useBuiltInSegmenter: z.boolean().optional(),
-	enableFlvFix: z.boolean().optional(),
-	enableFlvDuplicateTagFiltering: z.boolean().optional(),
-	combineTsFiles: z.boolean().optional(),
-	exitDownloadOnError: z.boolean().optional(),
 	huyaConfig: huyaGlobalConfig.optional(),
 	douyinConfig: douyinGlobalConfig.optional(),
 	douyuConfig: douyuGlobalConfig.optional(),

@@ -45,7 +45,6 @@ export const PlatformTabContent = ({
 	strings,
 	children,
 }: PlatformTabContentProps<any>) => {
-	console.log("PlatformTabContentProps", showDownloadCheckInterval)
 
 	return (
 		<div className='mt-6 space-y-6 fade-in'>

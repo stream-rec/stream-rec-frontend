@@ -1,6 +1,6 @@
 {
 	"name": "screen-rec-front",
-	"version": "0.7.3-beta-03",
+	"version": "0.7.3-beta-04",
 	"private": true,
 	"scripts": {
 		"dev": "next dev -p 15275",

@@ -354,7 +354,7 @@
 		"onPartedDownload": "On parted download callbacks",
 		"onPartedDownloadDescription": "Actions to be executed when a video part is downloaded",
 		"onStreamEnded": "On Stream ended callbacks",
-		"onStreamEndedDescription": "Actions to be executed when a streamer has ended. <important>Please make sure on parted download has finished</important>",
+		"onStreamEndedDescription": "Actions to be executed when streaming completed. <important>Please make sure on parted download has finished</important>",
 		"newAction": "New Action",
 		"newActionDescription": "Create a new action callback to be triggered when a new event occurs.",
 		"actionType": "Action Type",

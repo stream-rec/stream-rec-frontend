@@ -12,6 +12,7 @@ import { douyinRegex } from "@/src/lib/data/platform/douyin/constants"
 import { douyuRegex } from "@/src/lib/data/platform/douyu/constants"
 import { pandatvRegex } from "@/src/lib/data/platform/pandatv/constants"
 import { weiboRegex } from "@/src/lib/data/platform/weibo/constants"
+import { engineConfigSchema } from "../engines/definitions"
 
 export const videoFormats = ["mp4", "avi", "mov", "mkv", "flv", "ts"] as const
 
@@ -91,6 +92,8 @@ export const streamerSchema = z.object({
 	endTime: z.string().max(8).nullish(),
 	templateId: z.number().min(0).optional(),
 	downloadConfig: baseDownloadConfig.nullish(),
+	engine: z.string().nullish(),
+	engineConfig: engineConfigSchema.nullish(),
 })
 
 export type StreamerSchema = z.infer<typeof streamerSchema>
