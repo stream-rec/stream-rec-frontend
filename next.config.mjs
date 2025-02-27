@@ -33,7 +33,7 @@ const nextConfig = {
 	output: "standalone",
 	env: {
 		APP_VERSION: appVersion,
-		MIN_SERVER_VERSION: "10552",
+		MIN_SERVER_VERSION: "10565",
 		AUTH_URL: process.env.NEXT_PUBLIC_BASE_URL,
 		AUTH_TRUST_HOST: process.env.AUTH_TRUST_HOST,
 	},
