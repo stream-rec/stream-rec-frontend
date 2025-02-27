@@ -70,7 +70,7 @@ export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineCon
 	const onSubmit = useCallback(
 		async (data: GlobalConfig) => {
 			const finalData = { ...data }
-			const engineConfig = finalData.engineConfig
+			const { engineConfig } = finalData
 
 			try {
 				// merge the promises to update the engine config and the global config
