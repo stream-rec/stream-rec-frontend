@@ -66,13 +66,24 @@ export function RecordList({
 		// Move interval reference outside for cleanup
 		let heartbeatInterval: NodeJS.Timeout
 		let ws: WebSocket
+		let reconnectTimeout: NodeJS.Timeout
+		let isConnecting = false
+		let reconnectAttempts = 0
+		const maxReconnectAttempts = 5
+		const baseReconnectDelay = 1000
 
 		const connect = () => {
+			if (isConnecting) return
+			isConnecting = true
+
 			try {
 				ws = new WebSocket(wsUrl)
 
 				ws.onopen = () => {
 					console.log("WebSocket connection established")
+					isConnecting = false
+					reconnectAttempts = 0 // Reset reconnect attempts on successful connection
+
 					heartbeatInterval = setInterval(() => {
 						if (ws.readyState === ws.OPEN) {
 							ws.send(wsHeartbeatArray)
@@ -84,25 +95,54 @@ export function RecordList({
 
 				ws.onerror = error => {
 					console.error("WebSocket error:", error)
+					isConnecting = false
 				}
 
 				ws.onclose = event => {
+					clearInterval(heartbeatInterval)
+					isConnecting = false
+
 					if (event.wasClean) {
 						console.log(`WebSocket connection closed cleanly, code=${event.code}, reason=${event.reason}`)
 					} else {
-						console.log("WebSocket connection died")
+						console.log("WebSocket connection died, attempting to reconnect...")
+
+						// exponential backoff
+						if (reconnectAttempts < maxReconnectAttempts && document.visibilityState !== "hidden") {
+							const delay = Math.min(baseReconnectDelay * Math.pow(2, reconnectAttempts), 30000)
+							reconnectAttempts++
+
+							reconnectTimeout = setTimeout(() => {
+								connect()
+							}, delay)
+						}
 					}
 				}
 			} catch (e) {
 				console.error("WebSocket error:", e)
 				toastData("error", "WebSocket connection failed", "info")
+				isConnecting = false
 			}
 		}
 
+		// Handle visibility change events
+		const handleVisibilityChange = () => {
+			console.debug("Visibility changed to", document.visibilityState)
+			if (document.visibilityState === "visible") {
+				// Page is now visible, check WebSocket status
+				if (!ws || ws.readyState === WebSocket.CLOSED || ws.readyState === WebSocket.CLOSING) {
+					connect()
+				}
+			}
+		}
+
+		document.addEventListener("visibilitychange", handleVisibilityChange)
 		connect()
 
 		return () => {
+			document.removeEventListener("visibilitychange", handleVisibilityChange)
 			clearInterval(heartbeatInterval)
+			clearTimeout(reconnectTimeout)
 			ws?.close()
 		}
 	}, [wsUrl, handleWebSocketMessage])
