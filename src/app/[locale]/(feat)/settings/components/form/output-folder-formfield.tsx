@@ -22,6 +22,7 @@ export function OutputFolderFormField({
 	controlPrefix,
 	placeholderDescription,
 }: OutputFolderFormFieldProps) {
+
 	return (
 		<FormField
 			control={control}
@@ -34,7 +35,7 @@ export function OutputFolderFormField({
 					</FormControl>
 					<Accordion type='single' collapsible asChild className='text-[0.8rem] text-muted-foreground'>
 						<AccordionItem value='item-1' className={"border-none"}>
-							<AccordionTrigger className={"py-2 text-[0.8rem] text-muted-foreground"}>{description}</AccordionTrigger>
+							<AccordionTrigger className={"py-0 text-[0.8rem] text-muted-foreground"}>{description}</AccordionTrigger>
 							<AccordionContent className={"whitespace-pre-wrap text-[0.8rem] text-muted-foreground"}>
 								{placeholderDescription}
 							</AccordionContent>
