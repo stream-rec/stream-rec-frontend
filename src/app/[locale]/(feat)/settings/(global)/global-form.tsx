@@ -176,6 +176,86 @@ export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineCon
 					)}
 				/>
 
+				<FormFieldWrapper
+					control={form.control}
+					name='maxConcurrentUploads'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{AlertCard(strings.maxConcurrentUpload)}</FormLabel>
+							<FormControl>
+								<Input
+									type='number'
+									onChange={e => field.onChange(parseInt(e.target.value))}
+									value={field.value}
+									placeholder='3'
+								/>
+							</FormControl>
+							<FormDescription>{strings.maxConcurrentUploadDescription}</FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormFieldWrapper
+					control={form.control}
+					name='downloadCheckInterval'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{AlertCard(strings.downloadCheckInterval)}</FormLabel>
+							<FormControl>
+								<Input
+									type='number'
+									onChange={e => field.onChange(Number(e.target.value))}
+									value={field.value}
+									placeholder='60'
+								/>
+							</FormControl>
+							<FormDescription>{strings.downloadCheckIntervalDescription}</FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormFieldWrapper
+					control={form.control}
+					name='downloadRetryDelay'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{AlertCard(strings.downloadRetryDelay)}</FormLabel>
+							<FormControl>
+								<Input
+									type='number'
+									onChange={e => field.onChange(Number(e.target.value))}
+									value={field.value}
+									placeholder='10'
+								/>
+							</FormControl>
+							<FormDescription>{strings.downloadRetryDelayDescription}</FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormFieldWrapper
+					control={form.control}
+					name='maxDownloadRetries'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>{AlertCard(strings.maxDownloadRetries)}</FormLabel>
+							<FormControl>
+								<Input
+									type='number'
+									onChange={e => field.onChange(Number(e.target.value))}
+									value={field.value}
+									placeholder='3'
+								/>
+							</FormControl>
+							<FormDescription>{strings.maxDownloadRetriesDescription}</FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
 				<LoadingButton type='submit' loading={isSubmitting} disabled={!isValid}>
 					{strings.save}
 				</LoadingButton>
