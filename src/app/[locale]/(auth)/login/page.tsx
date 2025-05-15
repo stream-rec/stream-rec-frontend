@@ -2,19 +2,25 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/src
 import { getTranslations } from "next-intl/server"
 import { redirect } from "next/navigation"
 import { cookies } from "next/headers"
-import { useMemo } from "react"
-import { LoginForm } from "@/src/app/[locale]/(auth)/login/login-form"
+import { LoginForm } from "./login-form"
 import { auth } from "@/auth"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+	title: "Login",
+	description: "Login to your account"
+}
+
+export const dynamic = "force-dynamic"
 
 export default async function LoginPage() {
 	const session = await auth()
 
+	// Redirect logged in users
 	if (session) {
-		if (session.user && session.user.isFirstUsePassword) {
-			// Redirect to change password page if first use
+		if (session.user?.isFirstUsePassword) {
 			redirect(`/reset-password`)
 		} else {
-			// Redirect to home page if already logged in
 			redirect("/dashboard")
 		}
 	}
@@ -31,31 +37,24 @@ export default async function LoginPage() {
 
 	const t = await getTranslations("LoginPage")
 
-	return <LoginFormWrapper defaultValues={defaultValues} t={t} />
-}
-
-function LoginFormWrapper({ defaultValues, t }: { defaultValues: any; t: any }) {
-	const loginStrings = useMemo(
-		() => ({
-			username: t("username"),
-			usernamePlaceholder: t("usernamePlaceholder"),
-			password: t("password"),
-			passwordPlaceholder: t("passwordPlaceholder"),
-			rememberMe: t("rememberMe"),
-			forgotPassword: t("forgotPassword"),
-			recoverPasswordSuccess: t("recoverPasswordSuccess"),
-			signIn: t("signIn"),
-			loginSuccessful: t("loginSuccess"),
-			loginFailed: t("loginError"),
-		}),
-		[t]
-	)
+	const loginStrings = {
+		username: t("username"),
+		usernamePlaceholder: t("usernamePlaceholder"),
+		password: t("password"),
+		passwordPlaceholder: t("passwordPlaceholder"),
+		rememberMe: t("rememberMe"),
+		forgotPassword: t("forgotPassword"),
+		recoverPasswordSuccess: t("recoverPasswordSuccess"),
+		signIn: t("signIn"),
+		loginSuccessful: t("loginSuccess"),
+		loginFailed: t("loginError"),
+	}
 
 	return (
-		<div className={"flex h-screen items-center justify-center"}>
-			<Card className='w-[350px] p-4'>
+		<div className="flex h-screen items-center justify-center">
+			<Card className="w-[350px] p-4">
 				<CardHeader>
-					<CardTitle className={"text-lg"}>{t("title")}</CardTitle>
+					<CardTitle className="text-lg">{t("title")}</CardTitle>
 					<CardDescription>{t("description")}</CardDescription>
 				</CardHeader>
 				<CardContent>
