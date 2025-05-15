@@ -13,7 +13,7 @@ export const login = async (username: string, password: string) => {
 
 	if (!response.ok) {
 		const errorText = await response.text()
-		throw new Error("Error logging in, status: " + response.status + " " + errorText)
+		throw new Error("Login failed, status: " + response.status + " " + errorText)
 	}
 	return (await response.json()) as {
 		id: number
@@ -36,7 +36,7 @@ export const recoverPassword = async (username: string) => {
 
 	if (!response.ok) {
 		const errorText = await response.text()
-		throw new Error("Error recovering password, status: " + response.status + " " + errorText)
+		throw new Error("Recover password failed, status: " + response.status + " " + errorText)
 	}
 	return await response.text()
 }
@@ -56,7 +56,7 @@ export const changePassword = async (id: string, password: string, newPassword: 
 
 	if (!response.ok) {
 		const errorText = await response.text()
-		throw new Error("status: " + response.status + " " + errorText)
+		throw new Error("Change password failed, status: " + response.status + " " + errorText)
 	}
 	return await response.text()
 }

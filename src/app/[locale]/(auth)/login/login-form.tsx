@@ -12,6 +12,7 @@ import { toastData } from "@/src/app/utils/toast"
 import { recoverPassword } from "@/src/lib/data/user/user-apis"
 import { signIn } from "next-auth/react"
 import { useRouter } from "@/src/i18n/routing"
+import { InvalidLoginError } from "@/auth"
 
 export type LoginFormStrings = {
 	username: string
@@ -44,28 +45,40 @@ export function LoginForm({ strings, defaultValues }: LoginFormProps) {
 	})
 	const router = useRouter()
 
-	const onSubmit = (data: User) => {
-		signIn("credentials", {
-			username: data.username,
-			password: data.password,
-			redirect: false,
-		})
-			.then(result => {
-				console.log("result sign", result)
-				if (result?.error) {
-					toastData("", strings.loginFailed + "\n" + result.error, "error")
-					console.error(result.error)
-				} else {
-					if (isSave) {
-						document.cookie = `username=${data.username}; path=/; max-age=2592000` // 30 days
-					} else {
-						document.cookie = `username=; path=/; max-age=0`
-					}
-					toastData(strings.loginSuccessful, strings.loginSuccessful, "success")
-				}
-				router.refresh()
+	const onSubmit = async (data: User) => {
+		try {
+			let result = await signIn("credentials", {
+				username: data.username,
+				password: data.password,
+				redirect: false,
 			})
-			.catch(e => console.error(e))
+
+			console.debug("result sign", result)
+			if (result?.error) {
+				console.debug("result.error", result.error)
+				toastData(strings.loginFailed, result.code, "error")
+			} else {
+				if (isSave) {
+					saveCookie(data.username)
+					router.refresh()
+				} else {
+					clearCookie()
+				}
+				toastData(strings.loginSuccessful, strings.loginSuccessful, "success")
+			}
+		} catch (e) {
+			if (e instanceof InvalidLoginError) {
+				toastData("", e.message, "error")
+			}
+		}
+	}
+
+	const saveCookie = (username: string) => {
+		document.cookie = `username=${username}; path=/; max-age=2592000` // 30 days
+	}
+
+	const clearCookie = () => {
+		document.cookie = `username=; path=/; max-age=0`
 	}
 
 	const recover = async (username: string) => {

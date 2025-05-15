@@ -1,4 +1,4 @@
-import NextAuth, { AuthError, DefaultSession, User } from "next-auth"
+import NextAuth, { AuthError, CredentialsSignin, DefaultSession, User } from "next-auth"
 import credentials from "next-auth/providers/credentials"
 import { login } from "@/src/lib/data/user/user-apis"
 
@@ -31,6 +31,15 @@ declare module "next-auth" {
 	}
 }
 
+
+export class InvalidLoginError extends CredentialsSignin {
+	code = "custom";
+	constructor(message: string) {
+		super(message);
+		this.code = message;
+	}
+}
+
 const credentialsProvider = credentials({
 	name: "Credentials",
 	credentials: {
@@ -39,7 +48,7 @@ const credentialsProvider = credentials({
 	},
 	authorize: async (credentials, req) => {
 		if (typeof credentials === "undefined") {
-			throw new Error("No credentials provided")
+			throw new InvalidLoginError("No credentials provided")
 		}
 
 		try {
@@ -48,14 +57,14 @@ const credentialsProvider = credentials({
 			const validTo = new Date(res.validTo)
 			const now = new Date()
 			if (validTo < now) {
-				throw new Error("Session expired")
+				throw new InvalidLoginError("Session expired")
 			}
 
 			const role = res.role ?? "USER"
 			const isFirstUsePassword = res.isFirstUsePassword ?? false
 
 			if (!res.token) {
-				throw new Error("Invalid credentials")
+				throw new InvalidLoginError("Invalid credentials")
 			}
 
 			return {
@@ -69,7 +78,7 @@ const credentialsProvider = credentials({
 		} catch (error) {
 			// Convert any error to a string message
 			const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred"
-			throw new AuthError(errorMessage)
+			throw new InvalidLoginError(errorMessage)
 		}
 	},
 })
