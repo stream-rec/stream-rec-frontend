@@ -1,6 +1,6 @@
 "use client"
 
-import { Link } from "@/src/i18n/routing"
+import { Link, useRouter } from "@/src/i18n/routing"
 import { Ellipsis, LogOut } from "lucide-react"
 import { usePathname } from "next/navigation"
 
@@ -10,8 +10,8 @@ import { Button } from "@/src/components/new-york/ui/button"
 import { ScrollArea } from "@/src/components/new-york/ui/scroll-area"
 import { CollapseMenuButton } from "@/src/components/dashboard/collapse-menu-button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/src/components/new-york/ui/tooltip"
-import { signOut } from "next-auth/react"
 import { SidebarStrings } from "@/src/app/hooks/translations/use-sidebar-translations"
+import { BASE_PATH } from "@/src/lib/routes"
 
 interface MenuProps {
 	isOpen: boolean | undefined
@@ -21,6 +21,8 @@ interface MenuProps {
 export function Menu({ isOpen, navStrings }: MenuProps) {
 	const pathname = usePathname()
 	const menuList = getMenuList(pathname, navStrings)
+
+	const router = useRouter()
 
 	return (
 		<ScrollArea className='[&>div>div[style]]:!block'>
@@ -92,9 +94,7 @@ export function Menu({ isOpen, navStrings }: MenuProps) {
 								<TooltipTrigger asChild>
 									<Button
 										onClick={async () => {
-											await signOut({
-												callbackUrl: "/login",
-											})
+											router.push(`${BASE_PATH}/logout`)
 										}}
 										variant='outline'
 										className='mt-5 h-10 w-full justify-center'
