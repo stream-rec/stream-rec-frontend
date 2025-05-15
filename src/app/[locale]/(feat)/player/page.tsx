@@ -58,12 +58,12 @@ const getProxyUrlForStream = async (
 
 // Common player configuration
 const getCommonPlayerConfig = (isLive: boolean) => ({
-	// autoCleanupSourceBuffer: true,
-	// autoCleanupMaxBackwardDuration: 2 * 60,
-	// lazyLoad: isLive,
-	// lazyLoadMaxDuration: 5 * 60, // 30 minutes
-	// enableStashBuffer: false,
-	// stashInitialSize: 128,
+	autoCleanupSourceBuffer: true,
+	autoCleanupMaxBackwardDuration: 2 * 60,
+	lazyLoad: isLive,
+	lazyLoadMaxDuration: 5 * 60, // 5 minutes
+	enableStashBuffer: false,
+	stashInitialSize: 128,
 })
 
 export default function PlayerPage() {

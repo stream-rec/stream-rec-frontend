@@ -63,7 +63,8 @@ export async function GET(request: Request) {
 
 		const contentType = response.headers["content-type"]
 
-		if (contentType?.includes("application/vnd.apple.mpegurl") || targetUrl.endsWith(".m3u8")) {
+		// Check for HLS content (m3u8 files)
+		if (contentType?.includes("mpegurl") || targetUrl.endsWith(".m3u8")) {
 			// Convert stream to text for m3u8 files
 			const chunks: Buffer[] = []
 			for await (const chunk of response.data) {
@@ -71,16 +72,35 @@ export async function GET(request: Request) {
 			}
 			const text = Buffer.concat(chunks).toString("utf-8")
 
-			const rewrittenText = text.replace(/(^https?:\/\/[^\s]*|^[^#][^\s]*)/gm, match => {
-				if (!match.startsWith("http")) {
-					const baseUrl = new URL(targetUrl)
-					match = new URL(match, baseUrl.origin + baseUrl.pathname).toString()
+			// Parse the playlist and rewrite all URLs
+			const baseUrl = new URL(targetUrl)
+			const rewrittenText = text.split('\n').map(line => {
+				// Skip comments and empty lines for URL replacement
+				if (line.startsWith('#') || line.trim() === '') {
+					return line
 				}
-				return `/api/proxy?data=${encodeParams(match, customHeaders)}`
-			})
+
+				// Handle absolute and relative URLs
+				let fullUrl = line
+				if (!line.startsWith('http')) {
+					// Handle different relative path formats
+					if (line.startsWith('/')) {
+						// Absolute path relative to origin
+						fullUrl = `${baseUrl.origin}${line}`
+					} else {
+						// Relative path to current location
+						// Remove filename from pathname to get directory
+						const pathDir = baseUrl.pathname.substring(0, baseUrl.pathname.lastIndexOf('/') + 1)
+						fullUrl = `${baseUrl.origin}${pathDir}${line}`
+					}
+				}
+
+				return `/api/proxy?data=${encodeParams(fullUrl, customHeaders)}`
+			}).join('\n')
 
 			return new Response(rewrittenText, {
 				headers: {
+					"Content-Type": "application/vnd.apple.mpegurl",
 					...(response.headers as any),
 				},
 				status: response.status,
