@@ -49,7 +49,7 @@ export function UploadActionColumn({ data, retryUpload, deleteUpload }: UploadAc
 			<DropdownMenuContent align='end'>
 				<DropdownMenuLabel>{t("actions")}</DropdownMenuLabel>
 
-				{Number(UploadStatus[data.status]) === UploadStatus.FAILED && (
+				{Number(UploadStatus[data.status]) !== UploadStatus.UPLOADED && (
 					<>
 						<DropdownMenuItem onClick={() => retry(data.id.toString())}>
 							{t("retry")}
