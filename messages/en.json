@@ -14,7 +14,7 @@
 		"relativeMessage": "from last {date, select, 0 {week} 2 {year} 1 {month} other {day}}"
 	},
 	"StreamerData": {
-		"state": "{state, select, 0 {not live} 1 {live now} 2 {not live} 3 {detecting} 4 {error} 5 {disabled} 6 {not found} other {disabled}}",
+		"state": "{state, select, 0 {not live} 1 {live now} 2 {not live} 3 {detecting} 4 {error} 5 {disabled} 6 {not found} 7 {no space} other {disabled}}",
 		"noStreamsYet": "no streams yet",
 		"template": "Template",
 		"name": "Name",

@@ -14,7 +14,7 @@
 		"relativeMessage": "相对于上一{date, select, 0 {周} 2 {年} 1 {月} other {日}}"
 	},
 	"StreamerData": {
-		"state": "{state, select, 0 {未直播} 1 {直播中} 2 {超出时间} 3 {检测中} 4 {错误} 5 {已禁用} 6 {已注销} other {已禁用}}",
+		"state": "{state, select, 0 {未直播} 1 {直播中} 2 {超出时间} 3 {检测中} 4 {错误} 5 {已禁用} 6 {已注销} 7 {空间不足} other {已禁用}}",
 		"noStreamsYet": "暂无直播",
 		"template": "模板",
 		"name": "名称",

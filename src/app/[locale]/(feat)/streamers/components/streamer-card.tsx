@@ -179,7 +179,7 @@ export function StreamerCard({
 							<>
 								<Badge variant={"default"}>{platform}</Badge>
 								<Badge
-									variant={state === StreamerState.NOT_FOUND ? "destructive" : "secondary"}
+									variant={state === StreamerState.NOT_FOUND || state === StreamerState.NO_SPACE ? "destructive" : "secondary"}
 									className={"line-clamp-1"}
 								>
 									{bitrate ? `${bitrate} kbps` : lastStream}

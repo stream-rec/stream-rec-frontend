@@ -59,6 +59,7 @@ export enum StreamerState {
 	FATAL_ERROR = 4,
 	CANCELLED = 5,
 	NOT_FOUND = 6,
+	NO_SPACE = 7,
 	UNKNOWN = 99,
 }
 
