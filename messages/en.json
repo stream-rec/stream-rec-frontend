@@ -445,6 +445,8 @@
 		"deleteError": "Delete error",
 		"deleteConfirmation": "Are you sure?",
 		"deleteConfirmationDescription": "This action cannot be undone. This will permanently delete {count, plural, =0 {no items} =1 {one item} other {# items}}.",
+		"deleteLocalFiles": "Also delete local files",
+		"deleteLocalFilesConfirm": "Do you also want to delete the local files?",
 		"retry": "Retry",
 		"retrying": "Retrying...",
 		"retried": "Retried successfully",

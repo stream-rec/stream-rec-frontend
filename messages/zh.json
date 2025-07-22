@@ -435,6 +435,8 @@
 		"deleteError": "删除失败",
 		"deleteConfirmation": "你确定要删除吗？",
 		"deleteConfirmationDescription": "此操作不可逆，将删除 {count} 项",
+		"deleteLocalFiles": "同时删除本地文件",
+		"deleteLocalFilesConfirm": "您是否也要删除本地文件？",
 		"retry": "重试",
 		"retrying": "重试中...",
 		"retried": "已重试！",

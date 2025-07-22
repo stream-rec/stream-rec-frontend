@@ -5,6 +5,8 @@ import { ReloadIcon, TrashIcon } from "@radix-ui/react-icons"
 import { toast } from "sonner"
 
 import { Button } from "@/src/components/new-york/ui/button"
+import { Checkbox } from "@/src/components/new-york/ui/checkbox"
+import { Label } from "@/src/components/new-york/ui/label"
 import {
 	Dialog,
 	DialogClose,
@@ -30,7 +32,7 @@ import { useTranslations } from "next-intl"
 
 interface DeleteStreamsDialogProps extends React.ComponentPropsWithoutRef<typeof Dialog> {
 	data: any[]
-	deleteAction?: (streams: any[]) => Promise<void>
+	deleteAction?: (streams: any[], deleteLocal: boolean) => Promise<void>
 	onSuccess?: () => void
 	showTrigger?: boolean
 }
@@ -43,6 +45,7 @@ export function DeleteItemsDialog({
 	...props
 }: DeleteStreamsDialogProps) {
 	const [isDeletePending, startDeleteTransition] = React.useTransition()
+	const [deleteLocal, setDeleteLocal] = React.useState(false)
 	const isDesktop = useMediaQuery("(min-width: 640px)")
 
 	const t = useTranslations("Actions")
@@ -50,7 +53,7 @@ export function DeleteItemsDialog({
 	function onDelete() {
 		startDeleteTransition(async () => {
 			try {
-				await deleteAction?.(data)
+				await deleteAction?.(data, deleteLocal)
 			} catch (error) {
 				console.error(error)
 				toast.error(error instanceof Error ? error.message : String(error))
@@ -78,6 +81,16 @@ export function DeleteItemsDialog({
 						<DialogTitle>{t("deleteConfirmation")}</DialogTitle>
 						<DialogDescription>{t("deleteConfirmationDescription", { count: data.length })}</DialogDescription>
 					</DialogHeader>
+					<div className="flex items-center space-x-2 py-4">
+						<Checkbox 
+							id="delete-local" 
+							checked={deleteLocal} 
+							onCheckedChange={(checked) => setDeleteLocal(!!checked)}
+						/>
+						<Label htmlFor="delete-local" className="text-sm">
+							{t("deleteLocalFiles")}
+						</Label>
+					</div>
 					<DialogFooter className='gap-2 sm:space-x-0'>
 						<DialogClose asChild>
 							<Button variant='outline'>{t("cancel")}</Button>
@@ -112,6 +125,16 @@ export function DeleteItemsDialog({
 					<DrawerTitle>{t("deleteConfirmation")}</DrawerTitle>
 					<DrawerDescription>{t("deleteConfirmationDescription", { count: data.length })}</DrawerDescription>
 				</DrawerHeader>
+				<div className="flex items-center space-x-2 px-4 py-2">
+					<Checkbox 
+						id="delete-local-drawer" 
+						checked={deleteLocal} 
+						onCheckedChange={(checked) => setDeleteLocal(!!checked)}
+					/>
+					<Label htmlFor="delete-local-drawer" className="text-sm">
+						{t("deleteLocalFiles")}
+					</Label>
+				</div>
 				<DrawerFooter className='gap-2 sm:space-x-0'>
 					<DrawerClose asChild>
 						<Button variant='outline'>{t("cancel")}</Button>
