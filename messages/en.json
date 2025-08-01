@@ -14,13 +14,61 @@
 		"relativeMessage": "from last {date, select, 0 {week} 2 {year} 1 {month} other {day}}"
 	},
 	"StreamerData": {
-		"state": "{state, select, 0 {not live} 1 {live now} 2 {not live} 3 {detecting} 4 {error} 5 {disabled} 6 {not found} 7 {no space} other {disabled}}",
-		"noStreamsYet": "no streams yet",
-		"template": "Template",
-		"name": "Name",
-		"url": "Url",
-		"startTime": "Recording start time",
-		"endTime": "Recording end time"
+	  "state": "{state, select, 0 {not live} 1 {live now} 2 {not live} 3 {detecting} 4 {error} 5 {disabled} 6 {not found} 7 {no space} other {disabled}}",
+	  "noStreamsYet": "no streams yet",
+	  "template": "Template",
+	  "name": "Name",
+	  "url": "Url",
+	  "startTime": "Recording start time",
+	  "endTime": "Recording end time"
+	},
+	"streamer": {
+	  "form": {
+	    "fields": {
+	      "enableScheduling": {
+	        "label": "Enable Scheduling"
+	      },
+	      "startTime": {
+	        "label": "Start Time",
+	        "tooltip": "Set a time to begin recording. If left blank, recording can start at any time."
+	      },
+	      "endTime": {
+	        "label": "End Time",
+	        "tooltip": "Set a time to automatically stop recording. If left blank, recording will continue until the stream ends."
+	      }
+	    },
+	    "overnightSchedule": "This schedule will run overnight and stop on the following day.",
+	    "template": {
+	      "default": "Select a template",
+	      "search": "Search a template",
+	      "description": "Select a template to use its configuration. <important>Warning : You can not change this streamer`s download configuration after selection.</important>",
+	      "noTemplate": "no templates available",
+	      "doNotUseTemplate": "do not use a template"
+	    },
+	    "asTemplate": {
+	      "label": "As template",
+	      "description": "Whether to use this streamer as a template for other streamers."
+	    },
+	    "name": {
+	      "description": "The name of the streamer."
+	    },
+	    "url": {
+	      "description": "Streamer`s streaming url"
+	    },
+	    "enabledRecording": {
+	      "label": "Enabled recording",
+	      "description": "Whether to enable recording for this streamer."
+	    },
+	    "streamerOnlyOptions": "Per-streamer options",
+	    "alert": {
+	      "title": "Heads up!",
+	      "overrideDescription": "Below options will override the global settings for this streamer. If you want to use the global settings, leave these fields empty."
+	    },
+	    "platformSpecificOptions": "Platform specific options",
+	    "defaultDownloadOptions": "Download options",
+	    "callbackOptions": "Callback options",
+	    "save": "Save"
+	  }
 	},
 	"Sidebar": {
 		"dashboard": "Dashboard",
@@ -42,26 +90,6 @@
 	},
 	"EditStreamerPage": {
 		"title": "Edit streamer"
-	},
-	"StreamerForm": {
-		"templateDefault": "Select a template",
-		"templateSearch": "Search a template",
-		"templateDescription": "Select a template to use its configuration. <important>Warning : You can not change this streamer`s download configuration after selection.</important>",
-		"noTemplate": "no templates available",
-		"doNotUseTemplate": "do not use a template",
-		"asTemplate": "As template",
-		"asTemplateDescription": "Whether to use this streamer as a template for other streamers.",
-		"nameDescription": "The name of the streamer.",
-		"urlDescription": "Streamer`s streaming url",
-		"enabledRecording": "Enabled recording",
-		"enabledRecordingDescription": "Whether to enable recording for this streamer.",
-		"streamerOnlyOptions": "Per-streamer options",
-		"alert": "Heads up!",
-		"alertOverrideDescription": "Below options will override the global settings for this streamer. If you want to use the global settings, leave these fields empty.",
-		"platformSpecificOptions": "Platform specific options",
-		"defaultDownloadOptions": "Download options",
-		"callbackOptions": "Callback options",
-		"save": "Save"
 	},
 	"Metadata": {
 		"title": "Stream-rec"

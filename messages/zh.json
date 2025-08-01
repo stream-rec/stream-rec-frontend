@@ -14,13 +14,61 @@
 		"relativeMessage": "相对于上一{date, select, 0 {周} 2 {年} 1 {月} other {日}}"
 	},
 	"StreamerData": {
-		"state": "{state, select, 0 {未直播} 1 {直播中} 2 {超出时间} 3 {检测中} 4 {错误} 5 {已禁用} 6 {已注销} 7 {空间不足} other {已禁用}}",
-		"noStreamsYet": "暂无直播",
-		"template": "模板",
-		"name": "名称",
-		"url": "直播链接",
-		"startTime": "录制开始时间",
-		"endTime": "录制结束时间"
+	  "state": "{state, select, 0 {未直播} 1 {直播中} 2 {超出时间} 3 {检测中} 4 {错误} 5 {已禁用} 6 {已注销} 7 {空间不足} other {已禁用}}",
+	  "noStreamsYet": "暂无直播",
+	  "template": "模板",
+	  "name": "名称",
+	  "url": "直播链接",
+	  "startTime": "录制开始时间",
+	  "endTime": "录制结束时间"
+	},
+	"streamer": {
+	  "form": {
+	    "fields": {
+	      "enableScheduling": {
+	        "label": "启用定时录制"
+	      },
+	      "startTime": {
+	        "label": "开始时间",
+	        "tooltip": "设置录制开始时间。如果留空，则随时可以开始录制。"
+	      },
+	      "endTime": {
+	        "label": "结束时间",
+	        "tooltip": "设置自动停止录制的时间。如果留空，录制将持续到直播结束。"
+	      }
+	    },
+	    "overnightSchedule": "该计划将跨夜运行，并在第二天停止。",
+	    "template": {
+	      "default": "选择一个模板",
+	      "search": "搜索模板",
+	      "description": "选择一个模板，工具将会使用这个模板的参数进行录制直播。",
+	      "noTemplate": "没有找到模板",
+	      "doNotUseTemplate": "不使用模板"
+	    },
+	    "asTemplate": {
+	      "label": "作为模板",
+	      "description": "是否作为模板"
+	    },
+	    "name": {
+	      "description": "主播名称"
+	    },
+	    "url": {
+	      "description": "直播链接格式"
+	    },
+	    "enabledRecording": {
+	      "label": "启用录制",
+	      "description": "是否启用录制"
+	    },
+	    "streamerOnlyOptions": "主播专属选项",
+	    "alert": {
+	      "title": "请注意！",
+	      "overrideDescription": "以下配置将会覆盖全局配置，每项配置默认都为空。"
+	    },
+	    "platformSpecificOptions": "平台专属选项",
+	    "defaultDownloadOptions": "默认下载选项",
+	    "callbackOptions": "回调选项",
+	    "save": "保存"
+	  }
 	},
 	"Sidebar": {
 		"dashboard": "控制面板",
@@ -43,26 +91,6 @@
 	},
 	"EditStreamerPage": {
 		"title": "编辑主播"
-	},
-	"StreamerForm": {
-		"templateDefault": "选择一个模板",
-		"templateSearch": "搜索模板",
-		"templateDescription": "选择一个模板，工具将会使用这个模板的参数进行录制直播。 <important>请注意：如果你选择了模板，你将无法修改下载参数</important>",
-		"noTemplate": "没有找到模板",
-		"doNotUseTemplate": "不使用模板",
-		"asTemplate": "作为模板",
-		"asTemplateDescription": "是否作为模板",
-		"nameDescription": "主播名称",
-		"urlDescription": "直播链接格式",
-		"enabledRecording": "启用录制",
-		"enabledRecordingDescription": "是否启用录制",
-		"streamerOnlyOptions": "主播专属选项",
-		"alert": "请注意！",
-		"alertOverrideDescription": "以下配置将会覆盖全局配置，每项配置默认都为空。",
-		"platformSpecificOptions": "平台专属选项",
-		"defaultDownloadOptions": "默认下载选项",
-		"callbackOptions": "回调选项",
-		"save": "保存"
 	},
 	"Metadata": {
 		"title": "Stream-rec"

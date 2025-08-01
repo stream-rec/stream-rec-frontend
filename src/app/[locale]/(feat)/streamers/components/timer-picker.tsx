@@ -7,9 +7,10 @@ import { TimePickerInput } from "@/src/components/new-york/ui/timer-picker-input
 interface TimePickerDemoProps {
 	date: Date | undefined
 	setDate: (date: Date | undefined) => void
+	placeholder?: string
 }
 
-export function TimePickerDemo({ date, setDate }: TimePickerDemoProps) {
+export function TimePickerDemo({ date, setDate, placeholder }: TimePickerDemoProps) {
 	const minuteRef = React.useRef<HTMLInputElement>(null)
 	const hourRef = React.useRef<HTMLInputElement>(null)
 	const secondRef = React.useRef<HTMLInputElement>(null)
@@ -26,6 +27,7 @@ export function TimePickerDemo({ date, setDate }: TimePickerDemoProps) {
 					setDate={setDate}
 					ref={hourRef}
 					onRightFocus={() => minuteRef.current?.focus()}
+					placeholder={placeholder ? placeholder.split(":")[0] : "HH"}
 				/>
 			</div>
 			<div className='grid gap-1 text-center'>
@@ -39,6 +41,7 @@ export function TimePickerDemo({ date, setDate }: TimePickerDemoProps) {
 					ref={minuteRef}
 					onLeftFocus={() => hourRef.current?.focus()}
 					onRightFocus={() => secondRef.current?.focus()}
+					placeholder={placeholder ? placeholder.split(":")[1] : "mm"}
 				/>
 			</div>
 			<div className='grid gap-1 text-center'>
@@ -51,6 +54,7 @@ export function TimePickerDemo({ date, setDate }: TimePickerDemoProps) {
 					setDate={setDate}
 					ref={secondRef}
 					onLeftFocus={() => minuteRef.current?.focus()}
+					placeholder={placeholder ? placeholder.split(":")[2] : "ss"}
 				/>
 			</div>
 		</div>

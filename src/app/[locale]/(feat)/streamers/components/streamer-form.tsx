@@ -12,6 +12,8 @@ import {
 	FormMessage,
 } from "@/src/components/new-york/ui/form"
 import { Input } from "@/src/components/new-york/ui/input"
+import { Label } from "@/src/components/new-york/ui/label"
+import { Switch } from "@/src/components/new-york/ui/switch"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Button } from "@/src/components/new-york/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/src/components/new-york/ui/tabs"
@@ -25,100 +27,41 @@ import { platformRegexes, PlatformType } from "@/src/lib/data/platform/definitio
 import { Popover, PopoverContent, PopoverTrigger } from "@/src/components/new-york/ui/popover"
 import { cn } from "@/src/lib/utils"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/src/components/new-york/ui/command"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/src/components/new-york/ui/tooltip"
 import { toastData } from "@/src/app/utils/toast"
 import {
 	ActionsCallbackTab,
-	ActionsCallbackTabStrings,
 } from "@/src/app/[locale]/(feat)/streamers/components/actions/actions-callback-tab"
 import { useRouter } from "@/src/i18n/routing"
 import { BaseDownloadConfig } from "@/src/app/[locale]/(feat)/streamers/components/platforms/base-download-config"
-import { BaseDownloadTabString } from "@/src/app/[locale]/(feat)/settings/platform/tabs/base-download-tab"
-import { DouyinPlatform } from "@/src/app/[locale]/(feat)/streamers/components/platforms/douyin-platform"
-import { HuyaPlatform } from "@/src/app/[locale]/(feat)/streamers/components/platforms/huya-platform"
 import { LoadingButton } from "@/src/components/new-york/ui/loading-button"
-import { DouyuPlatformForm } from "@/src/app/[locale]/(feat)/streamers/components/platforms/douyu-platform"
 import { douyuDownloadConfig } from "@/src/lib/data/platform/douyu/definitions"
 import { twitchDownloadConfig } from "@/src/lib/data/platform/twitch/definitions"
-import { TwitchPlatformForm } from "@/src/app/[locale]/(feat)/streamers/components/platforms/twitch-platform"
 import { pandaTvDownloadConfig } from "@/src/lib/data/platform/pandatv/definitions"
-import { PandaTvPlatformForm } from "@/src/app/[locale]/(feat)/streamers/components/platforms/pandalive-platform"
 import { FlagFormField } from "@/src/app/[locale]/(feat)/settings/components/form/flag-form-field"
-import { WeiboPlatformForm } from "@/src/app/[locale]/(feat)/streamers/components/platforms/weibo-platform"
-import { WeiboTabString } from "@/src/app/hooks/translations/weibo-translations"
 import { weiboDownloadConfig } from "@/src/lib/data/platform/weibo/definitions"
-import { DouyinQuality, DouyinTabString } from "@/src/app/hooks/translations/douyin-translations"
-import { HuyaTabString } from "@/src/app/hooks/translations/huya-translations"
-import { DouyuQuality, DouyuTabString } from "@/src/app/hooks/translations/douyu-translations"
-import { TwitchQualityItem, TwitchTabString } from "@/src/app/hooks/translations/twitch-translations"
-import { PandaTvQualityItem, PandaTvTabString } from "@/src/app/hooks/translations/pandatv-translations"
 import EngineSelector from "../../settings/components/form/engine-selector"
-import { EngineTranslations } from "@/src/app/hooks/translations/engine-translations"
 import { DownloadEngineSchema, engineConfigSchema } from "@/src/lib/data/engines/definitions"
 import { TimeSelector } from "./time-selector"
 import { PlatformForm } from "./platform-registry"
 import dynamic from "next/dynamic"
 import { WarningHoverCard } from "../../settings/components/warning-hover-card"
+import { useStreamerFormTranslations } from "@/src/app/[locale]/(feat)/streamers/hooks/use-streamer-form-translations"
 
 export type StreamerConfigProps = {
-	strings: {
-		toast: {
-			submitErrorMessage: string
-			submitMessage: string
-		}
-		streamerData: {
-			name: string
-			url: string
-			template: string
-			startTime: string
-			endTime: string
-		}
-		streamerForm: {
-			nameDescription: string
-			urlDescription: string | React.ReactNode
-			enabledRecording: string
-			enabledRecordingDescription: string
-			templateSearch: string
-			noTemplate: string
-			templateDefault: string
-			templateDescription: string | React.ReactNode
-			doNotUseTemplate: string
-			asTemplate: string
-			asTemplateDescription: string
-			save: string
-			streamerOnlyOptions: string
-			alert: string
-			alertOverrideDescription: string
-			platformSpecificOptions: string
-			defaultDownloadOptions: string
-			callbackOptions: string
-			engineTranslations: EngineTranslations
-		}
-		huyaStrings: HuyaTabString
-		douyinStrings: DouyinTabString
-		douyinQualityOptions: DouyinQuality[]
-		douyuStrings: DouyuTabString
-		douyuQualityOptions: DouyuQuality[]
-		twitchStrings: TwitchTabString
-		twitchQualityOptions: TwitchQualityItem[]
-		pandaStrings: PandaTvTabString
-		pandaQualityOptions: PandaTvQualityItem[]
-		weiboStrings: WeiboTabString
-		baseDownloadStrings: BaseDownloadTabString
-		actionTabStrings: ActionsCallbackTabStrings
-	}
 	defaultValues?: StreamerSchema
 	templateUsers: StreamerSchema[]
 	onSubmit: (data: StreamerSchema) => Promise<StreamerSchema>
 }
 
-export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }: StreamerConfigProps) {
+export function StreamerForm({ defaultValues, templateUsers, onSubmit }: StreamerConfigProps) {
 	const router = useRouter()
+	const translations = useStreamerFormTranslations()
 
 	const [platform, setPlatform] = useState(defaultValues?.platform || "invalid")
 	const [isTemplate, setIsTemplate] = useState(defaultValues?.isTemplate || false)
+	const [isSchedulingEnabled, setIsSchedulingEnabled] = useState(!!(defaultValues?.startTime || defaultValues?.endTime))
 
-	// Moved formatTimeString above to fix reference order
-	// Include a return type for the formatted time string utility
 	const formatTimeString = useCallback((date: Date): string => {
 		return `${date.getHours().toString().padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}:${date.getSeconds().toString().padStart(2, "0")}`
 	}, [])
@@ -126,6 +69,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 	// Using useMemo for dates to avoid unnecessary recreations
 	const [startDate, setStartDate] = useState<Date>(() => createDateFromString(defaultValues?.startTime ?? "00:00:00"))
 	const [endDate, setEndDate] = useState<Date>(() => createDateFromString(defaultValues?.endTime ?? "00:00:00"))
+	const [isOvernight, setIsOvernight] = useState(false)
 
 	// Extract helper function
 	function createDateFromString(dateString: string): Date {
@@ -213,6 +157,18 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 
 	const { isSubmitting, isValid } = useFormState({ control: form.control })
 	const selectedTemplateId = form.watch("templateId")
+	const startTimeValue = form.watch("startTime")
+	const endTimeValue = form.watch("endTime")
+
+	useEffect(() => {
+		if (startTimeValue && endTimeValue) {
+			const start = createDateFromString(startTimeValue)
+			const end = createDateFromString(endTimeValue)
+			setIsOvernight(end < start)
+		} else {
+			setIsOvernight(false)
+		}
+	}, [startTimeValue, endTimeValue])
 
 	// Optimize URL validation to prevent unnecessary re-renders
 	const trySetPlatform = useCallback(
@@ -275,7 +231,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 				}
 
 				await onSubmit(submitData)
-				toastData(strings.toast.submitMessage, submitData, "code")
+				toastData(translations.toast.submitMessage, submitData, "code")
 
 				if (isCreated) {
 					router.push(`/streamers`)
@@ -288,7 +244,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 				toastData("Error", errorMessage, "error")
 			}
 		},
-		[platform, onSubmit, router, strings.toast.submitMessage]
+		[platform, onSubmit, router, translations.toast.submitMessage]
 	)
 
 	// Include proper form handling for engine config
@@ -349,6 +305,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 	// Track active tab to enable lazy loading
 	const [activeTab, setActiveTab] = useState<string>(isTemplate ? "default" : "platform")
 
+
 	return (
 		<div>
 			<Form {...form}>
@@ -358,11 +315,11 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 						name='name'
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>{strings.streamerData.name}</FormLabel>
+								<FormLabel>{translations.fields.name.label}</FormLabel>
 								<FormControl>
 									<Input {...field} />
 								</FormControl>
-								<FormDescription>{strings.streamerForm.nameDescription}</FormDescription>
+								<FormDescription>{translations.fields.name.description}</FormDescription>
 								<FormMessage />
 							</FormItem>
 						)}
@@ -375,7 +332,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 								name='url'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>{strings.streamerData.url}</FormLabel>
+										<FormLabel>{translations.fields.url.label}</FormLabel>
 										<FormControl>
 											<Input
 												value={field.value}
@@ -385,7 +342,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 												}}
 											/>
 										</FormControl>
-										<FormDescription>{strings.streamerForm.urlDescription}</FormDescription>
+										<FormDescription>{translations.fields.url.description}</FormDescription>
 										<FormMessage />
 									</FormItem>
 								)}
@@ -394,8 +351,8 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 							<FlagFormField
 								control={form.control}
 								fieldName={"state"}
-								title={strings.streamerForm.enabledRecording}
-								description={strings.streamerForm.enabledRecordingDescription}
+								title={translations.fields.enableRecording.label}
+								description={translations.fields.enableRecording.description}
 								checked={state => state !== StreamerState.CANCELLED}
 								onChange={value => {
 									form.setValue("state", value ? StreamerState.NOT_LIVE : StreamerState.CANCELLED)
@@ -403,20 +360,77 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 								ariaLabel={"Should record switch"}
 							/>
 
-							<TimeSelector
-								label={strings.streamerData.startTime}
-								date={startDate}
-								onTimeChange={handleStartTimeChange}
+							<FlagFormField
+								control={form.control}
+								fieldName={"enableScheduling"}
+								title={translations.scheduling.enableScheduling}
+								description={undefined}
+								checked={() => isSchedulingEnabled}
+								onChange={(checked: boolean) => {
+									setIsSchedulingEnabled(checked)
+									if (!checked) {
+										form.setValue("startTime", undefined)
+										form.setValue("endTime", undefined)
+										setStartDate(createDateFromString("00:00:00"))
+										setEndDate(createDateFromString("00:00:00"))
+									}
+								}}
+								ariaLabel={"Enable scheduling switch"}
 							/>
+							{isSchedulingEnabled && (
+								<div className='space-y-4 rounded-lg border p-4'>
+									<TooltipProvider>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<div>
+													<TimeSelector
+														label={translations.fields.startTime.label}
+														date={startDate}
+														onTimeChange={handleStartTimeChange}
+														placeholder='HH:mm:ss'
+													/>
+												</div>
+											</TooltipTrigger>
+											<TooltipContent>
+												<p>{translations.scheduling.startTimeTooltip}</p>
+											</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
 
-							<TimeSelector label={strings.streamerData.endTime} date={endDate} onTimeChange={handleEndTimeChange} />
+									<TooltipProvider>
+										<Tooltip>
+											<TooltipTrigger asChild>
+												<div>
+													<TimeSelector
+														label={translations.fields.endTime.label}
+														date={endDate}
+														onTimeChange={handleEndTimeChange}
+														placeholder='HH:mm:ss'
+													/>
+												</div>
+											</TooltipTrigger>
+											<TooltipContent>
+												<p>{translations.scheduling.endTimeTooltip}</p>
+											</TooltipContent>
+										</Tooltip>
+									</TooltipProvider>
+
+									{isOvernight && (
+										<Alert>
+											<RocketIcon className='h-4 w-4' />
+											<AlertTitle>{translations.scheduling.overnightSchedule.title}</AlertTitle>
+											<AlertDescription>{translations.scheduling.overnightSchedule.description}</AlertDescription>
+										</Alert>
+									)}
+								</div>
+							)}
 
 							<FormField
 								control={form.control}
 								name='templateId'
 								render={({ field }) => (
 									<FormItem className='flex flex-col'>
-										<FormLabel>{strings.streamerData.template}</FormLabel>
+										<FormLabel>{translations.fields.template.label}</FormLabel>
 										<Popover>
 											<PopoverTrigger asChild>
 												<FormControl>
@@ -430,17 +444,17 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 													>
 														{field.value
 															? field.value === 0
-																? strings.streamerForm.templateDefault
+																? translations.template.default
 																: templateUsers.find(language => language.id === field.value)?.name
-															: strings.streamerForm.templateDefault}
+															: translations.template.default}
 														<CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
 													</Button>
 												</FormControl>
 											</PopoverTrigger>
 											<PopoverContent className='w-[200px] p-0'>
 												<Command>
-													<CommandInput placeholder={strings.streamerForm.templateSearch} className='h-9' />
-													<CommandEmpty>{strings.streamerForm.noTemplate}</CommandEmpty>
+													<CommandInput placeholder={translations.template.search} className='h-9' />
+													<CommandEmpty>{translations.template.noTemplate}</CommandEmpty>
 													<CommandGroup>
 														<CommandItem
 															value={"0"}
@@ -449,7 +463,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 																form.setValue("templateId", 0)
 															}}
 														>
-															{strings.streamerForm.doNotUseTemplate}
+															{translations.template.doNotUse}
 															<CheckIcon
 																className={cn("ml-auto h-4 w-4", field.value === 0 ? "opacity-100" : "opacity-0")}
 															/>
@@ -475,7 +489,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 												</Command>
 											</PopoverContent>
 										</Popover>
-										<FormDescription>{strings.streamerForm.templateDescription}</FormDescription>
+										<FormDescription>{translations.fields.template.description}</FormDescription>
 										<FormMessage />
 									</FormItem>
 								)}
@@ -487,8 +501,8 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 						<FlagFormField
 							control={form.control}
 							fieldName={"isTemplate"}
-							title={strings.streamerForm.asTemplate}
-							description={strings.streamerForm.asTemplateDescription}
+							title={translations.fields.asTemplate.label}
+							description={translations.fields.asTemplate.description}
 							ariaLabel={"Template streamer switch"}
 							onChange={setIsTemplate}
 						/>
@@ -500,7 +514,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 						showNullable={true}
 						initialEngine={defaultValues?.engine ?? "default"}
 						getEngineConfig={getEngineConfig}
-						strings={strings.streamerForm.engineTranslations}
+						strings={translations.engine}
 						className='space-y-6'
 					/>
 
@@ -510,10 +524,10 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 						})}
 					>
 						<div className='flex items-center space-x-2'>
-							<h3 className='text-md font-semibold'>{strings.streamerForm.streamerOnlyOptions}</h3>
+							<h3 className='text-md font-semibold'>{translations.sections.streamerOnlyOptions}</h3>
 							<WarningHoverCard
-								title={strings.streamerForm.alert}
-								description={strings.streamerForm.alertOverrideDescription}
+								title={translations.overrideWarning.title}
+								description={translations.overrideWarning.description}
 							/>
 						</div>
 
@@ -527,14 +541,14 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 							>
 								{!isTemplate && (
 									<TabsTrigger value='platform' className='text-zinc-600 dark:text-zinc-200'>
-										{strings.streamerForm.platformSpecificOptions}
+										{translations.sections.platformSpecific}
 									</TabsTrigger>
 								)}
 								<TabsTrigger value='default' className='text-zinc-600 dark:text-zinc-200'>
-									{strings.streamerForm.defaultDownloadOptions}
+									{translations.sections.defaultDownload}
 								</TabsTrigger>
 								<TabsTrigger value='actions' className='text-zinc-600 dark:text-zinc-200'>
-									{strings.streamerForm.callbackOptions}
+									{translations.sections.callback}
 								</TabsTrigger>
 							</TabsList>
 
@@ -544,7 +558,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 										{/* Only render platform content if it's the active tab for better performance */}
 										{activeTab === "platform" && platform !== "invalid" && (
 											<DynamicTabContent>
-												<PlatformForm platform={platform} strings={strings} allowNone={true} />
+												<PlatformForm platform={platform} strings={translations.platform} allowNone={true} />
 											</DynamicTabContent>
 										)}
 									</TabsContent>
@@ -552,7 +566,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 								<TabsContent value='default'>
 									{activeTab === "default" && (
 										<DynamicTabContent>
-											<BaseDownloadConfig allowNone={true} strings={strings.baseDownloadStrings} />
+											<BaseDownloadConfig allowNone={true} strings={translations.platform.base} />
 										</DynamicTabContent>
 									)}
 								</TabsContent>
@@ -568,13 +582,13 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 												endedList={streamEndedFields}
 												updateItem={(index, data) => {
 													partedUpdate(index, data)
-													toastData(strings.toast.submitMessage, data, "code")
+													toastData(translations.toast.submitMessage, data, "code")
 												}}
 												updateItemEnded={(index, data) => {
 													streamEndedUpdate(index, data)
-													toastData(strings.toast.submitMessage, data, "code")
+													toastData(translations.toast.submitMessage, data, "code")
 												}}
-												strings={strings.actionTabStrings}
+												strings={translations.actions}
 											/>
 										</DynamicTabContent>
 									)}
@@ -589,7 +603,7 @@ export function StreamerForm({ strings, defaultValues, templateUsers, onSubmit }
 						disabled={!isValid}
 						className='flex h-12 w-full items-center justify-center rounded-lg p-3 text-sm font-medium'
 					>
-						{strings.streamerForm.save}
+						{translations.save}
 					</LoadingButton>
 				</form>
 			</Form>
