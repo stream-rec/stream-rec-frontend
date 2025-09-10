@@ -105,7 +105,7 @@ export default function PlayerPage() {
 	const destroyFlvPlayer = (art: Artplayer) => {
 		try {
 			if (art.flv) {
-				art.flv.destroy()
+				art.destroy()
 				art.flv = null
 				console.log("flv player destroyed")
 			}
@@ -117,7 +117,7 @@ export default function PlayerPage() {
 	const destroyTsPlayer = (art: Artplayer) => {
 		try {
 			if (art.ts) {
-				art.ts.destroy()
+				art.destroy()
 				art.ts = null
 				console.log("ts player destroyed")
 			}
@@ -235,7 +235,7 @@ export default function PlayerPage() {
 		if (Hls.isSupported()) {
 			destroyFlvPlayer(art)
 			destroyTsPlayer(art)
-			if (art.hls) art.hls.destroy()
+			if (art.hls) art.destroy()
 
 			if (!streamInfo) {
 				art.notice.show = "No stream info"
