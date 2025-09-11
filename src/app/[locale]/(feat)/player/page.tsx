@@ -105,7 +105,7 @@ export default function PlayerPage() {
 	const destroyFlvPlayer = (art: Artplayer) => {
 		try {
 			if (art.flv) {
-				art.destroy()
+				(art.flv as any).destroy()
 				art.flv = null
 				console.log("flv player destroyed")
 			}
@@ -117,7 +117,7 @@ export default function PlayerPage() {
 	const destroyTsPlayer = (art: Artplayer) => {
 		try {
 			if (art.ts) {
-				art.destroy()
+				(art.ts as any).destroy()
 				art.ts = null
 				console.log("ts player destroyed")
 			}
@@ -235,7 +235,10 @@ export default function PlayerPage() {
 		if (Hls.isSupported()) {
 			destroyFlvPlayer(art)
 			destroyTsPlayer(art)
-			if (art.hls) art.destroy()
+			if (art.hls) {
+				(art.hls as Hls).destroy()
+				art.hls = null
+			}
 
 			if (!streamInfo) {
 				art.notice.show = "No stream info"
@@ -282,17 +285,17 @@ export default function PlayerPage() {
 		}
 
 		let initialStream
-		let customTypeHandlers = {
-			flv: function (video: HTMLVideoElement, url: string, art: any) {
+		const customTypeHandlers = {
+			flv: function (video: HTMLVideoElement, url: string, art: Artplayer) {
 				playFlv(video, playerState.current.streamInfo, url, art)
 			},
-			m3u8: function (video: HTMLVideoElement, url: string, art: any) {
+			m3u8: function (video: HTMLVideoElement, url: string, art: Artplayer) {
 				playM3U8(video, playerState.current.streamInfo, url, art)
 			},
-			mp4: function (video: HTMLVideoElement, url: string, art: any) {
+			mp4: function (video: HTMLVideoElement, url: string) {
 				video.src = url
 			},
-			ts: function (video: HTMLVideoElement, url: string, art: any) {
+			ts: function (video: HTMLVideoElement, url: string, art: Artplayer) {
 				playTs(video, playerState.current.streamInfo, url, art)
 			},
 		}
