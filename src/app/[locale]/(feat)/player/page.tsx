@@ -105,7 +105,7 @@ export default function PlayerPage() {
 	const destroyFlvPlayer = (art: Artplayer) => {
 		try {
 			if (art.flv) {
-				(art.flv as any).destroy()
+				;(art.flv as any).destroy()
 				art.flv = null
 				console.log("flv player destroyed")
 			}
@@ -117,7 +117,7 @@ export default function PlayerPage() {
 	const destroyTsPlayer = (art: Artplayer) => {
 		try {
 			if (art.ts) {
-				(art.ts as any).destroy()
+				;(art.ts as any).destroy()
 				art.ts = null
 				console.log("ts player destroyed")
 			}
@@ -151,134 +151,143 @@ export default function PlayerPage() {
 		[mediaInfo]
 	)
 
-	const playFlv = async (video: HTMLVideoElement, streamInfo: StreamInfo | null, url: string, art: Artplayer) => {
-		if (!mpegts.current.isSupported()) {
-			art.notice.show = "Unsupported playback format : flv"
-			return
-		}
-
-		destroyFlvPlayer(art)
-
-		if (!streamInfo) {
-			art.notice.show = "No stream info"
-			return
-		}
-
-		const updatedStreamInfo = await handleStreamSwitch(streamInfo, url, mediaInfo)
-		if (!updatedStreamInfo) return
-
-		const proxyUrl = await getProxyUrlForStream(updatedStreamInfo, source, buildProxyUrl, getUrlAndSwitch, art)
-		if (!proxyUrl) return
-
-		const flv = mpegts.current.createPlayer(
-			{
-				type: "flv",
-				url: proxyUrl,
-				isLive: true,
-				cors: true,
-			},
-			{
-				...getCommonPlayerConfig(source!.type === "stream"),
+	const playFlv = useCallback(
+		async (video: HTMLVideoElement, streamInfo: StreamInfo | null, url: string, art: Artplayer) => {
+			if (!mpegts.current.isSupported()) {
+				art.notice.show = "Unsupported playback format : flv"
+				return
 			}
-		)
 
-		flv.attachMediaElement(video)
-		flv.load()
-		flv.play()
-		art.flv = flv
-		flv.on("error", function () {
-			console.log("error", flv.error)
-			art.notice.show = "Error playing flv"
-		})
-		art.on("destroy", () => destroyFlvPlayer(art))
-	}
-
-	const playTs = async (video: HTMLVideoElement, streamInfo: StreamInfo | null, url: string, art: Artplayer) => {
-		if (!mpegts.current.isSupported()) {
-			art.notice.show = "Unsupported playback format : ts"
-			return
-		}
-
-		destroyTsPlayer(art)
-
-		if (!streamInfo) {
-			art.notice.show = "No stream info"
-			return
-		}
-
-		const updatedStreamInfo = await handleStreamSwitch(streamInfo, url, mediaInfo)
-		if (!updatedStreamInfo) return
-
-		const proxyUrl = await getProxyUrlForStream(updatedStreamInfo, source, buildProxyUrl, getUrlAndSwitch, art)
-		if (!proxyUrl) return
-
-		const ts = mpegts.current.createPlayer(
-			{
-				type: "mpegts",
-				url: proxyUrl,
-				isLive: source!.type === "stream",
-				cors: true,
-			},
-			{
-				...getCommonPlayerConfig(source!.type === "stream"),
-			}
-		)
-
-		ts.attachMediaElement(video)
-		ts.load()
-		ts.play()
-		art.ts = ts
-		art.on("destroy", () => destroyTsPlayer(art))
-	}
-
-	const playM3U8 = async (video: HTMLVideoElement, streamInfo: StreamInfo | null, url: string, art: Artplayer) => {
-		if (Hls.isSupported()) {
 			destroyFlvPlayer(art)
-			destroyTsPlayer(art)
-			if (art.hls) {
-				(art.hls as Hls).destroy()
-				art.hls = null
-			}
 
 			if (!streamInfo) {
 				art.notice.show = "No stream info"
 				return
 			}
 
-			// fix cases when switching quality
-			if (streamInfo.url !== url) {
-				const stream = mediaInfo!.streams?.find(stream => stream.url === url)
-				if (stream) {
-					streamInfo = stream
-				}
-			}
+			const updatedStreamInfo = await handleStreamSwitch(streamInfo, url, mediaInfo)
+			if (!updatedStreamInfo) return
 
-			const proxyUrl = await getUrlAndSwitch(streamInfo, art)
-			if (!proxyUrl) {
-				art.notice.show = "Error getting true url"
+			const proxyUrl = await getProxyUrlForStream(updatedStreamInfo, source, buildProxyUrl, getUrlAndSwitch, art)
+			if (!proxyUrl) return
+
+			const flv = mpegts.current.createPlayer(
+				{
+					type: "flv",
+					url: proxyUrl,
+					isLive: true,
+					cors: true,
+				},
+				{
+					...getCommonPlayerConfig(source!.type === "stream"),
+				}
+			)
+
+			flv.attachMediaElement(video)
+			flv.load()
+			flv.play()
+			art.flv = flv
+			flv.on("error", function () {
+				console.log("error", flv.error)
+				art.notice.show = "Error playing flv"
+			})
+			art.on("destroy", () => destroyFlvPlayer(art))
+		},
+		[buildProxyUrl, getUrlAndSwitch, mediaInfo, source]
+	)
+
+	const playTs = useCallback(
+		async (video: HTMLVideoElement, streamInfo: StreamInfo | null, url: string, art: Artplayer) => {
+			if (!mpegts.current.isSupported()) {
+				art.notice.show = "Unsupported playback format : ts"
 				return
 			}
 
-			const hls = new Hls()
-			hls.loadSource(proxyUrl)
-			hls.attachMedia(video)
-			art.hls = hls
-			art.on("destroy", () => {
-				hls.destroy()
-				art.hls = null
-				console.log("hls player destroyed")
-			})
-		} else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-			destroyFlvPlayer(art)
 			destroyTsPlayer(art)
-			video.src = url
-		} else {
-			art.notice.show = "Unsupported playback format : m3u8"
-		}
-	}
+
+			if (!streamInfo) {
+				art.notice.show = "No stream info"
+				return
+			}
+
+			const updatedStreamInfo = await handleStreamSwitch(streamInfo, url, mediaInfo)
+			if (!updatedStreamInfo) return
+
+			const proxyUrl = await getProxyUrlForStream(updatedStreamInfo, source, buildProxyUrl, getUrlAndSwitch, art)
+			if (!proxyUrl) return
+
+			const ts = mpegts.current.createPlayer(
+				{
+					type: "mpegts",
+					url: proxyUrl,
+					isLive: source!.type === "stream",
+					cors: true,
+				},
+				{
+					...getCommonPlayerConfig(source!.type === "stream"),
+				}
+			)
+
+			ts.attachMediaElement(video)
+			ts.load()
+			ts.play()
+			art.ts = ts
+			art.on("destroy", () => destroyTsPlayer(art))
+		},
+		[buildProxyUrl, getUrlAndSwitch, mediaInfo, source]
+	)
+
+	const playM3U8 = useCallback(
+		async (video: HTMLVideoElement, streamInfo: StreamInfo | null, url: string, art: Artplayer) => {
+			if (Hls.isSupported()) {
+				destroyFlvPlayer(art)
+				destroyTsPlayer(art)
+				if (art.hls) {
+					;(art.hls as Hls).destroy()
+					art.hls = null
+				}
+
+				if (!streamInfo) {
+					art.notice.show = "No stream info"
+					return
+				}
+
+				// fix cases when switching quality
+				if (streamInfo.url !== url) {
+					const stream = mediaInfo!.streams?.find(stream => stream.url === url)
+					if (stream) {
+						streamInfo = stream
+					}
+				}
+
+				const proxyUrl = await getUrlAndSwitch(streamInfo, art)
+				if (!proxyUrl) {
+					art.notice.show = "Error getting true url"
+					return
+				}
+
+				const hls = new Hls()
+				hls.loadSource(proxyUrl)
+				hls.attachMedia(video)
+				art.hls = hls
+				art.on("destroy", () => {
+					;(hls as Hls).destroy()
+					art.hls = null
+					console.log("hls player destroyed")
+				})
+			} else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+				destroyFlvPlayer(art)
+				destroyTsPlayer(art)
+				video.src = url
+			} else {
+				art.notice.show = "Unsupported playback format : m3u8"
+			}
+		},
+		[getUrlAndSwitch, mediaInfo]
+	)
 
 	const initializePlayer = useCallback(() => {
-		if (!source || !artRef.current) return null
+		if (!source || !artRef.current || !mediaInfo) return null
 
 		if (typeof window !== "undefined") {
 			mpegts.current = require("mpegts.js")
@@ -490,7 +499,7 @@ export default function PlayerPage() {
 		playerRef.current = art
 		return art
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [buildProxyUrl, getQualities, getUrlAndSwitch, mediaInfo, playFlv, playM3U8, playTs, source])
 
 	useEffect(() => {
 		if (!source) {
@@ -515,7 +524,7 @@ export default function PlayerPage() {
 			}
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	}, [headers, initializePlayer, mediaInfo, router, source])
 
 	if (!source || (source.type === "stream" && (!mediaInfo?.streams || !headers))) {
 		return null
