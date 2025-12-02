@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm, useFormState } from "react-hook-form"
 import { Form, FormControl, FormDescription, FormItem, FormLabel, FormMessage } from "@/src/components/new-york/ui/form"
 import { Input } from "@/src/components/new-york/ui/input"
-import { Switch } from "@/src/components/new-york/ui/switch"
 import React, { useCallback, useState, useMemo } from "react"
 import { DanmuFlagFormfield } from "@/src/app/[locale]/(feat)/settings/components/form/danmu-flag-formfield"
 import { OutputFolderFormField } from "@/src/app/[locale]/(feat)/settings/components/form/output-folder-formfield"
@@ -115,23 +114,11 @@ export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineCon
 					ariaLabel={"File deletion switch"}
 				/>
 
-				<FormFieldWrapper
+				<FlagFormField
 					control={form.control}
-					name='tlsVerification'
-					render={({ field }) => (
-						<FormItem className='flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm'>
-							<div className='space-y-1.5'>
-								<FormLabel>{strings.tlsVerification}</FormLabel>
-								<FormDescription>{strings.tlsVerificationDescription}</FormDescription>
-							</div>
-							<FormControl>
-								<Switch
-									checked={field.value === 1}
-									onCheckedChange={value => field.onChange(value ? 1 : 0)}
-								/>
-							</FormControl>
-						</FormItem>
-					)}
+					fieldName={"tlsVerification"}
+					title={strings.tlsVerification}
+					description={strings.tlsVerificationDescription}
 				/>
 
 				<OutputFolderFormField

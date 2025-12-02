@@ -44,7 +44,7 @@ export const globalConfigSchema = z.object({
 	twitchConfig: twitchGlobalConfig.optional(),
 	pandaTvConfig: pandaTvGlobalConfig.optional(),
 	weiboConfig: weiboGlobalConfig.optional(),
-	tlsVerification: z.number().default(1),
+	tlsVerification: z.boolean().default(true),
 })
 
 export type GlobalConfig = z.infer<typeof globalConfigSchema>

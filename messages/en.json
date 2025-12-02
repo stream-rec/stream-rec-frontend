@@ -437,7 +437,9 @@
 		"enableFlvDuplicateTagFilteringTitle": "Enable duplicate tag filtering",
 		"enableFlvDuplicateTagFilteringDescription": "Enable FLV duplicate tag filtering. Some streams may have duplicate tags in the flv file. This option will remove duplicate tags. Default is set to false.",
 		"combineHlsFiles": "Combine HLS files",
-		"combineHlsFilesDescription": "Combine HLS files into one file. Default is set to false."
+		"combineHlsFilesDescription": "Combine HLS files into one file. Default is set to false.",
+		"tlsVerification": "TLS Verification",
+		"tlsVerificationDescription": "Enable TLS verification. Default is set to true."
 	},
 	"TableToolbar": {
 		"searchPlaceholder": "Filter by {search}...",

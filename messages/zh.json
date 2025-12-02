@@ -429,7 +429,9 @@
 		"enableFlvDuplicateTagFilteringTitle": "启用FLV重复标签过滤",
 		"enableFlvDuplicateTagFilteringDescription": "开启后将尝试过滤FLV文件中重复的标签。",
 		"combineHlsFiles": "合并HLS文件",
-		"combineHlsFilesDescription": "开启后将会尝试合并HLS文件， 默认关闭。"
+		"combineHlsFilesDescription": "开启后将会尝试合并HLS文件， 默认关闭。",
+		"tlsVerification": "TLS 验证",
+		"tlsVerificationDescription": "启用 TLS 验证。默认开启。"
 	},
 	"TableToolbar": {
 		"searchPlaceholder": "搜索{search}...",
