@@ -114,6 +114,13 @@ export function GlobalForm({ appConfig, update, getEngineConfig, updateEngineCon
 					ariaLabel={"File deletion switch"}
 				/>
 
+				<FlagFormField
+					control={form.control}
+					fieldName={"tlsVerification"}
+					title={strings.tlsVerification}
+					description={strings.tlsVerificationDescription}
+				/>
+
 				<OutputFolderFormField
 					control={form.control}
 					name={strings.outputFolder}

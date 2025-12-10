@@ -21,7 +21,7 @@ import { checkFileExists } from "@/src/lib/data/files/files-api"
 
 type RecordTableActionColumnProps = {
 	data: StreamData
-	deleteStream: (id: string) => Promise<void>
+	deleteStream: (id: string, deleteLocal: boolean) => Promise<void>
 }
 
 const getFileInfo = (outputFilePath: string, id: string) => {
@@ -48,8 +48,22 @@ export function RecordTableActionColumn({ data, deleteStream }: RecordTableActio
 	const t = useTranslations("Actions")
 	const u = useTranslations("RecordsPage")
 
+	const handleDelete = async () => {
+		// Ask user if they want to delete local files
+		const deleteLocal = window.confirm(t("deleteLocalFilesConfirm"))
+		
+		toast.promise(deleteStream(data.id.toString(), deleteLocal), {
+			loading: t("deleting"),
+			success: () => {
+				router.refresh()
+				return t("deleted")
+			},
+			error: e => `${t("deleteError")}: ${(e as Error).message}`,
+		})
+	}
+
 	const handleWatch = async () => {
-		const { fileName, format, hashedFileName } = getFileInfo(data.outputFilePath, data.id.toString())
+		const { format, hashedFileName } = getFileInfo(data.outputFilePath, data.id.toString())
 		if (!(await verifyFileExists(data.id.toString(), hashedFileName))) return
 
 		setSource({
@@ -150,16 +164,7 @@ export function RecordTableActionColumn({ data, deleteStream }: RecordTableActio
 					</DropdownMenuItem>
 					<DropdownMenuSeparator />
 					<DropdownMenuItem
-						onClick={async () => {
-							toast.promise(deleteStream(data.id.toString()), {
-								loading: t("deleting"),
-								success: () => {
-									router.refresh()
-									return t("deleted")
-								},
-								error: e => `${t("deleteError")}: ${(e as Error).message}`,
-							})
-						}}
+						onClick={handleDelete}
 					>
 						{t("delete")}
 						<DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>

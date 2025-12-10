@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react"
 import { PlatformType } from "@/src/lib/data/platform/definitions"
-import { StreamerConfigProps } from "./streamer-form"
 import { LoadingSkeleton } from "@/src/components/new-york/ui/loading-skeleton"
+import { useStreamerFormTranslations } from "../hooks/use-streamer-form-translations"
 
 // Lazy load platform components
 const DouyinPlatform = lazy(() =>
@@ -45,7 +45,7 @@ const PlatformLoading = () => <LoadingSkeleton />
 
 // Define our platform registry
 type PlatformComponentProps = {
-	strings: StreamerConfigProps["strings"]
+	strings: ReturnType<typeof useStreamerFormTranslations>["platform"]
 	allowNone?: boolean
 }
 
@@ -60,45 +60,45 @@ export const platformRegistry: Record<string, PlatformRegistryItem> = {
 		component: HuyaPlatform,
 		getProps: props => ({
 			allowNone: props.allowNone,
-			strings: props.strings.huyaStrings,
+			strings: props.strings.huya,
 		}),
 	},
 	[PlatformType.DOUYIN]: {
 		component: DouyinPlatform,
 		getProps: props => ({
-			douyinQualityOptions: props.strings.douyinQualityOptions,
+			douyinQualityOptions: props.strings.douyinQuality,
 			allowNone: props.allowNone,
-			strings: props.strings.douyinStrings,
+			strings: props.strings.douyin,
 		}),
 	},
 	[PlatformType.DOUYU]: {
 		component: DouyuPlatformForm,
 		getProps: props => ({
-			strings: props.strings.douyuStrings,
+			strings: props.strings.douyu,
 			allowNone: props.allowNone,
-			douyuQualityOptions: props.strings.douyuQualityOptions,
+			douyuQualityOptions: props.strings.douyuQuality,
 		}),
 	},
 	[PlatformType.TWITCH]: {
 		component: TwitchPlatformForm,
 		getProps: props => ({
-			strings: props.strings.twitchStrings,
+			strings: props.strings.twitch,
 			allowNone: props.allowNone,
-			qualities: props.strings.twitchQualityOptions,
+			qualities: props.strings.twitchQuality,
 		}),
 	},
 	[PlatformType.PANDATV]: {
 		component: PandaTvPlatformForm,
 		getProps: props => ({
-			strings: props.strings.pandaStrings,
+			strings: props.strings.pandatv,
 			allowNone: props.allowNone,
-			qualities: props.strings.pandaQualityOptions,
+			qualities: props.strings.pandatvQuality,
 		}),
 	},
 	[PlatformType.WEIBO]: {
 		component: WeiboPlatformForm,
 		getProps: props => ({
-			strings: props.strings.weiboStrings,
+			strings: props.strings.weibo,
 			allowNone: props.allowNone,
 		}),
 	},
@@ -112,7 +112,7 @@ export const PlatformForm = React.memo(
 		allowNone = true,
 	}: {
 		platform: PlatformType | string
-		strings: StreamerConfigProps["strings"]
+		strings: ReturnType<typeof useStreamerFormTranslations>["platform"]
 		allowNone?: boolean
 	}) => {
 		const platformKey = platform as PlatformType

@@ -9,6 +9,8 @@ import { useEffect } from "react"
 import { changePassword } from "@/src/lib/data/user/user-apis"
 import { toastData } from "@/src/app/utils/toast"
 import { signOut } from "next-auth/react"
+import { BASE_PATH } from "@/src/lib/routes"
+import { useRouter } from "@/src/i18n/routing"
 
 export const formSchema = z
 	.object({
@@ -38,9 +40,11 @@ export type ResetPasswordFormStrings = {
 export type ResetPasswordFormProps = {
 	defaultValues: any
 	strings: ResetPasswordFormStrings
+	locale: string
 }
 
-export const ResetPasswordForm = ({ strings, defaultValues }: ResetPasswordFormProps) => {
+export const ResetPasswordForm = ({ strings, defaultValues, locale }: ResetPasswordFormProps) => {
+	const router = useRouter()
 	const form = useForm({
 		resolver: zodResolver(formSchema),
 		defaultValues: defaultValues,
@@ -70,10 +74,13 @@ export const ResetPasswordForm = ({ strings, defaultValues }: ResetPasswordFormP
 
 	const submit = (data: z.infer<typeof formSchema>) => {
 		changePassword(data.id.toString(), data.password, data.newPassword)
-			.then(result => {
+			.then(() => {
 				toastData("", strings.resetPasswordSuccess, "success")
-				// sign out
-				signOut({ callbackUrl: "/login", redirect: true }).then(r => console.log("sign out", r))
+				signOut({ callbackUrl: `${BASE_PATH}/${locale}/login`, redirect: false })
+					.then(() => {
+						console.log("Password reset successful, signing out...")
+						router.push(`${BASE_PATH}/login`)
+					})
 			})
 			.catch(e => {
 				console.error(e)

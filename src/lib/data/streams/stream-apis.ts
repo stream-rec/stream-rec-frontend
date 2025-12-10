@@ -71,8 +71,8 @@ export const fetchStream = async (id: string) => {
 	json.dateEnd = json.dateEnd * 1000
 	return json
 }
-export const deleteStream = async (id: string) => {
-	const response = await fetchApi("/streams/" + id, {
+export const deleteStream = async (id: string, delete_local: boolean) => {
+	const response = await fetchApi("/streams/" + id + "?delete_local=" + delete_local, {
 		cache: "no-cache",
 		method: "DELETE",
 	})
@@ -82,8 +82,8 @@ export const deleteStream = async (id: string) => {
 	}
 }
 
-export const deleteStreams = async (ids: number[]) => {
-	const response = await fetchApi("/streams/batch?ids=" + ids, {
+export const deleteStreams = async (ids: number[], delete_local: boolean) => {
+	const response = await fetchApi("/streams/batch?ids=" + ids + "&delete_local=" + delete_local, {
 		cache: "no-cache",
 		method: "DELETE",
 	})

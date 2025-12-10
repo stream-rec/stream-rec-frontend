@@ -12,7 +12,7 @@ export const globalConfigSchema = z.object({
 	engine: z.string({
 		required_error: "Please select a download engine.",
 	}),
-	engineConfig : engineConfigSchema.optional(),
+	engineConfig: engineConfigSchema.optional(),
 	danmu: z.boolean().default(true),
 	deleteFilesAfterUpload: z.boolean().default(true),
 	outputFolder: z
@@ -44,6 +44,7 @@ export const globalConfigSchema = z.object({
 	twitchConfig: twitchGlobalConfig.optional(),
 	pandaTvConfig: pandaTvGlobalConfig.optional(),
 	weiboConfig: weiboGlobalConfig.optional(),
+	tlsVerification: z.boolean().default(true),
 })
 
 export type GlobalConfig = z.infer<typeof globalConfigSchema>

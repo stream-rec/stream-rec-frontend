@@ -28,11 +28,11 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
 		}))
 	}, [t])
 
-	const uiNameByIndex = (index: number) => columns[index].uiName
+	const uiNameByIndex = React.useCallback((index: number) => columns[index].uiName, [columns])
 
-	const accessorKeyByIndex = (index: number) => columns[index].accessorKey
+	const accessorKeyByIndex = React.useCallback((index: number) => columns[index].accessorKey, [columns])
 
-	const formatDate = (date: Date) => {
+	const formatDate = React.useCallback((date: Date) => {
 		const now = new Date()
 		if (date.getFullYear() == now.getFullYear())
 			return format.dateTime(date, {
@@ -51,9 +51,14 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
 				minute: "numeric",
 				second: "numeric",
 			})
-	}
+	}, [format])
 
 	const tableColumns: ColumnDef<StreamData>[] = React.useMemo(() => {
+		// Wrapper function to handle delete with deleteLocal parameter
+		const deleteStreamWrapper = async (id: string, deleteLocal: boolean) => {
+			await deleteStream(id, deleteLocal)
+		}
+
 		return [
 			{
 				id: "select",
@@ -138,11 +143,11 @@ export const useRecordTableColumns = (streamers: StreamerSchema[]) => {
 				id: "actions",
 				cell: ({ row }) => {
 					const data = row.original
-					return <RecordTableActionColumn data={data} deleteStream={deleteStream} />
+					return <RecordTableActionColumn data={data} deleteStream={deleteStreamWrapper} />
 				},
 			},
 		]
-	}, [])
+	}, [accessorKeyByIndex, formatDate, uiNameByIndex])
 
 	const filterFields: DataTableFilterField<any>[] = [
 		{

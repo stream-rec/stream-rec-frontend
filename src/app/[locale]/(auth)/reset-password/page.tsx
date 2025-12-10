@@ -4,7 +4,8 @@ import { ResetPasswordForm } from "@/src/app/[locale]/(auth)/reset-password/rese
 import { cookies } from "next/headers"
 import { auth } from "@/auth"
 
-export default async function ResetPage() {
+export default async function ResetPage({ params }: { params: Promise<{ locale: string }> }) {
+  	const { locale } = await params
 	const session = await auth()
 
 	const t = await getTranslations("ResetPasswordPage")
@@ -41,7 +42,7 @@ export default async function ResetPage() {
 						<CardTitle className={"text-lg"}>{t("title")}</CardTitle>
 					</CardHeader>
 					<CardContent>
-						<ResetPasswordForm strings={strings} defaultValues={defaultValues} />
+						<ResetPasswordForm strings={strings} defaultValues={defaultValues} locale={locale} />
 					</CardContent>
 				</Card>
 			</div>

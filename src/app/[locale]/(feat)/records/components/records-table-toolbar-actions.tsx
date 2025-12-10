@@ -11,12 +11,17 @@ interface RecordsTableToolbarActionsProps {
 export function RecordsTableToolbarActions({ table }: RecordsTableToolbarActionsProps) {
 	const router = useRouter()
 
+	// Wrapper function to receive deleteLocal parameter from dialog
+	const deleteStreamsWrapper = async (streams: StreamData[], deleteLocal: boolean) => {
+		await deleteStreams(streams.map(stream => stream.id), deleteLocal)
+	}
+
 	return (
 		<div className='flex items-center gap-2'>
 			{table.getFilteredSelectedRowModel().rows.length > 0 ? (
 				<DeleteItemsDialog
 					data={table.getFilteredSelectedRowModel().rows.map(row => row.original)}
-					deleteAction={streams => deleteStreams(streams.map(stream => stream.id))}
+					deleteAction={deleteStreamsWrapper}
 					onSuccess={() => {
 						table.toggleAllRowsSelected(false)
 						// update the data

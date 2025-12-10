@@ -38,6 +38,8 @@ export interface GlobalSettingsTranslations {
 	downloadCheckIntervalDescription: string
 	maxDownloadRetries: string
 	maxDownloadRetriesDescription: string
+	tlsVerification: string
+	tlsVerificationDescription: string
 	save: string
 	engineTranslations: EngineTranslations
 	timeFormats: {
@@ -93,6 +95,8 @@ export const useGlobalSettingsTranslations = () => {
 			downloadCheckIntervalDescription: t("downloadCheckIntervalDescription"),
 			maxDownloadRetries: t("maxDownloadRetries"),
 			maxDownloadRetriesDescription: t("maxDownloadRetriesDescription"),
+			tlsVerification: t("tlsVerification"),
+			tlsVerificationDescription: t("tlsVerificationDescription"),
 			save: settingsT("save"),
 			timeFormats: {
 				hours: timeUnitsT("hours"),
